@@ -1,30 +1,60 @@
 from __future__ import annotations
 
+import sys
+from types import ModuleType
+
 from apertus_eval_prep.backends import Generation
+
+
+def _stub_torchaudio() -> None:
+    for name in list(sys.modules):
+        if name == "torchaudio" or name.startswith("torchaudio."):
+            del sys.modules[name]
+    stub = ModuleType("torchaudio")
+    stub.__version__ = "0.0.0+unused-for-text-eval"
+    sys.modules["torchaudio"] = stub
+
+
+def _import_vllm():
+    """Import vLLM. Text eval does not need TorchAudio; Colab often breaks that import."""
+    try:
+        from vllm import LLM, SamplingParams
+
+        return LLM, SamplingParams
+    except ImportError as exc:
+        if "vllm" in str(exc).lower() and "torchaudio" not in str(exc).lower():
+            raise ImportError(
+                "vLLM is not installed. Use Colab/Linux+CUDA: pip install 'apertus-eval-prep[gpu]'. "
+                "macOS is not supported by vLLM; run configs/vllm.yaml there, not on a Mac."
+            ) from exc
+        _stub_torchaudio()
+    except RuntimeError as exc:
+        if "CUDA versions" not in str(exc) and "TorchAudio" not in str(exc):
+            raise
+        _stub_torchaudio()
+
+    from vllm import LLM, SamplingParams
+
+    return LLM, SamplingParams
 
 
 class VLLMBackend:
     name = "vllm"
 
     def __init__(self, model_id: str, tokenizer_id: str, revision: str | None, dtype_name: str, seed: int):
-        try:
-            from vllm import LLM, SamplingParams
-        except ImportError as exc:
-            raise ImportError(
-                "vLLM is not installed. Use Colab/Linux+CUDA: pip install 'apertus-eval-prep[gpu]'. "
-                "macOS is not supported by vLLM; run configs/vllm.yaml there, not on a Mac."
-            ) from exc
-
-        dtype = None if dtype_name == "auto" else dtype_name
+        LLM, SamplingParams = _import_vllm()
+        dtype = "auto" if dtype_name in (None, "auto") else dtype_name
         self._SamplingParams = SamplingParams
-        self.llm = LLM(
+        engine_kwargs = dict(
             model=model_id,
             tokenizer=tokenizer_id,
-            revision=revision,
             dtype=dtype,
             seed=seed,
             trust_remote_code=True,
         )
+        if revision:
+            engine_kwargs["revision"] = revision
+        self.llm = LLM(**engine_kwargs)
 
     def generate_one(self, prompt: str, max_new_tokens: int) -> Generation:
         # Completion API on an already-rendered string. Do not call llm.chat().
