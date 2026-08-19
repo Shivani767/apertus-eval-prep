@@ -1,0 +1,14 @@
+# Full laptop / Colab run. ~20–40 min on Apple Silicon MPS; a few minutes on a T4.
+model_id: Qwen/Qwen2.5-0.5B-Instruct
+tokenizer_id: null          # default: same as model_id
+revision: null              # pin a commit SHA after your first successful run
+backend: hf                  # hf | vllm
+chat_template: tokenizer    # tokenizer | none | mismatched
+system_prompt: null
+max_new_tokens: 96
+seed: 0
+dtype: auto                 # auto | float32 | float16 | bfloat16
+data_path: data/eval_set.jsonl
+tasks: [arc_easy, gsm8k, multilingual, template_canary]
+limit: null                 # integer to cap items per task
+batch_size: 1

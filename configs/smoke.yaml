@@ -1,0 +1,14 @@
+# Two-minute clone check. Does not produce numbers you would cite.
+model_id: Qwen/Qwen2.5-0.5B-Instruct
+tokenizer_id: null
+revision: null
+backend: hf
+chat_template: tokenizer
+system_prompt: null
+max_new_tokens: 32
+seed: 0
+dtype: auto
+data_path: data/eval_set.jsonl
+tasks: [arc_easy, template_canary]
+limit: 2
+batch_size: 1

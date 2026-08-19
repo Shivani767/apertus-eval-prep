@@ -1,0 +1,67 @@
+model=Qwen/Qwen2.5-0.5B-Instruct
+tokenizer=Qwen/Qwen2.5-0.5B-Instruct
+chat_template=mismatched
+system_prompt=None
+
+Special tokens are visible. This is how you debug a train vs serve mismatch.
+========================================================================
+
+## arc_easy_001  task=arc_easy  gold=B
+<|begin_of_text|><|start_header_id|>user<|end_header_id|>
+
+Which of these is a living organism?
+A) Granite
+B) Oak tree
+C) Cloud
+D) Table salt
+
+Reply with the letter only.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+
+
+------------------------------------------------------------------------
+
+## arc_easy_002  task=arc_easy  gold=C
+<|begin_of_text|><|start_header_id|>user<|end_header_id|>
+
+What is the primary function of the human heart?
+A) Digest food
+B) Filter blood of urea
+C) Pump blood through the body
+D) Produce hormones for growth
+
+Reply with the letter only.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+
+
+------------------------------------------------------------------------
+
+## arc_easy_003  task=arc_easy  gold=A
+<|begin_of_text|><|start_header_id|>user<|end_header_id|>
+
+Water boils at 100 degrees Celsius at standard atmospheric pressure. What state does it become?
+A) Gas (steam)
+B) Solid (ice)
+C) Plasma
+D) It remains liquid
+
+Reply with the letter only.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+
+
+------------------------------------------------------------------------
+
+## arc_easy_004  task=arc_easy  gold=D
+<|begin_of_text|><|start_header_id|>user<|end_header_id|>
+
+Which force pulls objects toward the centre of the Earth?
+A) Magnetism
+B) Friction
+C) Tension
+D) Gravity
+
+Reply with the letter only.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+
+
+------------------------------------------------------------------------

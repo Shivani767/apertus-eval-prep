@@ -1,0 +1,132 @@
+{
+  "manifest": {
+    "utc": "2026-08-19T19:01:26Z",
+    "git_commit": null,
+    "git_dirty": false,
+    "packages": {
+      "torch": "2.13.0",
+      "transformers": "5.15.1",
+      "vllm": null,
+      "apertus_eval_prep": "0.1.0"
+    },
+    "hardware": {
+      "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+      "system": "Darwin",
+      "machine": "arm64",
+      "processor": "arm",
+      "python": "3.14.7",
+      "gpu": "Apple MPS",
+      "cuda": false
+    },
+    "settings": {
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "tokenizer_id": null,
+      "revision": null,
+      "backend": "hf",
+      "chat_template": "tokenizer",
+      "system_prompt": null,
+      "max_new_tokens": 32,
+      "seed": 0,
+      "dtype": "auto",
+      "data_path": "data/eval_set.jsonl",
+      "tasks": [
+        "arc_easy",
+        "template_canary"
+      ],
+      "limit": 2,
+      "batch_size": 1,
+      "device": "mps"
+    }
+  },
+  "incomparability": [
+    "Same frozen items, same gold extractor, still not comparable if any of these differ:",
+    "chat_template (tokenizer vs none vs mismatched), tokenizer id/revision, max_new_tokens,",
+    "sampling (this harness is greedy only), stop tokens, dtype, hardware, or backend.",
+    "swiss-ai/evals-post-train notes generation scores can move between HF and vLLM;",
+    "only compare two runs when the manifest.settings block matches except the one knob you changed."
+  ],
+  "tasks": {
+    "arc_easy": {
+      "n": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    "template_canary": {
+      "n": 2,
+      "correct": 2,
+      "accuracy": 1.0
+    },
+    "overall": {
+      "n": 4,
+      "correct": 4,
+      "accuracy": 1.0
+    }
+  },
+  "latency": {
+    "n": 4,
+    "ttft_ms_mean": 471.07,
+    "ttft_ms_p50": 345.25,
+    "ttft_ms_p95": 1037.86,
+    "e2e_ms_mean": 613.96,
+    "e2e_ms_p95": 1480.43,
+    "tokens_per_sec_mean": 6.378
+  },
+  "items": [
+    {
+      "id": "arc_easy_001",
+      "task": "arc_easy",
+      "language": "en",
+      "gold": "B",
+      "predicted": "B",
+      "correct": true,
+      "generation": "B",
+      "ttft_ms": 1159.75,
+      "e2e_ms": 1677.07,
+      "num_new_tokens": 1,
+      "tokens_per_sec": 0.596,
+      "prompt_chars": 259
+    },
+    {
+      "id": "arc_easy_002",
+      "task": "arc_easy",
+      "language": "en",
+      "gold": "C",
+      "predicted": "C",
+      "correct": true,
+      "generation": "C",
+      "ttft_ms": 347.17,
+      "e2e_ms": 366.14,
+      "num_new_tokens": 1,
+      "tokens_per_sec": 2.731,
+      "prompt_chars": 326
+    },
+    {
+      "id": "canary_001",
+      "task": "template_canary",
+      "language": "en",
+      "gold": "B",
+      "predicted": "B",
+      "correct": true,
+      "generation": "B",
+      "ttft_ms": 34.05,
+      "e2e_ms": 51.5,
+      "num_new_tokens": 1,
+      "tokens_per_sec": 19.418,
+      "prompt_chars": 322
+    },
+    {
+      "id": "canary_002",
+      "task": "template_canary",
+      "language": "en",
+      "gold": "A",
+      "predicted": "A",
+      "correct": true,
+      "generation": "A",
+      "ttft_ms": 343.33,
+      "e2e_ms": 361.13,
+      "num_new_tokens": 1,
+      "tokens_per_sec": 2.769,
+      "prompt_chars": 294
+    }
+  ]
+}
