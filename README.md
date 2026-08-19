@@ -93,6 +93,8 @@ I have not run Slurm on Alps. This is the same job at smaller scale.
 
 Read [`notes/incomparability.md`](notes/incomparability.md). Short version: template, tokenizer, revision, backend, `max_new_tokens`, sampling, dtype, and hardware. `compare` prints which of those actually changed.
 
+Measured runs are interpreted in [`notes/findings.md`](notes/findings.md): two experiments (template on MPS; backend on a T4), with controls and caveats.
+
 ## Layout
 
 ```
@@ -105,6 +107,7 @@ src/apertus_eval_prep/
   scoring.py
   run_eval.py
 notebooks/colab_vllm.ipynb
+notes/findings.md         measured template and backend deltas
 results/          commit JSON after you run; do not type numbers by hand
 ```
 
