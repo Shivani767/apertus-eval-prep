@@ -7,11 +7,9 @@ Estimated time: smoke 15–20 min (download + 4 items). Full Mac eval ~30–60 m
 ## 0. One-time
 
 Do not create a virtualenv inside a folder whose path contains `:`.
-`python -m venv` will refuse. This Cursor workspace lives under
-`Downloads/ETH : EPFL Apertus`, so copy or clone to a clean path first:
+`python -m venv` will refuse. Clone or copy to a path such as `~/apertus-eval-prep`.
 
 ```bash
-cp -R apertus-eval-prep ~/apertus-eval-prep
 cd ~/apertus-eval-prep
 python3 -m venv .venv
 source .venv/bin/activate
