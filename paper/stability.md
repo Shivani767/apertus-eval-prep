@@ -86,6 +86,8 @@ See [`paper/_generated_tables.md`](_generated_tables.md). Figures: `reports/stab
 
 **Sanity check (not a ranking).** On the 28-item canary, `Qwen/Qwen2.5-0.5B-Instruct`, Mac MPS, greedy HF: tokenizer template 20/28 (71.4%), template omitted 15/28 (53.6%), Llama-3 wrap 12/28 (42.9%). On Colab T4, vLLM vs HF moved overall 20/28 → 18/28, concentrated on multilingual items. Those deltas justify treating backend and template as first-class factors. They are too small-$n$ to rank models.
 
+**Colab smoke (first GPU registry, not the paper matrix).** `stability_smoke.yaml`, Tesla T4, 4 items, one 0.5B model, four OFAT cells. Control 1/4 with Wilson 95% CI **[0.046, 0.699]**. Kendall $\tau_b$ is undefined with one model. That width is the demo: $n=4$ cannot rank anything. See [`notes/findings.md`](../notes/findings.md) Experiment 3 and [`results/registry.jsonl`](../results/registry.jsonl).
+
 ## 6. Limitations
 
 - Colab T4/A10, not Alps. 7B fp16 is A10-only.
@@ -98,4 +100,4 @@ See [`paper/_generated_tables.md`](_generated_tables.md). Figures: `reports/stab
 
 The artefact is the YAML matrix, the frozen JSONL, the registry, and the interval-aware ranking report. After the Colab sweep, the empirical claims to fill in are: which factor moves accuracy the most, which factor reverses ranks, and which reversals disappear once overlapping CIs are treated as ties.
 
-Until then, the only measured claim remains the 28-item template/backend canary.
+Until the paper matrix is run, the measured claims are the 28-item template/backend canary and the $n=4$ T4 smoke (pipeline + wide CIs), not a model ranking.

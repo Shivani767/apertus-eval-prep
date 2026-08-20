@@ -77,3 +77,24 @@ Full list: `notes/incomparability.md`. The ones that actually apply here:
 - Not a claim that Qwen2.5-0.5B is a multilingual system. It is a small instruct model used as a probe.
 
 The probe question is: **did the measurement pipeline notice when the template or the backend changed?** Yes.
+
+---
+
+## Experiment 3 — Colab T4 smoke (`stability_smoke.yaml`, not the paper matrix)
+
+First GPU registry push. `Qwen/Qwen2.5-0.5B-Instruct`, Tesla T4, `--limit 2` (4 items: 2 ARC-Easy + 2 GSM8K from the official slice), git `0df5513`. Source: `results/registry.jsonl` and `results/runs/*0.5B*.json`.
+
+| factor | level | overall | 95% Wilson CI |
+|---|---|---|---|
+| control | control | **1/4 (25%)** | [0.046, 0.699] |
+| prompt_id | concise | **2/4 (50%)** | [0.150, 0.850] |
+| seed | 1 (greedy) | **1/4 (25%)** | [0.046, 0.699] |
+| sampled | T=0.7, seed 0 | **0/4 (0%)** | [0.000, 0.490] |
+
+**Claim.** The sweep writes a registry, per-run JSON, Wilson CIs, and a report on Colab. That is what this experiment is for.
+
+**Do not read a ranking.** One model, $n=4$. Every interval covers most of $[0,1]$. Kendall $\tau_b$ is undefined. McNemar p-values are 1.0. The concise prompt flipping GSM8K `1101` (wrong `1` → right `16`) is one item, not a prompt effect you would cite.
+
+**What matched the design.** Greedy seed 1 matched control item-for-item. The sampled arm moved predictions. Hardware in the manifest is `Tesla T4`, `cuda: true`.
+
+This is not `stability.yaml` (34 T4 cells, n=200, four models). Do not mix this table with Experiment 1 or 2.

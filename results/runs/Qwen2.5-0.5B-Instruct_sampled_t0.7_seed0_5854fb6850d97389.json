@@ -1,0 +1,154 @@
+{
+  "manifest": {
+    "utc": "2026-08-20T06:48:21Z",
+    "git_commit": "0df5513d44c14863388bb7c556551cc947b2113c",
+    "git_dirty": true,
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.15.0",
+      "vllm": "0.26.0",
+      "apertus_eval_prep": "0.2.0"
+    },
+    "hardware": {
+      "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+      "system": "Linux",
+      "machine": "x86_64",
+      "processor": "x86_64",
+      "python": "3.12.13",
+      "gpu": "Tesla T4",
+      "cuda": true
+    },
+    "settings": {
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "tokenizer_id": null,
+      "revision": null,
+      "backend": "hf",
+      "chat_template": "tokenizer",
+      "system_prompt": null,
+      "max_new_tokens": 32,
+      "seed": 0,
+      "dtype": "auto",
+      "data_path": "data/official/eval_set.jsonl",
+      "tasks": [
+        "arc_easy",
+        "gsm8k"
+      ],
+      "limit": 2,
+      "batch_size": 1,
+      "quantization": "none",
+      "temperature": 0.7,
+      "top_p": 0.95,
+      "prompt_id": "default",
+      "fewshot_path": "data/official/fewshot.jsonl",
+      "experiment_id": "stability_smoke",
+      "run_id": "Qwen2.5-0.5B-Instruct_sampled_t0.7_seed0_5854fb6850d97389",
+      "device": "cuda"
+    }
+  },
+  "incomparability": [
+    "Same frozen items, same gold extractor, still not comparable if any of these differ:",
+    "chat_template, tokenizer id/revision, max_new_tokens, sampling (temperature/top_p/seed),",
+    "prompt_id / few-shot, quantization, stop tokens, dtype, hardware, or backend.",
+    "Generative exact-match is not lm-eval loglikelihood. Rankings need Wilson CIs.",
+    "only compare two runs when the manifest.settings block matches except the one knob you changed."
+  ],
+  "tasks": {
+    "arc_easy": {
+      "n": 2,
+      "correct": 0,
+      "accuracy": 0.0,
+      "accuracy_ci95": [
+        0.0,
+        0.6576
+      ]
+    },
+    "gsm8k": {
+      "n": 2,
+      "correct": 0,
+      "accuracy": 0.0,
+      "accuracy_ci95": [
+        0.0,
+        0.6576
+      ]
+    },
+    "overall": {
+      "n": 4,
+      "correct": 0,
+      "accuracy": 0.0,
+      "accuracy_ci95": [
+        0.0,
+        0.4899
+      ]
+    }
+  },
+  "latency": {
+    "n": 4,
+    "ttft_ms_mean": 116.69,
+    "ttft_ms_p50": 78.7,
+    "ttft_ms_p95": 230.31,
+    "e2e_ms_mean": 1000.27,
+    "e2e_ms_p95": 1318.54,
+    "tokens_per_sec_mean": 20.331
+  },
+  "items": [
+    {
+      "id": "arc_easy/eval/Mercury_SC_409038",
+      "task": "arc_easy",
+      "language": "en",
+      "gold": "A",
+      "predicted": "B",
+      "correct": false,
+      "generation": "B",
+      "ttft_ms": 254.23,
+      "e2e_ms": 290.25,
+      "num_new_tokens": 1,
+      "tokens_per_sec": 3.445,
+      "prompt_chars": 468
+    },
+    {
+      "id": "arc_easy/eval/MCAS_2001_5_19",
+      "task": "arc_easy",
+      "language": "en",
+      "gold": "C",
+      "predicted": "A",
+      "correct": false,
+      "generation": "The correct answer is:\n\nC) food\n\nPlants use sunlight to convert carbon dioxide and water into glucose and oxygen through a process called photosynthesis. This process",
+      "ttft_ms": 94.77,
+      "e2e_ms": 1185.98,
+      "num_new_tokens": 32,
+      "tokens_per_sec": 26.982,
+      "prompt_chars": 277
+    },
+    {
+      "id": "gsm8k/eval/1101",
+      "task": "gsm8k",
+      "language": "en",
+      "gold": "16",
+      "predicted": "8",
+      "correct": false,
+      "generation": "Let's break down the problem step by step.\n\n1. **Total distance covered**:\n   - Amber: \\(8\\) miles\n   - Micah:",
+      "ttft_ms": 62.64,
+      "e2e_ms": 1182.9,
+      "num_new_tokens": 32,
+      "tokens_per_sec": 27.052,
+      "prompt_chars": 347
+    },
+    {
+      "id": "gsm8k/eval/0120",
+      "task": "gsm8k",
+      "language": "en",
+      "gold": "240",
+      "predicted": "1",
+      "correct": false,
+      "generation": "To determine how many sheets of paper Miguel uses each month, we need to follow these steps:\n\n1. **Calculate the number of pages per sheet:**\n  ",
+      "ttft_ms": 55.12,
+      "e2e_ms": 1341.93,
+      "num_new_tokens": 32,
+      "tokens_per_sec": 23.846,
+      "prompt_chars": 368
+    }
+  ],
+  "factor": "sampled",
+  "factor_level": "t0.7_seed0",
+  "config_hash": "5854fb6850d97389"
+}

@@ -1,6 +1,133 @@
 {
-  "control_ranking": [],
-  "by_config": [],
-  "mcnemar_vs_control": [],
-  "n_runs": 0
+  "control_ranking": [
+    {
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "accuracy": 0.25,
+      "accuracy_ci95": [
+        0.0456,
+        0.6994
+      ],
+      "rank": 1.0
+    }
+  ],
+  "by_config": [
+    {
+      "factor": "control",
+      "factor_level": "control",
+      "models": [
+        {
+          "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+          "accuracy": 0.25,
+          "accuracy_ci95": [
+            0.0456,
+            0.6994
+          ],
+          "rank": 1.0,
+          "control_rank": 1.0
+        }
+      ],
+      "kendall_tau_vs_control": null,
+      "rank_reversals_vs_control": null,
+      "ci_ties": []
+    },
+    {
+      "factor": "prompt_id",
+      "factor_level": "concise",
+      "models": [
+        {
+          "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+          "accuracy": 0.5,
+          "accuracy_ci95": [
+            0.15,
+            0.85
+          ],
+          "rank": 1.0,
+          "control_rank": 1.0
+        }
+      ],
+      "kendall_tau_vs_control": null,
+      "rank_reversals_vs_control": null,
+      "ci_ties": []
+    },
+    {
+      "factor": "sampled",
+      "factor_level": "t0.7_seed0",
+      "models": [
+        {
+          "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+          "accuracy": 0.0,
+          "accuracy_ci95": [
+            0.0,
+            0.4899
+          ],
+          "rank": 1.0,
+          "control_rank": 1.0
+        }
+      ],
+      "kendall_tau_vs_control": null,
+      "rank_reversals_vs_control": null,
+      "ci_ties": []
+    },
+    {
+      "factor": "seed",
+      "factor_level": "1",
+      "models": [
+        {
+          "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+          "accuracy": 0.25,
+          "accuracy_ci95": [
+            0.0456,
+            0.6994
+          ],
+          "rank": 1.0,
+          "control_rank": 1.0
+        }
+      ],
+      "kendall_tau_vs_control": null,
+      "rank_reversals_vs_control": null,
+      "ci_ties": []
+    }
+  ],
+  "mcnemar_vs_control": [
+    {
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "factor": "prompt_id",
+      "factor_level": "concise",
+      "n": 4,
+      "a_correct_b_wrong": 0,
+      "a_wrong_b_correct": 1,
+      "both_correct": 1,
+      "both_wrong": 2,
+      "disagreement_rate": 0.25,
+      "chi2": 0.0,
+      "p_value": 1.0
+    },
+    {
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "factor": "seed",
+      "factor_level": "1",
+      "n": 4,
+      "a_correct_b_wrong": 0,
+      "a_wrong_b_correct": 0,
+      "both_correct": 1,
+      "both_wrong": 3,
+      "disagreement_rate": 0.0,
+      "chi2": 0.0,
+      "p_value": 1.0
+    },
+    {
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "factor": "sampled",
+      "factor_level": "t0.7_seed0",
+      "n": 4,
+      "a_correct_b_wrong": 1,
+      "a_wrong_b_correct": 0,
+      "both_correct": 0,
+      "both_wrong": 3,
+      "disagreement_rate": 0.25,
+      "chi2": 0.0,
+      "p_value": 1.0
+    }
+  ],
+  "n_runs": 4
 }
