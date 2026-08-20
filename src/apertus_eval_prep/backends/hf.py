@@ -10,6 +10,39 @@ from apertus_eval_prep.backends import Generation
 from apertus_eval_prep.config import RunConfig
 
 
+def _patch_stale_cache_api() -> None:
+    """Hub modeling_phi3.py still reads Cache APIs removed in recent transformers."""
+    try:
+        from transformers.cache_utils import Cache
+    except ImportError:
+        return
+    if not hasattr(Cache, "seen_tokens"):
+        Cache.seen_tokens = property(
+            lambda self: int(self.get_seq_length()) if hasattr(self, "get_seq_length") else 0
+        )
+    if not hasattr(Cache, "get_max_length"):
+
+        def _get_max_length(self):
+            fn = getattr(self, "get_max_cache_shape", None)
+            return fn() if callable(fn) else None
+
+        Cache.get_max_length = _get_max_length
+
+
+def _load_causal_lm(model_id: str, load_kwargs: dict):
+    """Prefer native transformers classes. Phi-3.5 remote code crashes on DynamicCache."""
+    native = dict(load_kwargs)
+    native["trust_remote_code"] = False
+    try:
+        return AutoModelForCausalLM.from_pretrained(model_id, **native)
+    except ValueError as exc:
+        if "trust_remote_code" not in str(exc):
+            raise
+        remote = dict(load_kwargs)
+        remote["trust_remote_code"] = True
+        return AutoModelForCausalLM.from_pretrained(model_id, **remote)
+
+
 def detect_device() -> str:
     if torch.cuda.is_available():
         return "cuda"
@@ -81,16 +114,14 @@ class HFBackend:
             self.tokenizer.pad_token = self.tokenizer.eos_token
         dtype = resolve_dtype(cfg.dtype, self.device)
         quant = _quant_config(cfg.quantization, dtype)
-        load_kwargs: dict = dict(
-            revision=cfg.revision,
-            trust_remote_code=True,
-        )
+        _patch_stale_cache_api()
+        load_kwargs: dict = dict(revision=cfg.revision)
         if quant is not None:
             load_kwargs["quantization_config"] = quant
             load_kwargs["device_map"] = "auto"
         else:
             load_kwargs["torch_dtype"] = dtype
-        self.model = AutoModelForCausalLM.from_pretrained(cfg.model_id, **load_kwargs)
+        self.model = _load_causal_lm(cfg.model_id, load_kwargs)
         if quant is None:
             self.model.to(self.device)
         self.model.eval()
@@ -115,7 +146,18 @@ class HFBackend:
         if do_sample:
             kwargs["temperature"] = self.cfg.temperature
             kwargs["top_p"] = self.cfg.top_p
-        thread = Thread(target=self.model.generate, kwargs=kwargs)
+        errors: list[BaseException] = []
+
+        def _generate() -> None:
+            try:
+                self.model.generate(**kwargs)
+            except BaseException as exc:
+                errors.append(exc)
+                end = getattr(streamer, "end", None)
+                if callable(end):
+                    end()
+
+        thread = Thread(target=_generate)
         t0 = time.perf_counter()
         thread.start()
         ttft = None
@@ -125,6 +167,8 @@ class HFBackend:
                 ttft = (time.perf_counter() - t0) * 1000.0
             chunks.append(piece)
         thread.join()
+        if errors:
+            raise errors[0]
         e2e = (time.perf_counter() - t0) * 1000.0
         text = "".join(chunks)
         token_count = len(self.tokenizer.encode(text, add_special_tokens=False)) if text else 0
