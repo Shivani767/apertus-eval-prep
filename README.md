@@ -82,6 +82,14 @@ python -m apertus_eval_prep ci-width \
 
 Control: HF generate, tokenizer template, greedy, no extra quant, prompt `default`. Factors (one at a time): prompt (`default` / `concise` / `5shot`), seed, backend (`hf` / `vllm`), quantization (`none` / `int8` / `int4`). `--profile t4` skips 7B fp16/int8/vLLM.
 
+**Paper matrix (Colab T4, 34 cells, n=800).** Separate registry so the n=4 smoke is not mixed in:
+
+```bash
+python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
+  --profile t4 --out-dir results/runs --registry results/registry_paper.jsonl
+# optional: --only-model HuggingFaceTB/SmolLM2-1.7B-Instruct
+```
+
 Official slices live in [`data/official/`](data/official/) (ARC-Easy, GSM8K, HellaSwag, MGSM, n=200, Hub revisions in `SOURCES.md`). Scoring is **generative exact-match**, not lm-eval loglikelihood. Every run JSON includes a Wilson 95% CI. The report adds McNemar vs control, Kendall $\tau_b$ on rankings, and CI-overlap ties.
 
 Snapshot (once, then commit JSONL):

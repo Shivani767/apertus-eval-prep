@@ -85,16 +85,16 @@ After the files exist, this is true:
 
 If vLLM is not done, drop “vs vLLM” until it is. Do not keep the phrase.
 
-## 7. Ranking stability (Colab T4, not Mac)
+## 7. Ranking stability (Colab T4)
 
-Open [`notebooks/colab_stability.ipynb`](notebooks/colab_stability.ipynb). Runtime → GPU (T4).
+Smoke (n=4) is already on GitHub. The **paper matrix** is `configs/experiments/stability.yaml`.
 
-1. Demo sweep (`stability_smoke.yaml`, `--limit 2`) to prove the registry writes JSON.
-2. Uncomment the full `stability.yaml` sweep when you have hours. It resumes from `results/registry.jsonl`.
-3. Download `results/runs/`, `results/registry.jsonl`, and `reports/stability/` into this clone.
-4. `python -m apertus_eval_prep paper-tables` then commit. Do not type paper numbers.
+1. Open [`notebooks/colab_stability.ipynb`](notebooks/colab_stability.ipynb). Runtime → **T4**.
+2. First cell `git pull`s, then run the **paper matrix** cell (`--registry results/registry_paper.jsonl`). 34 cells × 800 items; hours.
+3. If Colab disconnects, run the same cell again, or `--only-model` one checkpoint per session.
+4. Download `paper_matrix_artifacts.zip`. Unpack into this clone. Commit. Do not type numbers.
 
-`--profile t4` skips 7B fp16 / int8 / vLLM. Use `--profile a10` if the runtime is an A10.
+`--profile t4` skips 7B fp16 / int8 / vLLM. Use `--profile a10` on an A10.
 
 ## Stop conditions
 
