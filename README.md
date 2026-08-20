@@ -73,7 +73,26 @@ python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
   --profile t4 --out-dir results/runs --registry results/registry_paper.jsonl
 ```
 
-34 cells × 800 items. `--profile t4` skips 7B fp16/int8/vLLM. If Colab drops, run the same command again, or add `--only-model HuggingFaceTB/SmolLM2-1.7B-Instruct` (then 3B, Phi, 7B). Do not write into `results/registry.jsonl` (that file is the n=4 smoke).
+34 cells × 800 items. `--profile t4` skips 7B fp16/int8/vLLM. Do not write into `results/registry.jsonl` (that file is the n=4 smoke).
+
+**Colab files die with the VM.** A finished `[800/800]` is only on disk until the runtime resets. After each model finishes, download **both** of these with the Files sidebar (do not run another notebook cell while the sweep is printing — the kernel is single-threaded):
+
+1. `results/registry_paper.jsonl`
+2. every new `results/runs/<run_id>.json`
+
+Copy them into this clone (`results/registry_paper.jsonl` and `results/runs/`). Next session: upload those files back into `/content/apertus-eval-prep/results/` (or `unzip -o` a zip), then run the **same** sweep command. Finished `config_hash` rows skip. Use `--only-model` to finish one checkpoint per quota window:
+
+```bash
+python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
+  --profile t4 --out-dir results/runs --registry results/registry_paper.jsonl \
+  --only-model HuggingFaceTB/SmolLM2-1.7B-Instruct
+```
+
+Then `Qwen/Qwen2.5-3B-Instruct`, `microsoft/Phi-3.5-mini-instruct`, `Qwen/Qwen2.5-7B-Instruct`.
+
+Run the notebook's report/zip cell only after the sweep has actually written `results/runs` in **this** runtime (cwd must be `/content/apertus-eval-prep`). Do not type numbers by hand.
+
+On GitHub so far: SmolLM2-1.7B-Instruct **control** (T4, n=800). The other 33 cells are still running / pending.
 
 Paper: [`paper/stability.md`](paper/stability.md).
 

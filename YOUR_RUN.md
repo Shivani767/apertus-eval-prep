@@ -91,8 +91,9 @@ Smoke (n=4) is already on GitHub. The **paper matrix** is `configs/experiments/s
 
 1. Open [`notebooks/colab_stability.ipynb`](notebooks/colab_stability.ipynb). Runtime → **T4**.
 2. First cell `git pull`s, then run the **paper matrix** cell (`--registry results/registry_paper.jsonl`). 34 cells × 800 items; hours.
-3. If Colab disconnects, run the same cell again, or `--only-model` one checkpoint per session.
-4. Download `paper_matrix_artifacts.zip`. Unpack into this clone. Commit. Do not type numbers.
+3. After each `[800/800]`, download `results/registry_paper.jsonl` and the new `results/runs/*.json` from the Files sidebar. Do not start another notebook cell while the sweep is running.
+4. Copy those files into this clone. Next session, upload them into the Colab `results/` folder, then rerun the same sweep cell (or `--only-model`). Finished hashes skip.
+5. Run the report/zip cell only when this runtime actually has `results/runs`. Unpack into this clone. Commit. Do not type numbers.
 
 `--profile t4` skips 7B fp16 / int8 / vLLM. Use `--profile a10` on an A10.
 
