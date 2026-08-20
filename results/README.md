@@ -13,3 +13,5 @@ Suggested names (match the configs):
 | `prompts_tokenizer.txt` | `dump-prompts --config configs/default.yaml` |
 
 Do not edit numbers by hand. If a run is dirty (uncommitted code), the manifest `git_dirty` field will say so — commit the harness first, then re-run.
+
+Ranking study (Colab): `results/runs/<run_id>.json` plus [`registry.jsonl`](registry.jsonl). Reports go to `reports/stability/`.

@@ -7,6 +7,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, TextIteratorStreamer
 
 from apertus_eval_prep.backends import Generation
+from apertus_eval_prep.config import RunConfig
 
 
 def detect_device() -> str:
@@ -35,41 +36,85 @@ def resolve_dtype(name: str, device: str) -> torch.dtype:
     return torch.float32
 
 
+def _quant_config(quantization: str, compute_dtype: torch.dtype):
+    if quantization == "none":
+        return None
+    try:
+        from transformers import BitsAndBytesConfig
+    except ImportError as exc:
+        raise ImportError(
+            "int8/int4 need bitsandbytes + CUDA. On Colab: pip install -e '.[gpu]'. "
+            "macOS cannot run bitsandbytes quantization."
+        ) from exc
+    if quantization == "int8":
+        return BitsAndBytesConfig(load_in_8bit=True)
+    if quantization == "int4":
+        return BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_compute_dtype=compute_dtype,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_use_double_quant=True,
+        )
+    raise ValueError(quantization)
+
+
 class HFBackend:
     name = "hf"
 
-    def __init__(self, model_id: str, tokenizer_id: str, revision: str | None, dtype_name: str, seed: int):
+    def __init__(self, cfg: RunConfig):
+        self.cfg = cfg
         self.device = detect_device()
-        torch.manual_seed(seed)
+        if cfg.quantization != "none" and self.device != "cuda":
+            raise RuntimeError(
+                f"quantization={cfg.quantization} requires CUDA (Colab T4/A10). "
+                f"This machine is {self.device}."
+            )
+        torch.manual_seed(cfg.seed)
         if self.device == "cuda":
-            torch.cuda.manual_seed_all(seed)
-        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_id, revision=revision)
+            torch.cuda.manual_seed_all(cfg.seed)
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            cfg.tokenizer_name(),
+            revision=cfg.revision,
+            trust_remote_code=True,
+        )
         if self.tokenizer.pad_token_id is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
-        dtype = resolve_dtype(dtype_name, self.device)
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_id,
-            revision=revision,
-            torch_dtype=dtype,
+        dtype = resolve_dtype(cfg.dtype, self.device)
+        quant = _quant_config(cfg.quantization, dtype)
+        load_kwargs: dict = dict(
+            revision=cfg.revision,
+            trust_remote_code=True,
         )
-        self.model.to(self.device)
+        if quant is not None:
+            load_kwargs["quantization_config"] = quant
+            load_kwargs["device_map"] = "auto"
+        else:
+            load_kwargs["torch_dtype"] = dtype
+        self.model = AutoModelForCausalLM.from_pretrained(cfg.model_id, **load_kwargs)
+        if quant is None:
+            self.model.to(self.device)
         self.model.eval()
 
     def generate_one(self, prompt: str, max_new_tokens: int) -> Generation:
         encoded = self.tokenizer(prompt, return_tensors="pt")
-        encoded = {k: v.to(self.device) for k, v in encoded.items()}
+        device = next(self.model.parameters()).device
+        encoded = {k: v.to(device) for k, v in encoded.items()}
         streamer = TextIteratorStreamer(
             self.tokenizer,
             skip_prompt=True,
             skip_special_tokens=True,
         )
+        do_sample = self.cfg.do_sample()
         kwargs = dict(
             **encoded,
             max_new_tokens=max_new_tokens,
-            do_sample=False,
+            do_sample=do_sample,
             pad_token_id=self.tokenizer.pad_token_id,
             streamer=streamer,
         )
+        if do_sample:
+            kwargs["temperature"] = self.cfg.temperature
+            kwargs["top_p"] = self.cfg.top_p
         thread = Thread(target=self.model.generate, kwargs=kwargs)
         t0 = time.perf_counter()
         thread.start()

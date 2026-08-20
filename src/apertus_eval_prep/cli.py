@@ -23,16 +23,25 @@ def _add_common(p: argparse.ArgumentParser) -> None:
     p.add_argument("--chat-template", dest="chat_template", choices=["tokenizer", "none", "mismatched"])
     p.add_argument("--model-id", dest="model_id")
     p.add_argument("--limit", type=int)
+    p.add_argument("--quantization", choices=["none", "int8", "int4"])
+    p.add_argument("--temperature", type=float)
+    p.add_argument("--prompt-id", dest="prompt_id")
+    p.add_argument("--seed", type=int)
     p.add_argument("--out", required=True, help="Output path")
 
 
 def _overrides(args: argparse.Namespace) -> dict:
-    return {
-        "backend": args.backend,
-        "chat_template": args.chat_template,
-        "model_id": args.model_id,
-        "limit": args.limit,
-    }
+    keys = (
+        "backend",
+        "chat_template",
+        "model_id",
+        "limit",
+        "quantization",
+        "temperature",
+        "prompt_id",
+        "seed",
+    )
+    return {k: getattr(args, k, None) for k in keys}
 
 
 def cmd_eval(args: argparse.Namespace) -> int:
@@ -75,14 +84,76 @@ def cmd_compare(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_sweep(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.sweep import execute_sweep
+
+    root = repo_root()
+    planned = execute_sweep(
+        study_path=Path(args.config),
+        repo_root=root,
+        out_dir=Path(args.out_dir),
+        registry_path=Path(args.registry),
+        profile=args.profile,
+        limit=args.limit,
+        dry_run=args.dry_run,
+        force=args.force,
+    )
+    print(json.dumps({"n_cells": len(planned), "n_skip": sum(1 for p in planned if p["skipped"])}, indent=2))
+    if args.dry_run:
+        print(json.dumps(planned, indent=2))
+    return 0
+
+
+def cmd_report(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.registry import load_registry
+    from apertus_eval_prep.report import (
+        collect_runs,
+        ranking_table,
+        render_markdown_report,
+        write_html,
+        write_plots,
+    )
+
+    root = repo_root()
+    rows = load_registry(Path(args.registry))
+    blobs = collect_runs(rows, root)
+    analysis = ranking_table(blobs)
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    md_path = out / "stability.md"
+    md_path.write_text(render_markdown_report(analysis), encoding="utf-8")
+    (out / "analysis.json").write_text(json.dumps(analysis, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    plots = write_plots(analysis, out)
+    write_html(md_path, plots, out / "stability.html")
+    print(f"Wrote {md_path}")
+    for p in plots:
+        print(p)
+    return 0
+
+
+def cmd_paper_tables(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.registry import load_registry
+    from apertus_eval_prep.report import collect_runs, paper_tables, ranking_table
+
+    root = repo_root()
+    rows = load_registry(Path(args.registry))
+    analysis = ranking_table(collect_runs(rows, root))
+    text = paper_tables(analysis)
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(text, encoding="utf-8")
+    print(f"Wrote {out}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="apertus-eval-prep",
-        description="Frozen-prompt eval harness: HF generate vs vLLM, chat-template ablations.",
+        description="Frozen-prompt eval harness: HF vs vLLM, ranking stability sweeps.",
     )
     sub = parser.add_subparsers(dest="cmd", required=True)
 
-    p_eval = sub.add_parser("eval", help="Score the frozen slice and write JSON.")
+    p_eval = sub.add_parser("eval", help="Score a frozen slice and write JSON.")
     _add_common(p_eval)
     p_eval.set_defaults(func=cmd_eval)
 
@@ -97,6 +168,26 @@ def build_parser() -> argparse.ArgumentParser:
     p_cmp.add_argument("--out", required=True)
     p_cmp.add_argument("--format", choices=["md", "json"], default="md")
     p_cmp.set_defaults(func=cmd_compare)
+
+    p_sweep = sub.add_parser("sweep", help="Expand OFAT cells and run (resumes via registry).")
+    p_sweep.add_argument("--config", required=True)
+    p_sweep.add_argument("--out-dir", default="results/runs")
+    p_sweep.add_argument("--registry", default="results/registry.jsonl")
+    p_sweep.add_argument("--profile", choices=["t4", "a10", "cpu"])
+    p_sweep.add_argument("--limit", type=int, help="Cap items per task (Colab demo).")
+    p_sweep.add_argument("--dry-run", action="store_true")
+    p_sweep.add_argument("--force", action="store_true", help="Re-run cells already in the registry.")
+    p_sweep.set_defaults(func=cmd_sweep)
+
+    p_report = sub.add_parser("report", help="Wilson CIs, Kendall tau, plots from the registry.")
+    p_report.add_argument("--registry", default="results/registry.jsonl")
+    p_report.add_argument("--out", default="reports/stability")
+    p_report.set_defaults(func=cmd_report)
+
+    p_paper = sub.add_parser("paper-tables", help="Write markdown tables for paper/stability.md.")
+    p_paper.add_argument("--registry", default="results/registry.jsonl")
+    p_paper.add_argument("--out", default="paper/_generated_tables.md")
+    p_paper.set_defaults(func=cmd_paper_tables)
     return parser
 
 

@@ -85,6 +85,17 @@ After the files exist, this is true:
 
 If vLLM is not done, drop “vs vLLM” until it is. Do not keep the phrase.
 
+## 7. Ranking stability (Colab T4, not Mac)
+
+Open [`notebooks/colab_stability.ipynb`](notebooks/colab_stability.ipynb). Runtime → GPU (T4).
+
+1. Demo sweep (`stability_smoke.yaml`, `--limit 2`) to prove the registry writes JSON.
+2. Uncomment the full `stability.yaml` sweep when you have hours. It resumes from `results/registry.jsonl`.
+3. Download `results/runs/`, `results/registry.jsonl`, and `reports/stability/` into this clone.
+4. `python -m apertus_eval_prep paper-tables` then commit. Do not type paper numbers.
+
+`--profile t4` skips 7B fp16 / int8 / vLLM. Use `--profile a10` if the runtime is an A10.
+
 ## Stop conditions
 
 - Do not tune prompts until the 0.5B model “looks good.” The canary is allowed to fail.

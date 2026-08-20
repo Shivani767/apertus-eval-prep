@@ -3,8 +3,10 @@ from __future__ import annotations
 import re
 from statistics import mean
 
-MC_TASKS = {"arc_easy", "template_canary"}
-MATH_TASKS = {"gsm8k", "multilingual"}
+from apertus_eval_prep.stats import wilson_interval
+
+MC_TASKS = {"arc_easy", "template_canary", "hellaswag"}
+MATH_TASKS = {"gsm8k", "multilingual", "mgsm"}
 
 _NUMBER_RE = re.compile(r"-?\d+(?:[.,]\d+)?")
 _LETTER_RE = re.compile(r"\b([ABCD])\b", re.IGNORECASE)
@@ -84,24 +86,22 @@ def summarize_latency(rows: list[dict]) -> dict:
     }
 
 
+def _task_block(group: list[dict]) -> dict:
+    n = len(group)
+    correct = sum(1 for r in group if r["correct"])
+    lo, hi = wilson_interval(correct, n)
+    return {
+        "n": n,
+        "correct": correct,
+        "accuracy": round(correct / n, 4) if n else None,
+        "accuracy_ci95": [round(lo, 4), round(hi, 4)] if lo is not None and hi is not None else None,
+    }
+
+
 def summarize_tasks(rows: list[dict]) -> dict:
     by_task: dict[str, list[dict]] = {}
     for row in rows:
         by_task.setdefault(row["task"], []).append(row)
-    out = {}
-    for task, group in by_task.items():
-        n = len(group)
-        correct = sum(1 for r in group if r["correct"])
-        out[task] = {
-            "n": n,
-            "correct": correct,
-            "accuracy": round(correct / n, 4) if n else None,
-        }
-    all_n = len(rows)
-    all_c = sum(1 for r in rows if r["correct"])
-    out["overall"] = {
-        "n": all_n,
-        "correct": all_c,
-        "accuracy": round(all_c / all_n, 4) if all_n else None,
-    }
+    out = {task: _task_block(group) for task, group in by_task.items()}
+    out["overall"] = _task_block(rows)
     return out

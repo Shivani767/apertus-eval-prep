@@ -11,3 +11,5 @@ Anyone who clones this repo scores the same items.
 | `template_canary` | 4 | Format-locked items. Accuracy is supposed to drop if the chat template is missing or wrong. | Original to this repo. |
 
 Gold answers are stored as `gold`. Scoring is exact-match after the extractors in `scoring.py`.
+
+Official 200-item slices (ARC-Easy, GSM8K, HellaSwag, MGSM) are a separate frozen tree: [`data/official/`](official/). See [`official/SOURCES.md`](official/SOURCES.md). Those numbers are still generative exact-match, not lm-eval.
