@@ -1,0 +1,154 @@
+{
+  "manifest": {
+    "utc": "2026-08-20T06:48:10Z",
+    "git_commit": "0df5513d44c14863388bb7c556551cc947b2113c",
+    "git_dirty": true,
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.15.0",
+      "vllm": "0.26.0",
+      "apertus_eval_prep": "0.2.0"
+    },
+    "hardware": {
+      "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+      "system": "Linux",
+      "machine": "x86_64",
+      "processor": "x86_64",
+      "python": "3.12.13",
+      "gpu": "Tesla T4",
+      "cuda": true
+    },
+    "settings": {
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "tokenizer_id": null,
+      "revision": null,
+      "backend": "hf",
+      "chat_template": "tokenizer",
+      "system_prompt": null,
+      "max_new_tokens": 32,
+      "seed": 0,
+      "dtype": "auto",
+      "data_path": "data/official/eval_set.jsonl",
+      "tasks": [
+        "arc_easy",
+        "gsm8k"
+      ],
+      "limit": 2,
+      "batch_size": 1,
+      "quantization": "none",
+      "temperature": 0.0,
+      "top_p": 1.0,
+      "prompt_id": "concise",
+      "fewshot_path": "data/official/fewshot.jsonl",
+      "experiment_id": "stability_smoke",
+      "run_id": "Qwen2.5-0.5B-Instruct_prompt_id_concise_84fd4a4117a34c5a",
+      "device": "cuda"
+    }
+  },
+  "incomparability": [
+    "Same frozen items, same gold extractor, still not comparable if any of these differ:",
+    "chat_template, tokenizer id/revision, max_new_tokens, sampling (temperature/top_p/seed),",
+    "prompt_id / few-shot, quantization, stop tokens, dtype, hardware, or backend.",
+    "Generative exact-match is not lm-eval loglikelihood. Rankings need Wilson CIs.",
+    "only compare two runs when the manifest.settings block matches except the one knob you changed."
+  ],
+  "tasks": {
+    "arc_easy": {
+      "n": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "accuracy_ci95": [
+        0.0945,
+        0.9055
+      ]
+    },
+    "gsm8k": {
+      "n": 2,
+      "correct": 1,
+      "accuracy": 0.5,
+      "accuracy_ci95": [
+        0.0945,
+        0.9055
+      ]
+    },
+    "overall": {
+      "n": 4,
+      "correct": 2,
+      "accuracy": 0.5,
+      "accuracy_ci95": [
+        0.15,
+        0.85
+      ]
+    }
+  },
+  "latency": {
+    "n": 4,
+    "ttft_ms_mean": 82.23,
+    "ttft_ms_p50": 79.58,
+    "ttft_ms_p95": 108.32,
+    "e2e_ms_mean": 161.19,
+    "e2e_ms_p95": 194.11,
+    "tokens_per_sec_mean": 10.361
+  },
+  "items": [
+    {
+      "id": "arc_easy/eval/Mercury_SC_409038",
+      "task": "arc_easy",
+      "language": "en",
+      "gold": "A",
+      "predicted": "D",
+      "correct": false,
+      "generation": "D",
+      "ttft_ms": 111.11,
+      "e2e_ms": 146.05,
+      "num_new_tokens": 1,
+      "tokens_per_sec": 6.847,
+      "prompt_chars": 466
+    },
+    {
+      "id": "arc_easy/eval/MCAS_2001_5_19",
+      "task": "arc_easy",
+      "language": "en",
+      "gold": "C",
+      "predicted": "C",
+      "correct": true,
+      "generation": "C",
+      "ttft_ms": 92.49,
+      "e2e_ms": 133.47,
+      "num_new_tokens": 1,
+      "tokens_per_sec": 7.492,
+      "prompt_chars": 275
+    },
+    {
+      "id": "gsm8k/eval/1101",
+      "task": "gsm8k",
+      "language": "en",
+      "gold": "16",
+      "predicted": "16",
+      "correct": true,
+      "generation": "16",
+      "ttft_ms": 66.67,
+      "e2e_ms": 166.21,
+      "num_new_tokens": 2,
+      "tokens_per_sec": 12.033,
+      "prompt_chars": 328
+    },
+    {
+      "id": "gsm8k/eval/0120",
+      "task": "gsm8k",
+      "language": "en",
+      "gold": "240",
+      "predicted": "180",
+      "correct": false,
+      "generation": "180",
+      "ttft_ms": 58.67,
+      "e2e_ms": 199.03,
+      "num_new_tokens": 3,
+      "tokens_per_sec": 15.073,
+      "prompt_chars": 349
+    }
+  ],
+  "factor": "prompt_id",
+  "factor_level": "concise",
+  "config_hash": "84fd4a4117a34c5a"
+}
