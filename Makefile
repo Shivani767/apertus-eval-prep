@@ -1,4 +1,4 @@
-.PHONY: test smoke eval-hf eval-none eval-mismatch dump compare-template
+.PHONY: test smoke eval-hf eval-none eval-mismatch dump compare-template sweep-dry report
 
 PYTHON ?= python
 
@@ -25,3 +25,10 @@ dump:
 compare-template:
 	$(PYTHON) -m apertus_eval_prep compare results/hf_tokenizer.json results/hf_none.json --out results/compare_template.md
 	$(PYTHON) -m apertus_eval_prep compare results/hf_tokenizer.json results/hf_mismatched.json --out results/compare_mismatch.md
+
+sweep-dry:
+	$(PYTHON) -m apertus_eval_prep sweep --config configs/experiments/stability.yaml --profile t4 --dry-run --out-dir results/runs --registry results/registry.jsonl
+
+report:
+	$(PYTHON) -m apertus_eval_prep report --registry results/registry.jsonl --out reports/stability
+	$(PYTHON) -m apertus_eval_prep paper-tables --registry results/registry.jsonl --out paper/_generated_tables.md

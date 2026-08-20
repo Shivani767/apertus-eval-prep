@@ -1,0 +1,5 @@
+id: concise
+system: null
+fewshot: 0
+instruction_mc: "Reply with only the letter (A, B, C, or D). No other text."
+instruction_math: "Reply with only the final number. No other text."

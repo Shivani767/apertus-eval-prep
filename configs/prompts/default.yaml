@@ -1,0 +1,6 @@
+# Dataset-native zero-shot. Official JSONL stems do not include this instruction.
+id: default
+system: null
+fewshot: 0
+instruction_mc: "Reply with the letter of the correct answer (A, B, C, or D)."
+instruction_math: "Reason step by step. Put the final numeric answer on the last line."

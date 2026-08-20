@@ -1,0 +1,46 @@
+# Tiny sweep for tests and a Colab sanity check. Not a paper table.
+study: ranking_stability_smoke
+experiment_id: stability_smoke
+
+data_path: data/official/eval_set.jsonl
+fewshot_path: data/official/fewshot.jsonl
+tasks: [arc_easy, gsm8k]
+max_new_tokens: 32
+dtype: auto
+chat_template: tokenizer
+tokenizer_id: null
+revision: null
+system_prompt: null
+batch_size: 1
+limit: 2
+
+control:
+  backend: hf
+  chat_template: tokenizer
+  quantization: none
+  seed: 0
+  temperature: 0.0
+  top_p: 1.0
+  prompt_id: default
+
+models:
+  - Qwen/Qwen2.5-0.5B-Instruct
+
+factors:
+  prompt_id: [default, concise]
+  seed: [0, 1]
+  backend: [hf]
+  quantization: [none]
+
+sampled:
+  temperature: 0.7
+  top_p: 0.95
+  seeds: [0]
+
+profiles:
+  t4:
+    skip: []
+  a10:
+    skip: []
+  cpu:
+    skip: []

@@ -4,6 +4,8 @@ Frozen-prompt evaluation and serving harness. Same items, same gold extractor, H
 
 This is **not** IndicQuant, not InferLite, and not an Alps job. It is the smallest public object that maps onto the Apertus Evaluations work: *same chat template, same tokenizer, vLLM vs training-style generate, scores that do not silently drift, jobs that rerun.*
 
+A second track asks an original question: **how stable are generative benchmark scores and rankings under prompt, seed, backend, and quantization changes?** That study is GPU-only (Colab T4/A10). Mac remains the 28-item smoke and template canary.
+
 A clone on a laptop or Colab is enough. No NDA.
 
 ## What a stranger can verify in 10 minutes
@@ -56,6 +58,33 @@ python -m apertus_eval_prep compare results/hf_tokenizer.json results/vllm_token
 
 vLLM is given **already-rendered completion strings**. The engine is not allowed to apply a second chat template. That is how double-templating is avoided, and how a backend delta stays a backend delta.
 
+## Ranking stability study (Colab GPU)
+
+Mac cannot run bitsandbytes or vLLM. Open [`notebooks/colab_stability.ipynb`](notebooks/colab_stability.ipynb) with a **T4**. Paper: [`paper/stability.md`](paper/stability.md).
+
+```bash
+# See the OFAT matrix without loading a model
+python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
+  --profile t4 --dry-run --out-dir results/runs --registry results/registry.jsonl
+
+# On Colab, after pip install -e ".[gpu,viz]":
+python -m apertus_eval_prep sweep --config configs/experiments/stability_smoke.yaml \
+  --profile t4 --limit 2 --out-dir results/runs --registry results/registry.jsonl
+python -m apertus_eval_prep report --registry results/registry.jsonl --out reports/stability
+python -m apertus_eval_prep paper-tables --registry results/registry.jsonl --out paper/_generated_tables.md
+```
+
+Control: HF generate, tokenizer template, greedy, no extra quant, prompt `default`. Factors (one at a time): prompt (`default` / `concise` / `5shot`), seed, backend (`hf` / `vllm`), quantization (`none` / `int8` / `int4`). `--profile t4` skips 7B fp16/int8/vLLM.
+
+Official slices live in [`data/official/`](data/official/) (ARC-Easy, GSM8K, HellaSwag, MGSM, n=200, Hub revisions in `SOURCES.md`). Scoring is **generative exact-match**, not lm-eval loglikelihood. Every run JSON includes a Wilson 95% CI. The report adds McNemar vs control, Kendall $\tau_b$ on rankings, and CI-overlap ties.
+
+Snapshot (once, then commit JSONL):
+
+```bash
+pip install -e ".[snapshot]"
+python scripts/snapshot_benchmarks.py
+```
+
 ## What this measures
 
 | Task | n | Why it is here |
@@ -99,23 +128,26 @@ Measured runs are interpreted in [`notes/findings.md`](notes/findings.md): two e
 
 ```
 configs/          default, smoke, no_template, mismatched, vllm
-data/eval_set.jsonl
+configs/experiments/  stability.yaml OFAT matrix
+configs/prompts/      default, concise, 5shot
+data/eval_set.jsonl   28-item template canary
+data/official/        frozen ARC / GSM8K / HellaSwag / MGSM
 src/apertus_eval_prep/
-  backends/hf.py
-  backends/vllm_backend.py   # optional extra: pip install -e ".[gpu]"
-  templates.py               # one render path, both backends
-  scoring.py
-  run_eval.py
+  backends/hf.py      generate + bitsandbytes int8/int4 (CUDA)
+  backends/vllm_backend.py
+  sweep.py registry.py stats.py report.py
 notebooks/colab_vllm.ipynb
-notes/findings.md         measured template and backend deltas
-results/          commit JSON after you run; do not type numbers by hand
+notebooks/colab_stability.ipynb   ranking sweep on T4
+paper/stability.md
+results/registry.jsonl + results/runs/
 ```
 
 ## Honesty
 
-- Model under test is `Qwen/Qwen2.5-0.5B-Instruct`, not `swiss-ai/Apertus-v1.5-8B`. Apertus 8B does not fit a Mac; the harness is the claim, not the 8B score.
-- No Megatron, no NCCL, no GH200.
-- Accuracy on 28 items is a regression canary, not a leaderboard.
+- Mac smoke is `Qwen/Qwen2.5-0.5B-Instruct` on 28 items. Ranking numbers come from Colab T4/A10 and the official 200-item slices.
+- Generative exact-match is not a model-card headline and not lm-eval.
+- No Megatron, no NCCL, no GH200, no Alps.
+- Do not invent GPU tables. Run the notebook, then commit JSON.
 
 ## License
 

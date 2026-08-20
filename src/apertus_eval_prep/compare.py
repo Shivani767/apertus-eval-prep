@@ -21,7 +21,20 @@ def compare_runs(path_a: Path, path_b: Path) -> dict[str, Any]:
     b = json.loads(path_b.read_text(encoding="utf-8"))
     sa = a["manifest"]["settings"]
     sb = b["manifest"]["settings"]
-    keys = ["model_id", "tokenizer_id", "revision", "backend", "chat_template", "max_new_tokens", "seed", "dtype"]
+    keys = [
+        "model_id",
+        "tokenizer_id",
+        "revision",
+        "backend",
+        "chat_template",
+        "max_new_tokens",
+        "seed",
+        "dtype",
+        "quantization",
+        "temperature",
+        "top_p",
+        "prompt_id",
+    ]
     setting_diff = {k: {"a": sa.get(k), "b": sb.get(k)} for k in keys if sa.get(k) != sb.get(k)}
     tasks = sorted(set((a.get("tasks") or {}) | (b.get("tasks") or {})))
     task_table = []

@@ -1,0 +1,4 @@
+{"id": "arc_easy/t1", "task": "arc_easy", "language": "en", "gold": "B", "prompt": "Which is a plant?\nA) Rock\nB) Fern\nC) Iron\nD) Glass"}
+{"id": "arc_easy/t2", "task": "arc_easy", "language": "en", "gold": "A", "prompt": "Water freezes at 0 C. What state is that?\nA) Solid\nB) Gas\nC) Plasma\nD) Vacuum"}
+{"id": "gsm8k/t1", "task": "gsm8k", "language": "en", "gold": "12", "prompt": "Ada has 5 apples and buys 7 more. How many apples?"}
+{"id": "gsm8k/t2", "task": "gsm8k", "language": "en", "gold": "9", "prompt": "A square has side 3. What is the area?"}

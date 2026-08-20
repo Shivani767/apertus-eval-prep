@@ -1,0 +1,10 @@
+{"id": "arc_easy/fs1", "task": "arc_easy", "language": "en", "gold": "A", "prompt": "Example MC 1\nA) Yes\nB) No\nC) Maybe\nD) Skip"}
+{"id": "arc_easy/fs2", "task": "arc_easy", "language": "en", "gold": "B", "prompt": "Example MC 2\nA) Yes\nB) No\nC) Maybe\nD) Skip"}
+{"id": "arc_easy/fs3", "task": "arc_easy", "language": "en", "gold": "C", "prompt": "Example MC 3\nA) Yes\nB) No\nC) Maybe\nD) Skip"}
+{"id": "arc_easy/fs4", "task": "arc_easy", "language": "en", "gold": "D", "prompt": "Example MC 4\nA) Yes\nB) No\nC) Maybe\nD) Skip"}
+{"id": "arc_easy/fs5", "task": "arc_easy", "language": "en", "gold": "A", "prompt": "Example MC 5\nA) Yes\nB) No\nC) Maybe\nD) Skip"}
+{"id": "gsm8k/fs1", "task": "gsm8k", "language": "en", "gold": "2", "prompt": "1+1"}
+{"id": "gsm8k/fs2", "task": "gsm8k", "language": "en", "gold": "3", "prompt": "1+2"}
+{"id": "gsm8k/fs3", "task": "gsm8k", "language": "en", "gold": "4", "prompt": "2+2"}
+{"id": "gsm8k/fs4", "task": "gsm8k", "language": "en", "gold": "5", "prompt": "2+3"}
+{"id": "gsm8k/fs5", "task": "gsm8k", "language": "en", "gold": "6", "prompt": "3+3"}

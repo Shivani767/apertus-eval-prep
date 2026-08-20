@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apertus-eval-prep"
-version = "0.1.0"
-description = "Frozen-prompt eval + serving harness: same template, HF generate vs vLLM, scores on disk."
+version = "0.2.0"
+description = "Frozen-prompt eval harness: ranking stability under prompt/seed/backend/quant configs."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "Apache-2.0"}
 authors = [{name = "Shivani Bhandari", email = "Shivani215143@gmail.com"}]
-keywords = ["llm", "evaluation", "vllm", "chat-template", "inference"]
+keywords = ["llm", "evaluation", "vllm", "chat-template", "inference", "benchmarks"]
 dependencies = [
   "torch>=2.2",
   "transformers>=4.44",
@@ -18,7 +18,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-gpu = ["vllm>=0.6.0"]
+gpu = ["vllm>=0.6.0", "bitsandbytes>=0.43"]
+viz = ["matplotlib>=3.8"]
+snapshot = ["datasets>=2.20", "huggingface_hub>=0.24"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]

@@ -4,6 +4,7 @@ import sys
 from types import ModuleType
 
 from apertus_eval_prep.backends import Generation
+from apertus_eval_prep.config import RunConfig
 
 
 def _stub_torchaudio() -> None:
@@ -41,27 +42,39 @@ def _import_vllm():
 class VLLMBackend:
     name = "vllm"
 
-    def __init__(self, model_id: str, tokenizer_id: str, revision: str | None, dtype_name: str, seed: int):
+    def __init__(self, cfg: RunConfig):
+        if cfg.quantization != "none":
+            raise RuntimeError(
+                "This harness does not cross vLLM with bitsandbytes quantization "
+                "(OFAT would confound backend × quant). Use backend=hf for int8/int4, "
+                "or backend=vllm with quantization=none."
+            )
         LLM, SamplingParams = _import_vllm()
-        dtype = "auto" if dtype_name in (None, "auto") else dtype_name
+        dtype = "auto" if cfg.dtype in (None, "auto") else cfg.dtype
+        self.cfg = cfg
         self._SamplingParams = SamplingParams
         engine_kwargs = dict(
-            model=model_id,
-            tokenizer=tokenizer_id,
+            model=cfg.model_id,
+            tokenizer=cfg.tokenizer_name(),
             dtype=dtype,
-            seed=seed,
+            seed=cfg.seed,
             trust_remote_code=True,
         )
-        if revision:
-            engine_kwargs["revision"] = revision
+        if cfg.revision:
+            engine_kwargs["revision"] = cfg.revision
         self.llm = LLM(**engine_kwargs)
+        self.device = "cuda"
 
     def generate_one(self, prompt: str, max_new_tokens: int) -> Generation:
         # Completion API on an already-rendered string. Do not call llm.chat().
-        params = self._SamplingParams(
-            temperature=0.0,
+        sample_kwargs = dict(
+            temperature=self.cfg.temperature if self.cfg.do_sample() else 0.0,
             max_tokens=max_new_tokens,
+            seed=self.cfg.seed,
         )
+        if self.cfg.do_sample():
+            sample_kwargs["top_p"] = self.cfg.top_p
+        params = self._SamplingParams(**sample_kwargs)
         outputs = self.llm.generate([prompt], params)
         out = outputs[0]
         text = out.outputs[0].text if out.outputs else ""

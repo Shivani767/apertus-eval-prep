@@ -1,0 +1,62 @@
+# GPU-first ranking-stability study. Run on Colab T4/A10, not on a Mac.
+# Expand + resume:
+#   python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
+#     --out-dir results/runs --registry results/registry.jsonl --profile t4
+#
+# Scores are generative exact-match. They are not lm-eval loglikelihood numbers.
+
+study: ranking_stability
+experiment_id: stability
+
+data_path: data/official/eval_set.jsonl
+fewshot_path: data/official/fewshot.jsonl
+tasks: [arc_easy, gsm8k, hellaswag, mgsm]
+max_new_tokens: 256
+dtype: auto
+chat_template: tokenizer
+tokenizer_id: null
+revision: null
+system_prompt: null
+batch_size: 1
+limit: null
+
+control:
+  backend: hf
+  chat_template: tokenizer
+  quantization: none
+  seed: 0
+  temperature: 0.0
+  top_p: 1.0
+  prompt_id: default
+
+models:
+  - HuggingFaceTB/SmolLM2-1.7B-Instruct
+  - Qwen/Qwen2.5-3B-Instruct
+  - microsoft/Phi-3.5-mini-instruct
+  - Qwen/Qwen2.5-7B-Instruct
+
+# One-factor-at-a-time around control. Control levels are not duplicated.
+factors:
+  prompt_id: [default, concise, 5shot]
+  seed: [0, 1, 2]
+  backend: [hf, vllm]
+  quantization: [none, int8, int4]
+
+# Extra arm: sampling variance (greedy seed is often a no-op).
+sampled:
+  temperature: 0.7
+  top_p: 0.95
+  seeds: [0, 1, 2]
+
+# Colab T4 is 16 GB. 7B fp16/int8 and vLLM 7B are skipped there.
+# A10 (24 GB) can run the 7B fp16 control.
+profiles:
+  t4:
+    skip:
+      - {model_id: Qwen/Qwen2.5-7B-Instruct, quantization: none}
+      - {model_id: Qwen/Qwen2.5-7B-Instruct, quantization: int8}
+      - {model_id: Qwen/Qwen2.5-7B-Instruct, backend: vllm}
+  a10:
+    skip: []
+  cpu:
+    skip: []
