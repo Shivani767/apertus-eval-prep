@@ -1,4 +1,4 @@
-.PHONY: test smoke eval-hf eval-none eval-mismatch dump compare-template sweep-dry report
+.PHONY: test smoke eval-hf eval-none eval-mismatch dump compare-template sweep-dry report ci-width
 
 PYTHON ?= python
 
@@ -32,3 +32,9 @@ sweep-dry:
 report:
 	$(PYTHON) -m apertus_eval_prep report --registry results/registry.jsonl --out reports/stability
 	$(PYTHON) -m apertus_eval_prep paper-tables --registry results/registry.jsonl --out paper/_generated_tables.md
+
+ci-width:
+	$(PYTHON) -m apertus_eval_prep ci-width \
+	  --run results/runs/Qwen2.5-0.5B-Instruct_control_control_4eef2dcb284b2cab.json="T4 smoke n=4" \
+	  --run results/hf_tokenizer.json="Mac canary n=28" \
+	  --out reports/ci_width

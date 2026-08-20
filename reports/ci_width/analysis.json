@@ -1,0 +1,312 @@
+{
+  "series": [
+    {
+      "label": "T4 smoke n=4",
+      "path": "results/runs/Qwen2.5-0.5B-Instruct_control_control_4eef2dcb284b2cab.json",
+      "n": 4,
+      "curve": [
+        {
+          "n": 1,
+          "correct": 0,
+          "accuracy": 0.0,
+          "lo": 0.0,
+          "hi": 0.7935,
+          "width": 0.7935
+        },
+        {
+          "n": 2,
+          "correct": 1,
+          "accuracy": 0.5,
+          "lo": 0.0945,
+          "hi": 0.9055,
+          "width": 0.8109
+        },
+        {
+          "n": 3,
+          "correct": 1,
+          "accuracy": 0.3333,
+          "lo": 0.0615,
+          "hi": 0.7923,
+          "width": 0.7308
+        },
+        {
+          "n": 4,
+          "correct": 1,
+          "accuracy": 0.25,
+          "lo": 0.0456,
+          "hi": 0.6994,
+          "width": 0.6538
+        }
+      ],
+      "final": {
+        "n": 4,
+        "correct": 1,
+        "accuracy": 0.25,
+        "lo": 0.0456,
+        "hi": 0.6994,
+        "width": 0.6538
+      }
+    },
+    {
+      "label": "Mac canary n=28",
+      "path": "results/hf_tokenizer.json",
+      "n": 28,
+      "curve": [
+        {
+          "n": 1,
+          "correct": 1,
+          "accuracy": 1.0,
+          "lo": 0.2065,
+          "hi": 1.0,
+          "width": 0.7935
+        },
+        {
+          "n": 2,
+          "correct": 2,
+          "accuracy": 1.0,
+          "lo": 0.3424,
+          "hi": 1.0,
+          "width": 0.6576
+        },
+        {
+          "n": 3,
+          "correct": 3,
+          "accuracy": 1.0,
+          "lo": 0.4385,
+          "hi": 1.0,
+          "width": 0.5615
+        },
+        {
+          "n": 4,
+          "correct": 4,
+          "accuracy": 1.0,
+          "lo": 0.5101,
+          "hi": 1.0,
+          "width": 0.4899
+        },
+        {
+          "n": 5,
+          "correct": 5,
+          "accuracy": 1.0,
+          "lo": 0.5655,
+          "hi": 1.0,
+          "width": 0.4345
+        },
+        {
+          "n": 6,
+          "correct": 6,
+          "accuracy": 1.0,
+          "lo": 0.6097,
+          "hi": 1.0,
+          "width": 0.3903
+        },
+        {
+          "n": 7,
+          "correct": 7,
+          "accuracy": 1.0,
+          "lo": 0.6457,
+          "hi": 1.0,
+          "width": 0.3543
+        },
+        {
+          "n": 8,
+          "correct": 8,
+          "accuracy": 1.0,
+          "lo": 0.6756,
+          "hi": 1.0,
+          "width": 0.3244
+        },
+        {
+          "n": 9,
+          "correct": 8,
+          "accuracy": 0.8889,
+          "lo": 0.565,
+          "hi": 0.9801,
+          "width": 0.4151
+        },
+        {
+          "n": 10,
+          "correct": 8,
+          "accuracy": 0.8,
+          "lo": 0.4902,
+          "hi": 0.9433,
+          "width": 0.4532
+        },
+        {
+          "n": 11,
+          "correct": 8,
+          "accuracy": 0.7273,
+          "lo": 0.4344,
+          "hi": 0.9025,
+          "width": 0.4682
+        },
+        {
+          "n": 12,
+          "correct": 9,
+          "accuracy": 0.75,
+          "lo": 0.4677,
+          "hi": 0.9111,
+          "width": 0.4434
+        },
+        {
+          "n": 13,
+          "correct": 9,
+          "accuracy": 0.6923,
+          "lo": 0.4237,
+          "hi": 0.8732,
+          "width": 0.4495
+        },
+        {
+          "n": 14,
+          "correct": 9,
+          "accuracy": 0.6429,
+          "lo": 0.3876,
+          "hi": 0.8366,
+          "width": 0.4489
+        },
+        {
+          "n": 15,
+          "correct": 10,
+          "accuracy": 0.6667,
+          "lo": 0.4171,
+          "hi": 0.8482,
+          "width": 0.4311
+        },
+        {
+          "n": 16,
+          "correct": 10,
+          "accuracy": 0.625,
+          "lo": 0.3864,
+          "hi": 0.8152,
+          "width": 0.4288
+        },
+        {
+          "n": 17,
+          "correct": 11,
+          "accuracy": 0.6471,
+          "lo": 0.413,
+          "hi": 0.8269,
+          "width": 0.4139
+        },
+        {
+          "n": 18,
+          "correct": 12,
+          "accuracy": 0.6667,
+          "lo": 0.4375,
+          "hi": 0.8372,
+          "width": 0.3997
+        },
+        {
+          "n": 19,
+          "correct": 13,
+          "accuracy": 0.6842,
+          "lo": 0.4601,
+          "hi": 0.8464,
+          "width": 0.3863
+        },
+        {
+          "n": 20,
+          "correct": 14,
+          "accuracy": 0.7,
+          "lo": 0.481,
+          "hi": 0.8545,
+          "width": 0.3735
+        },
+        {
+          "n": 21,
+          "correct": 15,
+          "accuracy": 0.7143,
+          "lo": 0.5004,
+          "hi": 0.8619,
+          "width": 0.3614
+        },
+        {
+          "n": 22,
+          "correct": 16,
+          "accuracy": 0.7273,
+          "lo": 0.5185,
+          "hi": 0.8685,
+          "width": 0.35
+        },
+        {
+          "n": 23,
+          "correct": 17,
+          "accuracy": 0.7391,
+          "lo": 0.5353,
+          "hi": 0.8745,
+          "width": 0.3392
+        },
+        {
+          "n": 24,
+          "correct": 17,
+          "accuracy": 0.7083,
+          "lo": 0.5083,
+          "hi": 0.8509,
+          "width": 0.3425
+        },
+        {
+          "n": 25,
+          "correct": 18,
+          "accuracy": 0.72,
+          "lo": 0.5242,
+          "hi": 0.8572,
+          "width": 0.3329
+        },
+        {
+          "n": 26,
+          "correct": 19,
+          "accuracy": 0.7308,
+          "lo": 0.5392,
+          "hi": 0.863,
+          "width": 0.3238
+        },
+        {
+          "n": 27,
+          "correct": 19,
+          "accuracy": 0.7037,
+          "lo": 0.5152,
+          "hi": 0.8415,
+          "width": 0.3263
+        },
+        {
+          "n": 28,
+          "correct": 20,
+          "accuracy": 0.7143,
+          "lo": 0.5294,
+          "hi": 0.8475,
+          "width": 0.3181
+        }
+      ],
+      "final": {
+        "n": 28,
+        "correct": 20,
+        "accuracy": 0.7143,
+        "lo": 0.5294,
+        "hi": 0.8475,
+        "width": 0.3181
+      }
+    }
+  ],
+  "highlights": [
+    {
+      "label": "T4 smoke n=4",
+      "n": 4,
+      "accuracy": 0.25,
+      "ci95": [
+        0.0456,
+        0.6994
+      ],
+      "width": 0.6538
+    },
+    {
+      "label": "Mac canary n=28",
+      "n": 28,
+      "accuracy": 0.7143,
+      "ci95": [
+        0.5294,
+        0.8475
+      ],
+      "width": 0.3181
+    }
+  ]
+}

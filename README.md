@@ -72,6 +72,12 @@ python -m apertus_eval_prep sweep --config configs/experiments/stability_smoke.y
   --profile t4 --limit 2 --out-dir results/runs --registry results/registry.jsonl
 python -m apertus_eval_prep report --registry results/registry.jsonl --out reports/stability
 python -m apertus_eval_prep paper-tables --registry results/registry.jsonl --out paper/_generated_tables.md
+
+# After the T4 smoke JSON is in results/runs (no extra GPU):
+python -m apertus_eval_prep ci-width \
+  --run results/runs/Qwen2.5-0.5B-Instruct_control_control_4eef2dcb284b2cab.json="T4 smoke n=4" \
+  --run results/hf_tokenizer.json="Mac canary n=28" \
+  --out reports/ci_width
 ```
 
 Control: HF generate, tokenizer template, greedy, no extra quant, prompt `default`. Factors (one at a time): prompt (`default` / `concise` / `5shot`), seed, backend (`hf` / `vllm`), quantization (`none` / `int8` / `int4`). `--profile t4` skips 7B fp16/int8/vLLM.

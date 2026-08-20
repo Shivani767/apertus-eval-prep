@@ -98,3 +98,12 @@ First GPU registry push. `Qwen/Qwen2.5-0.5B-Instruct`, Tesla T4, `--limit 2` (4 
 **What matched the design.** Greedy seed 1 matched control item-for-item. The sampled arm moved predictions. Hardware in the manifest is `Tesla T4`, `cuda: true`.
 
 This is not `stability.yaml` (34 T4 cells, n=200, four models). Do not mix this table with Experiment 1 or 2.
+
+**CI width is the result.** Prefix Wilson intervals on the T4 control JSON (n=4) vs the Mac canary JSON (n=28), no new GPU jobs. Command: `python -m apertus_eval_prep ci-width`. Report: [`reports/ci_width/ci_width.md`](../reports/ci_width/ci_width.md).
+
+| run | n | acc | 95% CI | width |
+|---|---:|---:|---|---:|
+| T4 smoke control | 4 | 0.25 | [0.046, 0.699] | **0.654** |
+| Mac canary (tokenizer) | 28 | 0.714 | [0.529, 0.848] | **0.318** |
+
+A 25-point “win” on n=4 sits inside noise. That is the demo. Do not run the paper matrix to make this claim.

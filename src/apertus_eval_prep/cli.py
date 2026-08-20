@@ -146,6 +146,28 @@ def cmd_paper_tables(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_ci_width(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.report import (
+        ci_width_report,
+        render_ci_width_markdown,
+        write_ci_width_plot,
+        write_html,
+    )
+
+    analysis = ci_width_report(args.run)
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    md_path = out / "ci_width.md"
+    md_path.write_text(render_ci_width_markdown(analysis), encoding="utf-8")
+    (out / "analysis.json").write_text(json.dumps(analysis, indent=2) + "\n", encoding="utf-8")
+    plots = write_ci_width_plot(analysis, out)
+    write_html(md_path, plots, out / "ci_width.html")
+    print(f"Wrote {md_path}")
+    for p in plots:
+        print(p)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="apertus-eval-prep",
@@ -188,6 +210,16 @@ def build_parser() -> argparse.ArgumentParser:
     p_paper.add_argument("--registry", default="results/registry.jsonl")
     p_paper.add_argument("--out", default="paper/_generated_tables.md")
     p_paper.set_defaults(func=cmd_paper_tables)
+
+    p_ci = sub.add_parser("ci-width", help="Wilson CI width vs n from scored run JSON (not the paper matrix).")
+    p_ci.add_argument(
+        "--run",
+        action="append",
+        required=True,
+        help="path or path=label. Repeat. Uses items already in the JSON.",
+    )
+    p_ci.add_argument("--out", default="reports/ci_width")
+    p_ci.set_defaults(func=cmd_ci_width)
     return parser
 
 
