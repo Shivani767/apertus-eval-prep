@@ -87,6 +87,16 @@ def test_stability_yaml_t4_skips_7b_fp16():
     assert any(c["model_id"] == seven and c["quantization"] == "int4" for c in t4)
 
 
+def test_only_model_filter():
+    study = load_study(ROOT / "configs" / "experiments" / "stability.yaml")
+    t4 = expand_ofat(study, profile="t4")
+    one = "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+    filtered = [c for c in t4 if c["model_id"] == one]
+    assert filtered
+    assert all(c["model_id"] == one for c in filtered)
+    assert len(filtered) < len(t4)
+
+
 def test_fixture_items_parse():
     items = load_items(ROOT / "tests" / "fixtures" / "official_tiny.jsonl", ["arc_easy", "gsm8k"], None)
     assert len(items) == 4
