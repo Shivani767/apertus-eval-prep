@@ -86,7 +86,7 @@ See [`paper/_generated_tables.md`](_generated_tables.md). Figures: `reports/stab
 
 **Sanity check (not a ranking).** On the 28-item canary, `Qwen/Qwen2.5-0.5B-Instruct`, Mac MPS, greedy HF: tokenizer template 20/28 (71.4%), template omitted 15/28 (53.6%), Llama-3 wrap 12/28 (42.9%). On Colab T4, vLLM vs HF moved overall 20/28 → 18/28, concentrated on multilingual items. Those deltas justify treating backend and template as first-class factors. They are too small-$n$ to rank models.
 
-**Colab smoke (first GPU registry, not the paper matrix).** `stability_smoke.yaml`, Tesla T4, 4 items, one 0.5B model, four OFAT cells. Control 1/4 with Wilson 95% CI **[0.046, 0.699]**. Kendall $\tau_b$ is undefined with one model. That width is the demo: $n=4$ cannot rank anything. See [`notes/findings.md`](../notes/findings.md) Experiment 3 and [`results/registry.jsonl`](../results/registry.jsonl).
+**Colab smoke (first GPU registry, not the paper matrix).** `stability_smoke.yaml`, Tesla T4, 4 items, one 0.5B model, four OFAT cells. Control 1/4 with Wilson 95% CI **[0.046, 0.699]** (width 0.65). Prefix CI-width vs the Mac n=28 canary: [`reports/ci_width/ci_width.md`](../reports/ci_width/ci_width.md). Kendall $\tau_b$ is undefined with one model. $n=4$ cannot rank anything.
 
 ## 6. Limitations
 

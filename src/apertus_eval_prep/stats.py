@@ -17,6 +17,27 @@ def wilson_interval(k: int, n: int, z: float = 1.95996398454) -> tuple[float | N
     return max(0.0, center - half), min(1.0, center + half)
 
 
+def ci_width_curve(correct: Sequence[bool]) -> list[dict[str, Any]]:
+    """Wilson interval after each successive item. Shows why n=4 cannot rank models."""
+    rows: list[dict[str, Any]] = []
+    k = 0
+    for n, ok in enumerate(correct, start=1):
+        k += 1 if ok else 0
+        lo, hi = wilson_interval(k, n)
+        width = None if lo is None or hi is None else round(hi - lo, 4)
+        rows.append(
+            {
+                "n": n,
+                "correct": k,
+                "accuracy": round(k / n, 4),
+                "lo": None if lo is None else round(lo, 4),
+                "hi": None if hi is None else round(hi, 4),
+                "width": width,
+            }
+        )
+    return rows
+
+
 def chi2_sf_1df(x: float) -> float:
     """Survival function P(X^2_1 > x) = erfc(sqrt(x/2))."""
     if x <= 0:

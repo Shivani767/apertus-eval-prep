@@ -7,6 +7,7 @@ from typing import Any
 
 from apertus_eval_prep.stats import (
     ci_aware_ties,
+    ci_width_curve,
     kendall_tau_b,
     mcnemar,
     pairwise_reversals,
@@ -319,3 +320,102 @@ def write_html(md_path: Path, plot_paths: list[str], html_path: Path) -> None:
         f"<body style='font-family:sans-serif;max-width:960px;margin:2rem auto'>{body}</body>\n",
         encoding="utf-8",
     )
+
+
+def items_correct(blob: dict[str, Any]) -> list[bool]:
+    return [bool(r.get("correct")) for r in blob.get("items") or []]
+
+
+def parse_run_spec(spec: str) -> tuple[Path, str]:
+    if "=" in spec:
+        path_s, label = spec.split("=", 1)
+        return Path(path_s), label.strip()
+    path = Path(spec)
+    return path, path.stem
+
+
+def ci_width_report(specs: list[str]) -> dict[str, Any]:
+    series = []
+    highlights = []
+    for spec in specs:
+        path, label = parse_run_spec(spec)
+        blob = load_run(path)
+        correct = items_correct(blob)
+        curve = ci_width_curve(correct)
+        last = curve[-1] if curve else None
+        series.append({"label": label, "path": str(path), "n": len(correct), "curve": curve, "final": last})
+        if last:
+            highlights.append(
+                {
+                    "label": label,
+                    "n": last["n"],
+                    "accuracy": last["accuracy"],
+                    "ci95": [last["lo"], last["hi"]],
+                    "width": last["width"],
+                }
+            )
+    return {"series": series, "highlights": highlights}
+
+
+def render_ci_width_markdown(analysis: dict[str, Any]) -> str:
+    lines = [
+        "# Wilson CI width vs n",
+        "",
+        "Not the paper matrix. Prefix Wilson intervals on already-scored items.",
+        "The n=4 T4 smoke is supposed to have a huge interval; n=28 is still wide.",
+        "",
+        "## Width at the end of each run",
+        "",
+        "| run | n | accuracy | 95% Wilson CI | width |",
+        "|---|---:|---:|---|---:|",
+    ]
+    for row in analysis.get("highlights") or []:
+        ci = row.get("ci95") or [None, None]
+        lines.append(
+            f"| {row['label']} | {row['n']} | {row['accuracy']} | [{ci[0]}, {ci[1]}] | {row['width']} |"
+        )
+    lines += ["", "## Prefix curve (selected n)", ""]
+    for ser in analysis.get("series") or []:
+        lines += [f"### {ser['label']}", "", "| n | correct | acc | lo | hi | width |", "|---:|---:|---:|---:|---:|---:|"]
+        curve = ser.get("curve") or []
+        wanted = {1, 2, 4, 8, 16, 28, len(curve)}
+        for row in curve:
+            if row["n"] in wanted or row["n"] == curve[-1]["n"]:
+                lines.append(
+                    f"| {row['n']} | {row['correct']} | {row['accuracy']} | {row['lo']} | {row['hi']} | {row['width']} |"
+                )
+        lines.append("")
+    lines.append("A rank reversal inside overlapping CIs is not evidence. That is the demo.")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def write_ci_width_plot(analysis: dict[str, Any], out_dir: Path) -> list[str]:
+    try:
+        import matplotlib
+
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+    except ImportError:
+        return []
+    series = analysis.get("series") or []
+    if not series:
+        return []
+    out_dir.mkdir(parents=True, exist_ok=True)
+    fig, ax = plt.subplots(figsize=(7.5, 4.2))
+    for ser in series:
+        curve = ser.get("curve") or []
+        ns = [r["n"] for r in curve]
+        widths = [r["width"] for r in curve]
+        ax.plot(ns, widths, marker="o", label=ser["label"])
+    ax.set_xlabel("n (items scored so far)")
+    ax.set_ylabel("Wilson 95% CI width")
+    ax.set_ylim(0, 1.05)
+    ax.set_title("CI width shrinks slowly; n=4 cannot rank models")
+    ax.legend()
+    fig.tight_layout()
+    path = out_dir / "ci_width_vs_n.png"
+    fig.savefig(path, dpi=140)
+    plt.close(fig)
+    return [str(path)]
+

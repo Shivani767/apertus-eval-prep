@@ -1,5 +1,6 @@
 from apertus_eval_prep.stats import (
     chi2_sf_1df,
+    ci_width_curve,
     cis_overlap,
     kendall_tau_b,
     mcnemar,
@@ -65,3 +66,15 @@ def test_hellaswag_and_mgsm_scoring():
 def test_chi2_sf_sane():
     assert chi2_sf_1df(0) == 1.0
     assert 0.0 < chi2_sf_1df(3.84) < 0.06
+
+
+def test_ci_width_curve_shrinks_and_n4_is_wide():
+    curve = ci_width_curve([True, False, True, False])
+    assert curve[0]["n"] == 1
+    assert curve[-1]["n"] == 4
+    assert curve[-1]["correct"] == 2
+    assert curve[-1]["width"] > 0.6
+    wider_early = curve[0]["width"]
+    assert wider_early >= curve[-1]["width"]
+    long = ci_width_curve([True] * 20 + [False] * 8)
+    assert long[-1]["width"] < curve[-1]["width"]
