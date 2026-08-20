@@ -2,6 +2,10 @@
 
 Frozen-prompt evaluation and serving harness. Same items, same gold extractor, Hugging Face `generate` or vLLM, chat template as a first-class knob, scores and TTFT written to JSON.
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivani767/apertus-eval-prep/blob/master/notebooks/colab_stability.ipynb)
+
+**Run the paper matrix on Colab T4:** open the badge, Runtime → GPU → T4, Run all. The notebook sweeps [`configs/experiments/stability.yaml`](configs/experiments/stability.yaml) into `results/registry_paper.jsonl` (34 cells, 800 items). Re-run the sweep cell after a disconnect; finished hashes skip.
+
 This is **not** IndicQuant, not InferLite, and not an Alps job. It is the smallest public object that maps onto the Apertus Evaluations work: *same chat template, same tokenizer, vLLM vs training-style generate, scores that do not silently drift, jobs that rerun.*
 
 A second track asks an original question: **how stable are generative benchmark scores and rankings under prompt, seed, backend, and quantization changes?** That study is GPU-only (Colab T4/A10). Mac remains the 28-item smoke and template canary.
@@ -60,34 +64,23 @@ vLLM is given **already-rendered completion strings**. The engine is not allowed
 
 ## Ranking stability study (Colab GPU)
 
-Mac cannot run bitsandbytes or vLLM. Open [`notebooks/colab_stability.ipynb`](notebooks/colab_stability.ipynb) with a **T4**. Paper: [`paper/stability.md`](paper/stability.md).
+Mac cannot run bitsandbytes or vLLM. **Paper matrix (do this on T4):**
 
-```bash
-# See the OFAT matrix without loading a model
-python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
-  --profile t4 --dry-run --out-dir results/runs --registry results/registry.jsonl
-
-# On Colab, after pip install -e ".[gpu,viz]":
-python -m apertus_eval_prep sweep --config configs/experiments/stability_smoke.yaml \
-  --profile t4 --limit 2 --out-dir results/runs --registry results/registry.jsonl
-python -m apertus_eval_prep report --registry results/registry.jsonl --out reports/stability
-python -m apertus_eval_prep paper-tables --registry results/registry.jsonl --out paper/_generated_tables.md
-
-# After the T4 smoke JSON is in results/runs (no extra GPU):
-python -m apertus_eval_prep ci-width \
-  --run results/runs/Qwen2.5-0.5B-Instruct_control_control_4eef2dcb284b2cab.json="T4 smoke n=4" \
-  --run results/hf_tokenizer.json="Mac canary n=28" \
-  --out reports/ci_width
-```
-
-Control: HF generate, tokenizer template, greedy, no extra quant, prompt `default`. Factors (one at a time): prompt (`default` / `concise` / `5shot`), seed, backend (`hf` / `vllm`), quantization (`none` / `int8` / `int4`). `--profile t4` skips 7B fp16/int8/vLLM.
-
-**Paper matrix (Colab T4, 34 cells, n=800).** Separate registry so the n=4 smoke is not mixed in:
+[Open `notebooks/colab_stability.ipynb` in Colab](https://colab.research.google.com/github/Shivani767/apertus-eval-prep/blob/master/notebooks/colab_stability.ipynb)
 
 ```bash
 python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
   --profile t4 --out-dir results/runs --registry results/registry_paper.jsonl
-# optional: --only-model HuggingFaceTB/SmolLM2-1.7B-Instruct
+```
+
+34 cells × 800 items. `--profile t4` skips 7B fp16/int8/vLLM. If Colab drops, run the same command again, or add `--only-model HuggingFaceTB/SmolLM2-1.7B-Instruct` (then 3B, Phi, 7B). Do not write into `results/registry.jsonl` (that file is the n=4 smoke).
+
+Paper: [`paper/stability.md`](paper/stability.md).
+
+```bash
+# Dry-run the OFAT matrix without loading a model
+python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
+  --profile t4 --dry-run --out-dir results/runs --registry results/registry_paper.jsonl
 ```
 
 Official slices live in [`data/official/`](data/official/) (ARC-Easy, GSM8K, HellaSwag, MGSM, n=200, Hub revisions in `SOURCES.md`). Scoring is **generative exact-match**, not lm-eval loglikelihood. Every run JSON includes a Wilson 95% CI. The report adds McNemar vs control, Kendall $\tau_b$ on rankings, and CI-overlap ties.
