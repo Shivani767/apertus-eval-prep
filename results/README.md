@@ -14,4 +14,6 @@ Suggested names (match the configs):
 
 Do not edit numbers by hand. If a run is dirty (uncommitted code), the manifest `git_dirty` field will say so — commit the harness first, then re-run.
 
-Ranking study (Colab): `results/runs/<run_id>.json` plus [`registry.jsonl`](registry.jsonl). Reports go to `reports/stability/`.
+Ranking study (Colab): `results/runs/<run_id>.json` plus [`registry.jsonl`](registry.jsonl) (n=4 smoke) or [`registry_paper.jsonl`](registry_paper.jsonl) (800-item matrix). Reports go to `reports/stability/` / `reports/stability_paper/`.
+
+Free Colab resets wipe `/content`. After each finished cell, download the registry **and** the matching run JSON; copy them here before the VM dies.
