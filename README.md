@@ -64,8 +64,9 @@ Slices: ARC-Easy, GSM8K, HellaSwag, MGSM EN/DE/FR (200 each). Generative exact-m
 |---|---:|---:|---:|---|
 | SmolLM2-1.7B-Instruct | 800 | 318 | 0.398 | [0.364, 0.432] |
 | Qwen2.5-3B-Instruct | 800 | 515 | 0.644 | [0.610, 0.676] |
+| Phi-3.5-mini-instruct | 800 | 536 | 0.670 | [0.637, 0.702] |
 
-Intervals do not overlap on this control. That is not ranking *stability*: prompt, seed, vLLM, and quantization cells are still running. Next committed cell: Phi-3.5-mini control. Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl)
+SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). That is still not ranking *stability*: prompt, seed, vLLM, and quantization cells are not done. Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl)
 
 ---
 
@@ -122,7 +123,7 @@ Ranking matrix: one 800-item cell per Colab session. Do not Run all. Persist to 
 ```bash
 python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
   --profile t4 --out-dir results/runs --registry results/registry_paper.jsonl \
-  --only-model microsoft/Phi-3.5-mini-instruct --only-factor control
+  --only-model HuggingFaceTB/SmolLM2-1.7B-Instruct --only-factor prompt_id
 ```
 
 ---
