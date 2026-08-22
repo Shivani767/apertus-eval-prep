@@ -83,6 +83,14 @@ SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this con
 | concise | 186 | 410 |
 | 5shot | 274 | 549 |
 
+Figures from the same registry (`make figures`):
+
+![Control ranking with Wilson 95% CIs](reports/stability_paper/forest_control.png)
+
+![prompt_id OFAT with Wilson 95% CIs](reports/stability_paper/prompt_ofat.png)
+
+![Kendall tau-b vs control](reports/stability_paper/kendall_tau.png)
+
 ---
 
 ## Method
@@ -118,7 +126,9 @@ Regenerate the paper write-up from committed JSON (no hand-typed scores):
 
 ```bash
 make paper
-# equivalent: python -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-dir paper
+make figures
+# paper: python -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-dir paper
+# figures: python -m apertus_eval_prep report --registry results/registry_paper.jsonl --out reports/stability_paper
 ```
 
 If `venv` fails on a PATH separator, the clone path contains `:`. Use `~/apertus-eval-prep`.
