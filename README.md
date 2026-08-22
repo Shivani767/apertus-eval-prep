@@ -16,7 +16,7 @@ A leaderboard score is a pair *(model, eval config)*. Two labs can disagree on t
 
 **One finding (n=800, committed JSON).** On SmolLM2-1.7B, only `prompt_id` changes: default 318/800 (0.398, [0.364, 0.432]) → concise 186/800 (0.232, [0.204, 0.263]). Intervals are disjoint. GSM8K 64/200 → 10/200; MGSM 44/200 → 9/200. A shorter prompt is not a free speedup; it breaks exact-match math. `5shot` (274/800) overlaps the control interval — a null on the overall CI, not a win.
 
-**Status.** Canaries A–C done. Paper matrix **5 / 34** T4 cells in git; Qwen-7B int4 in flight. Kendall $\tau_b$ / McNemar across models are **not** reported yet (need Qwen + Phi `prompt_id`). Calendar: [`paper/remaining.md`](paper/remaining.md).
+Kendall $\tau_b$ and McNemar across models are reported only when the same factor exists for every model in the fp16 cohort. Those tables are generated from the registry, not typed by hand.
 
 ---
 
@@ -78,7 +78,7 @@ SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this con
 | concise | 186 | 0.232 | [0.204, 0.263] |
 | 5shot | 274 | 0.342 | [0.310, 0.376] |
 
-`concise` does not overlap control (−16.5 pp). The drop is math: GSM8K 64→10, MGSM 44→9. `5shot` overlaps control on the overall interval. Prompt wording is a first-class knob on this model; Qwen/Phi `prompt_id` cells are still needed before any rank-reversal claim.
+`concise` does not overlap control (−16.5 pp). The drop is math: GSM8K 64→10, MGSM 44→9. `5shot` overlaps control on the overall interval. Prompt wording is a first-class knob on this model. The same factor on the other fp16 models is required before a rank-reversal claim.
 
 ---
 
@@ -90,7 +90,7 @@ SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this con
 | One cause | `compare` lists knobs that actually changed |
 | No double template | vLLM scores already-rendered completion strings |
 | Named incomparability | hardware, dtype, slice, sampling listed, not hidden ([`notes/incomparability.md`](notes/incomparability.md)) |
-| Intervals | Wilson CI on every committed run; McNemar + Kendall $\tau_b$ **implemented and unit-tested**, filled in after the same factor exists on all three fp16 models |
+| Intervals | Wilson CI on every committed run; McNemar + Kendall $\tau_b$ implemented and unit-tested (`tests/test_stats.py`) |
 | Serving | TTFT p95 in the same JSON as accuracy |
 | Languages | MGSM EN/DE/FR (official); HI on the canary |
 
@@ -158,40 +158,12 @@ Canary: [`data/eval_set.jsonl`](data/eval_set.jsonl). Hub revisions: [`data/offi
 
 - No Slurm, Megatron, NCCL, GH200, or Apertus-8B. Colab T4 / Mac is the cluster.
 - Generative exact-match ≠ lm-eval loglikelihood ≠ a model-card headline.
-- n=28 is a serving canary. 5 / 34 paper cells are not a Kendall table.
+- n=28 is a serving canary. Committed n=800 rows are not yet a full OFAT ranking table.
 - If it is not in git JSON, it did not happen.
 
-On a real partition the science does not change: pin Apertus-8B at a named revision, keep this extractor and OFAT YAML, replace the Colab loop with array jobs over the same `config_hash` registry.
+On a real partition the science does not change: pin a named model revision, keep this extractor and OFAT YAML, replace the notebook loop with array jobs over the same `config_hash` registry.
 
----
-
-## Remaining GPU time (Colab T4)
-
-Full schedule: [`paper/remaining.md`](paper/remaining.md). Protocol: [`paper/stability.md`](paper/stability.md). Cite: [`CITATION.cff`](CITATION.cff).
-
-| Milestone | Cells still needed | Est. T4 hours | Calendar (1 free GPU) | Calendar (2 free GPUs) |
-|---|---:|---:|---|---|
-| **Now** | 0 | 0 | — | 5 cells in git |
-| **Minimum note** (Qwen + Phi `prompt_id`) | 4 | 10–14 | 5–8 days | 3–5 days |
-| Finish 7B int4 | 1 (running) | 0–4 | +1 day | in flight |
-| **Full 34-cell T4 matrix** | 29 | **50–70** | **4–7 weeks** | **3–5 weeks** |
-| 2–4 page write-up | 0 | 0 | 1–2 days after the minimum note | same |
-
-Notebook: run **one** `--only-factor` cell per session. Never the “remaining * factors” cells. After Qwen + Phi `prompt_id` land, `report` / `paper-tables` on `registry_paper.jsonl` produce Kendall $\tau_b$ and McNemar. Nulls stay null.
-
----
-
-## Not claimed (roadmap after the matrix)
-
-These are the right next papers. They are **not** in the 34-cell clock and are not in git as results.
-
-| Audience | Add later | Why |
-|---|---|---|
-| ETH / swiss-ai | `swiss-ai/Apertus-v1.5-8B` at a pinned revision (int4 on T4); MGSM **IT**; issue/PR on [evals-post-train](https://github.com/swiss-ai/evals-post-train) with the HF vs vLLM JSON | Same job on their weights and languages |
-| MSR / eval infra | Optional lm-eval backend; paraphrase / prompt-perturbation arm; Azure ML batch over the same `config_hash` | Serving-eval mismatch at scale |
-| Indic / Sarvam | MILU or IndicGLUE items (ta/te/bn/mr/pa/gu); tokenizer-fertility vs TTFT | Hindi-only canary is underweighted for that desk |
-
-Do not put Apertus-8B or Italian numbers in a cover letter until they exist as run JSON.
+Cite: [`CITATION.cff`](CITATION.cff). Protocol: [`paper/stability.md`](paper/stability.md).
 
 ## License
 
