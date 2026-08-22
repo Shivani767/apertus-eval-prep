@@ -28,3 +28,7 @@ notes/local/
 # Regenerated report junk
 reports/**/*.html
 reports/**/analysis.json
+
+# Editor / Actions — keep off the public tree
+.cursor/
+.github/
