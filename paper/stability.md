@@ -2,7 +2,7 @@
 
 **How stable are generative LLM benchmark scores and rankings when the prompt, seed, inference backend, or quantization changes?**
 
-This note is the methodology for the study encoded in [`configs/experiments/stability.yaml`](../configs/experiments/stability.yaml). Tables below are produced by `python -m apertus_eval_prep paper-tables` from [`results/registry.jsonl`](../results/registry.jsonl). Until the Colab GPU sweep has been run, result tables are empty on purpose. Do not type numbers by hand.
+This note is the methodology for the study encoded in [`configs/experiments/stability.yaml`](../configs/experiments/stability.yaml). Paper-matrix tables come from `python -m apertus_eval_prep paper-tables --registry results/registry_paper.jsonl`. Do not type Kendall / McNemar by hand. Calendar and remaining cells: [`paper/remaining.md`](remaining.md).
 
 ## Abstract
 
@@ -65,13 +65,13 @@ For $k$ correct out of $n$, we report accuracy and a Wilson 95% interval. Paired
 
 ## 4. Setup
 
-Clone, then on **Colab (Runtime → T4 GPU)** open [`notebooks/colab_stability.ipynb`](../notebooks/colab_stability.ipynb). The notebook installs `[gpu,viz]`, runs a short `--limit` demo, and can resume the full sweep through [`results/registry.jsonl`](../results/registry.jsonl). Mac is smoke-only; vLLM and bitsandbytes need CUDA.
+Clone, then on **Colab (Runtime → T4 GPU)** open [`notebooks/colab_stability.ipynb`](../notebooks/colab_stability.ipynb). Resume through [`results/registry_paper.jsonl`](../results/registry_paper.jsonl) (800-item matrix). [`results/registry.jsonl`](../results/registry.jsonl) is the n=4 smoke — do not mix them. Mac is smoke-only; vLLM and bitsandbytes need CUDA.
 
 ```bash
 python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
-  --out-dir results/runs --registry results/registry.jsonl --profile t4 --dry-run
-python -m apertus_eval_prep report --registry results/registry.jsonl --out reports/stability
-python -m apertus_eval_prep paper-tables --registry results/registry.jsonl --out paper/_generated_tables.md
+  --out-dir results/runs --registry results/registry_paper.jsonl --profile t4 --dry-run
+python -m apertus_eval_prep report --registry results/registry_paper.jsonl --out reports/stability_paper
+python -m apertus_eval_prep paper-tables --registry results/registry_paper.jsonl --out paper/_generated_tables.md
 ```
 
 ## 5. Results
@@ -86,7 +86,9 @@ See [`paper/_generated_tables.md`](_generated_tables.md). Figures: `reports/stab
 
 **Sanity check (not a ranking).** On the 28-item canary, `Qwen/Qwen2.5-0.5B-Instruct`, Mac MPS, greedy HF: tokenizer template 20/28 (71.4%), template omitted 15/28 (53.6%), Llama-3 wrap 12/28 (42.9%). On Colab T4, vLLM vs HF moved overall 20/28 → 18/28, concentrated on multilingual items. Those deltas justify treating backend and template as first-class factors. They are too small-$n$ to rank models.
 
-**Colab smoke (first GPU registry, not the paper matrix).** `stability_smoke.yaml`, Tesla T4, 4 items, one 0.5B model, four OFAT cells. Control 1/4 with Wilson 95% CI **[0.046, 0.699]** (width 0.65). Prefix CI-width vs the Mac n=28 canary: [`reports/ci_width/ci_width.md`](../reports/ci_width/ci_width.md). Kendall $\tau_b$ is undefined with one model. $n=4$ cannot rank anything.
+**Committed paper-matrix rows (T4, n=800, not a full OFAT ranking).** Three fp16 controls: SmolLM2-1.7B 318/800 (0.398, [0.364, 0.432]); Qwen2.5-3B 515/800 (0.644, [0.610, 0.676]); Phi-3.5-mini 536/800 (0.670, [0.637, 0.702]). Phi and Qwen-3B intervals overlap. SmolLM2 `prompt_id`: concise 186/800 (0.232, [0.204, 0.263], disjoint from control; GSM8K 64→10); 5shot 274/800 (0.342, [0.310, 0.376], overlaps control). JSON: `results/runs/`. Kendall $\tau_b$ across models is still undefined until Qwen and Phi `prompt_id` exist.
+
+**Colab smoke (not the paper matrix).** `stability_smoke.yaml`, Tesla T4, 4 items. Control 1/4, Wilson **[0.046, 0.699]**. [`reports/ci_width/ci_width.md`](../reports/ci_width/ci_width.md). $n=4$ cannot rank anything.
 
 ## 6. Limitations
 
@@ -100,4 +102,4 @@ See [`paper/_generated_tables.md`](_generated_tables.md). Figures: `reports/stab
 
 The artefact is the YAML matrix, the frozen JSONL, the registry, and the interval-aware ranking report. After the Colab sweep, the empirical claims to fill in are: which factor moves accuracy the most, which factor reverses ranks, and which reversals disappear once overlapping CIs are treated as ties.
 
-Until the paper matrix is run, the measured claims are the 28-item template/backend canary and the $n=4$ T4 smoke (pipeline + wide CIs), not a model ranking.
+Until the remaining T4 cells are in git, do not claim ranking *stability*. The measured claims today are the 28-item template/backend canary, the three n=800 controls, and SmolLM2 prompt OFAT. Full 34-cell Kendall / McNemar tables are still empty on purpose.
