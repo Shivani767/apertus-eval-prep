@@ -98,6 +98,7 @@ def cmd_sweep(args: argparse.Namespace) -> int:
         dry_run=args.dry_run,
         force=args.force,
         only_model=args.only_model,
+        only_factor=args.only_factor,
     )
     print(json.dumps({"n_cells": len(planned), "n_skip": sum(1 for p in planned if p["skipped"])}, indent=2))
     if args.dry_run:
@@ -201,6 +202,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_sweep.add_argument("--dry-run", action="store_true")
     p_sweep.add_argument("--force", action="store_true", help="Re-run cells already in the registry.")
     p_sweep.add_argument("--only-model", dest="only_model", help="Run OFAT cells for this model_id only.")
+    p_sweep.add_argument(
+        "--only-factor",
+        dest="only_factor",
+        help="Run OFAT cells for this factor only (control, prompt_id, seed, backend, quantization, sampled).",
+    )
     p_sweep.set_defaults(func=cmd_sweep)
 
     p_report = sub.add_parser("report", help="Wilson CIs, Kendall tau, plots from the registry.")

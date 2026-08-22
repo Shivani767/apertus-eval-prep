@@ -183,6 +183,7 @@ def execute_sweep(
     dry_run: bool = False,
     force: bool = False,
     only_model: str | None = None,
+    only_factor: str | None = None,
 ) -> list[dict[str, Any]]:
     from apertus_eval_prep.registry import append_registry, completed_hashes, config_hash, load_registry
     from apertus_eval_prep.run_eval import run_eval
@@ -200,6 +201,10 @@ def execute_sweep(
         cells = [c for c in cells if c["model_id"] == only_model]
         if not cells:
             raise SystemExit(f"no cells for model {only_model!r} under this profile")
+    if only_factor:
+        cells = [c for c in cells if c.get("factor") == only_factor]
+        if not cells:
+            raise SystemExit(f"no cells for factor {only_factor!r} under this profile")
     done = completed_hashes(load_registry(registry_path))
     planned: list[dict[str, Any]] = []
     for cell in cells:

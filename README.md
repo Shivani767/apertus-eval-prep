@@ -4,7 +4,7 @@ Frozen-prompt evaluation and serving harness. Same items, same gold extractor, H
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivani767/apertus-eval-prep/blob/master/notebooks/colab_stability.ipynb)
 
-**Run the paper matrix on Colab T4:** open the badge, Runtime → GPU → T4, Run all. The notebook sweeps [`configs/experiments/stability.yaml`](configs/experiments/stability.yaml) into `results/registry_paper.jsonl` (34 cells, 800 items). Re-run the sweep cell after a disconnect; finished hashes skip.
+**Run the paper matrix on Colab T4:** open the badge, Runtime → GPU → T4. Do **not** Run all — one sweep cell per session. Results copy to Google Drive (`MyDrive/apertus-eval-prep-paper`) so a disconnect does not wipe finished hashes.
 
 This is **not** IndicQuant, not InferLite, and not an Alps job. It is the smallest public object that maps onto the Apertus Evaluations work: *same chat template, same tokenizer, vLLM vs training-style generate, scores that do not silently drift, jobs that rerun.*
 
@@ -75,17 +75,16 @@ python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
 
 34 cells × 800 items. `--profile t4` skips 7B fp16/int8/vLLM. Do not write into `results/registry.jsonl` (that file is the n=4 smoke).
 
-**Colab files die with the VM.** A finished `[800/800]` is only on disk until the runtime resets. After each model finishes, download **both** of these with the Files sidebar (do not run another notebook cell while the sweep is printing — the kernel is single-threaded):
+**Colab files die with the VM unless you copy them out.** Open [`notebooks/colab_stability.ipynb`](notebooks/colab_stability.ipynb). **Do not Run all.** Each session: setup + Drive restore + **one** sweep cell.
 
-1. `results/registry_paper.jsonl`
-2. every new `results/runs/<run_id>.json`
+Drive folder: `MyDrive/apertus-eval-prep-paper/`. After `[800/800]` the cell copies the registry and run JSON there and downloads `paper_matrix_partial.zip`.
 
-Copy them into this clone (`results/registry_paper.jsonl` and `results/runs/`). Next session: upload those files back into `/content/apertus-eval-prep/results/` (or `unzip -o` a zip), then run the **same** sweep command. Finished `config_hash` rows skip. Use `--only-model` to finish one checkpoint per quota window:
+`--only-factor control` is one 800-item job. `--only-model …` without `--only-factor` runs the rest for that checkpoint (finished hashes skip).
 
 ```bash
 python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
   --profile t4 --out-dir results/runs --registry results/registry_paper.jsonl \
-  --only-model HuggingFaceTB/SmolLM2-1.7B-Instruct
+  --only-model HuggingFaceTB/SmolLM2-1.7B-Instruct --only-factor control
 ```
 
 Then `Qwen/Qwen2.5-3B-Instruct`, `microsoft/Phi-3.5-mini-instruct`, `Qwen/Qwen2.5-7B-Instruct`.
