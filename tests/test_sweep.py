@@ -97,6 +97,19 @@ def test_only_model_filter():
     assert len(filtered) < len(t4)
 
 
+def test_only_factor_control_is_one_cell_per_t4_model():
+    study = load_study(ROOT / "configs" / "experiments" / "stability.yaml")
+    t4 = expand_ofat(study, profile="t4")
+    controls = [c for c in t4 if c.get("factor") == "control"]
+    models = {c["model_id"] for c in controls}
+    assert models == {
+        "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "Qwen/Qwen2.5-3B-Instruct",
+        "microsoft/Phi-3.5-mini-instruct",
+    }
+    assert len(controls) == 3
+
+
 def test_fixture_items_parse():
     items = load_items(ROOT / "tests" / "fixtures" / "official_tiny.jsonl", ["arc_easy", "gsm8k"], None)
     assert len(items) == 4
