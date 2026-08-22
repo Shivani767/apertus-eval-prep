@@ -14,7 +14,7 @@ A leaderboard score is a pair *(model, eval config)*. Two labs can disagree on t
 
 **Hypothesis.** A working measurement pipeline must move when the template or backend changes, in a way a stranger can replay. Rank order is a second question: it needs intervals, not point estimates.
 
-**Status.** Template and backend canaries are done (n=28). Official ranking matrix (n=800, OFAT) is in progress; two T4 control cells are committed.
+**Status.** Template and backend canaries are done (n=28). Official ranking matrix (n=800): three T4 controls are committed; SmolLM2 `prompt_id` OFAT is committed. Other models / factors still running.
 
 ---
 
@@ -66,7 +66,17 @@ Slices: ARC-Easy, GSM8K, HellaSwag, MGSM EN/DE/FR (200 each). Generative exact-m
 | Qwen2.5-3B-Instruct | 800 | 515 | 0.644 | [0.610, 0.676] |
 | Phi-3.5-mini-instruct | 800 | 536 | 0.670 | [0.637, 0.702] |
 
-SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). That is still not ranking *stability*: prompt, seed, vLLM, and quantization cells are not done. Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl)
+SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl)
+
+**D2. SmolLM2 only — `prompt_id` (same weights, T4, control otherwise).** First OFAT factor. Do not treat this as a three-model rank.
+
+| prompt | correct | acc | 95% Wilson CI |
+|---|---:|---:|---|
+| default (control) | 318 | 0.398 | [0.364, 0.432] |
+| concise | 186 | 0.232 | [0.204, 0.263] |
+| 5shot | 274 | 0.342 | [0.310, 0.376] |
+
+`concise` does not overlap control (−16.5 pp). The drop is math: GSM8K 64→10, MGSM 44→9. `5shot` overlaps control on the overall interval. Prompt wording is a first-class knob on this model; Qwen/Phi `prompt_id` cells are still needed before any rank-reversal claim.
 
 ---
 
