@@ -112,7 +112,6 @@ def cmd_report(args: argparse.Namespace) -> int:
         collect_runs,
         ranking_table,
         render_markdown_report,
-        write_html,
         write_plots,
     )
 
@@ -126,7 +125,6 @@ def cmd_report(args: argparse.Namespace) -> int:
     md_path.write_text(render_markdown_report(analysis), encoding="utf-8")
     (out / "analysis.json").write_text(json.dumps(analysis, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     plots = write_plots(analysis, out)
-    write_html(md_path, plots, out / "stability.html")
     print(f"Wrote {md_path}")
     for p in plots:
         print(p)
@@ -176,7 +174,6 @@ def cmd_ci_width(args: argparse.Namespace) -> int:
         ci_width_report,
         render_ci_width_markdown,
         write_ci_width_plot,
-        write_html,
     )
 
     analysis = ci_width_report(args.run)
@@ -184,9 +181,7 @@ def cmd_ci_width(args: argparse.Namespace) -> int:
     out.mkdir(parents=True, exist_ok=True)
     md_path = out / "ci_width.md"
     md_path.write_text(render_ci_width_markdown(analysis), encoding="utf-8")
-    (out / "analysis.json").write_text(json.dumps(analysis, indent=2) + "\n", encoding="utf-8")
     plots = write_ci_width_plot(analysis, out)
-    write_html(md_path, plots, out / "ci_width.html")
     print(f"Wrote {md_path}")
     for p in plots:
         print(p)

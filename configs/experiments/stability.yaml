@@ -1,9 +1,4 @@
-# GPU-first ranking-stability study. Run on Colab T4/A10, not on a Mac.
-# Expand + resume:
-#   python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
-#     --out-dir results/runs --registry results/registry.jsonl --profile t4
-#
-# Scores are generative exact-match. They are not lm-eval loglikelihood numbers.
+# Generative exact-match OFAT. Paper registry: results/registry_paper.jsonl (not the n=4 smoke).
 
 study: ranking_stability
 experiment_id: stability
@@ -44,8 +39,6 @@ factors:
   seed: [0, 1, 2]
   backend: [hf, vllm]
   quantization: [none, int8, int4]
-  # Item paraphrases (same gold). Official n=800 has no variants — skipped on every profile.
-  # Runnable study: configs/experiments/paraphrase.yaml
   paraphrase_id: [orig, p1, p2]
 
 # Extra arm: sampling variance (greedy seed is often a no-op).

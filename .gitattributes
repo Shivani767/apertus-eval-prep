@@ -1,0 +1,5 @@
+# Do not count replay JSON / frozen slices as “code” on GitHub language stats.
+results/**/*.json linguist-generated
+results/**/*.jsonl linguist-generated
+data/official/*.jsonl linguist-generated
+*.ipynb linguist-documentation

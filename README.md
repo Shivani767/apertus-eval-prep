@@ -109,7 +109,7 @@ pytest -q
 python -m apertus_eval_prep eval --config configs/smoke.yaml --out results/smoke.json
 ```
 
-`pytest` is the 10-minute trust check. It now covers more than eval scoring: `tests/test_sweep.py` (OFAT expansion, T4 7B skips, registry `config_hash` stability), `tests/test_stats.py` (Wilson CI, McNemar, Kendall $\tau_b$), `tests/test_report.py` (ranking tables + McNemar rows written into the paper write-up), `tests/test_checkpoint.py` (mid-run `{run_id}.partial.jsonl` resume), `tests/test_hf_backend.py` (Phi cache shim / `hf_load` import without a GPU), plus scoring and official-slice provenance. Smoke then downloads `Qwen2.5-0.5B-Instruct` and scores 4 items. Inspect `results/smoke.json` for model id, commit, hardware, `chat_template`, backend, per-item traces, accuracy, TTFT.
+`pytest` covers scoring, Wilson/McNemar/Kendall, OFAT + T4 skips, official-slice provenance, checkpoint resume, and the Phi load shim. Smoke then scores 4 items on `Qwen2.5-0.5B-Instruct`.
 
 Regenerate the paper write-up from committed JSON (no hand-typed scores):
 
@@ -173,7 +173,7 @@ On a real partition the science does not change: pin a named model revision, kee
 
 Cite: [`CITATION.cff`](CITATION.cff). Protocol: [`paper/stability.md`](paper/stability.md).
 
-Configs that exist but have **not** been run (no score in `results/`): [`configs/apertus_probe.yaml`](configs/apertus_probe.yaml) (`swiss-ai/Apertus-v1.1-0.5B-Instruct` canary), [`configs/experiments/paraphrase.yaml`](configs/experiments/paraphrase.yaml) (4-item paraphrase OFAT), [`configs/azureml.yaml`](configs/azureml.yaml) (Azure ML Batch stub; `backend: azureml` is not implemented). Template mapping toward lm-eval: [`notes/lm_eval_harness_bridge.md`](notes/lm_eval_harness_bridge.md). Draft issue text for swiss-ai/evals-post-train: [`notes/evals_post_train_issue.md`](notes/evals_post_train_issue.md) — not filed.
+Not yet run (no scores): [`configs/apertus_probe.yaml`](configs/apertus_probe.yaml), [`configs/experiments/paraphrase.yaml`](configs/experiments/paraphrase.yaml), [`configs/azureml.yaml`](configs/azureml.yaml). Issue draft (not filed): [`notes/evals_post_train_issue.md`](notes/evals_post_train_issue.md).
 
 ## License
 
