@@ -7,8 +7,8 @@ Inventory of T4 cells from [`configs/experiments/stability.yaml`](../configs/exp
 | | n |
 |---|---:|
 | T4 cells in YAML | 34 |
-| `status=ok` in `registry_paper.jsonl` | **6** |
-| Missing | **28** |
+| `status=ok` in `registry_paper.jsonl` | **8** |
+| Missing | **26** |
 
 Source hashes: `expand_ofat(..., profile="t4")` + `config_hash(comparable_settings())`.
 
@@ -21,14 +21,14 @@ Source hashes: `expand_ofat(..., profile="t4")` + `config_hash(comparable_settin
 | Phi-3.5-mini-instruct | control | control | `31791224954ba45c` | 536/800 |
 | SmolLM2-1.7B-Instruct | prompt_id | concise | `a0852ca6fc3e5c08` | 186/800 |
 | SmolLM2-1.7B-Instruct | prompt_id | 5shot | `b6968af4b73708f7` | 274/800 |
+| Qwen2.5-3B-Instruct | prompt_id | concise | `e4980863069a102c` | 410/800 |
+| Qwen2.5-3B-Instruct | prompt_id | 5shot | `8b703d7cb8d9627a` | 549/800 |
 | Qwen2.5-7B-Instruct | quantization | int4 | `22a6a0a56a69a1cb` | 543/800 |
 
 ## Missing (TODO — no JSON, no number)
 
 ### prompt_id
 
-- Qwen2.5-3B `concise` `e4980863069a102c`
-- Qwen2.5-3B `5shot` `8b703d7cb8d9627a`
 - Phi-3.5-mini `concise` `37963fc49f7e8eca`
 - Phi-3.5-mini `5shot` `e8c0aa94458abbd2`
 
@@ -56,10 +56,10 @@ Source hashes: `expand_ofat(..., profile="t4")` + `config_hash(comparable_settin
 - Qwen2.5-3B: `5ca15230e22b3837`, `535c365ca69c6f1f`, `125dd27f9eac822d`
 - Phi-3.5-mini: `3405cfac2bfc0fd2`, `14eb19d80de2f1c1`, `8de6d3f1716a5888`
 
-## What cannot be computed yet
+## What can / cannot be computed
 
-- Kendall $\tau_b$ on **ranking** under `prompt_id`: only SmolLM2 has prompt cells. Need ≥2 models at the same level.
-- Any McNemar / $\tau_b$ for seed, backend, sampled: no paired JSON.
-- McNemar for Qwen-7B int4 vs a 7B **control**: T4 skips 7B fp16, so there is no same-model control cell. Do not McNemar 7B int4 against Phi or Qwen-3B.
-- `paraphrase_id` is in `stability.yaml` but **skipped on every profile** (official stems have no paraphrases). Use `configs/experiments/paraphrase.yaml` (n=4, not yet run). Not part of the 34 T4 cells.
-- Quantization $\tau_b$: need int4 (or int8) on ≥2 models. Only 7B int4 is present.
+- Kendall $\tau_b$ on **prompt_id** for the two-model cohort (Qwen-3B, SmolLM2): **defined** ($\tau_b=1.0$, 0 reversals) for both `concise` and `5shot`.
+- Three-model $\tau_b$ (incl. Phi): **TODO** until Phi `prompt_id` JSON exists.
+- McNemar for seed / backend / sampled: no paired JSON.
+- McNemar for Qwen-7B int4 vs a 7B control: T4 skips 7B fp16.
+- Quantization $\tau_b$: need int4 on ≥2 models.

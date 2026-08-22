@@ -357,11 +357,18 @@ def render_stability_paper(
                 "Those are the ranking-stability claims this registry currently supports."
             )
         else:
+            bits = ", ".join(
+                f"{r['factor']}={r['factor_level']} ($\\tau_b$={r['kendall_tau_vs_control']}, "
+                f"n={len(r.get('models') or [])})"
+                for r in tau_defined
+            )
             abstract = (
                 f"On the committed T4 paper-matrix rows (**{n_ok} of {n_t4_planned}** cells), "
-                "Kendall $\\tau_b$ is defined and **no ranking flips were significant**. "
-                "That is the finding; do not spin a null result as a positive ranking-robustness claim "
-                "beyond what the CIs and McNemar tests show."
+                f"Kendall $\\tau_b$ is defined and **no ranking flips** appear for: {bits}. "
+                "That is the ranking claim. Scores can still move: McNemar vs control rejects "
+                "equality for SmolLM2 and Qwen-3B under `prompt_id` (see §4). "
+                "Do not spin a null ranking flip as “prompts never matter.” "
+                "Phi `prompt_id` is still missing, so the three-model cohort $\\tau_b$ is not yet available."
             )
     else:
         abstract = (
