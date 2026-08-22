@@ -34,6 +34,7 @@ def compare_runs(path_a: Path, path_b: Path) -> dict[str, Any]:
         "temperature",
         "top_p",
         "prompt_id",
+        "paraphrase_id",
     ]
     setting_diff = {k: {"a": sa.get(k), "b": sb.get(k)} for k in keys if sa.get(k) != sb.get(k)}
     tasks = sorted(set((a.get("tasks") or {}) | (b.get("tasks") or {})))

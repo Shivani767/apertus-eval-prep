@@ -148,6 +148,29 @@ def cmd_paper_tables(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_paper(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.registry import load_registry
+    from apertus_eval_prep.report import collect_runs, paper_tables, ranking_table, render_stability_paper
+
+    root = repo_root()
+    rows = load_registry(Path(args.registry))
+    blobs = collect_runs(rows, root)
+    analysis = ranking_table(blobs)
+    out_dir = Path(args.out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    tables_path = out_dir / "_generated_tables.md"
+    tables_path.write_text(paper_tables(analysis), encoding="utf-8")
+    n_ok = sum(1 for r in rows if r.get("status") == "ok")
+    paper_path = out_dir / "stability.md"
+    paper_path.write_text(
+        render_stability_paper(analysis, blobs, n_t4_planned=34, n_registry_ok=n_ok),
+        encoding="utf-8",
+    )
+    print(f"Wrote {tables_path}")
+    print(f"Wrote {paper_path}")
+    return 0
+
+
 def cmd_ci_width(args: argparse.Namespace) -> int:
     from apertus_eval_prep.report import (
         ci_width_report,
@@ -205,7 +228,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_sweep.add_argument(
         "--only-factor",
         dest="only_factor",
-        help="Run OFAT cells for this factor only (control, prompt_id, seed, backend, quantization, sampled).",
+        help="Run OFAT cells for this factor only (control, prompt_id, seed, backend, quantization, sampled, paraphrase_id).",
     )
     p_sweep.set_defaults(func=cmd_sweep)
 
@@ -214,10 +237,15 @@ def build_parser() -> argparse.ArgumentParser:
     p_report.add_argument("--out", default="reports/stability")
     p_report.set_defaults(func=cmd_report)
 
-    p_paper = sub.add_parser("paper-tables", help="Write markdown tables for paper/stability.md.")
-    p_paper.add_argument("--registry", default="results/registry.jsonl")
-    p_paper.add_argument("--out", default="paper/_generated_tables.md")
-    p_paper.set_defaults(func=cmd_paper_tables)
+    p_paper_tables = sub.add_parser("paper-tables", help="Write markdown tables only (used by paper/).")
+    p_paper_tables.add_argument("--registry", default="results/registry_paper.jsonl")
+    p_paper_tables.add_argument("--out", default="paper/_generated_tables.md")
+    p_paper_tables.set_defaults(func=cmd_paper_tables)
+
+    p_paper = sub.add_parser("paper", help="Regenerate paper/stability.md and tables from registry_paper.jsonl.")
+    p_paper.add_argument("--registry", default="results/registry_paper.jsonl")
+    p_paper.add_argument("--out-dir", default="paper")
+    p_paper.set_defaults(func=cmd_paper)
 
     p_ci = sub.add_parser("ci-width", help="Wilson CI width vs n from scored run JSON (not the paper matrix).")
     p_ci.add_argument(

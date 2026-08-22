@@ -1,0 +1,33 @@
+# Small OFAT for prompt-paraphrase invariance. NOT the 34-cell paper matrix.
+# Same gold, 3 wordings, n=4 items per cell. Not yet run — no accuracy in this file.
+#
+#   python -m apertus_eval_prep sweep --config configs/experiments/paraphrase.yaml \
+#     --out-dir results/runs --registry results/registry_paraphrase.jsonl --dry-run
+#
+study: paraphrase_invariance
+experiment_id: paraphrase
+data_path: data/paraphrase_set.jsonl
+paraphrase_data_path: data/paraphrase_set.jsonl
+fewshot_path: null
+tasks: [arc_easy, gsm8k]
+max_new_tokens: 96
+dtype: auto
+chat_template: tokenizer
+batch_size: 1
+limit: null
+
+control:
+  backend: hf
+  chat_template: tokenizer
+  quantization: none
+  seed: 0
+  temperature: 0.0
+  top_p: 1.0
+  prompt_id: null
+  paraphrase_id: orig
+
+models:
+  - Qwen/Qwen2.5-0.5B-Instruct
+
+factors:
+  paraphrase_id: [orig, p1, p2]

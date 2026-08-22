@@ -10,6 +10,8 @@ experiment_id: stability
 
 data_path: data/official/eval_set.jsonl
 fewshot_path: data/official/fewshot.jsonl
+paraphrase_data_path: data/paraphrase_set.jsonl
+paraphrase_tasks: [arc_easy, gsm8k]
 tasks: [arc_easy, gsm8k, hellaswag, mgsm]
 max_new_tokens: 256
 dtype: auto
@@ -28,6 +30,7 @@ control:
   temperature: 0.0
   top_p: 1.0
   prompt_id: default
+  paraphrase_id: orig
 
 models:
   - HuggingFaceTB/SmolLM2-1.7B-Instruct
@@ -41,6 +44,9 @@ factors:
   seed: [0, 1, 2]
   backend: [hf, vllm]
   quantization: [none, int8, int4]
+  # Item paraphrases (same gold). Official n=800 has no variants — skipped on every profile.
+  # Runnable study: configs/experiments/paraphrase.yaml
+  paraphrase_id: [orig, p1, p2]
 
 # Extra arm: sampling variance (greedy seed is often a no-op).
 sampled:
@@ -56,7 +62,10 @@ profiles:
       - {model_id: Qwen/Qwen2.5-7B-Instruct, quantization: none}
       - {model_id: Qwen/Qwen2.5-7B-Instruct, quantization: int8}
       - {model_id: Qwen/Qwen2.5-7B-Instruct, backend: vllm}
+      - {factor: paraphrase_id}
   a10:
-    skip: []
+    skip:
+      - {factor: paraphrase_id}
   cpu:
-    skip: []
+    skip:
+      - {factor: paraphrase_id}

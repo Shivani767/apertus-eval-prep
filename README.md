@@ -92,7 +92,7 @@ SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this con
 | Named incomparability | hardware, dtype, slice, sampling listed, not hidden ([`notes/incomparability.md`](notes/incomparability.md)) |
 | Intervals | Wilson CI on every committed run; McNemar + Kendall $\tau_b$ implemented and unit-tested (`tests/test_stats.py`) |
 | Serving | TTFT p95 in the same JSON as accuracy |
-| Languages | MGSM EN/DE/FR (official); HI on the canary |
+| Languages | MGSM EN/DE/FR (official); EN/DE/FR/IT/HI on the canary |
 
 Control and OFAT factors (prompt, seed, backend, int8/int4) are in [`configs/experiments/stability.yaml`](configs/experiments/stability.yaml). T4 profile skips 7B fp16 / int8 / vLLM.
 
@@ -109,7 +109,14 @@ pytest -q
 python -m apertus_eval_prep eval --config configs/smoke.yaml --out results/smoke.json
 ```
 
-`pytest` covers scoring, Wilson / McNemar / Kendall $\tau_b$, OFAT expansion and T4 skips, official-slice provenance, HF Phi cache shim, and mid-run checkpoint resume (`tests/test_*.py`). That is the 10-minute trust check. Smoke then downloads `Qwen2.5-0.5B-Instruct` and scores 4 items. Inspect `results/smoke.json` for model id, commit, hardware, `chat_template`, backend, per-item traces, accuracy, TTFT.
+`pytest` is the 10-minute trust check. It now covers more than eval scoring: `tests/test_sweep.py` (OFAT expansion, T4 7B skips, registry `config_hash` stability), `tests/test_stats.py` (Wilson CI, McNemar, Kendall $\tau_b$), `tests/test_report.py` (ranking tables + McNemar rows written into the paper write-up), `tests/test_checkpoint.py` (mid-run `{run_id}.partial.jsonl` resume), `tests/test_hf_backend.py` (Phi cache shim / `hf_load` import without a GPU), plus scoring and official-slice provenance. Smoke then downloads `Qwen2.5-0.5B-Instruct` and scores 4 items. Inspect `results/smoke.json` for model id, commit, hardware, `chat_template`, backend, per-item traces, accuracy, TTFT.
+
+Regenerate the paper write-up from committed JSON (no hand-typed scores):
+
+```bash
+make paper
+# equivalent: python -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-dir paper
+```
 
 If `venv` fails on a PATH separator, the clone path contains `:`. Use `~/apertus-eval-prep`.
 
@@ -147,23 +154,26 @@ python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \
 | ARC-Easy | 8 | 200 | English MCQ |
 | GSM8K | 8 | 200 | Verifiable math; backend-sensitive under generation |
 | HellaSwag | — | 200 | Generative letter (not loglikelihood) |
-| MGSM | 8 (EN/DE/FR/HI) | 200 (EN/DE/FR) | Multilingual exact-match |
+| MGSM | 10 (EN/DE/FR/IT/HI) | 200 (EN/DE/FR) | Multilingual exact-match. Italian was added after the committed n=28 canary JSON; Experiments 1–2 still score 8 multilingual items. |
 | template_canary | 4 | — | Fails if the template is missing or wrong |
 
 Canary: [`data/eval_set.jsonl`](data/eval_set.jsonl). Hub revisions: [`data/official/SOURCES.md`](data/official/SOURCES.md). Modes: `tokenizer` = `apply_chat_template`; `none` = raw user string; `mismatched` = Llama-3 tokens on a Qwen prompt.
 
 ---
 
-## Scope
+## Honesty
 
 - No Slurm, Megatron, NCCL, GH200, or Apertus-8B. Colab T4 / Mac is the cluster.
 - Generative exact-match ≠ lm-eval loglikelihood ≠ a model-card headline.
-- n=28 is a serving canary. Committed n=800 rows are not yet a full OFAT ranking table.
-- If it is not in git JSON, it did not happen.
+- n=28 is a serving canary (Experiments 1–2). Committed n=800 rows are not yet a full OFAT ranking table.
+- If it is not in git JSON, it did not happen. `make paper` only reprints `results/registry_paper.jsonl`. Missing cells stay TODO.
+- A later canary language add does not rewrite the committed 28-item template/backend tables.
 
 On a real partition the science does not change: pin a named model revision, keep this extractor and OFAT YAML, replace the notebook loop with array jobs over the same `config_hash` registry.
 
 Cite: [`CITATION.cff`](CITATION.cff). Protocol: [`paper/stability.md`](paper/stability.md).
+
+Configs that exist but have **not** been run (no score in `results/`): [`configs/apertus_probe.yaml`](configs/apertus_probe.yaml) (`swiss-ai/Apertus-v1.1-0.5B-Instruct` canary), [`configs/experiments/paraphrase.yaml`](configs/experiments/paraphrase.yaml) (4-item paraphrase OFAT), [`configs/azureml.yaml`](configs/azureml.yaml) (Azure ML Batch stub; `backend: azureml` is not implemented). Template mapping toward lm-eval: [`notes/lm_eval_harness_bridge.md`](notes/lm_eval_harness_bridge.md). Draft issue text for swiss-ai/evals-post-train: [`notes/evals_post_train_issue.md`](notes/evals_post_train_issue.md) — not filed.
 
 ## License
 

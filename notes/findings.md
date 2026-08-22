@@ -78,6 +78,8 @@ Full list: `notes/incomparability.md`. The ones that actually apply here:
 
 The probe question is: **did the measurement pipeline notice when the template or the backend changed?** Yes.
 
+Italian (`ml_it_001`, `ml_it_002`) was added to `data/eval_set.jsonl` after these two experiments. Re-running the canary now scores **30** items. Do not rewrite the 20/28 and 18/28 tables above.
+
 ---
 
 ## Experiment 3 — Colab T4 smoke (`stability_smoke.yaml`, not the paper matrix)
@@ -106,4 +108,40 @@ This is not `stability.yaml` (34 T4 cells, n=200, four models). Do not mix this 
 | T4 smoke control | 4 | 0.25 | [0.046, 0.699] | **0.654** |
 | Mac canary (tokenizer) | 28 | 0.714 | [0.529, 0.848] | **0.318** |
 
-A 25-point “win” on n=4 sits inside noise. That is the demo. Do not run the paper matrix to make this claim.
+A 25-point “win” on n=4 sits inside noise. That is the demo. It does not need the paper matrix. The n=800 OFAT that *does* exist is **Experiment 4** (not a substitute for this CI-width point).
+
+---
+
+## Experiment 4 — Paper matrix (Colab T4, partial sweep)
+
+Registry: [`results/registry_paper.jsonl`](../results/registry_paper.jsonl) (5 of 34 T4 cells). Protocol: [`paper/stability.md`](../paper/stability.md). Missing hashes: [`notes/paper_run_status.md`](paper_run_status.md). Numbers below are from `results/runs/*` `tasks` blocks and `ranking_table` McNemar.
+
+**Claim.** On SmolLM2-1.7B, `prompt_id` is a first-class measurement knob. `concise` moves overall accuracy outside the control Wilson interval. `5shot` stays inside that interval but McNemar on paired items is still significant. Kendall $\tau_b$ across models is not defined yet.
+
+### Control (three models, greedy, tokenizer template, HF generate)
+
+| model | file | overall | 95% Wilson CI |
+|---|---|---|---|
+| Phi-3.5-mini-instruct | `..._31791224954ba45c.json` | **536/800 (67.0%)** | [0.637, 0.702] |
+| Qwen2.5-3B-Instruct | `..._cff017903a47abb9.json` | **515/800 (64.4%)** | [0.610, 0.676] |
+| SmolLM2-1.7B-Instruct | `..._24ffe98d9250761d.json` | **318/800 (39.8%)** | [0.364, 0.432] |
+
+**What did not separate.** Phi vs Qwen-3B CIs overlap. Report a tie, not a rank.
+
+### SmolLM2 prompt OFAT (same 800 ids)
+
+| prompt | overall | ARC | GSM8K | HellaSwag | MGSM | McNemar p vs control |
+|---|---|---|---|---|---|---|
+| default | 318/800 | 144 | 64 | 66 | 44 | — |
+| concise | 186/800 | 113 | 10 | 54 | 9 | **0.0** (194 vs 62 discordance) |
+| 5shot | 274/800 | 122 | 56 | 52 | 44 | **0.001616** (115 vs 71) |
+
+**What moved.** `concise` math: GSM8K 64→10, MGSM 44→9. Overall CIs disjoint from control.
+
+**What did not move (or not enough to split the overall CI).** `5shot` overall [0.310, 0.376] overlaps control [0.364, 0.432]. MGSM stayed 44/200. That is not “5shot equals control”: McNemar disagrees.
+
+**Kendall $\tau_b$.** TODO. Qwen-3B and Phi `prompt_id` JSON are not in the registry.
+
+**Caveats.** Tesla T4 only. 29 cells missing (seed, vLLM, int8/int4, sampled, 7B int4, other models’ prompts). Do not mix Experiment 4 with Experiment 1 (MPS) or Experiment 3 (n=4). `paraphrase_id` is wired in YAML but **skipped** on T4 and has no JSON — TODO, not a finding. `paraphrase_id` is wired in YAML but **skipped** on T4 and has no JSON — TODO, not a finding.
+
+Hardware: all five manifests `gpu: Tesla T4`, `cuda: true`. Phi/SmolLM2-prompt runs used Python 3.13; the two older controls used 3.12.
