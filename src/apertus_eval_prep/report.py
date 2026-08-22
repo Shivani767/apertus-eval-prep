@@ -416,7 +416,7 @@ def render_stability_paper(
         "python -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-dir paper",
         "```",
         "",
-        f"Also: [`paper/_generated_tables.md`](_generated_tables.md). Registry rows with `status=ok`: **{n_ok}**. Planned T4 cells: **{n_t4_planned}**. Missing: **{missing}**.",
+        f"Registry rows with `status=ok`: **{n_ok}**. Planned T4 cells: **{n_t4_planned}**. Missing: **{missing}**.",
         "",
         "### 4.1 Control ranking",
         "",
@@ -539,10 +539,6 @@ def render_stability_paper(
         "The committed matrix supports only claims that have a JSON row. "
         "Fill [`notes/paper_run_status.md`](../notes/paper_run_status.md) before stating $\\tau_b$ on a factor that is still missing models.",
         "",
-        "## Generated tables",
-        "",
-        paper_tables(analysis).rstrip(),
-        "",
     ]
     return "\n".join(lines)
 
@@ -631,16 +627,6 @@ def write_plots(analysis: dict[str, Any], out_dir: Path) -> list[str]:
             written.append(str(path))
 
     return written
-
-
-def write_html(md_path: Path, plot_paths: list[str], html_path: Path) -> None:
-    imgs = "".join(f'<p><img src="{Path(p).name}" alt="{Path(p).stem}" style="max-width:100%"></p>\n' for p in plot_paths)
-    body = f"<pre>{md_path.read_text(encoding='utf-8')}</pre>\n{imgs}"
-    html_path.write_text(
-        "<!doctype html><meta charset='utf-8'><title>Ranking stability</title>"
-        f"<body style='font-family:sans-serif;max-width:960px;margin:2rem auto'>{body}</body>\n",
-        encoding="utf-8",
-    )
 
 
 def items_correct(blob: dict[str, Any]) -> list[bool]:

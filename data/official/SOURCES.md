@@ -1,7 +1,7 @@
 # Official frozen slices
 
 These JSONL files are the bench. Eval does not re-download them.
-Regenerate with `python scripts/snapshot_benchmarks.py` and commit.
+Regenerate with `pip install -e ".[snapshot]" && python scripts/snapshot_benchmarks.py --force` and commit.
 
 Selection: shuffle with seed `0` (eval) / `1` (few-shot),
 then take first 200 eval items and 5 few-shot items per task.

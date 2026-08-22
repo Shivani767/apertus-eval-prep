@@ -1,9 +1,4 @@
-# Small OFAT for prompt-paraphrase invariance. NOT the 34-cell paper matrix.
-# Same gold, 3 wordings, n=4 items per cell. Not yet run — no accuracy in this file.
-#
-#   python -m apertus_eval_prep sweep --config configs/experiments/paraphrase.yaml \
-#     --out-dir results/runs --registry results/registry_paraphrase.jsonl --dry-run
-#
+# 4 stems × 3 wordings. Not the 34-cell paper matrix. Not yet run.
 study: paraphrase_invariance
 experiment_id: paraphrase
 data_path: data/paraphrase_set.jsonl

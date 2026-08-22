@@ -24,3 +24,7 @@ hf_cache/
 
 # Local ops notes (schedules, leftover GPU time). Not for the public tree.
 notes/local/
+
+# Regenerated report junk
+reports/**/*.html
+reports/**/analysis.json
