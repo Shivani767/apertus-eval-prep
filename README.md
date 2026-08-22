@@ -117,7 +117,7 @@ python -m apertus_eval_prep eval --config configs/vllm.yaml --out results/vllm_t
 python -m apertus_eval_prep compare results/hf_tokenizer.json results/vllm_tokenizer.json --out results/compare_backend.md
 ```
 
-Ranking matrix: one 800-item cell per Colab session. Do not Run all. Persist to Drive `MyDrive/apertus-eval-prep-paper`. Do not write paper rows into `results/registry.jsonl` (n=4 smoke).
+Ranking matrix: one 800-item cell per Colab session. Do not Run all. Persist to Drive `MyDrive/apertus-eval-prep-paper`. Do not write paper rows into `results/registry.jsonl` (n=4 smoke). Interrupted cells write `results/runs/{run_id}.partial.jsonl` after every item and mirror it to Drive; re-run the same sweep to resume. Notebook stdout is not a result.
 
 ```bash
 python -m apertus_eval_prep sweep --config configs/experiments/stability.yaml \

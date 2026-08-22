@@ -231,11 +231,12 @@ def execute_sweep(
         )
         if dry_run or entry["skipped"]:
             continue
-        payload = run_eval(cfg, repo_root)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        ckpt = out_dir / f"{rid}.partial.jsonl"
+        payload = run_eval(cfg, repo_root, checkpoint_path=ckpt)
         payload["factor"] = cell.get("factor")
         payload["factor_level"] = cell.get("factor_level")
         payload["config_hash"] = digest
-        out_dir.mkdir(parents=True, exist_ok=True)
         out_path = out_dir / f"{rid}.json"
         out_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         try:

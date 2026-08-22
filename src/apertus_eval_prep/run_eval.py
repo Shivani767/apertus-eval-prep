@@ -3,10 +3,12 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from apertus_eval_prep.checkpoint import append_partial, drop_partial, load_partial, start_partial
 from apertus_eval_prep.config import RunConfig
 from apertus_eval_prep.manifest import build_manifest
 from apertus_eval_prep.prompting import load_fewshot, load_prompt_spec, resolve_system, wrap_item
 from apertus_eval_prep.prompts import load_items
+from apertus_eval_prep.registry import config_hash
 from apertus_eval_prep.scoring import is_correct, predicted, summarize_latency, summarize_tasks
 from apertus_eval_prep.templates import render_prompt
 
@@ -32,7 +34,7 @@ def _backend(cfg: RunConfig):
     raise ValueError(cfg.backend)
 
 
-def run_eval(cfg: RunConfig, repo_root: Path) -> dict[str, Any]:
+def run_eval(cfg: RunConfig, repo_root: Path, checkpoint_path: Path | None = None) -> dict[str, Any]:
     data_path = (repo_root / cfg.data_path).resolve()
     items = load_items(data_path, cfg.tasks, cfg.limit)
     if not items:
@@ -46,19 +48,35 @@ def run_eval(cfg: RunConfig, repo_root: Path) -> dict[str, Any]:
         fewshot_by_task = load_fewshot(repo_root / cfg.fewshot_path, cfg.tasks)
     system = resolve_system(cfg.system_prompt, spec)
 
-    backend = _backend(cfg)
-    tokenizer = getattr(backend, "tokenizer", None)
-    if tokenizer is None:
-        from transformers import AutoTokenizer
+    fingerprint = config_hash(cfg.comparable_settings())
+    rows: list[dict[str, Any]] = []
+    done_ids: set[str] = set()
+    if checkpoint_path is not None:
+        rows = load_partial(checkpoint_path, fingerprint)
+        done_ids = {r["id"] for r in rows if r.get("id")}
+        if rows:
+            print(f"resume {len(rows)}/{len(items)} from {checkpoint_path.name}", flush=True)
+        else:
+            start_partial(checkpoint_path, fingerprint, len(items))
 
-        tokenizer = AutoTokenizer.from_pretrained(
-            cfg.tokenizer_name(),
-            revision=cfg.revision,
-            trust_remote_code=True,
-        )
+    remaining = [it for it in items if it.id not in done_ids]
+    backend = None
+    tokenizer = None
+    if remaining:
+        backend = _backend(cfg)
+        tokenizer = getattr(backend, "tokenizer", None)
+        if tokenizer is None:
+            from transformers import AutoTokenizer
 
-    rows = []
+            tokenizer = AutoTokenizer.from_pretrained(
+                cfg.tokenizer_name(),
+                revision=cfg.revision,
+                trust_remote_code=True,
+            )
+
     for i, item in enumerate(items, start=1):
+        if item.id in done_ids:
+            continue
         user_text = wrap_item(item, spec, fewshot_by_task)
         rendered = render_prompt(tokenizer, user_text, cfg.chat_template, system)
         gen = backend.generate_one(rendered, cfg.max_new_tokens)
@@ -79,6 +97,8 @@ def run_eval(cfg: RunConfig, repo_root: Path) -> dict[str, Any]:
             "prompt_chars": len(rendered),
         }
         rows.append(row)
+        if checkpoint_path is not None:
+            append_partial(checkpoint_path, row)
         print(
             f"[{i}/{len(items)}] {item.id} correct={ok} pred={pred!r} "
             f"ttft_ms={row['ttft_ms']}",
@@ -86,7 +106,7 @@ def run_eval(cfg: RunConfig, repo_root: Path) -> dict[str, Any]:
         )
 
     settings = cfg.to_dict()
-    settings["device"] = getattr(backend, "device", cfg.backend)
+    settings["device"] = getattr(backend, "device", cfg.backend) if backend is not None else "resumed"
     payload = {
         "manifest": build_manifest(repo_root, settings),
         "incomparability": INCOMPARABILITY,
@@ -94,4 +114,6 @@ def run_eval(cfg: RunConfig, repo_root: Path) -> dict[str, Any]:
         "latency": summarize_latency(rows),
         "items": rows,
     }
+    if checkpoint_path is not None:
+        drop_partial(checkpoint_path)
     return payload
