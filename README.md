@@ -71,9 +71,11 @@ Slices: ARC-Easy, GSM8K, HellaSwag, MGSM EN/DE/FR (200 each). Generative exact-m
 | Qwen2.5-3B-Instruct | 800 | 515 | 0.644 | [0.610, 0.676] |
 | Phi-3.5-mini-instruct | 800 | 536 | 0.670 | [0.637, 0.702] |
 
-SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl)
+SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl) (6 of 34 T4 cells).
 
-**D2. SmolLM2 only — `prompt_id` (same weights, T4, control otherwise).** First OFAT factor. Do not treat this as a three-model rank.
+**D2. Qwen-7B int4 only (T4 skips 7B fp16).** Absolute score: **543/800 (0.679, [0.646, 0.710])**. Not comparable to the fp16 control table above. No same-model McNemar until a 7B control exists.
+
+**D3. SmolLM2 only — `prompt_id` (same weights, T4, control otherwise).** First OFAT factor. Do not treat this as a three-model rank.
 
 | prompt | correct | acc | 95% Wilson CI |
 |---|---:|---:|---|

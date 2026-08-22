@@ -7,7 +7,7 @@ Tables marked generated come from that command. Every accuracy below is copied f
 
 ## Abstract
 
-On the committed T4 paper-matrix rows (**5 of 34** cells in `stability.yaml`), the non-obvious result is not a three-model rank flip — that $\tau_b$ is **undefined** (only SmolLM2 has a prompt ablation). It is a **paired-item** effect on one model: switching SmolLM2-1.7B from the default prompt to `concise` drops generative exact-match from 318/800 to 186/800 (Wilson CIs [0.364, 0.432] vs [0.204, 0.263], disjoint). McNemar on the same 800 ids: 194 control-correct / concise-wrong vs 62 the other way, $p = 0.0$ (`chi2` 67.0352). The `5shot` prompt is 274/800: the overall Wilson interval **overlaps** control, but McNemar still rejects equality ($p = 0.001616$). Overlapping CIs are not a license to ignore paired disagreement. Seed, vLLM, and quantization cells are not in git; do not invent ranking flips for those factors.
+On the committed T4 paper-matrix rows (**6 of 34** cells in `stability.yaml`), the non-obvious result is not a three-model rank flip — that $\tau_b$ is **undefined** (only SmolLM2 has a prompt ablation). It is a **paired-item** effect on one model: switching SmolLM2-1.7B from the default prompt to `concise` drops generative exact-match from 318/800 to 186/800 (Wilson CIs [0.364, 0.432] vs [0.204, 0.263], disjoint). McNemar on the same 800 ids: 194 control-correct / concise-wrong vs 62 the other way, $p = 0.0$ (`chi2` 67.0352). The `5shot` prompt is 274/800: the overall Wilson interval **overlaps** control, but McNemar still rejects equality ($p = 0.001616$). Overlapping CIs are not a license to ignore paired disagreement. Still missing in git for ranking: seed, backend, sampled. Do not invent $\tau_b$ for those factors. A Qwen-7B int4 cell exists, but T4 has no 7B fp16 control, so there is no same-model quantization McNemar and no multi-model $\tau_b$ on int4 yet.
 
 ## 1. Introduction
 
@@ -43,7 +43,7 @@ Command:
 python -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-dir paper
 ```
 
-Registry rows with `status=ok`: **5**. Planned T4 cells: **34**. Missing: **29**.
+Registry rows with `status=ok`: **6**. Planned T4 cells: **34**. Missing: **28**.
 
 ### 4.1 Control ranking
 
@@ -55,7 +55,7 @@ Registry rows with `status=ok`: **5**. Planned T4 cells: **34**. Missing: **29**
 
 Phi vs Qwen-3B: CIs **overlap** → report as a **tie**. SmolLM2 is separated from both if its interval does not overlap either.
 
-Qwen-7B int4: **TODO** (hash `22a6a0a56a69a1cb` not in registry unless a later commit added it).
+Qwen-7B **int4** (factor=`quantization`, not control — T4 skips 7B fp16): 543/800 overall, Wilson [0.646, 0.710] (ARC 199/200, GSM8K 89/200, HellaSwag 157/200, MGSM 98/200). Do **not** rank this against Phi / Qwen-3B fp16 control. McNemar vs a 7B control: **TODO** (no fp16 cell on T4).
 
 ### 4.2 SmolLM2 `prompt_id` (only model with this factor unless the registry grew)
 
@@ -86,6 +86,7 @@ Task counts (same JSON `tasks` blocks):
 |---|---|---|---|---:|
 | prompt_id | 5shot | TODO / undefined | — | 1 |
 | prompt_id | concise | TODO / undefined | — | 1 |
+| quantization | int4 | TODO / undefined | — | 1 |
 
 No ranking-flip claim unless a $\tau_b$ cell above is a real number with ≥2 models. Need the same factor on a second model before $\tau_b$ on that factor.
 
@@ -95,7 +96,7 @@ n=28 template / backend numbers stay in [`notes/findings.md`](../notes/findings.
 
 ## 6. Limitations
 
-- 5 / 34 T4 cells. Incomplete OFAT is not a finished ranking study.
+- 6 / 34 T4 cells. Incomplete OFAT is not a finished ranking study.
 - Colab T4, not Alps. Hardware and Python versions are whatever the committed manifests say; do not overwrite them.
 - Generative HellaSwag/ARC is not official loglikelihood.
 - OFAT does not estimate interactions.

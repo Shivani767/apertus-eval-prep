@@ -335,9 +335,18 @@ def render_stability_paper(
                 f"**overlaps** control, but McNemar still rejects equality ($p = {shot_m.get('p_value')}$). "
                 "Overlapping CIs are not a license to ignore paired disagreement."
             )
-        abstract += (
-            " Seed, vLLM, and quantization cells are not in git; do not invent ranking flips for those factors."
-        )
+        factors_present = {r["factor"] for r in tau_rows}
+        missing_bits = [name for name in ("seed", "backend", "quantization", "sampled") if name not in factors_present]
+        if missing_bits:
+            abstract += (
+                f" Still missing in git for ranking: {', '.join(missing_bits)}. "
+                "Do not invent $\\tau_b$ for those factors."
+            )
+        if "quantization" in factors_present:
+            abstract += (
+                " A Qwen-7B int4 cell exists, but T4 has no 7B fp16 control, so there is no same-model "
+                "quantization McNemar and no multi-model $\\tau_b$ on int4 yet."
+            )
     elif tau_defined:
         flips = [r for r in tau_defined if (r.get("rank_reversals_vs_control") or 0) > 0]
         if flips:
@@ -450,10 +459,25 @@ def render_stability_paper(
                 "",
                 "Phi vs Qwen-3B: CIs **overlap** → report as a **tie**. SmolLM2 is separated from both if its interval does not overlap either.",
             ]
+    qwen7_int4 = _blob_by(blobs, "Qwen2.5-7B", "quantization", "int4")
+    lines.append("")
+    if qwen7_int4:
+        ov7 = overall_block(qwen7_int4)
+        lines += [
+            f"Qwen-7B **int4** (factor=`quantization`, not control — T4 skips 7B fp16): "
+            f"{_acc_frac(ov7)} overall, Wilson {_ci_s(ov7.get('accuracy_ci95'))} "
+            f"(ARC {_task_correct(qwen7_int4, 'arc_easy')}, GSM8K {_task_correct(qwen7_int4, 'gsm8k')}, "
+            f"HellaSwag {_task_correct(qwen7_int4, 'hellaswag')}, MGSM {_task_correct(qwen7_int4, 'mgsm')}). "
+            "Do **not** rank this against Phi / Qwen-3B fp16 control. "
+            "McNemar vs a 7B control: **TODO** (no fp16 cell on T4).",
+            "",
+        ]
+    else:
+        lines += [
+            "Qwen-7B int4: **TODO** (hash `22a6a0a56a69a1cb` not in registry).",
+            "",
+        ]
     lines += [
-        "",
-        "Qwen-7B int4: **TODO** (hash `22a6a0a56a69a1cb` not in registry unless a later commit added it).",
-        "",
         "### 4.2 SmolLM2 `prompt_id` (only model with this factor unless the registry grew)",
         "",
         "| prompt | correct | acc | 95% Wilson CI | vs control CI |",

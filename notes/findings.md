@@ -114,9 +114,9 @@ A 25-point “win” on n=4 sits inside noise. That is the demo. It does not nee
 
 ## Experiment 4 — Paper matrix (Colab T4, partial sweep)
 
-Registry: [`results/registry_paper.jsonl`](../results/registry_paper.jsonl) (5 of 34 T4 cells). Protocol: [`paper/stability.md`](../paper/stability.md). Missing hashes: [`notes/paper_run_status.md`](paper_run_status.md). Numbers below are from `results/runs/*` `tasks` blocks and `ranking_table` McNemar.
+Registry: [`results/registry_paper.jsonl`](../results/registry_paper.jsonl) (6 of 34 T4 cells). Protocol: [`paper/stability.md`](../paper/stability.md). Missing hashes: [`notes/paper_run_status.md`](paper_run_status.md). Numbers below are from `results/runs/*` `tasks` blocks and `ranking_table` McNemar.
 
-**Claim.** On SmolLM2-1.7B, `prompt_id` is a first-class measurement knob. `concise` moves overall accuracy outside the control Wilson interval. `5shot` stays inside that interval but McNemar on paired items is still significant. Kendall $\tau_b$ across models is not defined yet.
+**Claim.** On SmolLM2-1.7B, `prompt_id` is a first-class measurement knob. `concise` moves overall accuracy outside the control Wilson interval. `5shot` stays inside that interval but McNemar on paired items is still significant. Kendall $\tau_b$ across models is not defined yet. Qwen-7B int4 is a separate absolute score, not a control ranking.
 
 ### Control (three models, greedy, tokenizer template, HF generate)
 
@@ -142,6 +142,14 @@ Registry: [`results/registry_paper.jsonl`](../results/registry_paper.jsonl) (5 o
 
 **Kendall $\tau_b$.** TODO. Qwen-3B and Phi `prompt_id` JSON are not in the registry.
 
-**Caveats.** Tesla T4 only. 29 cells missing (seed, vLLM, int8/int4, sampled, 7B int4, other models’ prompts). Do not mix Experiment 4 with Experiment 1 (MPS) or Experiment 3 (n=4). `paraphrase_id` is wired in YAML but **skipped** on T4 and has no JSON — TODO, not a finding. `paraphrase_id` is wired in YAML but **skipped** on T4 and has no JSON — TODO, not a finding.
+### Qwen-7B int4 (T4-only 7B cell; not fp16 control)
 
-Hardware: all five manifests `gpu: Tesla T4`, `cuda: true`. Phi/SmolLM2-prompt runs used Python 3.13; the two older controls used 3.12.
+| file | overall | ARC | GSM8K | HellaSwag | MGSM | 95% Wilson CI |
+|---|---|---:|---:|---:|---:|---|
+| `..._22a6a0a56a69a1cb.json` | **543/800 (67.9%)** | 199/200 | 89/200 | 157/200 | 98/200 | [0.646, 0.710] |
+
+**What this is not.** Not a 7B vs Phi ranking. Control for 7B is skipped on T4 (`quantization: none`). No same-model McNemar. Do not quote 543/800 next to Phi’s 536/800 as if they share a precision.
+
+**Caveats.** Tesla T4 only. 28 cells missing (seed, vLLM, other int8/int4, sampled, other models’ prompts). Do not mix Experiment 4 with Experiment 1 (MPS) or Experiment 3 (n=4). `paraphrase_id` is wired in YAML but **skipped** on T4 and has no JSON — TODO, not a finding.
+
+Hardware: manifests `gpu: Tesla T4`, `cuda: true`. Phi / SmolLM2-prompt / 7B-int4 used Python 3.13; the two older controls used 3.12.
