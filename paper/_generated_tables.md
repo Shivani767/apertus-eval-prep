@@ -14,6 +14,7 @@
 |---|---|---:|---:|
 | prompt_id | 5shot | None | None |
 | prompt_id | concise | None | None |
+| quantization | int4 | None | None |
 
 Kendall $\tau_b$ is defined only when a factor level has **two or more** models.
 A `None` cell means the registry does not yet have that factor on enough models — do not invent $\tau_b$.
