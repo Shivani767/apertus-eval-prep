@@ -12,8 +12,8 @@
 
 | Factor | Level | $\tau_b$ | Pairwise reversals |
 |---|---|---:|---:|
-| prompt_id | 5shot | None | None |
-| prompt_id | concise | None | None |
+| prompt_id | 5shot | 1.0 | 0 |
+| prompt_id | concise | 1.0 | 0 |
 | quantization | int4 | None | None |
 
 Kendall $\tau_b$ is defined only when a factor level has **two or more** models.
@@ -24,4 +24,6 @@ A `None` cell means the registry does not yet have that factor on enough models 
 | Model | Factor | Level | n | A✓ B✗ | A✗ B✓ | disagree | $\chi^2$ | p |
 |---|---|---|---:|---:|---:|---:|---:|---:|
 | `SmolLM2-1.7B-Instruct` | prompt_id | concise | 800 | 194 | 62 | 0.32 | 67.0352 | 0.0 |
+| `Qwen2.5-3B-Instruct` | prompt_id | concise | 800 | 135 | 30 | 0.2062 | 65.5515 | 0.0 |
 | `SmolLM2-1.7B-Instruct` | prompt_id | 5shot | 800 | 115 | 71 | 0.2325 | 9.9409 | 0.001616 |
+| `Qwen2.5-3B-Instruct` | prompt_id | 5shot | 800 | 47 | 81 | 0.16 | 8.5078 | 0.003536 |

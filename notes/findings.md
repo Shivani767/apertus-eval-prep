@@ -114,9 +114,9 @@ A 25-point “win” on n=4 sits inside noise. That is the demo. It does not nee
 
 ## Experiment 4 — Paper matrix (Colab T4, partial sweep)
 
-Registry: [`results/registry_paper.jsonl`](../results/registry_paper.jsonl) (6 of 34 T4 cells). Protocol: [`paper/stability.md`](../paper/stability.md). Missing hashes: [`notes/paper_run_status.md`](paper_run_status.md). Numbers below are from `results/runs/*` `tasks` blocks and `ranking_table` McNemar.
+Registry: [`results/registry_paper.jsonl`](../results/registry_paper.jsonl) (8 of 34 T4 cells). Protocol: [`paper/stability.md`](../paper/stability.md). Missing hashes: [`notes/paper_run_status.md`](paper_run_status.md). Numbers from `results/runs/*` and `ranking_table`.
 
-**Claim.** On SmolLM2-1.7B, `prompt_id` is a first-class measurement knob. `concise` moves overall accuracy outside the control Wilson interval. `5shot` stays inside that interval but McNemar on paired items is still significant. Kendall $\tau_b$ across models is not defined yet. Qwen-7B int4 is a separate absolute score, not a control ranking.
+**Claim.** On the two-model `prompt_id` cohort (Qwen-3B + SmolLM2), Kendall $\tau_b = 1.0$ (0 reversals) for both `concise` and `5shot`: relative order holds. Absolute scores still move — McNemar rejects control equality on both models. Phi `prompt_id` is missing, so this is not a three-model ranking study.
 
 ### Control (three models, greedy, tokenizer template, HF generate)
 
@@ -128,19 +128,22 @@ Registry: [`results/registry_paper.jsonl`](../results/registry_paper.jsonl) (6 o
 
 **What did not separate.** Phi vs Qwen-3B CIs overlap. Report a tie, not a rank.
 
-### SmolLM2 prompt OFAT (same 800 ids)
+### `prompt_id` OFAT (same 800 ids per model)
 
-| prompt | overall | ARC | GSM8K | HellaSwag | MGSM | McNemar p vs control |
-|---|---|---|---|---|---|---|
-| default | 318/800 | 144 | 64 | 66 | 44 | — |
-| concise | 186/800 | 113 | 10 | 54 | 9 | **0.0** (194 vs 62 discordance) |
-| 5shot | 274/800 | 122 | 56 | 52 | 44 | **0.001616** (115 vs 71) |
+| model | prompt | overall | ARC | GSM8K | HellaSwag | MGSM | McNemar p vs control |
+|---|---|---|---:|---:|---:|---:|---|
+| SmolLM2 | default | 318/800 | 144 | 64 | 66 | 44 | — |
+| SmolLM2 | concise | 186/800 | 113 | 10 | 54 | 9 | **0.0** (194 vs 62) |
+| SmolLM2 | 5shot | 274/800 | 122 | 56 | 52 | 44 | **0.001616** (115 vs 71) |
+| Qwen-3B | default | 515/800 | 192 | 85 | 154 | 84 | — |
+| Qwen-3B | concise | 410/800 | 195 | 30 | 157 | 28 | **0.0** (135 vs 30) |
+| Qwen-3B | 5shot | 549/800 | 192 | 107 | 146 | 104 | **0.003536** (47 vs 81) |
 
-**What moved.** `concise` math: GSM8K 64→10, MGSM 44→9. Overall CIs disjoint from control.
+**What moved.** `concise` hurts math on both models. Overall CIs for `concise` are disjoint from each model's control.
 
-**What did not move (or not enough to split the overall CI).** `5shot` overall [0.310, 0.376] overlaps control [0.364, 0.432]. MGSM stayed 44/200. That is not “5shot equals control”: McNemar disagrees.
+**What did not flip ranks.** Under both prompt levels, Qwen-3B stays above SmolLM2. $\tau_b=1.0$, reversals=0.
 
-**Kendall $\tau_b$.** TODO. Qwen-3B and Phi `prompt_id` JSON are not in the registry.
+**Qwen `5shot` nuance.** Point estimate rises (515→549). Overall Wilson CI overlaps control, but McNemar still rejects (81 items flip to correct vs 47 the other way). Overlapping CIs ≠ identical item correctness.
 
 ### Qwen-7B int4 (T4-only 7B cell; not fp16 control)
 
@@ -148,8 +151,11 @@ Registry: [`results/registry_paper.jsonl`](../results/registry_paper.jsonl) (6 o
 |---|---|---:|---:|---:|---:|---|
 | `..._22a6a0a56a69a1cb.json` | **543/800 (67.9%)** | 199/200 | 89/200 | 157/200 | 98/200 | [0.646, 0.710] |
 
-**What this is not.** Not a 7B vs Phi ranking. Control for 7B is skipped on T4 (`quantization: none`). No same-model McNemar. Do not quote 543/800 next to Phi’s 536/800 as if they share a precision.
+Not a 7B vs Phi ranking. No same-model McNemar (no 7B fp16 control on T4).
 
-**Caveats.** Tesla T4 only. 28 cells missing (seed, vLLM, other int8/int4, sampled, other models’ prompts). Do not mix Experiment 4 with Experiment 1 (MPS) or Experiment 3 (n=4). `paraphrase_id` is wired in YAML but **skipped** on T4 and has no JSON — TODO, not a finding.
+**Kendall $\tau_b$ (prompt_id, two models).** concise: **1.0**. 5shot: **1.0**. Three-model $\tau_b$: **TODO** (need Phi `prompt_id`).
 
-Hardware: manifests `gpu: Tesla T4`, `cuda: true`. Phi / SmolLM2-prompt / 7B-int4 used Python 3.13; the two older controls used 3.12.
+**Caveats.** Tesla T4 only. 26 cells missing. Do not mix with Experiment 1 (MPS) or Experiment 3 (n=4).
+
+Hardware: manifests `gpu: Tesla T4`, `cuda: true`.
+

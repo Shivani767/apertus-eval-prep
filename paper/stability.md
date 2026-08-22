@@ -7,7 +7,7 @@ Tables marked generated come from that command. Every accuracy below is copied f
 
 ## Abstract
 
-On the committed T4 paper-matrix rows (**6 of 34** cells in `stability.yaml`), the non-obvious result is not a three-model rank flip — that $\tau_b$ is **undefined** (only SmolLM2 has a prompt ablation). It is a **paired-item** effect on one model: switching SmolLM2-1.7B from the default prompt to `concise` drops generative exact-match from 318/800 to 186/800 (Wilson CIs [0.364, 0.432] vs [0.204, 0.263], disjoint). McNemar on the same 800 ids: 194 control-correct / concise-wrong vs 62 the other way, $p = 0.0$ (`chi2` 67.0352). The `5shot` prompt is 274/800: the overall Wilson interval **overlaps** control, but McNemar still rejects equality ($p = 0.001616$). Overlapping CIs are not a license to ignore paired disagreement. Still missing in git for ranking: seed, backend, sampled. Do not invent $\tau_b$ for those factors. A Qwen-7B int4 cell exists, but T4 has no 7B fp16 control, so there is no same-model quantization McNemar and no multi-model $\tau_b$ on int4 yet.
+On the committed T4 paper-matrix rows (**8 of 34** cells), Kendall $\tau_b$ is defined and **no ranking flips** appear for: prompt_id=5shot ($\tau_b$=1.0, n=2), prompt_id=concise ($\tau_b$=1.0, n=2). That is the ranking claim. Scores can still move: McNemar vs control rejects equality for SmolLM2 and Qwen-3B under `prompt_id` (see §4). Do not spin a null ranking flip as “prompts never matter.” Phi `prompt_id` is still missing, so the three-model cohort $\tau_b$ is not yet available.
 
 ## 1. Introduction
 
@@ -43,7 +43,7 @@ Command:
 python -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-dir paper
 ```
 
-Registry rows with `status=ok`: **6**. Planned T4 cells: **34**. Missing: **28**.
+Registry rows with `status=ok`: **8**. Planned T4 cells: **34**. Missing: **26**.
 
 ### 4.1 Control ranking
 
@@ -70,7 +70,9 @@ McNemar vs control (paired ids, A = control, B = variant), from `ranking_table`:
 | level | A✓B✗ | A✗B✓ | disagree | $\chi^2$ | p |
 |---|---:|---:|---:|---:|---:|
 | concise | 194 | 62 | 0.32 | 67.0352 | 0.0 |
+| concise | 135 | 30 | 0.2062 | 65.5515 | 0.0 |
 | 5shot | 115 | 71 | 0.2325 | 9.9409 | 0.001616 |
+| 5shot | 47 | 81 | 0.16 | 8.5078 | 0.003536 |
 
 Task counts (same JSON `tasks` blocks):
 
@@ -84,8 +86,8 @@ Task counts (same JSON `tasks` blocks):
 
 | Factor | Level | $\tau_b$ | reversals | n models in registry |
 |---|---|---|---|---:|
-| prompt_id | 5shot | TODO / undefined | — | 1 |
-| prompt_id | concise | TODO / undefined | — | 1 |
+| prompt_id | 5shot | 1.0 | 0 | 2 |
+| prompt_id | concise | 1.0 | 0 | 2 |
 | quantization | int4 | TODO / undefined | — | 1 |
 
 No ranking-flip claim unless a $\tau_b$ cell above is a real number with ≥2 models. Need the same factor on a second model before $\tau_b$ on that factor.
@@ -96,7 +98,7 @@ n=28 template / backend numbers stay in [`notes/findings.md`](../notes/findings.
 
 ## 6. Limitations
 
-- 6 / 34 T4 cells. Incomplete OFAT is not a finished ranking study.
+- 8 / 34 T4 cells. Incomplete OFAT is not a finished ranking study.
 - Colab T4, not Alps. Hardware and Python versions are whatever the committed manifests say; do not overwrite them.
 - Generative HellaSwag/ARC is not official loglikelihood.
 - OFAT does not estimate interactions.

@@ -17,9 +17,9 @@ A leaderboard score is a pair *(model, eval config)*. Two labs can disagree on t
 
 **Hypothesis.** A working measurement pipeline must move when the template or backend changes, in a way a stranger can replay. Rank order is a second question: it needs intervals, not point estimates.
 
-**One finding (n=800, committed JSON).** On SmolLM2-1.7B, only `prompt_id` changes: default 318/800 (0.398, [0.364, 0.432]) → concise 186/800 (0.232, [0.204, 0.263]). Intervals are disjoint. GSM8K 64/200 → 10/200; MGSM 44/200 → 9/200. A shorter prompt is not a free speedup; it breaks exact-match math. `5shot` (274/800) overlaps the control interval — a null on the overall CI, not a win.
+**One finding (n=800, committed JSON).** On the two-model `prompt_id` cohort (Qwen-3B + SmolLM2), Kendall $\tau_b = 1.0$ (0 reversals): relative order holds under `concise` and `5shot`. Scores still move — e.g. SmolLM2 default 318/800 → concise 186/800 (CIs disjoint); Qwen-3B default 515/800 → concise 410/800. McNemar rejects control equality on both models. Phi `prompt_id` is still missing for a three-model $\tau_b$.
 
-Kendall $\tau_b$ and McNemar across models are reported only when the same factor exists for every model in the fp16 cohort. Those tables are generated from the registry, not typed by hand.
+Tables for Wilson / McNemar / $\tau_b$ are generated from the registry (`make paper`), not typed by hand.
 
 ---
 
@@ -71,19 +71,17 @@ Slices: ARC-Easy, GSM8K, HellaSwag, MGSM EN/DE/FR (200 each). Generative exact-m
 | Qwen2.5-3B-Instruct | 800 | 515 | 0.644 | [0.610, 0.676] |
 | Phi-3.5-mini-instruct | 800 | 536 | 0.670 | [0.637, 0.702] |
 
-SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl) (6 of 34 T4 cells).
+SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl) (8 of 34 T4 cells).
 
 **D2. Qwen-7B int4 only (T4 skips 7B fp16).** Absolute score: **543/800 (0.679, [0.646, 0.710])**. Not comparable to the fp16 control table above. No same-model McNemar until a 7B control exists.
 
-**D3. SmolLM2 only — `prompt_id` (same weights, T4, control otherwise).** First OFAT factor. Do not treat this as a three-model rank.
+**D3. `prompt_id` — SmolLM2 + Qwen-3B (two-model cohort).** Kendall $\tau_b = 1.0$ (0 reversals) for `concise` and `5shot`. Order preserved. Scores still move (McNemar $p < 0.01$ on both models). Qwen concise **410/800**; Qwen 5shot **549/800**. Phi `prompt_id` still required for a three-model $\tau_b$.
 
-| prompt | correct | acc | 95% Wilson CI |
-|---|---:|---:|---|
-| default (control) | 318 | 0.398 | [0.364, 0.432] |
-| concise | 186 | 0.232 | [0.204, 0.263] |
-| 5shot | 274 | 0.342 | [0.310, 0.376] |
-
-`concise` does not overlap control (−16.5 pp). The drop is math: GSM8K 64→10, MGSM 44→9. `5shot` overlaps control on the overall interval. Prompt wording is a first-class knob on this model. The same factor on the other fp16 models is required before a rank-reversal claim.
+| prompt | SmolLM2 | Qwen-3B |
+|---|---:|---:|
+| default (control) | 318 | 515 |
+| concise | 186 | 410 |
+| 5shot | 274 | 549 |
 
 ---
 
