@@ -434,6 +434,16 @@ def render_stability_paper(
         "",
         f"Registry rows with `status=ok`: **{n_ok}**. Planned T4 cells: **{n_t4_planned}**. Missing: **{missing}**.",
         "",
+        "Figures (same registry; `make figures`):",
+        "",
+        "![Control ranking with Wilson 95% CIs](../reports/stability_paper/forest_control.png)",
+        "",
+        "![prompt_id OFAT with Wilson 95% CIs](../reports/stability_paper/prompt_ofat.png)",
+        "",
+        "![Kendall tau-b vs control](../reports/stability_paper/kendall_tau.png)",
+        "",
+        "![Model rank by config](../reports/stability_paper/rank_heatmap.png)",
+        "",
         "### 4.1 Control ranking",
         "",
         "| Rank | Model | correct | acc | 95% Wilson CI | source |",
@@ -580,6 +590,7 @@ def write_plots(analysis: dict[str, Any], out_dir: Path) -> list[str]:
 
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
+        import numpy as np
     except ImportError:
         return []
 
@@ -598,29 +609,111 @@ def write_plots(analysis: dict[str, Any], out_dir: Path) -> list[str]:
             los.append(accs[len(los)] - ci[0])
             his.append(ci[1] - accs[len(his)])
         labels = [short_model(r.get("model_id") or "") for r in control]
-        ax.errorbar(accs, ys, xerr=[los, his], fmt="o", capsize=4)
+        ax.errorbar(accs, ys, xerr=[los, his], fmt="o", color="#1f4e79", ecolor="#5b7c99", capsize=4)
         ax.set_yticks(ys)
         ax.set_yticklabels(labels)
         ax.set_xlabel("overall accuracy (Wilson 95% CI)")
         ax.set_xlim(0, 1)
         ax.invert_yaxis()
-        ax.set_title("Control ranking")
+        ax.set_title("Control ranking (n=800, T4, generative exact-match)")
+        ax.grid(axis="x", linestyle=":", alpha=0.5)
         fig.tight_layout()
         path = out_dir / "forest_control.png"
         fig.savefig(path, dpi=140)
         plt.close(fig)
         written.append(str(path))
 
-    # Kendall bars
-    rows = [r for r in analysis.get("by_config") or [] if r["factor"] != "control"]
+    # Prompt OFAT: grouped bars with Wilson CI (models that have prompt cells)
+    prompt_levels = ["control", "concise", "5shot"]
+    prompt_cfgs = {
+        "control": next((r for r in analysis.get("by_config") or [] if r["factor"] == "control"), None),
+        "concise": next(
+            (r for r in analysis.get("by_config") or [] if r["factor"] == "prompt_id" and r["factor_level"] == "concise"),
+            None,
+        ),
+        "5shot": next(
+            (r for r in analysis.get("by_config") or [] if r["factor"] == "prompt_id" and r["factor_level"] == "5shot"),
+            None,
+        ),
+    }
+    if prompt_cfgs["concise"] and prompt_cfgs["5shot"]:
+        models = sorted(
+            {
+                m["model_id"]
+                for cfg in prompt_cfgs.values()
+                if cfg
+                for m in cfg.get("models") or []
+            }
+        )
+        # Prefer models that appear in at least one non-control prompt cell
+        models = [
+            mid
+            for mid in models
+            if any(
+                any(m["model_id"] == mid for m in (prompt_cfgs[lv] or {}).get("models") or [])
+                for lv in ("concise", "5shot")
+            )
+        ]
+        if models:
+            x = np.arange(len(models))
+            width = 0.25
+            colors = {"control": "#1f4e79", "concise": "#c45c26", "5shot": "#2a6f4e"}
+            fig, ax = plt.subplots(figsize=(9, 4.5))
+            for i, level in enumerate(prompt_levels):
+                cfg = prompt_cfgs[level]
+                by_id = {m["model_id"]: m for m in (cfg or {}).get("models") or []}
+                accs, yerr_lo, yerr_hi = [], [], []
+                for mid in models:
+                    row = by_id.get(mid)
+                    if not row or row.get("accuracy") is None:
+                        accs.append(np.nan)
+                        yerr_lo.append(0)
+                        yerr_hi.append(0)
+                        continue
+                    acc = float(row["accuracy"])
+                    ci = row.get("accuracy_ci95") or [acc, acc]
+                    accs.append(acc)
+                    yerr_lo.append(acc - float(ci[0]))
+                    yerr_hi.append(float(ci[1]) - acc)
+                ax.bar(
+                    x + (i - 1) * width,
+                    accs,
+                    width,
+                    yerr=[yerr_lo, yerr_hi],
+                    label=level,
+                    color=colors[level],
+                    capsize=3,
+                    error_kw={"elinewidth": 1},
+                )
+            ax.set_xticks(x)
+            ax.set_xticklabels([short_model(m) for m in models], rotation=15, ha="right")
+            ax.set_ylabel("overall accuracy")
+            ax.set_ylim(0, 1)
+            ax.set_title("prompt_id OFAT (Wilson 95% CI) — scores move; two-model τ_b = 1.0")
+            ax.legend(frameon=False)
+            ax.grid(axis="y", linestyle=":", alpha=0.5)
+            fig.tight_layout()
+            path = out_dir / "prompt_ofat.png"
+            fig.savefig(path, dpi=140)
+            plt.close(fig)
+            written.append(str(path))
+
+    # Kendall bars (skip undefined / None — do not plot as 0)
+    rows = [
+        r
+        for r in analysis.get("by_config") or []
+        if r["factor"] != "control" and r.get("kendall_tau_vs_control") is not None
+    ]
     if rows:
         fig, ax = plt.subplots(figsize=(9, 3 + 0.35 * len(rows)))
-        labels = [f"{r['factor']}={r['factor_level']}" for r in rows]
-        taus = [r.get("kendall_tau_vs_control") or 0 for r in rows]
-        ax.barh(labels, taus)
-        ax.set_xlabel("Kendall tau-b vs control ranking")
+        labels = [f"{r['factor']}={r['factor_level']} (n={len(r.get('models') or [])})" for r in rows]
+        taus = [r.get("kendall_tau_vs_control") for r in rows]
+        ax.barh(labels, taus, color="#1f4e79")
+        ax.set_xlabel("Kendall τ_b vs control ranking")
         ax.set_xlim(-1.05, 1.05)
         ax.axvline(0, color="gray", linewidth=0.8)
+        ax.axvline(1, color="#2a6f4e", linewidth=0.8, linestyle="--", alpha=0.6)
+        ax.set_title("Ranking agreement under OFAT (undefined cells omitted)")
         fig.tight_layout()
         path = out_dir / "kendall_tau.png"
         fig.savefig(path, dpi=140)
@@ -644,7 +737,7 @@ def write_plots(analysis: dict[str, Any], out_dir: Path) -> list[str]:
                 col_labels.append(f"{r['factor']}={r['factor_level']}")
             arr = list(map(list, zip(*mat)))
             fig, ax = plt.subplots(figsize=(max(6, 0.55 * len(col_labels) + 3), 2 + 0.4 * len(model_ids)))
-            im = ax.imshow(arr, aspect="auto")
+            im = ax.imshow(arr, aspect="auto", cmap="viridis_r")
             ax.set_yticks(range(len(model_ids)))
             ax.set_yticklabels([short_model(m) for m in model_ids])
             ax.set_xticks(range(len(col_labels)))

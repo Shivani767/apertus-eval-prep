@@ -45,6 +45,16 @@ python -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-
 
 Registry rows with `status=ok`: **8**. Planned T4 cells: **34**. Missing: **26**.
 
+Figures (same registry; `make figures`):
+
+![Control ranking with Wilson 95% CIs](../reports/stability_paper/forest_control.png)
+
+![prompt_id OFAT with Wilson 95% CIs](../reports/stability_paper/prompt_ofat.png)
+
+![Kendall tau-b vs control](../reports/stability_paper/kendall_tau.png)
+
+![Model rank by config](../reports/stability_paper/rank_heatmap.png)
+
 ### 4.1 Control ranking
 
 | Rank | Model | correct | acc | 95% Wilson CI | source |
