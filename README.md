@@ -91,7 +91,7 @@ Then `Qwen/Qwen2.5-3B-Instruct`, `microsoft/Phi-3.5-mini-instruct`, `Qwen/Qwen2.
 
 Run the notebook's report/zip cell only after the sweep has actually written `results/runs` in **this** runtime (cwd must be `/content/apertus-eval-prep`). Do not type numbers by hand.
 
-On GitHub so far: SmolLM2-1.7B-Instruct **control** (T4, n=800). The other 33 cells are still running / pending.
+On GitHub so far: SmolLM2-1.7B-Instruct **control** (318/800) and Qwen2.5-3B-Instruct **control** (515/800), both T4. Next cell: Phi-3.5-mini **control**.
 
 Paper: [`paper/stability.md`](paper/stability.md).
 
