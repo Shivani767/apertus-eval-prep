@@ -114,7 +114,6 @@ def cell_to_run_config(cell: dict[str, Any], overrides: dict[str, Any] | None = 
         for key, value in overrides.items():
             if value is not None:
                 raw[key] = value
-    # Reuse validation in load_config by writing through the dataclass constructor
     tmp = {
         "model_id": raw["model_id"],
         "tokenizer_id": raw.get("tokenizer_id"),
@@ -138,7 +137,6 @@ def cell_to_run_config(cell: dict[str, Any], overrides: dict[str, Any] | None = 
         "run_id": raw.get("run_id"),
         "paraphrase_id": raw.get("paraphrase_id"),
     }
-    # load_config wants a file; construct via yaml round-trip in memory by using defaults
     from apertus_eval_prep.config import VALID_BACKENDS, VALID_QUANTIZATION, VALID_TEMPLATES
 
     cfg = RunConfig(
