@@ -2,7 +2,7 @@
 
 **How stable are generative LLM benchmark scores and rankings when the prompt, seed, inference backend, or quantization changes?**
 
-This note is the methodology for the study encoded in [`configs/experiments/stability.yaml`](../configs/experiments/stability.yaml). Paper-matrix tables come from `python -m apertus_eval_prep paper-tables --registry results/registry_paper.jsonl`. Do not type Kendall / McNemar by hand. Calendar and remaining cells: [`paper/remaining.md`](remaining.md).
+This note is the methodology for the study encoded in [`configs/experiments/stability.yaml`](../configs/experiments/stability.yaml). Paper-matrix tables come from `python -m apertus_eval_prep paper-tables --registry results/registry_paper.jsonl`. Do not type Kendall / McNemar by hand.
 
 ## Abstract
 
@@ -102,4 +102,4 @@ See [`paper/_generated_tables.md`](_generated_tables.md). Figures: `reports/stab
 
 The artefact is the YAML matrix, the frozen JSONL, the registry, and the interval-aware ranking report. After the Colab sweep, the empirical claims to fill in are: which factor moves accuracy the most, which factor reverses ranks, and which reversals disappear once overlapping CIs are treated as ties.
 
-Until the remaining T4 cells are in git, do not claim ranking *stability*. The measured claims today are the 28-item template/backend canary, the three n=800 controls, and SmolLM2 prompt OFAT. Full 34-cell Kendall / McNemar tables are still empty on purpose.
+Do not claim ranking *stability* until Kendall $\tau_b$ and McNemar are generated from `registry_paper.jsonl`. The measured claims in git today are the 28-item template/backend canary, the three n=800 controls, and SmolLM2 prompt OFAT.
