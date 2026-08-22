@@ -1,0 +1,14 @@
+---
+description: Git commits are Shivani only — never attribute Cursor
+alwaysApply: true
+---
+
+# Commits: Shivani only
+
+GitHub contributors must list **only** Shivani Bhandari (`Shivani215143@gmail.com`).
+
+- Never add `Co-authored-by: Cursor` or any Cursor / cursoragent trailer.
+- Never set author or committer to Cursor.
+- If the Cursor `git commit` wrapper injects a trailer, rewrite the commit with `git commit-tree` (same tree, same parent, same author) before push.
+- Do not `git commit --amend` when that re-adds the trailer.
+- Push only after `git log -1 --format=full` shows no Cursor line.
