@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: "apertus-eval-prep: evaluation configuration as part of the measurement"
+message: If you use this harness or the committed run JSON, please cite it.
+type: software
+authors:
+  - family-names: Bhandari
+    given-names: Shivani
+repository-code: https://github.com/Shivani767/apertus-eval-prep
+license: Apache-2.0
+abstract: >
+  Frozen-prompt generative exact-match harness that treats chat template,
+  decoding backend, prompt, seed, and quantization as named OFAT factors.
+  Committed findings (replayable JSON): omitting or mismatching the chat
+  template moves a 28-item canary 71.4% → 53.6% → 42.9%; HF generate vs vLLM
+  differs by 7.1 points on multilingual items; on SmolLM2-1.7B (n=800) a
+  concise prompt drops accuracy 39.8% → 23.2% (Wilson CIs disjoint),
+  concentrated on GSM8K/MGSM.
