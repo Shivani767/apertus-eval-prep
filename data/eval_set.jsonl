@@ -22,6 +22,8 @@
 {"id": "ml_de_002", "task": "multilingual", "language": "de", "gold": "8", "prompt": "Eine Tram hat 20 Sitzplätze. 12 Plätze sind besetzt. Wie viele Plätze sind frei? Antworte nur mit der Zahl."}
 {"id": "ml_fr_002", "task": "multilingual", "language": "fr", "gold": "8", "prompt": "Un tram a 20 places. 12 places sont occupées. Combien de places sont libres ? Réponds uniquement par le nombre."}
 {"id": "ml_hi_002", "task": "multilingual", "language": "hi", "gold": "8", "prompt": "एक ट्राम में 20 सीटें हैं। 12 सीटें भरी हैं। कितनी सीटें खाली हैं? केवल संख्या में उत्तर दें।"}
+{"id": "ml_it_001", "task": "multilingual", "language": "it", "gold": "12", "prompt": "Lea ha 5 mele rosse e 7 mele verdi. Quante mele ha in tutto? Rispondi solo con il numero."}
+{"id": "ml_it_002", "task": "multilingual", "language": "it", "gold": "8", "prompt": "Un tram ha 20 posti. 12 posti sono occupati. Quanti posti sono liberi? Rispondi solo con il numero."}
 {"id": "canary_001", "task": "template_canary", "language": "en", "gold": "B", "prompt": "Instruction: output exactly one character, the letter of the correct option, with no punctuation and no words.\n\nThe capital of France is:\nA) Berlin\nB) Paris\nC) Madrid\nD) Rome"}
 {"id": "canary_002", "task": "template_canary", "language": "en", "gold": "A", "prompt": "Instruction: output exactly one character, the letter of the correct option, with no punctuation and no words.\n\n2 + 2 equals:\nA) 4\nB) 22\nC) 5\nD) 8"}
 {"id": "canary_003", "task": "template_canary", "language": "en", "gold": "C", "prompt": "Instruction: output exactly one character, the letter of the correct option, with no punctuation and no words.\n\nWhich language is an official language of Switzerland?\nA) Hindi\nB) Portuguese\nC) German\nD) Japanese"}

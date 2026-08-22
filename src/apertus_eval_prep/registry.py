@@ -29,6 +29,10 @@ HASH_KEYS = (
 
 def config_hash(settings: dict[str, Any]) -> str:
     payload = {k: settings.get(k) for k in HASH_KEYS}
+    # Omit default paraphrase so existing paper-matrix hashes stay stable.
+    para = settings.get("paraphrase_id")
+    if para not in (None, "", "orig"):
+        payload["paraphrase_id"] = para
     blob = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()[:16]
 

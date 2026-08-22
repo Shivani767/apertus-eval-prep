@@ -11,7 +11,9 @@ def test_eval_set_parses():
     root = Path(__file__).resolve().parents[1]
     lines = (root / "data" / "eval_set.jsonl").read_text(encoding="utf-8").splitlines()
     items = [json.loads(line) for line in lines if line.strip()]
-    assert len(items) == 28
+    assert len(items) == 30
+    langs = {row["language"] for row in items if row["task"] == "multilingual"}
+    assert langs == {"en", "de", "fr", "hi", "it"}
     tasks = {row["task"] for row in items}
     assert tasks == {"arc_easy", "gsm8k", "multilingual", "template_canary"}
     ids = [row["id"] for row in items]

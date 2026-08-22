@@ -16,7 +16,7 @@ from apertus_eval_prep.templates import render_prompt
 INCOMPARABILITY = [
     "Same frozen items, same gold extractor, still not comparable if any of these differ:",
     "chat_template, tokenizer id/revision, max_new_tokens, sampling (temperature/top_p/seed),",
-    "prompt_id / few-shot, quantization, stop tokens, dtype, hardware, or backend.",
+    "prompt_id / few-shot, paraphrase_id, quantization, stop tokens, dtype, hardware, or backend.",
     "Generative exact-match is not lm-eval loglikelihood. Rankings need Wilson CIs.",
     "only compare two runs when the manifest.settings block matches except the one knob you changed.",
 ]
@@ -36,7 +36,7 @@ def _backend(cfg: RunConfig):
 
 def run_eval(cfg: RunConfig, repo_root: Path, checkpoint_path: Path | None = None) -> dict[str, Any]:
     data_path = (repo_root / cfg.data_path).resolve()
-    items = load_items(data_path, cfg.tasks, cfg.limit)
+    items = load_items(data_path, cfg.tasks, cfg.limit, paraphrase_id=cfg.paraphrase_id)
     if not items:
         raise SystemExit(f"No items loaded from {data_path} for tasks={cfg.tasks}")
 

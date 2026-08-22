@@ -34,6 +34,7 @@ class RunConfig:
     fewshot_path: str | None
     experiment_id: str | None
     run_id: str | None
+    paraphrase_id: str | None = None
 
     def tokenizer_name(self) -> str:
         return self.tokenizer_id or self.model_id
@@ -59,6 +60,7 @@ class RunConfig:
             "temperature": self.temperature,
             "top_p": self.top_p,
             "prompt_id": self.prompt_id,
+            "paraphrase_id": self.paraphrase_id,
             "data_path": self.data_path,
             "tasks": list(self.tasks),
             "limit": self.limit,
@@ -93,6 +95,7 @@ def load_config(path: str | Path, overrides: dict[str, Any] | None = None) -> Ru
         fewshot_path=raw.get("fewshot_path"),
         experiment_id=raw.get("experiment_id"),
         run_id=raw.get("run_id"),
+        paraphrase_id=raw.get("paraphrase_id"),
     )
     if cfg.backend not in VALID_BACKENDS:
         raise ValueError(f"backend must be one of {VALID_BACKENDS}, got {cfg.backend}")

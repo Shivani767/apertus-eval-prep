@@ -1,0 +1,33 @@
+# STUB ONLY. Not-yet-run. Do not invent a Batch-endpoint score or latency.
+#
+# Future: Azure ML Batch endpoint scoring with the same frozen JSONL and extractor.
+# Mirrors configs/default.yaml / vllm.yaml so a later adapter can reuse RunConfig.
+# This file is not wired to sweep.py. `backend: azureml` is not a valid backend today.
+#
+# Intended later mapping (not implemented):
+#   data_path  → Batch input JSONL
+#   model_id   → managed online/batch endpoint model name
+#   chat_template tokenizer|none|mismatched → same render as HF, then score completions
+#
+model_id: Qwen/Qwen2.5-0.5B-Instruct
+tokenizer_id: null
+revision: null
+backend: hf                  # stay on hf until an azureml backend exists
+chat_template: tokenizer
+system_prompt: null
+max_new_tokens: 96
+seed: 0
+dtype: auto
+data_path: data/eval_set.jsonl
+tasks: [arc_easy, gsm8k, multilingual, template_canary]
+limit: null
+batch_size: 1
+quantization: none
+temperature: 0.0
+top_p: 1.0
+
+# azureml:
+#   workspace: TODO
+#   endpoint: TODO
+#   compute: TODO
+#   not_yet_run: true

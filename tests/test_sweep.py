@@ -85,6 +85,36 @@ def test_stability_yaml_t4_skips_7b_fp16():
     assert any(c["model_id"] == seven and c["quantization"] == "none" for c in all_cells)
     assert not any(c["model_id"] == seven and c["quantization"] == "none" for c in t4)
     assert any(c["model_id"] == seven and c["quantization"] == "int4" for c in t4)
+    assert len(t4) == 34
+    assert not any(c.get("factor") == "paraphrase_id" for c in t4)
+    assert any(c.get("factor") == "paraphrase_id" for c in all_cells)
+
+
+def test_paraphrase_study_expands_and_filters_items():
+    study = load_study(ROOT / "configs" / "experiments" / "paraphrase.yaml")
+    cells = expand_ofat(study)
+    levels = {(c["factor"], c["factor_level"]) for c in cells}
+    assert levels == {("control", "control"), ("paraphrase_id", "p1"), ("paraphrase_id", "p2")}
+    orig = load_items(ROOT / "data" / "paraphrase_set.jsonl", ["arc_easy", "gsm8k"], None, paraphrase_id="orig")
+    p1 = load_items(ROOT / "data" / "paraphrase_set.jsonl", ["arc_easy", "gsm8k"], None, paraphrase_id="p1")
+    assert len(orig) == 4 and len(p1) == 4
+    assert {i.id for i in orig} == {i.id for i in p1}
+    assert {i.gold for i in orig} == {i.gold for i in p1}
+    assert any(a.prompt != b.prompt for a, b in zip(orig, p1))
+
+
+def test_paper_control_hash_stable_if_paraphrase_default():
+    path = ROOT / "results" / "runs" / "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d.json"
+    if not path.exists():
+        return
+    settings = json.loads(path.read_text(encoding="utf-8"))["manifest"]["settings"]
+    assert config_hash(settings) == "24ffe98d9250761d"
+    with_orig = dict(settings)
+    with_orig["paraphrase_id"] = "orig"
+    assert config_hash(with_orig) == "24ffe98d9250761d"
+    with_p1 = dict(settings)
+    with_p1["paraphrase_id"] = "p1"
+    assert config_hash(with_p1) != "24ffe98d9250761d"
 
 
 def test_only_model_filter():

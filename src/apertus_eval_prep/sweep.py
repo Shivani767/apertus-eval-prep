@@ -46,6 +46,7 @@ def _base_cell(study: dict[str, Any], model_id: str) -> dict[str, Any]:
         "fewshot_path": study.get("fewshot_path"),
         "experiment_id": study.get("experiment_id"),
         "run_id": None,
+        "paraphrase_id": control.get("paraphrase_id", "orig"),
         "factor": "control",
         "factor_level": "control",
     }
@@ -72,6 +73,12 @@ def expand_ofat(study: dict[str, Any], profile: str | None = None) -> list[dict[
                 cell[factor] = level
                 cell["factor"] = factor
                 cell["factor_level"] = str(level)
+                if factor == "paraphrase_id":
+                    cell["data_path"] = str(
+                        study.get("paraphrase_data_path", "data/paraphrase_set.jsonl")
+                    )
+                    if study.get("paraphrase_tasks"):
+                        cell["tasks"] = list(study["paraphrase_tasks"])
                 cells.append(cell)
 
     sampled = study.get("sampled") or {}
@@ -129,6 +136,7 @@ def cell_to_run_config(cell: dict[str, Any], overrides: dict[str, Any] | None = 
         "fewshot_path": raw.get("fewshot_path"),
         "experiment_id": raw.get("experiment_id"),
         "run_id": raw.get("run_id"),
+        "paraphrase_id": raw.get("paraphrase_id"),
     }
     # load_config wants a file; construct via yaml round-trip in memory by using defaults
     from apertus_eval_prep.config import VALID_BACKENDS, VALID_QUANTIZATION, VALID_TEMPLATES
@@ -154,6 +162,7 @@ def cell_to_run_config(cell: dict[str, Any], overrides: dict[str, Any] | None = 
         fewshot_path=tmp.get("fewshot_path"),
         experiment_id=tmp.get("experiment_id"),
         run_id=tmp.get("run_id"),
+        paraphrase_id=tmp.get("paraphrase_id"),
     )
     if cfg.backend not in VALID_BACKENDS:
         raise ValueError(cfg.backend)

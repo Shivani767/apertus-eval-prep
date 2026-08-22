@@ -1,4 +1,4 @@
-from apertus_eval_prep.report import ranking_table, paper_tables
+from apertus_eval_prep.report import ranking_table, paper_tables, render_stability_paper
 
 
 def _blob(model: str, acc: float, n: int = 10, factor="control", level="control"):
@@ -40,3 +40,11 @@ def test_ranking_tau_and_paper_tables():
     md = paper_tables(analysis)
     assert "org/big" in md or "`big`" in md
     assert "tau" in md.lower() or "τ" in md
+    assert "McNemar" in md
+    mcn = analysis["mcnemar_vs_control"]
+    assert len(mcn) == 3
+    assert all(row["n"] == 10 for row in mcn)
+    writeup = render_stability_paper(analysis, control + flipped, n_t4_planned=34, n_registry_ok=6)
+    assert "6 of 34" in writeup
+    assert "Kendall" in writeup
+    assert "0.9" in writeup or "org/big" in writeup or "`big`" in writeup

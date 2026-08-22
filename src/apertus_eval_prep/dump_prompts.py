@@ -16,7 +16,9 @@ def dump_prompts(cfg: RunConfig, repo_root: Path, n: int = 4) -> str:
         revision=cfg.revision,
         trust_remote_code=True,
     )
-    items = load_items(repo_root / cfg.data_path, cfg.tasks, cfg.limit)[:n]
+    items = load_items(
+        repo_root / cfg.data_path, cfg.tasks, cfg.limit, paraphrase_id=cfg.paraphrase_id
+    )[:n]
     spec = load_prompt_spec(repo_root, cfg.prompt_id)
     fewshot_by_task = None
     if spec is not None and spec.fewshot and cfg.fewshot_path:
