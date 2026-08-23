@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 """Install a Colab-safe vLLM wheel that matches torch 2.11 (T4 / cu128).
 
-Colab notebook cells go stale after git pull — keep the pin HERE so
-`python scripts/colab_install_vllm.py` always uses the committed version.
+Pin lives here so `git pull` + this script always wins over stale Colab UI cells.
 """
 from __future__ import annotations
 
-import os
 import subprocess
 import sys
+import traceback
 
 
 VLLM_VER = "0.24.0"
@@ -18,8 +17,8 @@ VLLM_WHEEL = (
 )
 TORCH_INDEX = "https://download.pytorch.org/whl/cu128"
 
-# Non-torch deps for vllm 0.24 (torch stays Colab's 2.11.0+cu128).
-_EXTRA_DEPS = [
+# Minimal deps to import LLM / SamplingParams for text generate.
+_REQUIRED = [
     "transformers>=4.56.0",
     "tokenizers>=0.21.1",
     "sentencepiece",
@@ -28,45 +27,52 @@ _EXTRA_DEPS = [
     "uvicorn[standard]",
     "openai",
     "prometheus_client",
-    "prometheus-fastapi-instrumentator",
-    "lm-format-enforcer>=0.10.11",
-    "outlines_core==0.2.11",
-    "xgrammar",
-    "llguidance",
-    "gguf",
-    "mistral_common>=1.8.8",
-    "compressed-tensors",
-    "depyf",
-    "cloudpickle",
-    "watchfiles",
-    "python-json-logger",
     "einops",
-    "importlib_metadata",
-    "partial_json_parser",
+    "cloudpickle",
     "pyzmq",
     "msgspec",
     "blake3",
-    "pybase64",
     "pillow",
     "tiktoken",
     "huggingface_hub",
     "aiohttp",
     "filelock",
     "psutil",
-    "ray>=2.48.0",
     "ninja",
+    "gguf",
+    "importlib_metadata",
+    "partial_json_parser",
+    "python-json-logger",
+    "watchfiles",
+]
+
+# Nice-to-have; skip individually if a pin fails on Colab.
+_OPTIONAL = [
+    "prometheus-fastapi-instrumentator",
+    "lm-format-enforcer>=0.10.11",
+    "outlines_core==0.2.11",
+    "xgrammar",
+    "llguidance",
+    "mistral_common>=1.8.8",
+    "compressed-tensors",
+    "depyf",
+    "pybase64",
+    "ray>=2.48.0",
 ]
 
 
-def _pip(*args: str) -> None:
+def _pip(args: list[str], check: bool = True) -> bool:
     cmd = [sys.executable, "-m", "pip", *args]
     print("+", " ".join(cmd), flush=True)
     p = subprocess.run(cmd, text=True, capture_output=True)
     if p.stdout.strip():
-        print(p.stdout[-1200:], flush=True)
+        print(p.stdout[-2000:], flush=True)
     if p.returncode != 0:
-        print(p.stderr[-2000:], flush=True)
-        raise SystemExit(f"pip failed ({p.returncode})")
+        print(p.stderr[-3000:], flush=True)
+        if check:
+            raise RuntimeError(f"pip failed ({p.returncode}): {' '.join(args[:6])}...")
+        return False
+    return True
 
 
 def main() -> None:
@@ -74,7 +80,7 @@ def main() -> None:
 
     if not torch.cuda.is_available():
         raise SystemExit("No GPU. Runtime → Change runtime type → T4 GPU, then rerun.")
-    print(torch.cuda.get_device_name(0), "torch", torch.__version__, "cuda", torch.version.cuda)
+    print(torch.cuda.get_device_name(0), "torch", torch.__version__, "cuda", torch.version.cuda, flush=True)
     if not str(torch.__version__).startswith("2.11"):
         raise SystemExit(
             f"Expected Colab torch 2.11.x, got {torch.__version__}. "
@@ -82,13 +88,13 @@ def main() -> None:
         )
 
     print(f"Installing pinned wheel: {VLLM_WHEEL}", flush=True)
-    if "0.27" in VLLM_WHEEL:
-        raise SystemExit("Refusing to install vLLM 0.27 on Colab torch 2.11.")
-
     subprocess.run([sys.executable, "-m", "pip", "uninstall", "-y", "vllm"], check=False)
-    # --no-deps: do not let pip replace Colab torch.
-    _pip("install", "-q", "--no-deps", VLLM_WHEEL)
-    _pip("install", "-q", *_EXTRA_DEPS)
+    _pip(["install", "-q", "--no-deps", VLLM_WHEEL], check=True)
+
+    _pip(["install", "-q", *_REQUIRED], check=True)
+    for pkg in _OPTIONAL:
+        _pip(["install", "-q", pkg], check=False)
+
     subprocess.run(
         [
             sys.executable,
@@ -108,9 +114,13 @@ def main() -> None:
         if name == "vllm" or name.startswith("vllm."):
             del sys.modules[name]
 
-    from vllm import LLM, SamplingParams  # noqa: F401
-    import vllm
-    import torch as _t
+    try:
+        from vllm import LLM, SamplingParams  # noqa: F401
+        import vllm
+        import torch as _t
+    except Exception:
+        traceback.print_exc()
+        raise SystemExit("vLLM import failed after install (see traceback above).")
 
     print("OK vllm", getattr(vllm, "__version__", "?"), "torch", _t.__version__, flush=True)
     if not str(_t.__version__).startswith("2.11"):
@@ -122,4 +132,10 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit:
+        raise
+    except Exception:
+        traceback.print_exc()
+        raise SystemExit(1)
