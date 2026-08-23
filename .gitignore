@@ -22,8 +22,8 @@ hf_cache/
 .env
 .python-version
 
-# Local ops notes (schedules, leftover GPU time). Not for the public tree.
-notes/local/
+# Ops notes for local understanding only — not part of the public tree.
+notes/
 
 # Regenerated report junk
 reports/**/*.html

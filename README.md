@@ -37,7 +37,7 @@ Greedy decode. Only `chat_template` changes.
 | none | **15/28 (53.6%)** | 5/8 | 2/8 | 5/8 | 3/4 |
 | Llama-3 wrap on Qwen | **12/28 (42.9%)** | 4/8 | 2/8 | 5/8 | 1/4 |
 
-GSM8K is 2/8 in all three runs: capability floor on this probe, not a template effect. ARC and the format canary move. The Llama-3 wrap is the serving failure mode (engine default ≠ tokenizer template). [`notes/findings.md`](notes/findings.md)
+GSM8K is 2/8 in all three runs: capability floor on this probe, not a template effect. ARC and the format canary move. The Llama-3 wrap is the serving failure mode (engine default ≠ tokenizer template).
 
 ### B. Backend — Colab T4, template fixed
 
@@ -102,7 +102,7 @@ Figures from the same registry (`make figures`):
 | Replay | Frozen JSONL + YAML; `git_commit` in every manifest |
 | One cause | `compare` lists knobs that actually changed |
 | No double template | vLLM scores already-rendered completion strings |
-| Named incomparability | hardware, dtype, slice, sampling listed, not hidden ([`notes/incomparability.md`](notes/incomparability.md)) |
+| Named incomparability | hardware, dtype, slice, sampling listed in `manifest` — do not hide them; `compare` prints which knobs moved |
 | Intervals | Wilson CI on every committed run; McNemar + Kendall $\tau_b$ implemented and unit-tested (`tests/test_stats.py`) |
 | Serving | TTFT p95 in the same JSON as accuracy |
 | Languages | MGSM EN/DE/FR (official); EN/DE/FR/IT/HI on the canary |
@@ -188,7 +188,7 @@ On a real partition the science does not change: pin a named model revision, kee
 
 Cite: [`CITATION.cff`](CITATION.cff). Protocol: [`paper/stability.md`](paper/stability.md).
 
-Not yet run (no scores): [`configs/apertus_probe.yaml`](configs/apertus_probe.yaml), [`configs/experiments/paraphrase.yaml`](configs/experiments/paraphrase.yaml), [`configs/azureml.yaml`](configs/azureml.yaml). Issue draft (not filed): [`notes/evals_post_train_issue.md`](notes/evals_post_train_issue.md).
+Not yet run (no scores): [`configs/apertus_probe.yaml`](configs/apertus_probe.yaml), [`configs/experiments/paraphrase.yaml`](configs/experiments/paraphrase.yaml), [`configs/azureml.yaml`](configs/azureml.yaml).
 
 ## License
 
