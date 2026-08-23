@@ -17,9 +17,9 @@ A leaderboard score is a pair *(model, eval config)*. Two labs can disagree on t
 
 **Hypothesis.** A working measurement pipeline must move when the template or backend changes, in a way a stranger can replay. Rank order is a second question: it needs intervals, not point estimates.
 
-**One finding (n=800, committed JSON).** On the two-model `prompt_id` cohort (Qwen-3B + SmolLM2), Kendall $\tau_b = 1.0$ (0 reversals): relative order holds under `concise` and `5shot`. Scores still move — e.g. SmolLM2 default 318/800 → concise 186/800 (CIs disjoint); Qwen-3B default 515/800 → concise 410/800. McNemar rejects control equality on both models. Phi `prompt_id` is still missing for a three-model $\tau_b$.
+**One finding (n=800).** With three models on `prompt_id`, `concise` keeps Kendall $\tau_b = 1.0$ (0 reversals). `5shot` drops to $\tau_b = 0.333$ (1 reversal): Phi falls below Qwen-3B while SmolLM2 stays last. Scores still move under both prompts (McNemar $p < 0.01$). SmolLM2 int8/int4 do **not** reject equality with fp16 control (McNemar $p > 0.1$).
 
-Tables for Wilson / McNemar / $\tau_b$ are generated from the registry (`make paper`), not typed by hand.
+Tables: [`paper/_generated_tables.md`](paper/_generated_tables.md) and [`reports/stability_paper/stability.md`](reports/stability_paper/stability.md) — regenerated from the registry, not typed by hand.
 
 ---
 
@@ -71,17 +71,19 @@ Slices: ARC-Easy, GSM8K, HellaSwag, MGSM EN/DE/FR (200 each). Generative exact-m
 | Qwen2.5-3B-Instruct | 800 | 515 | 0.644 | [0.610, 0.676] |
 | Phi-3.5-mini-instruct | 800 | 536 | 0.670 | [0.637, 0.702] |
 
-SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl) (8 of 34 T4 cells).
+SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl) (**12 of 34** T4 cells). Summary MD only in the README tables below; full traces stay in `results/runs/`.
 
 **D2. Qwen-7B int4 only (T4 skips 7B fp16).** Absolute score: **543/800 (0.679, [0.646, 0.710])**. Not comparable to the fp16 control table above. No same-model McNemar until a 7B control exists.
 
-**D3. `prompt_id` — SmolLM2 + Qwen-3B (two-model cohort).** Kendall $\tau_b = 1.0$ (0 reversals) for `concise` and `5shot`. Order preserved. Scores still move (McNemar $p < 0.01$ on both models). Qwen concise **410/800**; Qwen 5shot **549/800**. Phi `prompt_id` still required for a three-model $\tau_b$.
+**D3. `prompt_id` — three-model cohort (SmolLM2 + Qwen-3B + Phi).** `concise`: $\tau_b = 1.0$ (0 reversals). `5shot`: $\tau_b = 0.333$ (**1 reversal** — Phi 451 < Qwen-3B 549). McNemar vs control rejects on all three models for both levels.
 
-| prompt | SmolLM2 | Qwen-3B |
-|---|---:|---:|
-| default (control) | 318 | 515 |
-| concise | 186 | 410 |
-| 5shot | 274 | 549 |
+| prompt | SmolLM2 | Qwen-3B | Phi-3.5 |
+|---|---:|---:|---:|
+| default (control) | 318 | 515 | 536 |
+| concise | 186 | 410 | 471 |
+| 5shot | 274 | 549 | 451 |
+
+**D4. SmolLM2 quantization (vs same-model fp16 control).** int8 **334/800 (0.418)**; int4 **309/800 (0.386)**. McNemar vs control: int8 $p = 0.11$, int4 $p = 0.57$ — not significant. Do not read a quant ranking from one model.
 
 Figures from the same registry (`make figures`):
 
@@ -178,8 +180,8 @@ Canary: [`data/eval_set.jsonl`](data/eval_set.jsonl). Hub revisions: [`data/offi
 
 - No Slurm, Megatron, NCCL, GH200, or Apertus-8B. Colab T4 / Mac is the cluster.
 - Generative exact-match ≠ lm-eval loglikelihood ≠ a model-card headline.
-- n=28 is a serving canary (Experiments 1–2). Committed n=800 rows are not yet a full OFAT ranking table.
-- If it is not in git JSON, it did not happen. `make paper` only reprints `results/registry_paper.jsonl`. Missing cells stay TODO.
+- n=28 is a serving canary (Experiments 1–2). Paper matrix is **12/34** T4 cells so far (control + `prompt_id` for three models + SmolLM2 int8/int4 + Qwen-7B int4).
+- If it is not in the registry / generated MD, it did not happen. `make paper` reprints [`paper/_generated_tables.md`](paper/_generated_tables.md). Missing cells stay TODO.
 - A later canary language add does not rewrite the committed 28-item template/backend tables.
 
 On a real partition the science does not change: pin a named model revision, keep this extractor and OFAT YAML, replace the notebook loop with array jobs over the same `config_hash` registry.
