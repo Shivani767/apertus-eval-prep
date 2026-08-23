@@ -23,12 +23,17 @@ def _import_vllm():
 
         return LLM, SamplingParams
     except ImportError as exc:
-        if "vllm" in str(exc).lower() and "torchaudio" not in str(exc).lower():
+        msg = str(exc).lower()
+        # Missing package only — do not mask version/CUDA errors (GiB_bytes, libcudart, …).
+        if msg.startswith("no module named 'vllm'") or msg.startswith("no module named "vllm""):
             raise ImportError(
-                "vLLM is not installed. Use Colab/Linux+CUDA: pip install 'apertus-eval-prep[gpu]'. "
-                "macOS is not supported by vLLM; run configs/vllm.yaml there, not on a Mac."
+                "vLLM is not installed. On Colab use notebooks/colab_stability_backend.ipynb cell 2 "
+                "(CUDA-13 runtime wheels + vllm). macOS is not supported by vLLM."
             ) from exc
-        _stub_torchaudio()
+        if "torchaudio" in msg:
+            _stub_torchaudio()
+        else:
+            raise
     except RuntimeError as exc:
         if "CUDA versions" not in str(exc) and "TorchAudio" not in str(exc):
             raise
