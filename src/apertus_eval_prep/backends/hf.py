@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import logging
 import time
+import warnings
 from threading import Thread
 
 import torch
@@ -40,6 +42,22 @@ def resolve_dtype(name: str, device: str) -> torch.dtype:
     return torch.float32
 
 
+def load_dtype(cfg: RunConfig, device: str) -> torch.dtype:
+    """Dtype used when loading the model. Quantized CUDA loads use fp16 (T4 has no native bf16)."""
+    dtype = resolve_dtype(cfg.dtype, device)
+    if cfg.quantization != "none" and device == "cuda":
+        return torch.float16
+    return dtype
+
+
+def suppress_quantization_warnings() -> None:
+    """bitsandbytes logs MatMul8bitLt cast warnings on every forward pass — hide that noise."""
+    logging.getLogger("bitsandbytes").setLevel(logging.ERROR)
+    logging.getLogger("bitsandbytes.autograd._functions").setLevel(logging.ERROR)
+    warnings.filterwarnings("ignore", message=".*MatMul8bitLt.*")
+    warnings.filterwarnings("ignore", module=r"bitsandbytes\..*")
+
+
 def _quant_config(quantization: str, compute_dtype: torch.dtype):
     if quantization == "none":
         return None
@@ -51,7 +69,10 @@ def _quant_config(quantization: str, compute_dtype: torch.dtype):
             "macOS cannot run bitsandbytes quantization."
         ) from exc
     if quantization == "int8":
-        return BitsAndBytesConfig(load_in_8bit=True)
+        return BitsAndBytesConfig(
+            load_in_8bit=True,
+            bnb_8bit_compute_dtype=compute_dtype,
+        )
     if quantization == "int4":
         return BitsAndBytesConfig(
             load_in_4bit=True,
@@ -73,6 +94,8 @@ class HFBackend:
                 f"quantization={cfg.quantization} requires CUDA (Colab T4/A10). "
                 f"This machine is {self.device}."
             )
+        if cfg.quantization != "none":
+            suppress_quantization_warnings()
         torch.manual_seed(cfg.seed)
         if self.device == "cuda":
             torch.cuda.manual_seed_all(cfg.seed)
@@ -83,13 +106,14 @@ class HFBackend:
         )
         if self.tokenizer.pad_token_id is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
-        dtype = resolve_dtype(cfg.dtype, self.device)
+        dtype = load_dtype(cfg, self.device)
         quant = _quant_config(cfg.quantization, dtype)
         _patch_stale_cache_api()
         load_kwargs: dict = dict(revision=cfg.revision)
         if quant is not None:
             load_kwargs["quantization_config"] = quant
             load_kwargs["device_map"] = "auto"
+            load_kwargs["torch_dtype"] = dtype
         else:
             load_kwargs["torch_dtype"] = dtype
         self.model = _load_causal_lm(cfg.model_id, load_kwargs)

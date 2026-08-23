@@ -1,6 +1,46 @@
 import pytest
 
+from apertus_eval_prep.backends.hf import load_dtype, resolve_dtype, suppress_quantization_warnings
 from apertus_eval_prep.backends.hf_load import load_causal_lm, patch_stale_cache_api
+from apertus_eval_prep.config import RunConfig
+
+
+def _cfg(**kwargs) -> RunConfig:
+    base = dict(
+        model_id="m",
+        tokenizer_id=None,
+        revision=None,
+        backend="hf",
+        chat_template="tokenizer",
+        quantization="none",
+        seed=0,
+        temperature=0.0,
+        top_p=1.0,
+        prompt_id="default",
+        paraphrase_id="orig",
+        dtype="auto",
+        data_path="data/eval_set.jsonl",
+        fewshot_path=None,
+        experiment_id="test",
+        run_id="hf-dtype-test",
+        tasks=["arc_easy"],
+        max_new_tokens=32,
+        system_prompt=None,
+        limit=None,
+        batch_size=1,
+    )
+    base.update(kwargs)
+    return RunConfig(**base)
+
+
+def test_load_dtype_uses_fp16_for_quantized_cuda():
+    cfg = _cfg(quantization="int8")
+    assert load_dtype(cfg, "cuda") == resolve_dtype("float16", "cuda")
+    assert load_dtype(_cfg(quantization="none"), "cuda") == resolve_dtype("auto", "cuda")
+
+
+def test_suppress_quantization_warnings_is_noop():
+    suppress_quantization_warnings()
 
 
 def test_cache_shim_exposes_seen_tokens():
