@@ -3,7 +3,7 @@
 Generated from `results/registry.jsonl`. Numbers are generative exact-match,
 not lm-eval loglikelihood. Wilson 95% CIs. Rank flips whose CIs overlap are ties.
 
-Runs loaded: 8
+Runs loaded: 12
 
 ## Control ranking
 
@@ -18,9 +18,10 @@ Runs loaded: 8
 | factor | level | tau-b | rank reversals | n models |
 |---|---|---|---|---|
 | control | control | 1.0 | 0 | 3 |
-| prompt_id | 5shot | 1.0 | 0 | 2 |
-| prompt_id | concise | 1.0 | 0 | 2 |
-| quantization | int4 | None | None | 1 |
+| prompt_id | 5shot | 0.3333 | 1 | 3 |
+| prompt_id | concise | 1.0 | 0 | 3 |
+| quantization | int4 | None | None | 2 |
+| quantization | int8 | None | None | 1 |
 
 ## McNemar vs control (same items)
 
@@ -28,8 +29,12 @@ Runs loaded: 8
 |---|---|---|---|---|
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prompt_id | concise | 0.32 | 0.0 |
 | `Qwen/Qwen2.5-3B-Instruct` | prompt_id | concise | 0.2062 | 0.0 |
+| `microsoft/Phi-3.5-mini-instruct` | prompt_id | concise | 0.2162 | 1e-06 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | prompt_id | 5shot | 0.2325 | 0.001616 |
 | `Qwen/Qwen2.5-3B-Instruct` | prompt_id | 5shot | 0.16 | 0.003536 |
+| `microsoft/Phi-3.5-mini-instruct` | prompt_id | 5shot | 0.3438 | 0.0 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | quantization | int4 | 0.2437 | 0.566718 |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | quantization | int8 | 0.11 | 0.109819 |
 
 ## CI-overlap ties (control)
 
