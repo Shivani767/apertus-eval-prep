@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 """Install a Colab-safe vLLM wheel that matches torch 2.11 (T4 / cu128).
 
-Pin lives here so `git pull` + this script always wins over stale Colab UI cells.
+The GitHub wheel is installed with --no-deps so pip does not upgrade Colab torch.
+Then every Requires-Dist from that wheel is installed, except CUDA/torch extras
+that would replace 2.11. Pin lives here so `git pull` always wins over stale cells.
 """
 from __future__ import annotations
 
 import subprocess
 import sys
 import traceback
+from importlib.metadata import requires
 
 
 VLLM_VER = "0.24.0"
@@ -17,64 +20,66 @@ VLLM_WHEEL = (
 )
 TORCH_INDEX = "https://download.pytorch.org/whl/cu128"
 
-# Minimal deps to import LLM / SamplingParams for text generate.
-# Wheel is installed with --no-deps so this list must cover import-time packages.
-_REQUIRED = [
-    "cbor2",
-    "transformers>=4.56.0",
-    "tokenizers>=0.21.1",
-    "sentencepiece",
-    "protobuf",
-    "fastapi",
-    "uvicorn[standard]",
-    "openai",
-    "prometheus_client",
-    "einops",
-    "cloudpickle",
-    "pyzmq",
-    "msgspec",
-    "blake3",
-    "pillow",
-    "tiktoken",
-    "huggingface_hub",
-    "aiohttp",
-    "filelock",
-    "psutil",
-    "ninja",
-    "gguf",
-    "importlib_metadata",
-    "partial_json_parser",
-    "python-json-logger",
-    "watchfiles",
-]
-
-# Nice-to-have; skip individually if a pin fails on Colab.
-_OPTIONAL = [
-    "prometheus-fastapi-instrumentator",
-    "lm-format-enforcer>=0.10.11",
-    "outlines_core==0.2.11",
-    "xgrammar",
-    "llguidance",
-    "mistral_common>=1.8.8",
-    "compressed-tensors",
-    "depyf",
-    "pybase64",
-    "ray>=2.48.0",
-]
+# Do not let pip replace Colab's torch 2.11 / CUDA 12.8 stack.
+_SKIP_DIST = {
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "flashinfer-python",
+    "flashinfer-cubin",
+    "apache-tvm-ffi",
+    "tilelang",
+    "nvidia-cudnn-frontend",
+    "nvidia-cutlass-dsl",
+    "quack-kernels",
+    "tokenspeed-mla",
+    "humming-kernels",
+    "numba",
+}
 
 
-def _pip(args: list[str], check: bool = True) -> bool:
-    cmd = [sys.executable, "-m", "pip", *args]
+def _run(cmd: list[str], check: bool = True) -> int:
     print("+", " ".join(cmd), flush=True)
-    p = subprocess.run(cmd, text=True, capture_output=True)
-    if p.stdout.strip():
-        print(p.stdout[-2000:], flush=True)
-    if p.returncode != 0:
-        print(p.stderr[-3000:], flush=True)
-        if check:
-            raise RuntimeError(f"pip failed ({p.returncode}): {' '.join(args[:6])}...")
-        return False
-    return True
+    p = subprocess.run(cmd)
+    if check and p.returncode != 0:
+        raise SystemExit(f"command failed ({p.returncode}): {' '.join(cmd[:8])}")
+    return p.returncode
+
+
+def _dist_name(req: str) -> str:
+    token = req.split(";", 1)[0].strip()
+    for sep in ("[", " ", "<", ">", "=", "!"):
+        if sep in token:
+            token = token.split(sep, 1)[0]
+    return token.strip().lower()
+
+
+def _vllm_dep_specs() -> list[str]:
+    specs: list[str] = []
+    seen: set[str] = set()
+    for raw in requires("vllm") or []:
+        name = _dist_name(raw)
+        if not name or name in _SKIP_DIST or name in seen:
+            continue
+        if "extra ==" in raw.replace(" ", "").lower():
+            continue
+        seen.add(name)
+        specs.append(raw.split(";", 1)[0].strip())
+    return specs
+
+
+def _drop_vllm_modules() -> None:
+    for name in list(sys.modules):
+        if name == "vllm" or name.startswith("vllm."):
+            del sys.modules[name]
+
+
+def _import_vllm():
+    from vllm import LLM, SamplingParams  # noqa: F401
+    import torch as _t
+    import vllm
+
+    return vllm, _t
 
 
 def main() -> None:
@@ -91,13 +96,14 @@ def main() -> None:
 
     print(f"Installing pinned wheel: {VLLM_WHEEL}", flush=True)
     subprocess.run([sys.executable, "-m", "pip", "uninstall", "-y", "vllm"], check=False)
-    _pip(["install", "-q", "--no-deps", VLLM_WHEEL], check=True)
+    _run([sys.executable, "-m", "pip", "install", "-q", "--no-deps", VLLM_WHEEL])
 
-    _pip(["install", "-q", *_REQUIRED], check=True)
-    for pkg in _OPTIONAL:
-        _pip(["install", "-q", pkg], check=False)
+    specs = _vllm_dep_specs()
+    print(f"Installing {len(specs)} vLLM Requires-Dist (torch/CUDA extras skipped)", flush=True)
+    if specs:
+        _run([sys.executable, "-m", "pip", "install", "-q", *specs], check=False)
 
-    subprocess.run(
+    _run(
         [
             sys.executable,
             "-m",
@@ -112,36 +118,25 @@ def main() -> None:
         check=False,
     )
 
-    def _drop_vllm_modules() -> None:
-        for name in list(sys.modules):
-            if name == "vllm" or name.startswith("vllm."):
-                del sys.modules[name]
-
     _drop_vllm_modules()
     last_missing = None
     vllm = _t = None
-    for _ in range(8):
+    for _ in range(12):
         try:
-            from vllm import LLM, SamplingParams  # noqa: F401
-            import vllm
-            import torch as _t
-
+            vllm, _t = _import_vllm()
             break
         except ModuleNotFoundError as exc:
             missing = getattr(exc, "name", None)
-            if not missing:
+            if not missing or missing == last_missing:
                 traceback.print_exc()
-                raise SystemExit("vLLM import failed after install (see traceback above).")
-            if missing == last_missing:
-                traceback.print_exc()
-                raise SystemExit(f"still missing {missing} after pip install.")
+                raise SystemExit(f"vLLM import still missing {missing!r}.") from exc
             last_missing = missing
             print(f"vLLM import needs {missing}; installing...", flush=True)
-            _pip(["install", "-q", missing], check=True)
+            _run([sys.executable, "-m", "pip", "install", "-q", missing], check=False)
             _drop_vllm_modules()
         except Exception:
             traceback.print_exc()
-            raise SystemExit("vLLM import failed after install (see traceback above).")
+            raise SystemExit("vLLM import failed (full traceback above).")
     if vllm is None:
         raise SystemExit("vLLM import failed after installing missing deps.")
 
