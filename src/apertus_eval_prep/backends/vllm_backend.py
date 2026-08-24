@@ -25,7 +25,7 @@ def _import_vllm():
     except ImportError as exc:
         msg = str(exc).lower()
         # Missing package only — do not mask version/CUDA errors (GiB_bytes, libcudart, …).
-        if msg.startswith("no module named 'vllm'") or msg.startswith("no module named "vllm""):
+        if getattr(exc, "name", None) == "vllm" or msg.startswith("no module named 'vllm'"):
             raise ImportError(
                 "vLLM is not installed. On Colab use notebooks/colab_stability_backend.ipynb cell 2 "
                 "(CUDA-13 runtime wheels + vllm). macOS is not supported by vLLM."
