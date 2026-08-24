@@ -12,6 +12,7 @@
 
 | Factor | Level | $\tau_b$ | Pairwise reversals |
 |---|---|---:|---:|
+| backend | vllm | 1.0 | 0 |
 | prompt_id | 5shot | 0.3333 | 1 |
 | prompt_id | concise | 1.0 | 0 |
 | quantization | int4 | None | None |
@@ -32,3 +33,5 @@ A `None` cell means the registry does not yet have that factor on enough models 
 | `Phi-3.5-mini-instruct` | prompt_id | 5shot | 800 | 180 | 95 | 0.3438 | 25.6582 | 0.0 |
 | `SmolLM2-1.7B-Instruct` | quantization | int4 | 800 | 102 | 93 | 0.2437 | 0.3282 | 0.566718 |
 | `SmolLM2-1.7B-Instruct` | quantization | int8 | 800 | 36 | 52 | 0.11 | 2.5568 | 0.109819 |
+| `SmolLM2-1.7B-Instruct` | backend | vllm | 800 | 8 | 26 | 0.0425 | 8.5 | 0.003551 |
+| `Qwen2.5-3B-Instruct` | backend | vllm | 800 | 28 | 47 | 0.0938 | 4.32 | 0.037667 |
