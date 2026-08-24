@@ -18,7 +18,9 @@ VLLM_WHEEL = (
 TORCH_INDEX = "https://download.pytorch.org/whl/cu128"
 
 # Minimal deps to import LLM / SamplingParams for text generate.
+# Wheel is installed with --no-deps so this list must cover import-time packages.
 _REQUIRED = [
+    "cbor2",
     "transformers>=4.56.0",
     "tokenizers>=0.21.1",
     "sentencepiece",
@@ -110,17 +112,38 @@ def main() -> None:
         check=False,
     )
 
-    for name in list(sys.modules):
-        if name == "vllm" or name.startswith("vllm."):
-            del sys.modules[name]
+    def _drop_vllm_modules() -> None:
+        for name in list(sys.modules):
+            if name == "vllm" or name.startswith("vllm."):
+                del sys.modules[name]
 
-    try:
-        from vllm import LLM, SamplingParams  # noqa: F401
-        import vllm
-        import torch as _t
-    except Exception:
-        traceback.print_exc()
-        raise SystemExit("vLLM import failed after install (see traceback above).")
+    _drop_vllm_modules()
+    last_missing = None
+    vllm = _t = None
+    for _ in range(8):
+        try:
+            from vllm import LLM, SamplingParams  # noqa: F401
+            import vllm
+            import torch as _t
+
+            break
+        except ModuleNotFoundError as exc:
+            missing = getattr(exc, "name", None)
+            if not missing:
+                traceback.print_exc()
+                raise SystemExit("vLLM import failed after install (see traceback above).")
+            if missing == last_missing:
+                traceback.print_exc()
+                raise SystemExit(f"still missing {missing} after pip install.")
+            last_missing = missing
+            print(f"vLLM import needs {missing}; installing...", flush=True)
+            _pip(["install", "-q", missing], check=True)
+            _drop_vllm_modules()
+        except Exception:
+            traceback.print_exc()
+            raise SystemExit("vLLM import failed after install (see traceback above).")
+    if vllm is None:
+        raise SystemExit("vLLM import failed after installing missing deps.")
 
     print("OK vllm", getattr(vllm, "__version__", "?"), "torch", _t.__version__, flush=True)
     if not str(_t.__version__).startswith("2.11"):
