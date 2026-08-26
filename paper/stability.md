@@ -7,7 +7,7 @@ Tables marked generated come from that command. Every accuracy below is copied f
 
 ## Abstract
 
-On the committed T4 paper-matrix rows (**14 of 34** cells), Kendall $\tau_b$ is defined and rank reversals appear for: prompt_id=5shot ($\tau_b$=0.3333). Those are the ranking-stability claims this registry currently supports.
+On the committed T4 paper-matrix rows (**17 of 34** cells), Kendall $\tau_b$ is defined and rank reversals appear for: prompt_id=5shot ($\tau_b$=0.3333). Those are the ranking-stability claims this registry currently supports.
 
 ## 1. Introduction
 
@@ -43,7 +43,7 @@ Command:
 python -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-dir paper
 ```
 
-Registry rows with `status=ok`: **14**. Planned T4 cells: **34**. Missing: **20**.
+Registry rows with `status=ok`: **17**. Planned T4 cells: **34**. Missing: **17**.
 
 Figures (same registry; `make figures`):
 
@@ -89,6 +89,9 @@ McNemar vs control (paired ids, A = control, B = variant), from `ranking_table`:
 | int8 | 36 | 52 | 0.11 | 2.5568 | 0.109819 |
 | vllm | 8 | 26 | 0.0425 | 8.5 | 0.003551 |
 | vllm | 28 | 47 | 0.0938 | 4.32 | 0.037667 |
+| vllm | 22 | 23 | 0.0563 | 0.0 | 1.0 |
+| 1 | 0 | 0 | 0.0 | 0.0 | 1.0 |
+| 2 | 0 | 0 | 0.0 | 0.0 | 1.0 |
 
 Task counts (same JSON `tasks` blocks):
 
@@ -102,11 +105,13 @@ Task counts (same JSON `tasks` blocks):
 
 | Factor | Level | $\tau_b$ | reversals | n models in registry |
 |---|---|---|---|---:|
-| backend | vllm | 1.0 | 0 | 2 |
+| backend | vllm | 1.0 | 0 | 3 |
 | prompt_id | 5shot | 0.3333 | 1 | 3 |
 | prompt_id | concise | 1.0 | 0 | 3 |
 | quantization | int4 | TODO / undefined | — | 2 |
 | quantization | int8 | TODO / undefined | — | 1 |
+| seed | 1 | TODO / undefined | — | 1 |
+| seed | 2 | TODO / undefined | — | 1 |
 
 No ranking-flip claim unless a $\tau_b$ cell above is a real number with ≥2 models. Need the same factor on a second model before $\tau_b$ on that factor.
 
@@ -116,7 +121,7 @@ n=28 template / backend numbers stay in the README Results A–B (Experiments 1�
 
 ## 6. Limitations
 
-- 14 / 34 T4 cells. Incomplete OFAT is not a finished ranking study.
+- 17 / 34 T4 cells. Incomplete OFAT is not a finished ranking study.
 - Colab T4, not Alps. Hardware and Python versions are whatever the committed manifests say; do not overwrite them.
 - Generative HellaSwag/ARC is not official loglikelihood.
 - OFAT does not estimate interactions.
