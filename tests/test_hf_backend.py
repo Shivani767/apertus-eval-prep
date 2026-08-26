@@ -39,6 +39,12 @@ def test_load_dtype_uses_fp16_for_quantized_cuda():
     assert load_dtype(_cfg(quantization="none"), "cuda") == resolve_dtype("auto", "cuda")
 
 
+def test_quant_device_map_pins_gpu0():
+    from apertus_eval_prep.backends.hf import _quant_device_map
+
+    assert _quant_device_map() == {"": 0}
+
+
 def test_suppress_quantization_warnings_is_noop():
     suppress_quantization_warnings()
 

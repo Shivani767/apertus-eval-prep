@@ -58,6 +58,16 @@ def suppress_quantization_warnings() -> None:
     warnings.filterwarnings("ignore", module=r"bitsandbytes\..*")
 
 
+def free_cuda_memory() -> None:
+    """Drop cached CUDA blocks so the next quantized load fits on a T4."""
+    import gc
+
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.ipc_collect()
+
+
 def _quant_config(quantization: str, compute_dtype: torch.dtype):
     if quantization == "none":
         return None
@@ -83,6 +93,15 @@ def _quant_config(quantization: str, compute_dtype: torch.dtype):
     raise ValueError(quantization)
 
 
+def _quant_device_map() -> dict:
+    """Pin the whole quantized model on GPU 0.
+
+    `device_map='auto'` on a partially occupied Colab T4 often spills layers to CPU and
+    bitsandbytes then raises ValueError. Phi-3.5 int8/int4 fit on a free T4.
+    """
+    return {"": 0}
+
+
 class HFBackend:
     name = "hf"
 
@@ -96,6 +115,7 @@ class HFBackend:
             )
         if cfg.quantization != "none":
             suppress_quantization_warnings()
+            free_cuda_memory()
         torch.manual_seed(cfg.seed)
         if self.device == "cuda":
             torch.cuda.manual_seed_all(cfg.seed)
@@ -112,7 +132,8 @@ class HFBackend:
         load_kwargs: dict = dict(revision=cfg.revision)
         if quant is not None:
             load_kwargs["quantization_config"] = quant
-            load_kwargs["device_map"] = "auto"
+            # Force GPU-only placement — do not use device_map="auto" on Colab T4.
+            load_kwargs["device_map"] = _quant_device_map()
             load_kwargs["torch_dtype"] = dtype
         else:
             load_kwargs["torch_dtype"] = dtype
