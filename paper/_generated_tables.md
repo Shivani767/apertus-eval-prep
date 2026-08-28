@@ -16,7 +16,7 @@
 | prompt_id | 5shot | 0.3333 | 1 |
 | prompt_id | concise | 1.0 | 0 |
 | quantization | int4 | None | None |
-| quantization | int8 | None | None |
+| quantization | int8 | 1.0 | 0 |
 | seed | 1 | 1.0 | 0 |
 | seed | 2 | 1.0 | 0 |
 
@@ -34,7 +34,9 @@ A `None` cell means the registry does not yet have that factor on enough models 
 | `Qwen2.5-3B-Instruct` | prompt_id | 5shot | 800 | 47 | 81 | 0.16 | 8.5078 | 0.003536 |
 | `Phi-3.5-mini-instruct` | prompt_id | 5shot | 800 | 180 | 95 | 0.3438 | 25.6582 | 0.0 |
 | `SmolLM2-1.7B-Instruct` | quantization | int4 | 800 | 102 | 93 | 0.2437 | 0.3282 | 0.566718 |
+| `Qwen2.5-3B-Instruct` | quantization | int4 | 800 | 47 | 57 | 0.13 | 0.7788 | 0.377494 |
 | `SmolLM2-1.7B-Instruct` | quantization | int8 | 800 | 36 | 52 | 0.11 | 2.5568 | 0.109819 |
+| `Qwen2.5-3B-Instruct` | quantization | int8 | 800 | 45 | 48 | 0.1163 | 0.043 | 0.835705 |
 | `SmolLM2-1.7B-Instruct` | backend | vllm | 800 | 8 | 26 | 0.0425 | 8.5 | 0.003551 |
 | `Qwen2.5-3B-Instruct` | backend | vllm | 800 | 28 | 47 | 0.0938 | 4.32 | 0.037667 |
 | `Phi-3.5-mini-instruct` | backend | vllm | 800 | 22 | 23 | 0.0563 | 0.0 | 1.0 |
