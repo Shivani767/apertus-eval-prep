@@ -72,7 +72,7 @@ Slices: ARC-Easy, GSM8K, HellaSwag, MGSM EN/DE/FR (200 each). Generative exact-m
 | Qwen2.5-3B-Instruct | 800 | 515 | 0.644 | [0.610, 0.676] |
 | Phi-3.5-mini-instruct | 800 | 536 | 0.670 | [0.637, 0.702] |
 
-SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl) (**12 of 34** T4 cells). Summary MD only in the README tables below; full traces stay in `results/runs/`.
+SmolLM2 is separated from the other two. Phi and Qwen-3B **overlap** on this control (67.0% vs 64.4% is not a rank). Registry: [`results/registry_paper.jsonl`](results/registry_paper.jsonl) (**19 of 34** T4 cells). Summary MD only in the README tables below; full traces stay in `results/runs/`.
 
 **D2. Qwen-7B int4 only (T4 skips 7B fp16).** Absolute score: **543/800 (0.679, [0.646, 0.710])**. Not comparable to the fp16 control table above. No same-model McNemar until a 7B control exists.
 
@@ -181,7 +181,7 @@ Canary: [`data/eval_set.jsonl`](data/eval_set.jsonl). Hub revisions: [`data/offi
 
 - No Slurm, Megatron, NCCL, GH200, or Apertus-8B. Colab T4 / Mac is the cluster.
 - Generative exact-match ≠ lm-eval loglikelihood ≠ a model-card headline.
-- n=28 is a serving canary (Experiments 1–2). Paper matrix is **12/34** T4 cells so far (control + `prompt_id` for three models + SmolLM2 int8/int4 + Qwen-7B int4).
+- n=28 is a serving canary (Experiments 1–2). Paper matrix is **19/34** T4 cells so far (controls + `prompt_id` + SmolLM2 quant + Qwen-7B int4 + all three `backend=vllm` + SmolLM2/Qwen-3B `seed`).
 - If it is not in the registry / generated MD, it did not happen. `make paper` reprints [`paper/_generated_tables.md`](paper/_generated_tables.md). Missing cells stay TODO.
 - A later canary language add does not rewrite the committed 28-item template/backend tables.
 

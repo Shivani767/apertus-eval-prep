@@ -17,8 +17,8 @@
 | prompt_id | concise | 1.0 | 0 |
 | quantization | int4 | None | None |
 | quantization | int8 | None | None |
-| seed | 1 | None | None |
-| seed | 2 | None | None |
+| seed | 1 | 1.0 | 0 |
+| seed | 2 | 1.0 | 0 |
 
 Kendall $\tau_b$ is defined only when a factor level has **two or more** models.
 A `None` cell means the registry does not yet have that factor on enough models — do not invent $\tau_b$.
@@ -39,4 +39,6 @@ A `None` cell means the registry does not yet have that factor on enough models 
 | `Qwen2.5-3B-Instruct` | backend | vllm | 800 | 28 | 47 | 0.0938 | 4.32 | 0.037667 |
 | `Phi-3.5-mini-instruct` | backend | vllm | 800 | 22 | 23 | 0.0563 | 0.0 | 1.0 |
 | `SmolLM2-1.7B-Instruct` | seed | 1 | 800 | 0 | 0 | 0.0 | 0.0 | 1.0 |
+| `Qwen2.5-3B-Instruct` | seed | 1 | 800 | 0 | 0 | 0.0 | 0.0 | 1.0 |
 | `SmolLM2-1.7B-Instruct` | seed | 2 | 800 | 0 | 0 | 0.0 | 0.0 | 1.0 |
+| `Qwen2.5-3B-Instruct` | seed | 2 | 800 | 0 | 0 | 0.0 | 0.0 | 1.0 |

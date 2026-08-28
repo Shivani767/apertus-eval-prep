@@ -3,7 +3,7 @@
 Generated from `results/registry.jsonl`. Numbers are generative exact-match,
 not lm-eval loglikelihood. Wilson 95% CIs. Rank flips whose CIs overlap are ties.
 
-Runs loaded: 17
+Runs loaded: 19
 
 ## Control ranking
 
@@ -23,8 +23,8 @@ Runs loaded: 17
 | prompt_id | concise | 1.0 | 0 | 3 |
 | quantization | int4 | None | None | 2 |
 | quantization | int8 | None | None | 1 |
-| seed | 1 | None | None | 1 |
-| seed | 2 | None | None | 1 |
+| seed | 1 | 1.0 | 0 | 2 |
+| seed | 2 | 1.0 | 0 | 2 |
 
 ## McNemar vs control (same items)
 
@@ -42,7 +42,9 @@ Runs loaded: 17
 | `Qwen/Qwen2.5-3B-Instruct` | backend | vllm | 0.0938 | 0.037667 |
 | `microsoft/Phi-3.5-mini-instruct` | backend | vllm | 0.0563 | 1.0 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | seed | 1 | 0.0 | 1.0 |
+| `Qwen/Qwen2.5-3B-Instruct` | seed | 1 | 0.0 | 1.0 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct` | seed | 2 | 0.0 | 1.0 |
+| `Qwen/Qwen2.5-3B-Instruct` | seed | 2 | 0.0 | 1.0 |
 
 ## CI-overlap ties (control)
 
