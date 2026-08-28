@@ -1,0 +1,41 @@
+# OFAT: thinking vs non-thinking on the extended canary (same model, same items).
+study: thinking_ablation
+experiment_id: thinking
+data_path: data/eval_set.jsonl
+fewshot_path: null
+tasks:
+  - arc_easy
+  - gsm8k
+  - multilingual
+  - template_canary
+  - robustness
+  - hallucination
+  - safety_bias
+max_new_tokens: 256
+dtype: auto
+chat_template: tokenizer
+batch_size: 1
+limit: null
+
+control:
+  backend: hf
+  chat_template: tokenizer
+  quantization: none
+  seed: 0
+  temperature: 0.0
+  top_p: 1.0
+  prompt_id: null
+  thinking_mode: false
+
+models:
+  - Qwen/Qwen2.5-0.5B-Instruct
+  - HuggingFaceTB/SmolLM2-1.7B-Instruct
+
+factors:
+  thinking_mode: [false, true]
+
+profiles:
+  t4:
+    skip:
+      - {factor: quantization}
+      - {factor: backend}

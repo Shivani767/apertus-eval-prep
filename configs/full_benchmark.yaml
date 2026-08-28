@@ -1,0 +1,26 @@
+# Extended canary: all 7 task families (48 items). Does not replace the n=28 canary configs.
+model_id: Qwen/Qwen2.5-0.5B-Instruct
+backend: hf
+chat_template: tokenizer
+system_prompt: null
+max_new_tokens: 128
+seed: 0
+dtype: auto
+data_path: data/eval_set.jsonl
+tasks:
+  - arc_easy
+  - gsm8k
+  - multilingual
+  - template_canary
+  - robustness
+  - hallucination
+  - safety_bias
+limit: null
+batch_size: 1
+quantization: none
+temperature: 0.0
+top_p: 1.0
+# Example API pricing for cost–performance (USD per 1M tokens). Override for your provider.
+cost_per_1m_input_tokens: 0.10
+cost_per_1m_output_tokens: 0.20
+thinking_mode: false

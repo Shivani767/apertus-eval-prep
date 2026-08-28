@@ -47,6 +47,7 @@ def _base_cell(study: dict[str, Any], model_id: str) -> dict[str, Any]:
         "experiment_id": study.get("experiment_id"),
         "run_id": None,
         "paraphrase_id": control.get("paraphrase_id", "orig"),
+        "thinking_mode": bool(control.get("thinking_mode", False)),
         "factor": "control",
         "factor_level": "control",
     }
@@ -136,6 +137,9 @@ def cell_to_run_config(cell: dict[str, Any], overrides: dict[str, Any] | None = 
         "experiment_id": raw.get("experiment_id"),
         "run_id": raw.get("run_id"),
         "paraphrase_id": raw.get("paraphrase_id"),
+        "thinking_mode": bool(raw.get("thinking_mode", False)),
+        "cost_per_1m_input_tokens": raw.get("cost_per_1m_input_tokens"),
+        "cost_per_1m_output_tokens": raw.get("cost_per_1m_output_tokens"),
     }
     from apertus_eval_prep.config import VALID_BACKENDS, VALID_QUANTIZATION, VALID_TEMPLATES
 
@@ -161,6 +165,9 @@ def cell_to_run_config(cell: dict[str, Any], overrides: dict[str, Any] | None = 
         experiment_id=tmp.get("experiment_id"),
         run_id=tmp.get("run_id"),
         paraphrase_id=tmp.get("paraphrase_id"),
+        thinking_mode=bool(tmp.get("thinking_mode", False)),
+        cost_per_1m_input_tokens=tmp.get("cost_per_1m_input_tokens"),
+        cost_per_1m_output_tokens=tmp.get("cost_per_1m_output_tokens"),
     )
     if cfg.backend not in VALID_BACKENDS:
         raise ValueError(cfg.backend)

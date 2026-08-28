@@ -33,6 +33,8 @@ def config_hash(settings: dict[str, Any]) -> str:
     para = settings.get("paraphrase_id")
     if para not in (None, "", "orig"):
         payload["paraphrase_id"] = para
+    if settings.get("thinking_mode"):
+        payload["thinking_mode"] = True
     blob = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()[:16]
 

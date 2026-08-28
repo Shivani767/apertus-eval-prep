@@ -25,6 +25,9 @@ hf_cache/
 # Ops notes for local understanding only — not part of the public tree.
 notes/
 
+# Local duplicate checkout — not part of the public tree.
+apertus-eval-prep/
+
 # Regenerated report junk
 reports/**/*.html
 reports/**/analysis.json

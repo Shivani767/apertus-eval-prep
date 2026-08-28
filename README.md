@@ -8,6 +8,24 @@
 
 Colab: [`colab_stability.ipynb`](notebooks/colab_stability.ipynb) (HF matrix — quant / seed / sampled), [`colab_stability_backend.ipynb`](notebooks/colab_stability_backend.ipynb) (paper `backend=vllm`), [`colab_vllm.ipynb`](notebooks/colab_vllm.ipynb) (n=28 canary).
 
+---
+
+## Capabilities
+
+| Feature | How |
+|---|---|
+| **Multi-model benchmark comparison** | `sweep` + `registry.jsonl`; `benchmark-report` across multiple scored JSON files |
+| **Thinking vs non-thinking** | `thinking_mode: true/false` in YAML; [`configs/thinking.yaml`](configs/thinking.yaml); OFAT in [`configs/experiments/thinking.yaml`](configs/experiments/thinking.yaml) |
+| **Multilingual evaluation** | MGSM EN/DE/FR (official n=800) + canary EN/DE/FR/IT/HI; per-language breakdown in run JSON |
+| **Prompt robustness** | `paraphrase_id` OFAT (`orig` / `p1` / `p2`); `robustness` task with noisy prompts |
+| **Hallucination evaluation** | `hallucination` task — SUPPORTED/UNSUPPORTED with precision/recall/F1 |
+| **Safety and bias** | `safety_bias` task — refusal recall + over-refusal on benign MCQ |
+| **Cost–performance** | `cost_per_1m_input_tokens` / `cost_per_1m_output_tokens` → USD in JSON + benchmark report |
+| **Quantization evaluation** | int8/int4 via bitsandbytes; OFAT in [`configs/experiments/stability.yaml`](configs/experiments/stability.yaml) |
+| **Automatic experiment reports** | `make paper`, `make figures`, `benchmark-report`, Wilson/McNemar/Kendall in `report` |
+
+Extended canary (48 items, all probe families): [`configs/full_benchmark.yaml`](configs/full_benchmark.yaml).
+
 Public frozen-prompt harness: same items, same extractor, Hugging Face `generate` vs vLLM on identical rendered strings, Wilson CIs and TTFT in one JSON. Probe for [swiss-ai evals-post-train](https://github.com/swiss-ai/evals-post-train) (HF vs vLLM on generation) and Apertus serving (`--chat-template-content-format string`). Not Alps. Not `swiss-ai/Apertus-v1.5-8B`.
 
 ---
@@ -134,6 +152,14 @@ make figures
 # figures: python -m apertus_eval_prep report --registry results/registry_paper.jsonl --out reports/stability_paper
 ```
 
+Extended benchmark + auto report (all task families, cost estimate):
+
+```bash
+python -m apertus_eval_prep eval --config configs/full_benchmark.yaml --out results/full_benchmark.json
+python -m apertus_eval_prep benchmark-report --run results/full_benchmark.json=full --out reports/benchmark
+make benchmark-report   # uses committed Mac canary JSON
+```
+
 If `venv` fails on a PATH separator, the clone path contains `:`. Use `~/apertus-eval-prep`.
 
 Template ablation (Mac; vLLM is Linux/CUDA):
@@ -189,7 +215,7 @@ On a real partition the science does not change: pin a named model revision, kee
 
 Cite: [`CITATION.cff`](CITATION.cff). Protocol: [`paper/stability.md`](paper/stability.md).
 
-Not yet run (no scores): [`configs/apertus_probe.yaml`](configs/apertus_probe.yaml), [`configs/experiments/paraphrase.yaml`](configs/experiments/paraphrase.yaml), [`configs/azureml.yaml`](configs/azureml.yaml).
+Not yet run (no scores): [`configs/apertus_probe.yaml`](configs/apertus_probe.yaml), [`configs/experiments/paraphrase.yaml`](configs/experiments/paraphrase.yaml), [`configs/experiments/thinking.yaml`](configs/experiments/thinking.yaml), [`configs/full_benchmark.yaml`](configs/full_benchmark.yaml), [`configs/azureml.yaml`](configs/azureml.yaml).
 
 ## License
 

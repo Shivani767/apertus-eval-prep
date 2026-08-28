@@ -9,8 +9,14 @@ Anyone who clones this repo scores the same items.
 | `gsm8k` | 8 | Grade-school math with a numeric gold. Original items in the GSM8K format. | Format from Cobbe et al., 2021 (MIT). |
 | `multilingual` | 10 | Same arithmetic style in EN / DE / FR / IT / HI (Swiss official languages + the existing Hindi pair). Frozen after the n=28 Mac/T4 canary runs; those JSON files still score 8 multilingual items. | Original to this repo. Format inspired by Shi et al., 2022 MGSM. |
 | `template_canary` | 4 | Format-locked items. Accuracy is supposed to drop if the chat template is missing or wrong. | Original to this repo. |
+| `robustness` | 6 | MCQ with typos, caps, emoji, and distracting prefix text — prompt robustness probe. | Original to this repo. |
+| `hallucination` | 6 | Fact verification (`SUPPORTED` / `UNSUPPORTED`). Reports precision, recall, F1. | Original to this repo. |
+| `safety_bias` | 6 | Harmful requests (`gold=REFUSE`) plus benign MCQ — refusal recall and over-refusal rate. | Original to this repo. |
+
+The n=28 Mac/T4 canary configs still score only `arc_easy`, `gsm8k`, `multilingual`, `template_canary` (28 items). Extended configs add the three probe families above (48 items total).
 
 Gold answers are stored as `gold`. Scoring is exact-match after the extractors in `scoring.py`.
+The `safety_bias` task uses a refusal regex for harmful items. The `hallucination` task reports a confusion matrix and F1.
 
 `data/paraphrase_set.jsonl` is a separate frozen slice: 4 stems × 3 wordings (`orig` / `p1` / `p2`), same gold. It is **not** part of the n=800 paper matrix and has no committed scores.
 

@@ -1,0 +1,16 @@
+# Thinking-mode ablation on the extended canary. Pair with configs/default.yaml for τ / McNemar.
+model_id: Qwen/Qwen2.5-0.5B-Instruct
+backend: hf
+chat_template: tokenizer
+system_prompt: null
+max_new_tokens: 256
+seed: 0
+dtype: auto
+data_path: data/eval_set.jsonl
+tasks: [arc_easy, gsm8k, multilingual, template_canary, robustness, hallucination, safety_bias]
+limit: null
+batch_size: 1
+quantization: none
+temperature: 0.0
+top_p: 1.0
+thinking_mode: true

@@ -27,6 +27,7 @@ def _add_common(p: argparse.ArgumentParser) -> None:
     p.add_argument("--temperature", type=float)
     p.add_argument("--prompt-id", dest="prompt_id")
     p.add_argument("--seed", type=int)
+    p.add_argument("--thinking-mode", dest="thinking_mode", action=argparse.BooleanOptionalAction)
     p.add_argument("--out", required=True, help="Output path")
 
 
@@ -40,6 +41,7 @@ def _overrides(args: argparse.Namespace) -> dict:
         "temperature",
         "prompt_id",
         "seed",
+        "thinking_mode",
     )
     return {k: getattr(args, k, None) for k in keys}
 
@@ -146,6 +148,15 @@ def cmd_paper_tables(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_benchmark_report(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.benchmark_report import write_benchmark_report
+
+    md_path = write_benchmark_report(args.run, Path(args.out))
+    print(f"Wrote {md_path}")
+    print(f"Wrote {md_path.with_suffix('.json')}")
+    return 0
+
+
 def cmd_paper(args: argparse.Namespace) -> int:
     from apertus_eval_prep.registry import load_registry
     from apertus_eval_prep.report import collect_runs, paper_tables, ranking_table, render_stability_paper
@@ -223,7 +234,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_sweep.add_argument(
         "--only-factor",
         dest="only_factor",
-        help="Run OFAT cells for this factor only (control, prompt_id, seed, backend, quantization, sampled, paraphrase_id).",
+        help="Run OFAT cells for this factor only (control, prompt_id, seed, backend, quantization, sampled, paraphrase_id, thinking_mode).",
     )
     p_sweep.set_defaults(func=cmd_sweep)
 
@@ -251,6 +262,19 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_ci.add_argument("--out", default="reports/ci_width")
     p_ci.set_defaults(func=cmd_ci_width)
+
+    p_bench = sub.add_parser(
+        "benchmark-report",
+        help="Multi-model benchmark report: thinking, quant, safety, cost, multilingual.",
+    )
+    p_bench.add_argument(
+        "--run",
+        action="append",
+        required=True,
+        help="path or path=label. Repeat for each scored JSON.",
+    )
+    p_bench.add_argument("--out", default="reports/benchmark")
+    p_bench.set_defaults(func=cmd_benchmark_report)
     return parser
 
 

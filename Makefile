@@ -1,4 +1,4 @@
-.PHONY: test smoke eval-hf eval-none eval-mismatch dump compare-template sweep-dry report paper figures ci-width
+.PHONY: test smoke eval-hf eval-none eval-mismatch dump compare-template sweep-dry report paper figures ci-width benchmark-report
 
 PYTHON ?= python
 
@@ -39,6 +39,11 @@ paper:
 figures:
 	$(PYTHON) -m apertus_eval_prep report --registry results/registry_paper.jsonl --out reports/stability_paper
 	$(PYTHON) -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-dir paper
+
+benchmark-report:
+	$(PYTHON) -m apertus_eval_prep benchmark-report \
+	  --run results/hf_tokenizer.json=Mac-canary \
+	  --out reports/benchmark
 
 ci-width:
 	$(PYTHON) -m apertus_eval_prep ci-width \

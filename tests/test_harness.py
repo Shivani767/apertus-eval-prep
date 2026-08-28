@@ -11,11 +11,19 @@ def test_eval_set_parses():
     root = Path(__file__).resolve().parents[1]
     lines = (root / "data" / "eval_set.jsonl").read_text(encoding="utf-8").splitlines()
     items = [json.loads(line) for line in lines if line.strip()]
-    assert len(items) == 30
+    assert len(items) == 48
     langs = {row["language"] for row in items if row["task"] == "multilingual"}
     assert langs == {"en", "de", "fr", "hi", "it"}
     tasks = {row["task"] for row in items}
-    assert tasks == {"arc_easy", "gsm8k", "multilingual", "template_canary"}
+    assert tasks == {
+        "arc_easy",
+        "gsm8k",
+        "multilingual",
+        "template_canary",
+        "robustness",
+        "hallucination",
+        "safety_bias",
+    }
     ids = [row["id"] for row in items]
     assert len(ids) == len(set(ids))
 

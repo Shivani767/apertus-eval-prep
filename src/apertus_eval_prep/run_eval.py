@@ -9,7 +9,15 @@ from apertus_eval_prep.manifest import build_manifest
 from apertus_eval_prep.prompting import load_fewshot, load_prompt_spec, resolve_system, wrap_item
 from apertus_eval_prep.prompts import load_items
 from apertus_eval_prep.registry import config_hash
-from apertus_eval_prep.scoring import is_correct, predicted, summarize_latency, summarize_tasks
+from apertus_eval_prep.scoring import (
+    compute_cost,
+    is_correct,
+    is_refusal,
+    predicted,
+    summarize_languages,
+    summarize_latency,
+    summarize_tasks,
+)
 from apertus_eval_prep.templates import render_prompt
 
 
@@ -78,10 +86,13 @@ def run_eval(cfg: RunConfig, repo_root: Path, checkpoint_path: Path | None = Non
         if item.id in done_ids:
             continue
         user_text = wrap_item(item, spec, fewshot_by_task)
-        rendered = render_prompt(tokenizer, user_text, cfg.chat_template, system)
+        rendered = render_prompt(tokenizer, user_text, cfg.chat_template, system, thinking=cfg.thinking_mode)
         gen = backend.generate_one(rendered, cfg.max_new_tokens)
         ok = is_correct(item.task, gen.text, item.gold)
-        pred = predicted(item.task, gen.text)
+        pred = predicted(item.task, gen.text, item.gold)
+        prompt_tokens = None
+        if tokenizer is not None and hasattr(tokenizer, "encode"):
+            prompt_tokens = len(tokenizer.encode(rendered, add_special_tokens=False))
         row = {
             "id": item.id,
             "task": item.task,
@@ -89,12 +100,14 @@ def run_eval(cfg: RunConfig, repo_root: Path, checkpoint_path: Path | None = Non
             "gold": item.gold,
             "predicted": pred,
             "correct": ok,
+            "refusal": is_refusal(gen.text),
             "generation": gen.text,
             "ttft_ms": round(gen.ttft_ms, 2) if gen.ttft_ms is not None else None,
             "e2e_ms": round(gen.e2e_ms, 2),
             "num_new_tokens": gen.num_new_tokens,
             "tokens_per_sec": round(gen.tokens_per_sec, 3) if gen.tokens_per_sec else None,
             "prompt_chars": len(rendered),
+            "prompt_tokens": prompt_tokens,
         }
         rows.append(row)
         if checkpoint_path is not None:
@@ -107,13 +120,22 @@ def run_eval(cfg: RunConfig, repo_root: Path, checkpoint_path: Path | None = Non
 
     settings = cfg.to_dict()
     settings["device"] = getattr(backend, "device", cfg.backend) if backend is not None else "resumed"
+    cost = compute_cost(
+        rows,
+        cost_per_1m_in=cfg.cost_per_1m_input_tokens,
+        cost_per_1m_out=cfg.cost_per_1m_output_tokens,
+        tokenizer=tokenizer,
+    )
     payload = {
         "manifest": build_manifest(repo_root, settings),
         "incomparability": INCOMPARABILITY,
         "tasks": summarize_tasks(rows),
         "latency": summarize_latency(rows),
+        "language": summarize_languages(rows),
         "items": rows,
     }
+    if cost is not None:
+        payload["cost"] = cost
     if checkpoint_path is not None:
         drop_partial(checkpoint_path)
     return payload

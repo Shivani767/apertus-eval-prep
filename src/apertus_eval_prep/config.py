@@ -35,6 +35,9 @@ class RunConfig:
     experiment_id: str | None
     run_id: str | None
     paraphrase_id: str | None = None
+    thinking_mode: bool = False
+    cost_per_1m_input_tokens: float | None = None
+    cost_per_1m_output_tokens: float | None = None
 
     def tokenizer_name(self) -> str:
         return self.tokenizer_id or self.model_id
@@ -61,6 +64,7 @@ class RunConfig:
             "top_p": self.top_p,
             "prompt_id": self.prompt_id,
             "paraphrase_id": self.paraphrase_id,
+            "thinking_mode": self.thinking_mode,
             "data_path": self.data_path,
             "tasks": list(self.tasks),
             "limit": self.limit,
@@ -96,7 +100,14 @@ def load_config(path: str | Path, overrides: dict[str, Any] | None = None) -> Ru
         experiment_id=raw.get("experiment_id"),
         run_id=raw.get("run_id"),
         paraphrase_id=raw.get("paraphrase_id"),
+        thinking_mode=bool(raw.get("thinking_mode", False)),
+        cost_per_1m_input_tokens=raw.get("cost_per_1m_input_tokens"),
+        cost_per_1m_output_tokens=raw.get("cost_per_1m_output_tokens"),
     )
+    if cfg.cost_per_1m_input_tokens is not None:
+        cfg.cost_per_1m_input_tokens = float(cfg.cost_per_1m_input_tokens)
+    if cfg.cost_per_1m_output_tokens is not None:
+        cfg.cost_per_1m_output_tokens = float(cfg.cost_per_1m_output_tokens)
     if cfg.backend not in VALID_BACKENDS:
         raise ValueError(f"backend must be one of {VALID_BACKENDS}, got {cfg.backend}")
     if cfg.chat_template not in VALID_TEMPLATES:
