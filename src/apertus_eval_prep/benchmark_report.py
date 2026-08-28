@@ -4,8 +4,16 @@ import json
 from pathlib import Path
 from typing import Any
 
+from apertus_eval_prep.analysis import (
+    build_pareto_from_runs,
+    cost_performance_metrics,
+    multilingual_analysis,
+    paraphrase_robustness,
+    quantization_comparison,
+    thinking_comparison,
+)
 from apertus_eval_prep.report import load_run, parse_run_spec, short_model
-from apertus_eval_prep.stats import kendall_tau_b, rank_high_is_better, wilson_interval
+from apertus_eval_prep.stats import kendall_tau_b, rank_high_is_better
 
 
 def _settings(blob: dict[str, Any]) -> dict[str, Any]:
@@ -40,6 +48,7 @@ def analyze_runs(specs: list[str]) -> dict[str, Any]:
                 "latency": blob.get("latency") or {},
                 "cost": blob.get("cost"),
                 "items": blob.get("items") or [],
+                "_blob": blob,
             }
         )
 
@@ -52,6 +61,7 @@ def analyze_runs(specs: list[str]) -> dict[str, Any]:
     rank_map = dict(zip(models, ranks))
 
     thinking_pairs = []
+    thinking_derived = []
     by_model_think: dict[str, dict[bool, dict]] = {}
     for r in runs:
         mid = r.get("model_id")
@@ -60,18 +70,25 @@ def analyze_runs(specs: list[str]) -> dict[str, Any]:
         by_model_think.setdefault(mid, {})[bool(r.get("thinking_mode"))] = r
     for mid, pair in by_model_think.items():
         if True in pair and False in pair:
-            na = pair[False]["overall"].get("accuracy")
-            ya = pair[True]["overall"].get("accuracy")
+            nt_blob = pair[False]["_blob"]
+            th_blob = pair[True]["_blob"]
+            derived = thinking_comparison(nt_blob, th_blob)
+            derived["model_id"] = mid
+            thinking_derived.append(derived)
             thinking_pairs.append(
                 {
                     "model_id": mid,
-                    "non_thinking_acc": na,
-                    "thinking_acc": ya,
-                    "delta_pp": round((ya or 0) - (na or 0), 4) if na is not None and ya is not None else None,
+                    "non_thinking_acc": derived.get("non_thinking_accuracy"),
+                    "thinking_acc": derived.get("thinking_accuracy"),
+                    "delta_pp": derived.get("reasoning_gain"),
+                    "reasoning_gain_pp": derived.get("reasoning_gain_pp"),
+                    "additional_tokens": derived.get("additional_tokens"),
+                    "reasoning_efficiency": derived.get("reasoning_efficiency"),
                 }
             )
 
     quant_rows = []
+    quant_derived = []
     by_model_quant: dict[str, dict[str, dict]] = {}
     for r in runs:
         mid = r.get("model_id")
@@ -79,57 +96,70 @@ def analyze_runs(specs: list[str]) -> dict[str, Any]:
             continue
         by_model_quant.setdefault(mid, {})[str(r.get("quantization") or "none")] = r
     for mid, levels in by_model_quant.items():
-        if len(levels) < 2:
-            continue
         fp16 = levels.get("none")
+        if not fp16:
+            continue
         for q in ("int8", "int4"):
-            if q not in levels or not fp16:
+            if q not in levels:
                 continue
+            derived = quantization_comparison(fp16["_blob"], levels[q]["_blob"], quant_label=q)
+            derived["model_id"] = mid
+            quant_derived.append(derived)
             quant_rows.append(
                 {
                     "model_id": mid,
                     "quantization": q,
-                    "fp16_acc": fp16["overall"].get("accuracy"),
-                    "quant_acc": levels[q]["overall"].get("accuracy"),
-                    "delta_pp": round(
-                        (levels[q]["overall"].get("accuracy") or 0) - (fp16["overall"].get("accuracy") or 0),
-                        4,
-                    ),
-                    "tps_fp16": fp16.get("latency", {}).get("tokens_per_sec_mean"),
-                    "tps_quant": levels[q].get("latency", {}).get("tokens_per_sec_mean"),
+                    "fp16_acc": derived.get("fp16_accuracy"),
+                    "quant_acc": derived.get("quant_accuracy"),
+                    "delta_pp": derived.get("accuracy_delta"),
+                    "tps_fp16": derived.get("fp16_tokens_per_sec"),
+                    "tps_quant": derived.get("quant_tokens_per_sec"),
+                    "throughput_change_ratio": derived.get("throughput_change_ratio"),
                 }
             )
 
     paraphrase_rows = []
-    by_model_para: dict[str, dict[str, dict]] = {}
+    paraphrase_derived: dict[str, Any] = {}
+    by_model_para: dict[str, list[dict]] = {}
     for r in runs:
         mid = r.get("model_id")
         if not mid:
             continue
-        pid = r.get("paraphrase_id") or "orig"
-        by_model_para.setdefault(mid, {})[pid] = r
-    for mid, levels in by_model_para.items():
-        if len(levels) < 2:
+        by_model_para.setdefault(mid, []).append(r["_blob"])
+    for mid, blobs in by_model_para.items():
+        if len(blobs) < 2:
             continue
-        orig = levels.get("orig") or next(iter(levels.values()))
-        for pid, row in levels.items():
+        rob = paraphrase_robustness(blobs)
+        if rob:
+            paraphrase_derived[mid] = rob
+        orig = next((r for r in runs if r.get("model_id") == mid and (r.get("paraphrase_id") or "orig") == "orig"), None)
+        for r in runs:
+            if r.get("model_id") != mid:
+                continue
+            pid = r.get("paraphrase_id") or "orig"
             if pid == "orig":
                 continue
             paraphrase_rows.append(
                 {
                     "model_id": mid,
                     "paraphrase_id": pid,
-                    "orig_acc": orig["overall"].get("accuracy"),
-                    "variant_acc": row["overall"].get("accuracy"),
+                    "orig_acc": (orig or {}).get("overall", {}).get("accuracy"),
+                    "variant_acc": r.get("overall", {}).get("accuracy"),
                     "delta_pp": round(
-                        (row["overall"].get("accuracy") or 0) - (orig["overall"].get("accuracy") or 0),
+                        (r.get("overall", {}).get("accuracy") or 0)
+                        - ((orig or {}).get("overall", {}).get("accuracy") or 0),
                         4,
                     ),
                 }
             )
 
     cost_perf = []
+    cost_derived = []
     for r in runs:
+        eff = cost_performance_metrics(r["_blob"])
+        eff["label"] = r["label"]
+        eff["model_id"] = r.get("model_id")
+        cost_derived.append(eff)
         cost = r.get("cost") or {}
         acc = r.get("overall", {}).get("accuracy")
         if cost.get("usd_total") is not None and acc is not None:
@@ -141,9 +171,18 @@ def analyze_runs(specs: list[str]) -> dict[str, Any]:
                     "usd_total": cost.get("usd_total"),
                     "usd_per_item": cost.get("usd_per_item"),
                     "tokens_per_sec_mean": r.get("latency", {}).get("tokens_per_sec_mean"),
-                    "acc_per_usd": round(acc / cost["usd_total"], 2) if cost["usd_total"] else None,
+                    "acc_per_usd": eff.get("accuracy_per_cost_estimated"),
+                    "accuracy_per_second_measured": eff.get("accuracy_per_second_measured"),
                 }
             )
+
+    multilingual_derived = [
+        {"label": r["label"], "model_id": r.get("model_id"), **multilingual_analysis(r.get("language") or {})}
+        for r in runs
+        if r.get("language")
+    ]
+
+    pareto = build_pareto_from_runs([r["_blob"] for r in runs])
 
     task_names = sorted({t for r in runs for t in (r.get("tasks") or {}) if t != "overall"})
     comparison = []
@@ -168,9 +207,15 @@ def analyze_runs(specs: list[str]) -> dict[str, Any]:
         "models": models,
         "comparison": comparison,
         "thinking_vs_non_thinking": thinking_pairs,
+        "thinking_derived": thinking_derived,
         "quantization": quant_rows,
+        "quantization_derived": quant_derived,
         "paraphrase_robustness": paraphrase_rows,
+        "paraphrase_derived": paraphrase_derived,
         "cost_performance": cost_perf,
+        "cost_derived": cost_derived,
+        "multilingual_derived": multilingual_derived,
+        "pareto": pareto,
         "multilingual": [{**r, "languages": r.get("language")} for r in runs if r.get("language")],
         "hallucination": [
             {

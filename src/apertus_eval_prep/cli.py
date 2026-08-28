@@ -148,6 +148,30 @@ def cmd_paper_tables(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_reproduce(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.reproduce import find_registry_row, render_reproduction_markdown, reproduction_plan
+
+    root = repo_root()
+    row = find_registry_row(
+        Path(args.registry),
+        config_hash=args.config_hash,
+        run_id=args.run_id,
+        experiment_id=args.experiment_id,
+    )
+    if row is None:
+        print("No matching registry row.", file=sys.stderr)
+        return 1
+    plan = reproduction_plan(row, root)
+    text = render_reproduction_markdown(plan)
+    if args.out:
+        out = Path(args.out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text, encoding="utf-8")
+        print(f"Wrote {out}")
+    print(text)
+    return 0
+
+
 def cmd_benchmark_report(args: argparse.Namespace) -> int:
     from apertus_eval_prep.benchmark_report import write_benchmark_report
 
@@ -275,6 +299,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_bench.add_argument("--out", default="reports/benchmark")
     p_bench.set_defaults(func=cmd_benchmark_report)
+
+    p_repro = sub.add_parser("reproduce", help="Print replay command from registry row.")
+    p_repro.add_argument("--registry", default="results/registry_paper.jsonl")
+    p_repro.add_argument("--run-id", dest="run_id")
+    p_repro.add_argument("--config-hash", dest="config_hash")
+    p_repro.add_argument("--experiment-id", dest="experiment_id")
+    p_repro.add_argument("--out", help="Optional markdown output path")
+    p_repro.set_defaults(func=cmd_reproduce)
     return parser
 
 

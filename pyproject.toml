@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apertus-eval-prep"
-version = "0.3.0"
-description = "Frozen-prompt eval harness: multi-model benchmarks, thinking/quant/safety OFAT, auto reports."
+version = "0.4.0"
+description = "Research-grade LLM eval framework: configuration sensitivity, OFAT ablations, reproducible registry."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "Apache-2.0"}

@@ -1,0 +1,155 @@
+{
+  "n_runs": 3,
+  "models": [
+    "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+    "Qwen/Qwen2.5-0.5B-Instruct"
+  ],
+  "comparison": [
+    {
+      "label": "Mac-canary",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "rank": 1.0,
+      "overall_acc": 0.7143,
+      "overall_ci95": null,
+      "arc_easy_acc": 1.0,
+      "gsm8k_acc": 0.25,
+      "hellaswag_acc": null,
+      "mgsm_acc": null,
+      "multilingual_acc": 0.875,
+      "template_canary_acc": 0.75
+    },
+    {
+      "label": "SmolLM2-control",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "rank": 2.0,
+      "overall_acc": 0.3975,
+      "overall_ci95": [
+        0.3642,
+        0.4318
+      ],
+      "arc_easy_acc": 0.72,
+      "gsm8k_acc": 0.32,
+      "hellaswag_acc": 0.33,
+      "mgsm_acc": 0.22,
+      "multilingual_acc": null,
+      "template_canary_acc": null
+    },
+    {
+      "label": "SmolLM2-int8",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "rank": 2.0,
+      "overall_acc": 0.4175,
+      "overall_ci95": [
+        0.3838,
+        0.452
+      ],
+      "arc_easy_acc": 0.725,
+      "gsm8k_acc": 0.355,
+      "hellaswag_acc": 0.36,
+      "mgsm_acc": 0.23,
+      "multilingual_acc": null,
+      "template_canary_acc": null
+    }
+  ],
+  "thinking_vs_non_thinking": [],
+  "thinking_derived": [],
+  "quantization": [
+    {
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "quantization": "int8",
+      "fp16_acc": 0.3975,
+      "quant_acc": 0.4175,
+      "delta_pp": 0.02,
+      "tps_fp16": 23.833,
+      "tps_quant": 7.449,
+      "throughput_change_ratio": -0.6875
+    }
+  ],
+  "quantization_derived": [
+    {
+      "quantization": "int8",
+      "fp16_accuracy": 0.3975,
+      "quant_accuracy": 0.4175,
+      "accuracy_delta": 0.02,
+      "accuracy_delta_pp": 2.0,
+      "fp16_tokens_per_sec": 23.833,
+      "quant_tokens_per_sec": 7.449,
+      "throughput_change_ratio": -0.6875,
+      "mcnemar_vs_fp16": {
+        "n": 800,
+        "a_correct_b_wrong": 36,
+        "a_wrong_b_correct": 52,
+        "both_correct": 282,
+        "both_wrong": 430,
+        "disagreement_rate": 0.11,
+        "chi2": 2.5568,
+        "p_value": 0.109819
+      },
+      "memory_reduction": null,
+      "memory_note": "GPU memory not instrumented in this harness",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+    }
+  ],
+  "paraphrase_robustness": [],
+  "paraphrase_derived": {
+    "HuggingFaceTB/SmolLM2-1.7B-Instruct": {
+      "n_variants": 2,
+      "mean_accuracy": 0.4075,
+      "std_accuracy": 0.01,
+      "best_case": 0.4175,
+      "worst_case": 0.3975,
+      "robustness_score": 0.9755
+    }
+  },
+  "cost_performance": [],
+  "cost_derived": [
+    {
+      "accuracy": 0.7143,
+      "tokens_per_sec_mean": 36.357,
+      "e2e_ms_mean": 538.94,
+      "accuracy_per_second_measured": 1.325379,
+      "latency_basis": "measured_e2e_ms_mean",
+      "label": "Mac-canary",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct"
+    },
+    {
+      "accuracy": 0.3975,
+      "tokens_per_sec_mean": 23.833,
+      "e2e_ms_mean": 4015.11,
+      "accuracy_per_second_measured": 0.099001,
+      "latency_basis": "measured_e2e_ms_mean",
+      "label": "SmolLM2-control",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+    },
+    {
+      "accuracy": 0.4175,
+      "tokens_per_sec_mean": 7.449,
+      "e2e_ms_mean": 13949.01,
+      "accuracy_per_second_measured": 0.02993,
+      "latency_basis": "measured_e2e_ms_mean",
+      "label": "SmolLM2-int8",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+    }
+  ],
+  "multilingual_derived": [],
+  "pareto": {
+    "frontier": [
+      {
+        "label": "Qwen/Qwen2.5-0.5B-Instruct",
+        "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+        "accuracy": 0.7143,
+        "usd_total_estimated": null,
+        "e2e_ms_mean": 538.94
+      }
+    ],
+    "dominated": [
+      "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "SmolLM2-1.7B-Instruct_quantization_int8_46dd44d463433c26"
+    ]
+  },
+  "multilingual": [],
+  "hallucination": [],
+  "safety_bias": [],
+  "robustness": [],
+  "kendall_tau_model_order": -1.0
+}

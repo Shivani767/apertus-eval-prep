@@ -1,6 +1,17 @@
 # apertus-eval-prep
 
-**Evaluation configuration is part of the measurement.** Chat template, decoding backend, prompt, seed, and precision are named factors, not operator noise.
+**A reproducible, research-grade LLM evaluation framework for configuration-sensitivity studies.**
+
+Evaluation configuration is part of the measurement: model × prompt × template × backend × precision × language × thinking mode × decoding × hardware. This repo freezes that config in YAML + git, ablates **one factor at a time**, and reports Wilson CIs, McNemar paired tests, and Kendall rank stability — not point estimates alone.
+
+**Research question:** *How sensitive are LLM benchmark scores and model rankings to evaluation configuration?*
+
+| Doc | Purpose |
+|---|---|
+| [`docs/IMPLEMENTATION_AUDIT.md`](docs/IMPLEMENTATION_AUDIT.md) | What is implemented vs documented (honest status) |
+| [`docs/STATISTICAL_METHODOLOGY.md`](docs/STATISTICAL_METHODOLOGY.md) | Wilson, McNemar, Kendall — when each applies |
+| [`paper/RELATED_WORK.md`](paper/RELATED_WORK.md) | vs lm-eval, HELM, LightEval, Inspect |
+| [`docs/VALIDATION.md`](docs/VALIDATION.md) | Real end-to-end validation on committed JSON |
 
 [![Paper matrix](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivani767/apertus-eval-prep/blob/master/notebooks/colab_stability.ipynb)
 [![Paper vLLM](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Shivani767/apertus-eval-prep/blob/master/notebooks/colab_stability_backend.ipynb)
@@ -22,7 +33,8 @@ Colab: [`colab_stability.ipynb`](notebooks/colab_stability.ipynb) (HF matrix —
 | **Safety and bias** | `safety_bias` task — refusal recall + over-refusal on benign MCQ |
 | **Cost–performance** | `cost_per_1m_input_tokens` / `cost_per_1m_output_tokens` → USD in JSON + benchmark report |
 | **Quantization evaluation** | int8/int4 via bitsandbytes; OFAT in [`configs/experiments/stability.yaml`](configs/experiments/stability.yaml) |
-| **Automatic experiment reports** | `make paper`, `make figures`, `benchmark-report`, Wilson/McNemar/Kendall in `report` |
+| **Automatic experiment reports** | `make paper`, `make figures`, `benchmark-report`, `reproduce` |
+| **Pareto / derived metrics** | `analysis.py` — reasoning gain, robustness score, acc/cost, quant Δ |
 
 Extended canary (48 items, all probe families): [`configs/full_benchmark.yaml`](configs/full_benchmark.yaml).
 
@@ -157,6 +169,7 @@ Extended benchmark + auto report (all task families, cost estimate):
 ```bash
 python -m apertus_eval_prep eval --config configs/full_benchmark.yaml --out results/full_benchmark.json
 python -m apertus_eval_prep benchmark-report --run results/full_benchmark.json=full --out reports/benchmark
+python -m apertus_eval_prep reproduce --run-id SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d --registry results/registry_paper.jsonl
 make benchmark-report   # uses committed Mac canary JSON
 ```
 

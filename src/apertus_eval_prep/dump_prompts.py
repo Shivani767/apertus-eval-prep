@@ -28,6 +28,7 @@ def dump_prompts(cfg: RunConfig, repo_root: Path, n: int = 4) -> str:
         f"model={cfg.model_id}",
         f"tokenizer={cfg.tokenizer_name()}",
         f"chat_template={cfg.chat_template}",
+        f"thinking_mode={cfg.thinking_mode}",
         f"prompt_id={cfg.prompt_id!r}",
         f"system_prompt={system!r}",
         "",
@@ -37,7 +38,7 @@ def dump_prompts(cfg: RunConfig, repo_root: Path, n: int = 4) -> str:
     ]
     for item in items:
         user_text = wrap_item(item, spec, fewshot_by_task)
-        rendered = render_prompt(tokenizer, user_text, cfg.chat_template, system)
+        rendered = render_prompt(tokenizer, user_text, cfg.chat_template, system, thinking=cfg.thinking_mode)
         chunks.append(f"## {item.id}  task={item.task}  gold={item.gold}")
         chunks.append(rendered)
         chunks.append("")
