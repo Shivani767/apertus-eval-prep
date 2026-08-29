@@ -27,7 +27,7 @@
 | same | Qwen-3B `quantization` int8 + int4 | **DONE** (from partial-3 zip) |
 | same | Phi `seed` | RUN NEXT |
 | same | Phi `quantization` | RUN NEXT |
-| same | `sampled` | later |
+| same | `sampled` T=0.7 × 9 | later (cells 21–23) |
 
 ## Still missing (13 cells)
 
