@@ -107,6 +107,61 @@ def expand_ofat(study: dict[str, Any], profile: str | None = None) -> list[dict[
     return cells
 
 
+def expand_factorial(
+    study: dict[str, Any],
+    axes: dict[str, list],
+    *,
+    profile: str | None = None,
+    include_control: bool = True,
+    only_combos: list[dict[str, Any]] | None = None,
+    max_cells: int | None = None,
+) -> list[dict[str, Any]]:
+    """Multi-factor cells (Phase 5) without replacing OFAT.
+
+    Full factorial over `axes` (e.g. {"prompt_id": [...], "backend": [...]}),
+    or an explicit `only_combos` allow-list (fractional/selected design).
+    `max_cells` is a hard budget: raises when the design exceeds it, so a
+    Cartesian explosion is always explicit, never accidental. Cells record
+    `design: factorial` + the axes so provenance shows the experiment design.
+    """
+    import itertools
+
+    models = [str(m) for m in study["models"]]
+    names = sorted(axes)
+    combos = (
+        [dict(zip(names, vals)) for vals in itertools.product(*(axes[k] for k in names))]
+        if only_combos is None
+        else [dict(c) for c in only_combos]
+    )
+    if max_cells is not None and len(combos) * len(models) > max_cells:
+        raise ValueError(
+            f"factorial design needs {len(combos) * len(models)} cells "
+            f"> budget max_cells={max_cells}; narrow axes/combos first"
+        )
+    cells: list[dict[str, Any]] = []
+    for model in models:
+        if include_control:
+            cells.append(_base_cell(study, model))
+        for combo in combos:
+            cell = _base_cell(study, model)
+            for k, v in combo.items():
+                cell[k] = v
+            cell["factor"] = "x".join(names)
+            cell["factor_level"] = "+".join(f"{k}={combo[k]}" for k in names)
+            cell["design"] = "factorial"
+            cell["design_axes"] = list(names)
+            cells.append(cell)
+
+    if profile:
+        profiles = study.get("profiles") or {}
+        spec = profiles.get(profile)
+        if spec is None:
+            raise ValueError(f"unknown profile {profile!r}; have {sorted(profiles)}")
+        skip_list = spec.get("skip") or []
+        cells = [c for c in cells if not any(_matches_skip(c, s) for s in skip_list)]
+    return cells
+
+
 def cell_to_run_config(cell: dict[str, Any], overrides: dict[str, Any] | None = None) -> RunConfig:
     raw = deepcopy(cell)
     raw.pop("factor", None)
