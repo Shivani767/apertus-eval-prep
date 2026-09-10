@@ -299,22 +299,40 @@ Difference:
 
 **+7 examples / +0.88 percentage points**
 
-This is a result from one matched experiment, not evidence that INT4 is universally better than INT8.
+For the committed Phi-3.5 measurements:
 
-The framework is designed to make these comparisons reproducible across additional models, tasks, hardware, and backends.
+| Configuration |   Correct | Accuracy |
+| ------------- | --------: | -------: |
+| **Control**   | 536 / 800 |   67.00% |
+| **INT8**      | 538 / 800 |   67.25% |
+| **INT4**      | 559 / 800 |   69.88% |
+
+Difference vs control:
+
+**INT8: +2 examples / +0.25 pp · INT4: +23 examples / +2.88 pp**
+
+These are results from matched experiments, not evidence that one precision is universally better. The framework is designed to make these comparisons reproducible across additional models, tasks, hardware, and backends.
 
 ---
 
 # Sampling Stability
 
-The repository also records repeated runs under controlled sampling settings.
+The repository also records repeated runs under controlled sampling settings (T=0.7, top_p=0.95).
 
 For SmolLM2 at temperature 0.7, three seeds produced:
 
 ```text
-Seed 0 → 36.25%
-Seed 1 → 37.62%
-Seed 2 → 39.00%
+Seed 0 → 36.00% (288/800)
+Seed 1 → 36.75% (294/800)
+Seed 2 → 39.00% (312/800)
+```
+
+For Qwen-3B at temperature 0.7, three seeds produced:
+
+```text
+Seed 0 → 64.25% (514/800)
+Seed 1 → 65.00% (520/800)
+Seed 2 → 63.00% (504/800)
 ```
 
 This makes stochastic variation visible instead of hiding it behind a single run.
@@ -473,9 +491,9 @@ The paper experiment matrix currently tracks:
 
 | Metric                   | Status            |
 | ------------------------ | ----------------- |
-| Paper matrix             | **23 / 34 cells** |
-| Completion               | **67.6%**         |
-| Remaining cells          | **11**            |
+| Paper matrix             | **31 / 34 cells** |
+| Completion               | **91.2%**         |
+| Remaining cells          | **3 (Phi `sampled` T=0.7 × 3)** |
 | Automated tests          | **58 passing**    |
 | Statistical methodology  | **Implemented**   |
 | Reproduction CLI         | **Available**     |

@@ -4,11 +4,13 @@ This directory contains the replayable evidence for the paper-matrix and canary 
 
 ## Status
 
-The repository currently includes the downloaded paper-result archive and the sampled output files in [results/runs](runs). The verified paper-matrix state is:
+The repository currently includes the downloaded paper-result archives and the run outputs in [results/runs](runs). The verified paper-matrix state is:
 
-- 23 / 34 cells completed
-- 11 cells remain
-- sampled cell 21 is included and counted as completed
+- 31 / 34 cells completed
+- 3 cells remain (Phi `sampled` T=0.7 × 3)
+- Phi `quantization` int8 (538/800) + int4 (559/800) merged as completed
+- Qwen-3B `sampled` T=0.7 × 3 merged as completed (514 / 520 / 504)
+- SmolLM2 `sampled` T=0.7 × 3 committed (288 / 294 / 312)
 
 ## Artifact layout
 
