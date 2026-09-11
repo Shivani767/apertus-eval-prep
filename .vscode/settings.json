@@ -1,0 +1,26 @@
+{
+  "python.analysis.extraPaths": [
+    "src",
+    "apertus-eval-prep/src"
+  ],
+  "python.analysis.typeCheckingMode": "basic",
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
+  },
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.egg-info": true,
+    "**/.pytest_cache": true
+  },
+  "search.exclude": {
+    "frontend/node_modules": true,
+    "frontend/dist": true
+  },
+  "files.associations": {
+    "*.jsonl": "json"
+  }
+}

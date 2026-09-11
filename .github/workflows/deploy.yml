@@ -1,6 +1,8 @@
 name: Deploy Dashboard to GitHub Pages
 
-on:
+# Quoted so YAML 1.1 parsers do not coerce the key to boolean True,
+# which makes naive validators report "Expected a scalar value".
+"on":
   push:
     branches: [master]
   workflow_dispatch:
