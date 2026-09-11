@@ -1,4 +1,4 @@
-.PHONY: test smoke eval-hf eval-none eval-mismatch dump compare-template sweep-dry report paper figures ci-width benchmark-report
+.PHONY: test smoke eval-hf eval-none eval-mismatch dump compare-template sweep-dry report catalog paper figures ci-width benchmark-report
 
 PYTHON ?= python
 
@@ -32,6 +32,9 @@ sweep-dry:
 report:
 	$(PYTHON) -m apertus_eval_prep report --registry results/registry.jsonl --out reports/stability
 	$(PYTHON) -m apertus_eval_prep paper-tables --registry results/registry.jsonl --out paper/_generated_tables.md
+
+catalog:
+	$(PYTHON) -m apertus_eval_prep catalog --out data/catalog
 
 paper:
 	$(PYTHON) -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-dir paper

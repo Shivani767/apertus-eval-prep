@@ -454,6 +454,23 @@ def cmd_profile(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_catalog(args: argparse.Namespace) -> int:
+    """Regenerate the fingerprinted dataset/model catalog (MEASURED+DERIVED)."""
+    import json as _json
+
+    from apertus_eval_prep.catalog import build_catalog, render_catalog_markdown
+
+    root = repo_root()
+    cat = build_catalog(root, Path(args.registry) if args.registry else root / "results/registry_paper.jsonl")
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "catalog.json").write_text(_json.dumps(cat, indent=2) + "\n", encoding="utf-8")
+    md = out / "catalog.md"
+    md.write_text(render_catalog_markdown(cat), encoding="utf-8")
+    print(f"Wrote {out / 'catalog.json'} and {md}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="apertus-eval-prep",
@@ -603,6 +620,17 @@ def build_parser() -> argparse.ArgumentParser:
     p_prof.add_argument("--run", required=True, help="Scored run JSON.")
     p_prof.add_argument("--out", default="reports/profile")
     p_prof.set_defaults(func=cmd_profile)
+
+    p_cat = sub.add_parser(
+        "catalog",
+        help="Fingerprint datasets (sha256) and model coverage from the registry.",
+    )
+    p_cat.add_argument(
+        "--registry", default=None,
+        help="Registry JSONL for model coverage (default: results/registry_paper.jsonl).",
+    )
+    p_cat.add_argument("--out", default="data/catalog")
+    p_cat.set_defaults(func=cmd_catalog)
     return parser
 
 

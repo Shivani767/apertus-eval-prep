@@ -106,7 +106,7 @@ tests/ (24 files, 116 tests, synthetic fixtures, no network/GPU)
 | Gap | Consequence | Planned module |
 |---|---|---|
 | Dataset/model registries (id, revision, license, sha256 fingerprint, schema version) | `SOURCES.md` is prose only; items carry no dataset revision; models carry `revision: None` | `catalog.py` + `data/catalog/*.jsonl` |
-| Experiment planner (`apertus plan`) | sweep expands cells but there is no candidate/selected/completed/failed/held-out state file | `planner.py` + `results/plans/<study>.json` |
+| Experiment planner — deterministic cell expansion | `sweep` expands residue cells from `configs/experiments/stability.yaml` deterministically; candidate expansion lives inside `sweep.py:expand_ofat`/`expand_factorial`. No separate `apertus plan` CLI. | EXISTS (sweep-based) |
 | Held-out isolation | nothing marks cells off-limits to adaptive selection | planner state (held-out partition excluded from adaptive observation) |
 | `reproduce --execute` | verification is static; no true rerun comparison | extend `reproduce.py` (same runner, deterministic seed) |
 | ERS validation experiment | ERS is an unvalidated hypothesis; no calibration evidence | `ers_validation` analysis + doc |
