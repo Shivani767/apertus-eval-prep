@@ -471,6 +471,30 @@ def cmd_catalog(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_experiment(args: argparse.Namespace) -> int:
+    """Run a full experiment end-to-end (config → sweep → stats → report)."""
+    from apertus_eval_prep.experiment_runner import run_experiment
+
+    root = repo_root()
+    config_path = Path(args.config).resolve()
+    registry_path = Path(args.registry).resolve() if args.registry else root / "results/registry_paper.jsonl"
+    output_dir = Path(args.out).resolve()
+
+    run = run_experiment(
+        args.id,
+        config_path,
+        root,
+        registry_path=registry_path,
+        output_dir=output_dir,
+        n_boot=args.n_boot,
+        seed=args.seed,
+    )
+    print(f"Wrote {output_dir / (args.id + '_result.json')}")
+    print(f"Wrote {output_dir / (args.id + '_report.md')}")
+    print(f"Cells measured: {len(run.results)}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="apertus-eval-prep",
@@ -631,6 +655,18 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_cat.add_argument("--out", default="data/catalog")
     p_cat.set_defaults(func=cmd_catalog)
+
+    p_exp = sub.add_parser(
+        "experiment",
+        help="Run a full experiment end-to-end (config → sweep → stats → report).",
+    )
+    p_exp.add_argument("--config", required=True, help="Experiment config YAML.")
+    p_exp.add_argument("--id", required=True, help="Experiment ID (used for output filenames).")
+    p_exp.add_argument("--registry", default=None, help="Registry JSONL (default: results/registry_paper.jsonl).")
+    p_exp.add_argument("--out", default="reports/experiments", help="Output directory.")
+    p_exp.add_argument("--n-boot", dest="n_boot", type=int, default=300)
+    p_exp.add_argument("--seed", type=int, default=0)
+    p_exp.set_defaults(func=cmd_experiment)
     return parser
 
 
