@@ -1,0 +1,54 @@
+{
+  "frontier": [
+    {
+      "label": "SmolLM2-hf",
+      "cost_est_total_s": 3212.088,
+      "n_calls": 800,
+      "tokens_per_sec_mean": 23.833,
+      "quality_accuracy": 0.3975,
+      "n_items": 800,
+      "pareto": "frontier"
+    },
+    {
+      "label": "Qwen3B-hf",
+      "cost_est_total_s": 5224.2,
+      "n_calls": 800,
+      "tokens_per_sec_mean": 10.81,
+      "quality_accuracy": 0.64375,
+      "n_items": 800,
+      "pareto": "frontier"
+    },
+    {
+      "label": "Phi-hf",
+      "cost_est_total_s": 7293.496000000001,
+      "n_calls": 800,
+      "tokens_per_sec_mean": 19.931,
+      "quality_accuracy": 0.67,
+      "n_items": 800,
+      "pareto": "frontier"
+    },
+    {
+      "label": "Phi-int4",
+      "cost_est_total_s": 8400.968,
+      "n_calls": 800,
+      "tokens_per_sec_mean": 18.149,
+      "quality_accuracy": 0.69875,
+      "n_items": 800,
+      "pareto": "frontier"
+    }
+  ],
+  "dominated": [],
+  "excluded": [
+    {
+      "label": "SmolLM2-vllm",
+      "cost_est_total_s": null,
+      "n_calls": 800,
+      "tokens_per_sec_mean": null,
+      "quality_accuracy": 0.42,
+      "n_items": 800,
+      "pareto": "excluded"
+    }
+  ],
+  "x_key": "cost_est_total_s",
+  "y_key": "quality_accuracy"
+}

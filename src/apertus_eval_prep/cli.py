@@ -305,6 +305,71 @@ def cmd_ers(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_pareto(args: argparse.Namespace) -> int:
+    """Pareto frontier (quality vs cost) across scored run files.
+
+    Cost from the recorded latency block (DERIVED est_total_s), quality from
+    per-item correctness. Points missing either coordinate are excluded from
+    the frontier and listed — never placed at zero.
+    """
+    import json as _json
+
+    from apertus_eval_prep.cost import extract_cost
+    from apertus_eval_prep.pareto import pareto_front, render_pareto_markdown
+
+    points = []
+    for spec in args.run:
+        if "=" in spec:
+            path, label = spec.split("=", 1)
+        else:
+            path, label = spec, Path(spec).stem
+        with open(path, encoding="utf-8") as f:
+            blob = _json.load(f)
+        rec = extract_cost(blob, run_id=label)
+        items = blob.get("items") or []
+        correct = [1 if it.get("correct") else 0 for it in items]
+        acc = sum(correct) / len(correct) if correct else None
+        points.append({
+            "label": label,
+            "cost_est_total_s": rec.est_total_s,
+            "n_calls": rec.n_calls,
+            "tokens_per_sec_mean": rec.tokens_per_sec_mean,
+            "quality_accuracy": acc,
+            "n_items": len(correct),
+        })
+
+    analysis = pareto_front(
+        points, x_key="cost_est_total_s", y_key="quality_accuracy"
+    )
+    out_dir = Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "pareto.json").write_text(
+        _json.dumps(analysis, indent=2) + "\n", encoding="utf-8"
+    )
+    md_path = out_dir / "pareto.md"
+    md = render_pareto_markdown(
+        {
+            "frontier": [
+                {**p, "cost": p["cost_est_total_s"], "acc": p["quality_accuracy"]}
+                for p in analysis["frontier"]
+            ],
+            "dominated": [
+                {**p, "cost": p["cost_est_total_s"], "acc": p["quality_accuracy"]}
+                for p in analysis["dominated"]
+            ],
+            "excluded": [
+                {**p, "cost": p["cost_est_total_s"], "acc": p["quality_accuracy"]}
+                for p in analysis["excluded"]
+            ],
+            "x_key": "cost",
+            "y_key": "acc",
+        }
+    )
+    md_path.write_text(md, encoding="utf-8")
+    print(f"Wrote {out_dir / 'pareto.json'} and {md_path}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="apertus-eval-prep",
@@ -400,6 +465,19 @@ def build_parser() -> argparse.ArgumentParser:
     p_ers.add_argument("--n-boot", dest="n_boot", type=int, default=300)
     p_ers.add_argument("--seed", type=int, default=0)
     p_ers.set_defaults(func=cmd_ers)
+
+    p_pareto = sub.add_parser(
+        "pareto",
+        help="Pareto frontier (accuracy vs cost) across scored run files.",
+    )
+    p_pareto.add_argument(
+        "--run",
+        action="append",
+        required=True,
+        help="path or path=label. Repeat for each scored JSON.",
+    )
+    p_pareto.add_argument("--out", default="reports/pareto")
+    p_pareto.set_defaults(func=cmd_pareto)
     return parser
 
 
