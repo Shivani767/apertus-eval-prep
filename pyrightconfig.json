@@ -1,0 +1,9 @@
+{
+  "//": "Editor/Pylance config. The package lives under src/ (setuptools src-layout), which pytest finds via [tool.pytest.ini_options] pythonpath. Pylance does not read pyproject.toml, so extraPaths is declared here to resolve `apertus_eval_prep` imports in the IDE.",
+  "include": ["src", "tests", "scripts"],
+  "extraPaths": ["src"],
+  "exclude": ["**/node_modules", "**/dist", "**/.venv", "reports", "results"],
+  "pythonVersion": "3.10",
+  "typeCheckingMode": "basic",
+  "reportMissingImports": "warning"
+}
