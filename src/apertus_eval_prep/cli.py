@@ -370,6 +370,36 @@ def cmd_pareto(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_failures(args: argparse.Namespace) -> int:
+    """Failure taxonomy report across scored run files (measured counts)."""
+    import json as _json
+
+    from apertus_eval_prep.failures import (
+        failure_taxonomy,
+        render_failure_markdown,
+    )
+
+    reports = {}
+    for spec in args.run:
+        if "=" in spec:
+            path, label = spec.split("=", 1)
+        else:
+            path, label = spec, Path(spec).stem
+        with open(path, encoding="utf-8") as f:
+            blob = _json.load(f)
+        reports[label] = failure_taxonomy(blob)
+
+    out_dir = Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "failures.json").write_text(
+        _json.dumps(reports, indent=2) + "\n", encoding="utf-8"
+    )
+    md_path = out_dir / "failures.md"
+    md_path.write_text(render_failure_markdown(reports), encoding="utf-8")
+    print(f"Wrote {out_dir / 'failures.json'} and {md_path}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="apertus-eval-prep",
@@ -478,6 +508,19 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_pareto.add_argument("--out", default="reports/pareto")
     p_pareto.set_defaults(func=cmd_pareto)
+
+    p_fail = sub.add_parser(
+        "failures",
+        help="Failure taxonomy (runtime/empty/unparseable/wrong) over scored runs.",
+    )
+    p_fail.add_argument(
+        "--run",
+        action="append",
+        required=True,
+        help="path or path=label. Repeat for each scored JSON.",
+    )
+    p_fail.add_argument("--out", default="reports/failures")
+    p_fail.set_defaults(func=cmd_failures)
     return parser
 
 
