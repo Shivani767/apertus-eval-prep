@@ -18,7 +18,7 @@
 | Qwen-7B | quantization | int4 | 543 |
 | SmolLM2 / Qwen-3B / Phi | backend | vllm | 336 / 534 / 537 |
 | SmolLM2 / Qwen-3B / Phi | seed | 1 / 2 | 318 / 318; 515 / 515; **536 / 536** (all match control) |
-| SmolLM2 | sampled | t0.7_seed0 / t0.7_seed1 / t0.7_seed2 | 288 / 294 / 312 |
+| SmolLM2 | sampled | t0.7_seed0 / t0.7_seed1 / t0.7_seed2 | 290 / 301 / 312 |
 | Qwen-3B | sampled | t0.7_seed0 / t0.7_seed1 / t0.7_seed2 | 514 / 520 / 504 |
 
 ## Colab jobs

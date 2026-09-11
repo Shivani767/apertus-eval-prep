@@ -10,7 +10,7 @@ The repository currently includes the downloaded paper-result archives and the r
 - 3 cells remain (Phi `sampled` T=0.7 × 3)
 - Phi `quantization` int8 (538/800) + int4 (559/800) merged as completed
 - Qwen-3B `sampled` T=0.7 × 3 merged as completed (514 / 520 / 504)
-- SmolLM2 `sampled` T=0.7 × 3 committed (288 / 294 / 312)
+- SmolLM2 `sampled` T=0.7 × 3 committed (290 / 301 / 312; seed0/1 rows corrected from artifacts — see row `correction` provenance)
 
 ## Artifact layout
 

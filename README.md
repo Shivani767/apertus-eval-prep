@@ -322,8 +322,8 @@ The repository also records repeated runs under controlled sampling settings (T=
 For SmolLM2 at temperature 0.7, three seeds produced:
 
 ```text
-Seed 0 → 36.00% (288/800)
-Seed 1 → 36.75% (294/800)
+Seed 0 → 36.25% (290/800)
+Seed 1 → 37.63% (301/800)
 Seed 2 → 39.00% (312/800)
 ```
 

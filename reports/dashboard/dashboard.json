@@ -1,0 +1,83 @@
+{
+  "registry": "results/registry_paper.jsonl",
+  "n_rows": 31,
+  "coverage": {
+    "MEASURED": 25,
+    "SAMPLED": 6,
+    "PENDING": 0
+  },
+  "models": {
+    "HuggingFaceTB/SmolLM2-1.7B-Instruct": {
+      "n_cells": 11,
+      "mean_accuracy": 0.3745,
+      "min_accuracy": 0.2325,
+      "max_accuracy": 0.42
+    },
+    "Qwen/Qwen2.5-3B-Instruct": {
+      "n_cells": 11,
+      "mean_accuracy": 0.6385,
+      "min_accuracy": 0.5125,
+      "max_accuracy": 0.6863
+    },
+    "Qwen/Qwen2.5-7B-Instruct": {
+      "n_cells": 1,
+      "mean_accuracy": 0.6787,
+      "min_accuracy": 0.6787,
+      "max_accuracy": 0.6787
+    },
+    "microsoft/Phi-3.5-mini-instruct": {
+      "n_cells": 8,
+      "mean_accuracy": 0.6506,
+      "min_accuracy": 0.5637,
+      "max_accuracy": 0.6987
+    }
+  },
+  "ers": {
+    "ers": 0.7155,
+    "components": {
+      "ci_separation": 0.6666666666666666,
+      "bootstrap_tau": 0.8288888888888889,
+      "config_stability": 0.643061894740153,
+      "seed_stability": null
+    },
+    "components_used": [
+      "bootstrap_tau",
+      "ci_separation",
+      "config_stability"
+    ],
+    "weights_used": {
+      "bootstrap_tau": 0.3,
+      "ci_separation": 0.4,
+      "config_stability": 0.2
+    },
+    "n_components": 3,
+    "bootstrap": {
+      "mean_tau": 0.8288888888888889,
+      "p_any_reversal": 0.25666666666666665,
+      "n_models": 3,
+      "n_configs": 8
+    },
+    "provisional": true,
+    "models": [
+      "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "Qwen/Qwen2.5-3B-Instruct",
+      "microsoft/Phi-3.5-mini-instruct"
+    ],
+    "n_configs_used": 11,
+    "n_missing_cells": 3,
+    "excluded_models_lt2_cells": [
+      "Qwen/Qwen2.5-7B-Instruct"
+    ],
+    "provenance": "DERIVED from measured registry rows; not a new measurement"
+  },
+  "deviations": {
+    "n_verified": 31,
+    "n_pass": 31,
+    "n_fail": 0,
+    "n_pending_no_artifact": 0,
+    "details_fail": [],
+    "note": "fail closed: rows without artifacts count as failures"
+  },
+  "failures": {},
+  "provenance": "dashboard DERIVED from committed registry + artifacts"
+}
