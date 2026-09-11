@@ -3,7 +3,7 @@
 ### A reproducible LLM evaluation system for measuring how models, prompts, inference backends, quantization, decoding, and runtime configuration affect benchmark results.
 
 [![Research Artifact](https://img.shields.io/badge/Status-Research%20Artifact-blue)](https://github.com/Shivani767/apertus-eval-prep)
-[![Tests](https://img.shields.io/badge/Tests-124%20passing-success)](https://github.com/Shivani767/apertus-eval-prep/tree/master/tests)
+[![Tests](https://img.shields.io/badge/Tests-131%20passing-success)](https://github.com/Shivani767/apertus-eval-prep/tree/master/tests)
 [![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/Shivani767/apertus-eval-prep/blob/master/LICENSE)
 
 ---
