@@ -1,0 +1,95 @@
+name: Deploy Dashboard to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  generate-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install Python dependencies
+        run: pip install -e .
+
+      - name: Generate dashboard data
+        run: |
+          mkdir -p reports/dashboard reports/ers reports/failures reports/pareto reports/catalog
+          PYTHONPATH=src python -m apertus_eval_prep dashboard \
+            --run results/runs/Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83.json \
+            --out reports/dashboard
+          PYTHONPATH=src python -m apertus_eval_prep ers \
+            --registry results/registry_paper.jsonl --out reports/ers
+          PYTHONPATH=src python -m apertus_eval_prep failures \
+            --run results/runs/Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83.json=Phi-int4 \
+            --run results/runs/SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d.json=SmolLM2-hf \
+            --out reports/failures
+          PYTHONPATH=src python -m apertus_eval_prep pareto \
+            --run results/runs/Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83.json=Phi-int4 \
+            --run results/runs/SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d.json=SmolLM2-hf \
+            --out reports/pareto
+          PYTHONPATH=src python -m apertus_eval_prep catalog --out reports/catalog
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: reports/
+
+  build-frontend:
+    needs: generate-data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Download generated data
+        uses: actions/download-artifact@v4
+        with:
+          name: reports
+          path: reports/
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Copy data into public folder
+        run: node frontend/scripts/copy-data.mjs
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+
+  deploy:
+    needs: build-frontend
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
