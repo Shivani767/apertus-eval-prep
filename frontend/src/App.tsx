@@ -1,11 +1,24 @@
-import { useState } from 'react'
-import dashboardData from './data/dashboard/dashboard.json'
+import { useEffect, useState } from 'react'
+import { DashboardData, loadDashboard, loadERS, loadFailures } from './data'
 
 type Tab = 'overview' | 'rankings' | 'reliability' | 'failures'
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('overview')
-  const d = dashboardData
+  const [d, setD] = useState<DashboardData | null>(null)
+  const [ers, setErs] = useState<DashboardData['ers'] | null>(null)
+    const [failures, setFailures] = useState<Record<string, any> | null>(null)
+  const [err, setErr] = useState<string | null>(null)
+
+  useEffect(() => {
+    Promise.all([loadDashboard(), loadERS(), loadFailures()])
+      .then(([dash, e, f]) => { setD(dash); setErs(e); setFailures(f) })
+      .catch((e: unknown) => setErr(String(e)))
+  }, [])
+
+  if (err) return <p style={{ color: 'red' }}>Failed to load data: {err}</p>
+  if (!d) return <p>Loading dashboard data from /data/ …</p>
+
   const models = Object.entries(d.models as Record<string, { n_cells: number; mean_accuracy: number; min_accuracy: number; max_accuracy: number }>)
 
   return (
@@ -25,8 +38,8 @@ export default function App() {
 
       {tab === 'overview' && <Overview models={models} />}
       {tab === 'rankings' && <Rankings models={models} />}
-      {tab === 'reliability' && <Reliability ers={d.ers} />}
-      {tab === 'failures' && <Failures deviations={d.deviations} failures={d.failures} />}
+      {tab === 'reliability' && <Reliability ers={ers} deviations={d.deviations} />}
+      {tab === 'failures' && <Failures failures={failures} />}
     </div>
   )
 }
@@ -69,7 +82,7 @@ function Rankings({ models }: { models: [string, { n_cells: number; mean_accurac
   )
 }
 
-function Reliability({ ers }: { ers: any }) {
+function Reliability({ ers, deviations }: { ers: any; deviations: any }) {
   if (!ers) return <p>No ERS data.</p>
   return (
     <section>
@@ -81,24 +94,36 @@ function Reliability({ ers }: { ers: any }) {
         ))}
       </ul>
       {ers.bootstrap && <p style={{ color: '#666' }}>bootstrap tau={ers.bootstrap.mean_tau?.toFixed(3)}, p(reversal)={ers.bootstrap.p_any_reversal?.toFixed(3)}</p>}
+      {deviations && (
+        <p style={{ color: '#666' }}>Artifacts verified: {deviations.n_verified} total,
+           {deviations.n_pass} pass / {deviations.n_fail} fail
+           {deviations.details_fail.length > 0 && `, ${deviations.details_fail.length} with deviations`}.</p>
+      )}
     </section>
   )
 }
 
-function Failures({ deviations, failures }: { deviations: any; failures: Record<string, unknown> }) {
-  void failures
+function Failures({ failures }: { failures: Record<string, any> | null }) {
+  if (!failures) return <p>No failure data.</p>
   return (
     <section>
-      <h2>Artifact Verification (deviation checks)</h2>
-      {deviations && (
-        <p>verified: <strong>{deviations.n_verified}</strong> — pass: <strong>{deviations.n_pass}</strong> / fail: <strong>{deviations.n_fail}</strong> (pending: {deviations.n_pending_no_artifact})</p>
-      )}
-      {deviations?.details_fail?.length > 0 && (
-        <ul>{deviations.details_fail.map((f: any, i: number) => (
-          <li key={i} style={{ color: '#cc0000' }}>{f.run_id}: {f.failed_checks.join(', ')}</li>
-        ))}</ul>
-      )}
-      {(!deviations || deviations.n_fail === 0) && <p style={{ color: '#006600' }}>All artifacts pass deviation checks.</p>}
+      <h2>Failure taxonomy (measured per-item counts)</h2>
+      {Object.entries(failures).map(([label, rep]: [string, any]) => (
+        <div key={label} style={{ marginBottom: 24 }}>
+          <h3>{label}</h3>
+          <p>{rep.items} items, overall failure rate: {Math.round(rep.overall_failure_rate * 10000) / 100}%</p>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead><tr style={{ textAlign: 'left', borderBottom: '1px solid #ddd' }}>
+              <th>category</th><th>count</th><th>rate</th>
+            </tr></thead>
+            <tbody>{Object.entries(rep.categories).map(([cat, v]: [string, any]) => (
+              <tr key={cat} style={{ borderBottom: '1px solid #eee' }}>
+                <td>{cat}</td><td>{v.count}</td><td>{Math.round(v.rate * 10000) / 100}%</td>
+              </tr>
+            ))}</tbody>
+                    </table>
+        </div>
+      ))}
     </section>
   )
 }
