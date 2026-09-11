@@ -282,3 +282,87 @@ def render_catalog_markdown(cat: dict[str, Any]) -> str:
         lines.append(f"| {m['model_id']} | {rev} | {', '.join(m['measured_backends'])} | "
                      f"{', '.join(m['measured_quantizations'])} | {m['n_registry_cells']} |")
     return "\n".join(lines) + "\n"
+
+
+# ---------------------------------------------------------------------------
+# Artifact catalog: versioned, fingerprinted index of run JSON files.
+# ---------------------------------------------------------------------------
+
+class ArtifactCatalog:
+    """Index of run artifacts with content hashes and measured metadata.
+
+    Each entry records the artifact path, sha256, size, model_id, factor,
+    factor_level, status, config_hash, and n_items — all MEASURED from the
+    file bytes, never asserted. Missing/unreadable files are skipped and
+    counted in n_skipped.
+    """
+
+    def __init__(self, entries: list[dict[str, Any]], n_skipped: int = 0) -> None:
+        self.entries = entries
+        self.n_skipped = n_skipped
+
+    def by_model(self) -> dict[str, list[dict[str, Any]]]:
+        out: dict[str, list[dict[str, Any]]] = {}
+        for e in self.entries:
+            out.setdefault(e.get("model_id", "unknown"), []).append(e)
+        return out
+
+    def by_factor(self) -> dict[str, list[dict[str, Any]]]:
+        out: dict[str, list[dict[str, Any]]] = {}
+        for e in self.entries:
+            out.setdefault(e.get("factor", "unknown"), []).append(e)
+        return out
+
+    def by_config_hash(self, config_hash: str) -> dict[str, Any] | None:
+        for e in self.entries:
+            if e.get("config_hash") == config_hash:
+                return e
+        return None
+
+
+def artifact_catalog(repo_root: Path, registry_path: Path) -> ArtifactCatalog:
+    """Build an ArtifactCatalog from a registry's run files.
+
+    For each registry row with a 'path', reads the run JSON and records
+    measured metadata. Files that are missing, unreadable, or not valid
+    JSON are skipped and counted.
+    """
+    rows = [
+        json.loads(l)
+        for l in registry_path.read_text(encoding="utf-8").splitlines()
+        if l.strip()
+    ]
+    entries: list[dict[str, Any]] = []
+    skipped = 0
+    for row in rows:
+        path = row.get("path")
+        if not path:
+            skipped += 1
+            continue
+        run_path = Path(path) if Path(path).is_absolute() else repo_root / path
+        if not run_path.exists():
+            skipped += 1
+            continue
+        try:
+            blob = json.loads(run_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            skipped += 1
+            continue
+        manifest = blob.get("manifest") or {}
+        settings = manifest.get("settings") or {}
+        overall = blob.get("overall") or {}
+        items = blob.get("items") or []
+        entries.append({
+            "path": str(run_path),
+            "sha256": sha256_file(run_path),
+            "size_bytes": run_path.stat().st_size,
+            "model_id": row.get("model_id") or settings.get("model_id"),
+            "factor": row.get("factor"),
+            "factor_level": row.get("factor_level"),
+            "status": row.get("status"),
+            "config_hash": row.get("config_hash") or blob.get("config_hash"),
+            "n_items": len(items),
+            "accuracy": overall.get("accuracy"),
+            "git_commit": manifest.get("git_commit"),
+        })
+    return ArtifactCatalog(entries, n_skipped=skipped)
