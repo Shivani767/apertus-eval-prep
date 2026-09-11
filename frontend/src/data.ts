@@ -40,7 +40,10 @@ export interface FailureReport {
   }
 }
 
-const BASE = '/data'
+// Resolve data under the deployed base path (vite `base`), so the bundled
+// app works both at "/" in dev and at "/apertus-eval-prep/" on GitHub Pages.
+// BASE_URL always ends with "/" (Vite guarantees this).
+const BASE = `${import.meta.env.BASE_URL}data`
 
 async function loadJSON<T>(path: string): Promise<T> {
   const res = await fetch(`${BASE}/${path}`)
