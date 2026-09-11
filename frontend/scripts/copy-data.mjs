@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const repoRoot = join(__dirname, '..', '..')
 const reportsDir = join(repoRoot, 'reports')
 const catalogDir = join(repoRoot, 'data', 'catalog')
-const outDir = join(repoRoot, 'frontend', 'src', 'data')
+const outDir = join(repoRoot, 'frontend', 'public', 'data')
 
 mkdirSync(outDir, { recursive: true })
 

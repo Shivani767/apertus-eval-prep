@@ -1,0 +1,162 @@
+{
+  "Phi-int4": {
+    "total": 800,
+    "counts": {
+      "runtime_error": 0,
+      "empty_output": 0,
+      "unparseable": 0,
+      "wrong_answer": 241,
+      "correct": 559
+    },
+    "rates": {
+      "runtime_error": 0.0,
+      "empty_output": 0.0,
+      "unparseable": 0.0,
+      "wrong_answer": 0.30125,
+      "correct": 0.69875
+    },
+    "per_task": {
+      "arc_easy": {
+        "total": 200,
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 4,
+        "correct": 196,
+        "rates": {
+          "runtime_error": 0.0,
+          "empty_output": 0.0,
+          "unparseable": 0.0,
+          "wrong_answer": 0.02,
+          "correct": 0.98
+        }
+      },
+      "gsm8k": {
+        "total": 200,
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 96,
+        "correct": 104,
+        "rates": {
+          "runtime_error": 0.0,
+          "empty_output": 0.0,
+          "unparseable": 0.0,
+          "wrong_answer": 0.48,
+          "correct": 0.52
+        }
+      },
+      "hellaswag": {
+        "total": 200,
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 44,
+        "correct": 156,
+        "rates": {
+          "runtime_error": 0.0,
+          "empty_output": 0.0,
+          "unparseable": 0.0,
+          "wrong_answer": 0.22,
+          "correct": 0.78
+        }
+      },
+      "mgsm": {
+        "total": 200,
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 97,
+        "correct": 103,
+        "rates": {
+          "runtime_error": 0.0,
+          "empty_output": 0.0,
+          "unparseable": 0.0,
+          "wrong_answer": 0.485,
+          "correct": 0.515
+        }
+      }
+    },
+    "failure_rate": 0.30125
+  },
+  "SmolLM2-hf": {
+    "total": 800,
+    "counts": {
+      "runtime_error": 0,
+      "empty_output": 0,
+      "unparseable": 0,
+      "wrong_answer": 482,
+      "correct": 318
+    },
+    "rates": {
+      "runtime_error": 0.0,
+      "empty_output": 0.0,
+      "unparseable": 0.0,
+      "wrong_answer": 0.6025,
+      "correct": 0.3975
+    },
+    "per_task": {
+      "arc_easy": {
+        "total": 200,
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 56,
+        "correct": 144,
+        "rates": {
+          "runtime_error": 0.0,
+          "empty_output": 0.0,
+          "unparseable": 0.0,
+          "wrong_answer": 0.28,
+          "correct": 0.72
+        }
+      },
+      "gsm8k": {
+        "total": 200,
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 136,
+        "correct": 64,
+        "rates": {
+          "runtime_error": 0.0,
+          "empty_output": 0.0,
+          "unparseable": 0.0,
+          "wrong_answer": 0.68,
+          "correct": 0.32
+        }
+      },
+      "hellaswag": {
+        "total": 200,
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 134,
+        "correct": 66,
+        "rates": {
+          "runtime_error": 0.0,
+          "empty_output": 0.0,
+          "unparseable": 0.0,
+          "wrong_answer": 0.67,
+          "correct": 0.33
+        }
+      },
+      "mgsm": {
+        "total": 200,
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 156,
+        "correct": 44,
+        "rates": {
+          "runtime_error": 0.0,
+          "empty_output": 0.0,
+          "unparseable": 0.0,
+          "wrong_answer": 0.78,
+          "correct": 0.22
+        }
+      }
+    },
+    "failure_rate": 0.6025
+  }
+}

@@ -1,0 +1,413 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "content_sha256/n/languages": "MEASURED from frozen files",
+    "model coverage": "DERIVED from experiment registry + MEASURED artifact settings",
+    "hub revisions/licenses": "DERIVED from SOURCES.md"
+  },
+  "datasets": [
+    {
+      "dataset_id": "allenai/ai2_arc:test",
+      "task": "arc_easy",
+      "file": "arc_easy.jsonl",
+      "schema_version": 1,
+      "source": {
+        "hf_id": "allenai/ai2_arc",
+        "split": "test",
+        "hub_revision": "210d026faf9955653af8916fad021475a3f00453",
+        "license": "CC-BY-SA-4.0",
+        "evidence": "DERIVED from data/official/SOURCES.md"
+      },
+      "status": "MEASURED",
+      "content_sha256": "39fe29aa22fc0d040b59e50fbc861e2e59dcc1bbc9bea428c1738ac05a15abcb",
+      "measured": {
+        "n_items": 200,
+        "languages": [
+          "en"
+        ],
+        "tasks": [
+          "arc_easy"
+        ],
+        "n_duplicate_ids": 0,
+        "evidence": "MEASURED from file bytes"
+      }
+    },
+    {
+      "dataset_id": "openai/gsm8k:test",
+      "task": "gsm8k",
+      "file": "gsm8k.jsonl",
+      "schema_version": 1,
+      "source": {
+        "hf_id": "openai/gsm8k",
+        "split": "test",
+        "hub_revision": "740312add88f781978c0658806c59bc2815b9866",
+        "license": "MIT",
+        "evidence": "DERIVED from data/official/SOURCES.md"
+      },
+      "status": "MEASURED",
+      "content_sha256": "48994e78b6910288eeb01280d44d46d9865dfe0f839452cbaa8ce786a8ac19da",
+      "measured": {
+        "n_items": 200,
+        "languages": [
+          "en"
+        ],
+        "tasks": [
+          "gsm8k"
+        ],
+        "n_duplicate_ids": 0,
+        "evidence": "MEASURED from file bytes"
+      }
+    },
+    {
+      "dataset_id": "Rowan/hellaswag:validation",
+      "task": "hellaswag",
+      "file": "hellaswag.jsonl",
+      "schema_version": 1,
+      "source": {
+        "hf_id": "Rowan/hellaswag",
+        "split": "validation",
+        "hub_revision": "218ec52e09a7e7462a5400043bb9a69a41d06b76",
+        "license": "MIT",
+        "evidence": "DERIVED from data/official/SOURCES.md"
+      },
+      "status": "MEASURED",
+      "content_sha256": "dc0c01dd2eed52be3be2a23bc361d004b1789f215861805c1c154bb9459a0b18",
+      "measured": {
+        "n_items": 200,
+        "languages": [
+          "en"
+        ],
+        "tasks": [
+          "hellaswag"
+        ],
+        "n_duplicate_ids": 0,
+        "evidence": "MEASURED from file bytes"
+      }
+    },
+    {
+      "dataset_id": "juletxara/mgsm:test",
+      "task": "mgsm",
+      "file": "mgsm.jsonl",
+      "schema_version": 1,
+      "source": {
+        "hf_id": "juletxara/mgsm",
+        "split": "test",
+        "hub_revision": "b2f13d426afe3be8d69a7e739b36724db8b66bbc",
+        "license": "MIT",
+        "evidence": "DERIVED from data/official/SOURCES.md"
+      },
+      "status": "MEASURED",
+      "content_sha256": "0247e7c1303a3e56395b5e2453193a7352aee366ae73386905a04f4c96a866c3",
+      "measured": {
+        "n_items": 200,
+        "languages": [
+          "de",
+          "en",
+          "fr"
+        ],
+        "tasks": [
+          "mgsm"
+        ],
+        "n_duplicate_ids": 0,
+        "evidence": "MEASURED from file bytes"
+      }
+    },
+    {
+      "dataset_id": "apertus-frozen-eval-set",
+      "task": "combined",
+      "file": "eval_set.jsonl",
+      "schema_version": 1,
+      "source": {
+        "description": "200 items/task x 4 tasks, frozen slice",
+        "evidence": "DERIVED from data/official/SOURCES.md"
+      },
+      "status": "MEASURED",
+      "content_sha256": "a3204f98ca69ea380a6ce7a70ea52b97511c5418ea58b55571f0063efb35fde6",
+      "measured": {
+        "n_items": 800,
+        "languages": [
+          "de",
+          "en",
+          "fr"
+        ],
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "n_duplicate_ids": 0,
+        "evidence": "MEASURED from file bytes"
+      }
+    }
+  ],
+  "models": [
+    {
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "revision": null,
+      "revision_status": "UNAVAILABLE",
+      "param_count": null,
+      "param_count_status": "UNAVAILABLE (not asserted from the model name)",
+      "source": "huggingface.co (id is the source pointer)",
+      "measured_backends": [
+        "hf",
+        "vllm"
+      ],
+      "measured_quantizations": [
+        "int4",
+        "int8",
+        "none"
+      ],
+      "n_registry_cells": 11,
+      "cells": [
+        {
+          "factor": "control",
+          "factor_level": "control",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d"
+        },
+        {
+          "factor": "prompt_id",
+          "factor_level": "concise",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_prompt_id_concise_a0852ca6fc3e5c08"
+        },
+        {
+          "factor": "prompt_id",
+          "factor_level": "5shot",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_prompt_id_5shot_b6968af4b73708f7"
+        },
+        {
+          "factor": "quantization",
+          "factor_level": "int8",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_quantization_int8_46dd44d463433c26"
+        },
+        {
+          "factor": "quantization",
+          "factor_level": "int4",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_quantization_int4_72ac0b51cec27817"
+        },
+        {
+          "factor": "backend",
+          "factor_level": "vllm",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_backend_vllm_8b096c40a70ae947"
+        },
+        {
+          "factor": "seed",
+          "factor_level": "1",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_seed_1_4ae7b5af354b3423"
+        },
+        {
+          "factor": "seed",
+          "factor_level": "2",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_seed_2_5041b3a8bf44df73"
+        },
+        {
+          "factor": "sampled",
+          "factor_level": "t0.7_seed0",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed0_9ab2746ead7e2cb9"
+        },
+        {
+          "factor": "sampled",
+          "factor_level": "t0.7_seed1",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed1_b3a50eddee120ab8"
+        },
+        {
+          "factor": "sampled",
+          "factor_level": "t0.7_seed2",
+          "status": "ok",
+          "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed2_9544473e05a6b577"
+        }
+      ],
+      "schema_version": 1
+    },
+    {
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "revision": null,
+      "revision_status": "UNAVAILABLE",
+      "param_count": null,
+      "param_count_status": "UNAVAILABLE (not asserted from the model name)",
+      "source": "huggingface.co (id is the source pointer)",
+      "measured_backends": [
+        "hf",
+        "vllm"
+      ],
+      "measured_quantizations": [
+        "int4",
+        "int8",
+        "none"
+      ],
+      "n_registry_cells": 11,
+      "cells": [
+        {
+          "factor": "control",
+          "factor_level": "control",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9"
+        },
+        {
+          "factor": "prompt_id",
+          "factor_level": "concise",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_prompt_id_concise_e4980863069a102c"
+        },
+        {
+          "factor": "prompt_id",
+          "factor_level": "5shot",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_prompt_id_5shot_8b703d7cb8d9627a"
+        },
+        {
+          "factor": "backend",
+          "factor_level": "vllm",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_backend_vllm_d504f107b78b6804"
+        },
+        {
+          "factor": "seed",
+          "factor_level": "1",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_seed_1_e8b596c4b1a8a527"
+        },
+        {
+          "factor": "seed",
+          "factor_level": "2",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_seed_2_02eb0dd059805c38"
+        },
+        {
+          "factor": "quantization",
+          "factor_level": "int8",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_quantization_int8_6355a02b3f243353"
+        },
+        {
+          "factor": "quantization",
+          "factor_level": "int4",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_quantization_int4_f9457562c8aec49f"
+        },
+        {
+          "factor": "sampled",
+          "factor_level": "t0.7_seed0",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed0_5ca15230e22b3837"
+        },
+        {
+          "factor": "sampled",
+          "factor_level": "t0.7_seed1",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed1_535c365ca69c6f1f"
+        },
+        {
+          "factor": "sampled",
+          "factor_level": "t0.7_seed2",
+          "status": "ok",
+          "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed2_125dd27f9eac822d"
+        }
+      ],
+      "schema_version": 1
+    },
+    {
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": null,
+      "revision_status": "UNAVAILABLE",
+      "param_count": null,
+      "param_count_status": "UNAVAILABLE (not asserted from the model name)",
+      "source": "huggingface.co (id is the source pointer)",
+      "measured_backends": [
+        "hf"
+      ],
+      "measured_quantizations": [
+        "int4"
+      ],
+      "n_registry_cells": 1,
+      "cells": [
+        {
+          "factor": "quantization",
+          "factor_level": "int4",
+          "status": "ok",
+          "run_id": "Qwen2.5-7B-Instruct_quantization_int4_22a6a0a56a69a1cb"
+        }
+      ],
+      "schema_version": 1
+    },
+    {
+      "model_id": "microsoft/Phi-3.5-mini-instruct",
+      "revision": null,
+      "revision_status": "UNAVAILABLE",
+      "param_count": null,
+      "param_count_status": "UNAVAILABLE (not asserted from the model name)",
+      "source": "huggingface.co (id is the source pointer)",
+      "measured_backends": [
+        "hf",
+        "vllm"
+      ],
+      "measured_quantizations": [
+        "int4",
+        "int8",
+        "none"
+      ],
+      "n_registry_cells": 8,
+      "cells": [
+        {
+          "factor": "control",
+          "factor_level": "control",
+          "status": "ok",
+          "run_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c"
+        },
+        {
+          "factor": "prompt_id",
+          "factor_level": "concise",
+          "status": "ok",
+          "run_id": "Phi-3.5-mini-instruct_prompt_id_concise_37963fc49f7e8eca"
+        },
+        {
+          "factor": "prompt_id",
+          "factor_level": "5shot",
+          "status": "ok",
+          "run_id": "Phi-3.5-mini-instruct_prompt_id_5shot_e8c0aa94458abbd2"
+        },
+        {
+          "factor": "backend",
+          "factor_level": "vllm",
+          "status": "ok",
+          "run_id": "Phi-3.5-mini-instruct_backend_vllm_e796a0ecee505133"
+        },
+        {
+          "factor": "seed",
+          "factor_level": "1",
+          "status": "ok",
+          "run_id": "Phi-3.5-mini-instruct_seed_1_f6611690d3503f3e"
+        },
+        {
+          "factor": "seed",
+          "factor_level": "2",
+          "status": "ok",
+          "run_id": "Phi-3.5-mini-instruct_seed_2_8e8f4b3cb10595a4"
+        },
+        {
+          "factor": "quantization",
+          "factor_level": "int8",
+          "status": "ok",
+          "run_id": "Phi-3.5-mini-instruct_quantization_int8_cfd71ce6317d4a54"
+        },
+        {
+          "factor": "quantization",
+          "factor_level": "int4",
+          "status": "ok",
+          "run_id": "Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83"
+        }
+      ],
+      "schema_version": 1
+    }
+  ]
+}

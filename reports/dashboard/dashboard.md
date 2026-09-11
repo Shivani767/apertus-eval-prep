@@ -22,3 +22,7 @@ Registry: `results/registry_paper.jsonl` — 31 rows (MEASURED 25, SAMPLED 6, PE
 
 - pass: **31** / fail: **0** (pending/no artifact: 0)
 
+## Failure taxonomy (listed runs)
+
+- **Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83**: 800 items, failure rate 0.30125
+
