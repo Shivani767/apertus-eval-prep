@@ -3,7 +3,7 @@
 ### A reproducible LLM evaluation system for measuring how models, prompts, inference backends, quantization, decoding, and runtime configuration affect benchmark results.
 
 [![Research Artifact](https://img.shields.io/badge/Status-Research%20Artifact-blue)](https://github.com/Shivani767/apertus-eval-prep)
-[![Tests](https://img.shields.io/badge/Tests-131%20passing-success)](https://github.com/Shivani767/apertus-eval-prep/tree/master/tests)
+[![Tests](https://img.shields.io/badge/Tests-135%20passing-success)](https://github.com/Shivani767/apertus-eval-prep/tree/master/tests)
 [![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/Shivani767/apertus-eval-prep/blob/master/LICENSE)
 
 ---
@@ -449,19 +449,29 @@ For paired binary predictions, the project supports **McNemar's test** where app
 
 `python -m apertus_eval_prep dashboard` aggregates registry coverage (MEASURED/SAMPLED/PENDING), the ERS, per-row artifact verification (recomputes config_hash from manifest settings and accuracy from items; currently 31/31 rows verify after a documented correction of 2 stale SmolLM2 sampled rows), and failure taxonomy. Output: `reports/dashboard/`.
 
-### Web Dashboard (frontend/)
+### Web Dashboard (frontend/) — live at https://shivani767.github.io/apertus-eval-prep/
 
-A static React + Vite + TypeScript dashboard for exploring results without the CLI:
+A research-grade interactive site (React + Vite + TypeScript + recharts) built around one
+question: *"How robust are conclusions about relative LLM capability to reasonable changes
+in evaluation configuration?"* Twelve sections: Overview, The Finding (control-vs-variant
+ranking reversals), Experiment Explorer (URL-shareable filters), Experiment Detail,
+Ranking Stability (bump chart), Results Matrix, Statistical Evidence (bootstrap CI,
+permutation, McNemar, Holm/BH), Reliability (provisional ERS + ablation), Failures,
+Cost/Pareto, Sampling, Reproducibility (verification + copyable replay commands),
+Methodology & Limitations.
+
+Single source of truth — no second dataset:
 
 ```bash
-cd frontend
-npm install
-npm run copy-data   # copies reports/dashboard/dashboard.json into src/data/
-npm run build       # tsc + vite build -> dist/
-# or: npm run dev   # local dev server
+python -m apertus_eval_prep site --registry results/registry_paper.jsonl --out reports/site
+cd frontend && npm install && npm run copy-data && npm run build   # or: npm run dev
 ```
 
-The frontend reads the generated `dashboard.json` and renders four tabs: model overview, rankings, the Evaluation Reliability Score, and artifact-verification failures. `frontend/dist/` is gitignored; regenerate after each `dashboard` run with `npm run copy-data && npm run build`.
+`site.py` deterministically exports one `reports/site/site.json` from the committed
+registry + run artifacts (cells, rankings, paired statistics, ERS, failures, Pareto,
+reproduction checks). `copy-data` copies it to `public/data/site/` (deployed build) and
+`src/data/` (vitest fixture). The UI renders PENDING/unavailable as "Not measured",
+never 0. Deploys via `.github/workflows/deploy.yml` (generate → test → build → Pages).
 
 ### Ranking Stability
 
