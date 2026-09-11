@@ -32,21 +32,9 @@ jobs:
 
       - name: Generate dashboard data
         run: |
-          mkdir -p reports/dashboard reports/ers reports/failures reports/pareto reports/catalog
-          PYTHONPATH=src python -m apertus_eval_prep dashboard \
-            --run results/runs/Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83.json \
-            --out reports/dashboard
-          PYTHONPATH=src python -m apertus_eval_prep ers \
-            --registry results/registry_paper.jsonl --out reports/ers
-          PYTHONPATH=src python -m apertus_eval_prep failures \
-            --run results/runs/Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83.json=Phi-int4 \
-            --run results/runs/SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d.json=SmolLM2-hf \
-            --out reports/failures
-          PYTHONPATH=src python -m apertus_eval_prep pareto \
-            --run results/runs/Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83.json=Phi-int4 \
-            --run results/runs/SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d.json=SmolLM2-hf \
-            --out reports/pareto
-          PYTHONPATH=src python -m apertus_eval_prep catalog --out reports/catalog
+          PYTHONPATH=src python -m apertus_eval_prep site \
+            --registry results/registry_paper.jsonl \
+            --out reports/site
 
       - uses: actions/upload-artifact@v4
         with:
