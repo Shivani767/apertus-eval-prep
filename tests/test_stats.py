@@ -1,3 +1,5 @@
+import pytest
+
 from apertus_eval_prep.stats import (
     benjamini_hochberg,
     bootstrap_paired_diff_ci,
@@ -141,7 +143,9 @@ def test_multiple_comparison_corrections():
     assert holm[-1] == 0.8
     # clipping to 1 happens when the step-down running value exceeds 1
     assert holm_bonferroni([0.6, 0.6]) == [1.0, 1.0]
-    assert max(benjamini_hochberg([0.4, 0.4])) == 1.0
+    # BH invariant: adjusted p at the largest rank equals p_max (never inflates)
+    assert benjamini_hochberg([0.9, 0.9]) == [0.9, 0.9]
+    assert benjamini_hochberg([0.4, 0.4]) == [0.4, 0.4]
     with pytest.raises(ValueError):
         holm_bonferroni([0.5, 1.5])
     with pytest.raises(ValueError):
