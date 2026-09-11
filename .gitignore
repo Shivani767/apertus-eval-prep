@@ -35,7 +35,8 @@ reports/**/analysis.json
 # Frontend build artifacts / deps (regenerable via npm install && vite build)
 frontend/node_modules/
 frontend/dist/
-frontend/src/data/
+# NOTE: frontend/src/data/ holds the committed vitest fixture (site.json copy);
+# it must stay tracked so `tsc -b` and CI pass on a fresh clone.
 
 # Editor / Actions — keep off the public tree EXCEPT the deploy workflow
 # which is needed for GitHub Pages auto-deployment.

@@ -66,6 +66,10 @@ jobs:
       - name: Copy data into public folder
         run: node frontend/scripts/copy-data.mjs
 
+      - name: Run frontend tests
+        working-directory: frontend
+        run: npx vitest run
+
       - name: Build frontend
         working-directory: frontend
         run: npm run build

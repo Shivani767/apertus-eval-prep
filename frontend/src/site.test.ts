@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest"
 import { fmtDelta, fmtP, fmtPct, shortLabel } from "./data"
 import type { SiteData } from "./data"
-import site from "./data/site.json"
+import siteJson from "./data/site.json"
 
-const S = site as unknown as SiteData
+const S = siteJson as unknown as SiteData
 
 describe("formatters never fabricate", () => {
   it("renders missing numerics as Not measured, not 0", () => {
