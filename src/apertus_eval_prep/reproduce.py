@@ -9,6 +9,91 @@ from typing import Any
 from apertus_eval_prep.registry import load_registry
 
 
+def verify_reproduction(row: dict[str, Any], repo_root: Path) -> dict[str, Any]:
+    """Cross-check a registry row against its artifact. MEASURED evidence only.
+
+    Checks (each independent, all reported):
+      artifact_exists   — the run JSON is present.
+      blob_vs_registry  — blob.config_hash equals row.config_hash.
+      settings_recompute— config_hash recomputed from manifest.settings equals
+                          row.config_hash (catches settings/artifact drift).
+      accuracy_recompute— overall accuracy recomputed from items equals the
+                          registry row (exact); n items equals row overall.n.
+      git_commit        — manifest.git_commit equals row.git_commit.
+
+    all_match is False when ANY check fails or artifact is missing. Missing
+    data yields match=None (cannot verify), which also fails all_match.
+    """
+    from apertus_eval_prep.registry import config_hash
+
+    checks: list[dict[str, Any]] = []
+
+    def add(name: str, expected: Any, observed: Any) -> None:
+        match = None if observed is None else (expected == observed)
+        checks.append({"name": name, "expected": expected,
+                       "observed": observed, "match": match})
+
+    path = row.get("path")
+    run_path = Path(path) if path and Path(path).is_absolute() else repo_root / (path or "")
+    blob = None
+    add("artifact_exists", True, run_path.exists())
+    if run_path.exists():
+        blob = json.loads(run_path.read_text(encoding="utf-8"))
+        manifest = blob.get("manifest") or {}
+        add("blob_vs_registry", row.get("config_hash"), blob.get("config_hash"))
+        settings = manifest.get("settings")
+        recomputed = config_hash(settings) if settings else None
+        add("settings_recompute", row.get("config_hash"), recomputed)
+        add("git_commit", row.get("git_commit"), manifest.get("git_commit"))
+        items = blob.get("items") or []
+        n = len(items)
+        row_overall = row.get("overall") or {}
+        row_n = row_overall.get("n")
+        add("n_items", row_n, n if items else None)
+        if items and row_n:
+            acc = sum(1 for it in items if it.get("correct")) / n
+            # Registry stores accuracy rounded (e.g. 0.6987 for 559/800 =
+            # 0.69875). Compare at the STORED precision so rounding is not
+            # reported as a deviation; the exact value is still shown.
+            expected = row_overall.get("accuracy")
+            s = repr(float(expected)) if expected is not None else ""
+            dec = len(s.split(".")[1]) if "." in s else 0
+            tol = 0.5 * 10 ** (-dec) + 1e-12
+            match = abs(acc - float(expected)) <= tol
+            checks.append({"name": "accuracy_recompute", "expected": expected,
+                           "observed": round(acc, 10), "match": match,
+                           "tolerance": tol,
+                           "note": "abs diff at registry storage precision"})
+        else:
+            add("accuracy_recompute", row_overall.get("accuracy"), None)
+    all_match = bool(checks) and all(c["match"] is True for c in checks)
+    return {"run_id": row.get("run_id"), "config_hash": row.get("config_hash"),
+            "checks": checks, "all_match": all_match,
+            "provenance": "MEASURED cross-check of committed artifact vs registry"}
+
+
+def render_verification_markdown(ver: dict[str, Any]) -> str:
+    lines = [
+        f"# Reproduction check: {ver['run_id']}",
+        "",
+        f"config_hash: `{ver['config_hash']}` — "
+        f"**{'ALL CHECKS PASS' if ver['all_match'] else 'DEVIATIONS FOUND'}**",
+        "",
+        "| check | expected | observed | match |",
+        "|---|---|---|---|",
+    ]
+    for c in ver["checks"]:
+        obs = c["observed"]
+        lines.append(
+            f"| {c['name']} | {c['expected']} | {obs} | "
+            f"{'yes' if c['match'] is True else 'NO' if c['match'] is False else 'n/a'} |"
+        )
+    lines.append("")
+    lines.append("Deviation report generated from committed artifacts; "
+                 "nothing was re-run or re-measured.")
+    return "\n".join(lines) + "\n"
+
+
 def find_registry_row(
     registry_path: Path,
     *,

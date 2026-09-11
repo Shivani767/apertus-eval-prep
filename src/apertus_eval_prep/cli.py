@@ -149,7 +149,13 @@ def cmd_paper_tables(args: argparse.Namespace) -> int:
 
 
 def cmd_reproduce(args: argparse.Namespace) -> int:
-    from apertus_eval_prep.reproduce import find_registry_row, render_reproduction_markdown, reproduction_plan
+    from apertus_eval_prep.reproduce import (
+        find_registry_row,
+        render_reproduction_markdown,
+        render_verification_markdown,
+        reproduction_plan,
+        verify_reproduction,
+    )
 
     root = repo_root()
     row = find_registry_row(
@@ -163,6 +169,9 @@ def cmd_reproduce(args: argparse.Namespace) -> int:
         return 1
     plan = reproduction_plan(row, root)
     text = render_reproduction_markdown(plan)
+    if args.check:
+        ver = verify_reproduction(row, root)
+        text += "\n\n---\n\n" + render_verification_markdown(ver)
     if args.out:
         out = Path(args.out)
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -483,6 +492,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_repro.add_argument("--config-hash", dest="config_hash")
     p_repro.add_argument("--experiment-id", dest="experiment_id")
     p_repro.add_argument("--out", help="Optional markdown output path")
+    p_repro.add_argument(
+        "--check",
+        action="store_true",
+        help="Cross-check the artifact against the registry and report deviations.",
+    )
     p_repro.set_defaults(func=cmd_reproduce)
 
     p_ers = sub.add_parser(
