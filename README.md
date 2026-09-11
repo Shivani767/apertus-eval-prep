@@ -553,7 +553,7 @@ pytest -q
 Current validation:
 
 ```text
-58 tests passing
+116 tests passing
 ```
 
 ## Run a Smoke Evaluation
@@ -571,6 +571,32 @@ make paper
 make figures
 ```
 
+## Analysis & Reporting Commands
+
+All analysis commands work on committed artifacts only — nothing is
+re-measured, and missing data is reported rather than filled:
+
+```bash
+# Aggregate dashboard: coverage, ERS, per-row artifact verification, failures
+python -m apertus_eval_prep dashboard
+
+# Failure taxonomy over one or more scored runs (path=label, repeatable)
+python -m apertus_eval_prep failures --run results/runs/<run>.json=<label>
+
+# Runtime profile: per-task / per-language tok-s, e2e, TTFT from a scored run
+python -m apertus_eval_prep profile --run results/runs/<run>.json
+
+# Quality/latency Pareto front across scored runs
+python -m apertus_eval_prep pareto --run results/runs/<run>.json=<label>
+
+# Evaluation Reliability Score for a model x config matrix
+python -m apertus_eval_prep ers --registry results/registry_paper.jsonl
+
+# Replay command for a registry row (+ --check verifies the artifact
+# against the row: hash recomputation, accuracy, git SHA)
+python -m apertus_eval_prep reproduce --run-id <run_id> --check
+```
+
 ---
 
 # Repository Structure
@@ -583,10 +609,17 @@ apertus-eval-prep/
 │
 ├── docs/
 │   ├── IMPLEMENTATION_AUDIT.md
+│   ├── RESEARCH_AUDIT.md
+│   ├── RESEARCH_PLAN.md
 │   ├── STATISTICAL_METHODOLOGY.md
+│   ├── STATISTICAL_METHODOLOGY_APPENDIX.md
+│   ├── METAMORPHIC_EVAL.md
+│   ├── EVALUATION_COST.md
 │   └── VALIDATION.md
 │
 ├── notebooks/               # Research / experiment notebooks
+│
+├── notes/                   # Working research notes
 │
 ├── paper/
 │   ├── RELATED_WORK.md
