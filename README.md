@@ -3,7 +3,7 @@
 ### A reproducible LLM evaluation system for measuring how models, prompts, inference backends, quantization, decoding, and runtime configuration affect benchmark results.
 
 [![Research Artifact](https://img.shields.io/badge/Status-Research%20Artifact-blue)](https://github.com/Shivani767/apertus-eval-prep)
-[![Tests](https://img.shields.io/badge/Tests-58%20passing-success)](https://github.com/Shivani767/apertus-eval-prep/tree/master/tests)
+[![Tests](https://img.shields.io/badge/Tests-124%20passing-success)](https://github.com/Shivani767/apertus-eval-prep/tree/master/tests)
 [![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/Shivani767/apertus-eval-prep/blob/master/LICENSE)
 
 ---
@@ -510,7 +510,7 @@ The paper experiment matrix currently tracks:
 | Paper matrix             | **31 / 34 cells** |
 | Completion               | **91.2%**         |
 | Remaining cells          | **3 (Phi `sampled` T=0.7 × 3)** |
-| Automated tests          | **58 passing**    |
+| Automated tests          | **124 passing**   |
 | Statistical methodology  | **Implemented**   |
 | Reproduction CLI         | **Available**     |
 | Result registry          | **Committed**     |
@@ -553,7 +553,7 @@ pytest -q
 Current validation:
 
 ```text
-116 tests passing
+124 tests passing
 ```
 
 ## Run a Smoke Evaluation
@@ -592,6 +592,9 @@ python -m apertus_eval_prep pareto --run results/runs/<run>.json=<label>
 # Evaluation Reliability Score for a model x config matrix
 python -m apertus_eval_prep ers --registry results/registry_paper.jsonl
 
+# ArtifactCatalog: fingerprinted index of run JSON (sha256, size, model, factor, status, n_items, accuracy, git_commit)
+python -m apertus_eval_prep catalog --runs-dir results/runs
+
 # Replay command for a registry row (+ --check verifies the artifact
 # against the row: hash recomputation, accuracy, git SHA)
 python -m apertus_eval_prep reproduce --run-id <run_id> --check
@@ -611,6 +614,8 @@ apertus-eval-prep/
 │   ├── IMPLEMENTATION_AUDIT.md
 │   ├── RESEARCH_AUDIT.md
 │   ├── RESEARCH_PLAN.md
+│   ├── CURRENT_STATE.md
+│   ├── ARCHITECTURE.md
 │   ├── STATISTICAL_METHODOLOGY.md
 │   ├── STATISTICAL_METHODOLOGY_APPENDIX.md
 │   ├── METAMORPHIC_EVAL.md
@@ -637,8 +642,30 @@ apertus-eval-prep/
 │
 ├── src/
 │   └── apertus_eval_prep/   # Core implementation
+│       ├── cli.py           # Command-line interface
+│       ├── config.py        # Configuration loading
+│       ├── run_eval.py      # Evaluation runner
+│       ├── sweep.py         # Experiment sweep (OFAT + factorial)
+│       ├── registry.py      # Result registry
+│       ├── catalog.py       # ArtifactCatalog (fingerprinted index)
+│       ├── stats.py         # Statistical engine (bootstrap, permutation, MC corrections)
+│       ├── stability.py     # Evaluation stability metrics
+│       ├── ranking.py       # Ranking robustness
+│       ├── reliability.py   # Evaluation Reliability Score (ERS)
+│       ├── fragility.py     # Evaluation fragility components
+│       ├── variance.py      # Variance decomposition
+│       ├── adaptive.py      # Adaptive evaluation engine
+│       ├── cost.py          # Evaluation cost tracking
+│       ├── failures.py      # Failure taxonomy
+│       ├── profile.py       # Runtime profiling
+│       ├── pareto.py        # Pareto analysis
+│       ├── dashboard.py     # Research dashboard
+│       ├── reproduce.py     # Reproduction + verification
+│       ├── metamorphic.py   # Metamorphic eval transforms
+│       ├── report.py        # Report generation
+│       └── ...
 │
-├── tests/                   # Automated tests
+├── tests/                   # Automated tests (124 passing)
 │
 ├── CITATION.cff
 ├── Dockerfile
