@@ -449,6 +449,20 @@ For paired binary predictions, the project supports **McNemar's test** where app
 
 `python -m apertus_eval_prep dashboard` aggregates registry coverage (MEASURED/SAMPLED/PENDING), the ERS, per-row artifact verification (recomputes config_hash from manifest settings and accuracy from items; currently 31/31 rows verify after a documented correction of 2 stale SmolLM2 sampled rows), and failure taxonomy. Output: `reports/dashboard/`.
 
+### Web Dashboard (frontend/)
+
+A static React + Vite + TypeScript dashboard for exploring results without the CLI:
+
+```bash
+cd frontend
+npm install
+npm run copy-data   # copies reports/dashboard/dashboard.json into src/data/
+npm run build       # tsc + vite build -> dist/
+# or: npm run dev   # local dev server
+```
+
+The frontend reads the generated `dashboard.json` and renders four tabs: model overview, rankings, the Evaluation Reliability Score, and artifact-verification failures. `frontend/dist/` is gitignored; regenerate after each `dashboard` run with `npm run copy-data && npm run build`.
+
 ### Ranking Stability
 
 **Kendall's τ** is used for comparing model rankings across configurations.
