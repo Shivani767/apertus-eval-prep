@@ -173,3 +173,142 @@ def ci_aware_ties(models: Sequence[str], accuracies: Sequence[float], cis: Seque
 
 def item_correctness(rows: Iterable[dict], id_key: str = "id") -> dict[str, bool]:
     return {str(r[id_key]): bool(r["correct"]) for r in rows}
+
+
+def _shared_paired(a_by_id: dict[str, bool], b_by_id: dict[str, bool]):
+    shared = sorted(set(a_by_id) & set(b_by_id))
+    dropped = len((set(a_by_id) | set(b_by_id)) - set(shared))
+    da = [1 if a_by_id[i] else 0 for i in shared]
+    db = [1 if b_by_id[i] else 0 for i in shared]
+    return shared, da, db, dropped
+
+
+def bootstrap_paired_diff_ci(
+    a_by_id: dict[str, bool],
+    b_by_id: dict[str, bool],
+    *,
+    n_boot: int = 2000,
+    seed: int = 0,
+    alpha: float = 0.05,
+) -> dict[str, Any]:
+    """Percentile bootstrap CI for the paired accuracy difference (B - A).
+
+    Resamples shared item ids JOINTLY (same indices into both vectors), so
+    per-item pairing is preserved. Ids present in only one run are dropped
+    and counted in n_dropped (never silently filled). Deterministic via seed.
+    """
+    import random
+
+    shared, da, db, dropped = _shared_paired(a_by_id, b_by_id)
+    if not shared or n_boot < 1:
+        return {"lo": None, "hi": None, "delta_mean": None,
+                "n_paired": len(shared), "n_dropped": dropped,
+                "n_boot": n_boot, "seed": seed}
+    diffs = [b - a for a, b in zip(da, db)]
+    rng = random.Random(seed)
+    n = len(diffs)
+    stats = []
+    for _ in range(n_boot):
+        stats.append(sum(diffs[rng.randrange(n)] for _ in range(n)) / n)
+    stats.sort()
+    lo_i = max(0, int(math.floor((alpha / 2) * n_boot)))
+    hi_i = min(n_boot - 1, int(math.ceil((1 - alpha / 2) * n_boot)) - 1)
+    return {
+        "lo": stats[lo_i],
+        "hi": stats[hi_i],
+        "delta_mean": sum(diffs) / n,
+        "n_paired": n,
+        "n_dropped": dropped,
+        "n_boot": n_boot,
+        "seed": seed,
+    }
+
+
+def permutation_paired_test(
+    a_by_id: dict[str, bool],
+    b_by_id: dict[str, bool],
+    *,
+    n_perm: int = 5000,
+    seed: int = 0,
+) -> dict[str, Any]:
+    """Two-sided sign-flip permutation test on the paired difference (B - A).
+
+    Under H0 (no per-item effect of the protocol change) each paired
+    difference is equally likely to be +d or -d, so we randomly flip signs.
+    p = (#{|perm delta| >= |obs delta|} + 1) / (n_perm + 1) — the +1 avoids
+    a zero p-value. Ids present in only one run are dropped and counted.
+    Monte-Carlo (deterministic seed); NOT an exact enumeration.
+    """
+    import random
+
+    shared, da, db, dropped = _shared_paired(a_by_id, b_by_id)
+    if not shared or n_perm < 1:
+        return {"delta_obs": None, "p_value": None,
+                "n_paired": len(shared), "n_dropped": dropped,
+                "n_perm": n_perm, "seed": seed, "method": "sign-flip"}
+    diffs = [b - a for a, b in zip(da, db)]
+    n = len(diffs)
+    obs = sum(diffs) / n
+    rng = random.Random(seed)
+    ge = 0
+    for _ in range(n_perm):
+        s = sum(diffs[i] if rng.random() < 0.5 else -diffs[i] for i in range(n)) / n
+        if abs(s) >= abs(obs) - 1e-12:
+            ge += 1
+    return {
+        "delta_obs": obs,
+        "p_value": (ge + 1) / (n_perm + 1),
+        "n_paired": n,
+        "n_dropped": dropped,
+        "n_perm": n_perm,
+        "seed": seed,
+        "method": "sign-flip",
+    }
+
+
+def _validated_p(p_values: Sequence[float]) -> list[float]:
+    ps = [float(p) for p in p_values]
+    for p in ps:
+        if not (0.0 <= p <= 1.0):
+            raise ValueError(f"p-values must be in [0, 1], got {p!r}")
+    return ps
+
+
+def holm_bonferroni(p_values: Sequence[float]) -> list[float]:
+    """Holm-Bonferroni step-down adjusted p-values (FWER control).
+
+    Returns adjusted p-values in the SAME ORDER as the input. Adjusted
+    p_(i) = max over j<=i (sorted ascending) of (m - j) * p_(j), clipped to 1.
+    """
+    ps = _validated_p(p_values)
+    m = len(ps)
+    order = sorted(range(m), key=lambda i: ps[i])
+    adj = [0.0] * m
+    running = 0.0
+    for rank, idx in enumerate(order):
+        running = max(running, (m - rank) * ps[idx])
+        adj[idx] = min(1.0, running)
+    return adj
+
+
+def benjamini_hochberg(p_values: Sequence[float]) -> list[float]:
+    """Benjamini-Hochberg step-up adjusted p-values (FDR control).
+
+    Returns adjusted p-values in the SAME ORDER as the input. Adjusted
+    p_(i) = min over j>=i (sorted ascending) of m/(j+1) * p_(j), clipped to 1.
+    """
+    ps = _validated_p(p_values)
+    m = len(ps)
+    if m == 0:
+        return []
+    order = sorted(range(m), key=lambda i: ps[i])
+    adj_sorted = [1.0] * m
+    running = 1.0
+    for rank in range(m - 1, -1, -1):
+        idx = order[rank]
+        running = min(running, m / (rank + 1) * ps[idx])
+        adj_sorted[rank] = running
+    adj = [0.0] * m
+    for rank, idx in enumerate(order):
+        adj[idx] = min(1.0, adj_sorted[rank])
+    return adj
