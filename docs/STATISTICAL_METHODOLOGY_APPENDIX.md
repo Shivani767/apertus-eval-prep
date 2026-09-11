@@ -41,3 +41,20 @@ reference + P(any reversal)).
 Opt-in full-factorial over `axes` or explicit `only_combos` allow-list
 (fractional/selected designs). `max_cells` budget raises instead of exploding.
 Cells record `design: factorial` + `design_axes` for provenance. OFAT untouched.
+
+## Fragility + variance (Phases 4, 6) — DERIVED from 31 measured rows
+
+`fragility.py`: `score_sensitivity`, `rank_sensitivity`, `per_factor_sensitivity`,
+`tie_fragility`, `sampling_spread`, `model_rank_summary` +
+**provisional** `evaluation_fragility_index` (EFI) + `efi_ablation`.
+EFI = 0.30*range + 0.35*(1-tau)/2 + 0.15*tie_frac + 0.20*CV, renormalized over
+non-missing terms; tau None -> 0.5 flagged; weights renormalized (validated).
+`variance.py`: descriptive one-way eta-squared + `decompose_variance` (marginal
+shares, need not sum to 1 — OFAT confounds factors; no F/p at n=31) +
+`interaction_screen` (UNAVAILABLE on OFAT, MEASURED only with crossed factorial
+cells from `sweep.expand_factorial`).
+
+Whole-matrix DERIVED snapshot (31 rows, code above — not a claim, a readout):
+score range 0.466, std 0.137, CV 0.250; eta-squared model 0.893 vs factor 0.094
+(model choice dominates because SmolLM2 ~0.37 vs others ~0.64-0.68; OFAT design
+confounds this — read as description, not causal attribution).
