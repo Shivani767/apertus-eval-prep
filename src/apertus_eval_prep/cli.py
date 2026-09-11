@@ -433,6 +433,25 @@ def cmd_dashboard(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_site(args: argparse.Namespace) -> int:
+    """Export one compact site.json for the research website (DERIVED)."""
+    import json as _json
+
+    from apertus_eval_prep.site import build_site, write_site
+
+    root = repo_root()
+    site = build_site(
+        root, Path(args.registry),
+        n_boot=args.n_boot, n_perm=args.n_perm, seed=args.seed,
+    )
+    path = write_site(site, Path(args.out))
+    cov = site["coverage"]
+    print(f"Wrote {path} "
+          f"({cov['measured']}/{cov['planned_cells']} cells, "
+          f"{site['statistics']['n_comparisons']} comparisons)")
+    return 0
+
+
 def cmd_profile(args: argparse.Namespace) -> int:
     """Runtime/tokenizer profile of a scored run (derived from measured items)."""
     import json as _json
@@ -636,6 +655,17 @@ def build_parser() -> argparse.ArgumentParser:
         help="Optional scored-run JSON for the failure-taxonomy section (repeatable).",
     )
     p_dash.set_defaults(func=cmd_dashboard)
+
+    p_site = sub.add_parser(
+        "site",
+        help="Export one compact site.json for the research website.",
+    )
+    p_site.add_argument("--registry", default="results/registry_paper.jsonl")
+    p_site.add_argument("--out", default="reports/site")
+    p_site.add_argument("--n-boot", dest="n_boot", type=int, default=500)
+    p_site.add_argument("--n-perm", dest="n_perm", type=int, default=2000)
+    p_site.add_argument("--seed", type=int, default=0)
+    p_site.set_defaults(func=cmd_site)
 
     p_prof = sub.add_parser(
         "profile",
