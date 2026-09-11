@@ -1,0 +1,267 @@
+{
+  "model_id": "Qwen/Qwen2.5-3B-Instruct",
+  "backend": "hf",
+  "quantization": "none",
+  "hardware": {
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+    "system": "Linux",
+    "machine": "x86_64",
+    "processor": "x86_64",
+    "python": "3.12.13",
+    "gpu": "Tesla T4",
+    "cuda": true
+  },
+  "overall": {
+    "n_items": 800,
+    "n_correct": 515,
+    "accuracy": 0.64375,
+    "tokens_per_sec": {
+      "mean": 10.8097,
+      "median": 17.8095,
+      "n": 800
+    },
+    "e2e_ms": {
+      "mean": 6530.2491,
+      "median": 6175.67,
+      "n": 800
+    },
+    "n_e2e_zero_placeholder": 0,
+    "ttft_ms": {
+      "mean": 426.8206,
+      "median": 335.33,
+      "n": 800
+    },
+    "num_new_tokens": {
+      "mean": 120.3937,
+      "median": 121.0,
+      "n": 800
+    },
+    "prompt_tokens": {
+      "mean": null,
+      "median": null,
+      "n": 0
+    }
+  },
+  "by_task": {
+    "arc_easy": {
+      "n_items": 200,
+      "n_correct": 192,
+      "accuracy": 0.96,
+      "tokens_per_sec": {
+        "mean": 2.9669,
+        "median": 2.661,
+        "n": 200
+      },
+      "e2e_ms": {
+        "mean": 414.1107,
+        "median": 378.615,
+        "n": 200
+      },
+      "n_e2e_zero_placeholder": 0,
+      "ttft_ms": {
+        "mean": 337.8143,
+        "median": 325.11,
+        "n": 200
+      },
+      "num_new_tokens": {
+        "mean": 1.435,
+        "median": 1.0,
+        "n": 200
+      },
+      "prompt_tokens": {
+        "mean": null,
+        "median": null,
+        "n": 0
+      }
+    },
+    "gsm8k": {
+      "n_items": 200,
+      "n_correct": 85,
+      "accuracy": 0.425,
+      "tokens_per_sec": {
+        "mean": 19.1102,
+        "median": 19.1605,
+        "n": 200
+      },
+      "e2e_ms": {
+        "mean": 12678.0639,
+        "median": 13266.235,
+        "n": 200
+      },
+      "n_e2e_zero_placeholder": 0,
+      "ttft_ms": {
+        "mean": 343.5182,
+        "median": 329.835,
+        "n": 200
+      },
+      "num_new_tokens": {
+        "mean": 242.375,
+        "median": 256.0,
+        "n": 200
+      },
+      "prompt_tokens": {
+        "mean": null,
+        "median": null,
+        "n": 0
+      }
+    },
+    "hellaswag": {
+      "n_items": 200,
+      "n_correct": 154,
+      "accuracy": 0.77,
+      "tokens_per_sec": {
+        "mean": 1.9615,
+        "median": 1.271,
+        "n": 200
+      },
+      "e2e_ms": {
+        "mean": 791.7925,
+        "median": 793.185,
+        "n": 200
+      },
+      "n_e2e_zero_placeholder": 0,
+      "ttft_ms": {
+        "mean": 650.706,
+        "median": 735.905,
+        "n": 200
+      },
+      "num_new_tokens": {
+        "mean": 2.735,
+        "median": 1.0,
+        "n": 200
+      },
+      "prompt_tokens": {
+        "mean": null,
+        "median": null,
+        "n": 0
+      }
+    },
+    "mgsm": {
+      "n_items": 200,
+      "n_correct": 84,
+      "accuracy": 0.42,
+      "tokens_per_sec": {
+        "mean": 19.2001,
+        "median": 19.2365,
+        "n": 200
+      },
+      "e2e_ms": {
+        "mean": 12237.0294,
+        "median": 13172.055,
+        "n": 200
+      },
+      "n_e2e_zero_placeholder": 0,
+      "ttft_ms": {
+        "mean": 375.2439,
+        "median": 334.13,
+        "n": 200
+      },
+      "num_new_tokens": {
+        "mean": 235.03,
+        "median": 256.0,
+        "n": 200
+      },
+      "prompt_tokens": {
+        "mean": null,
+        "median": null,
+        "n": 0
+      }
+    }
+  },
+  "by_language": {
+    "de": {
+      "n_items": 67,
+      "n_correct": 26,
+      "accuracy": 0.38806,
+      "tokens_per_sec": {
+        "mean": 19.224,
+        "median": 19.226,
+        "n": 67
+      },
+      "e2e_ms": {
+        "mean": 12513.8972,
+        "median": 13220.69,
+        "n": 67
+      },
+      "n_e2e_zero_placeholder": 0,
+      "ttft_ms": {
+        "mean": 383.0754,
+        "median": 335.86,
+        "n": 67
+      },
+      "num_new_tokens": {
+        "mean": 240.5522,
+        "median": 256,
+        "n": 67
+      },
+      "prompt_tokens": {
+        "mean": null,
+        "median": null,
+        "n": 0
+      }
+    },
+    "en": {
+      "n_items": 667,
+      "n_correct": 463,
+      "accuracy": 0.694153,
+      "tokens_per_sec": {
+        "mean": 9.1326,
+        "median": 2.731,
+        "n": 667
+      },
+      "e2e_ms": {
+        "mean": 5375.7442,
+        "median": 810.03,
+        "n": 667
+      },
+      "n_e2e_zero_placeholder": 0,
+      "ttft_ms": {
+        "mean": 434.4964,
+        "median": 334.85,
+        "n": 667
+      },
+      "num_new_tokens": {
+        "mean": 97.1664,
+        "median": 1,
+        "n": 667
+      },
+      "prompt_tokens": {
+        "mean": null,
+        "median": null,
+        "n": 0
+      }
+    },
+    "fr": {
+      "n_items": 66,
+      "n_correct": 26,
+      "accuracy": 0.393939,
+      "tokens_per_sec": {
+        "mean": 19.2167,
+        "median": 19.264,
+        "n": 66
+      },
+      "e2e_ms": {
+        "mean": 12123.4364,
+        "median": 13158.195,
+        "n": 66
+      },
+      "n_e2e_zero_placeholder": 0,
+      "ttft_ms": {
+        "mean": 393.6565,
+        "median": 337.625,
+        "n": 66
+      },
+      "num_new_tokens": {
+        "mean": 233.1515,
+        "median": 256.0,
+        "n": 66
+      },
+      "prompt_tokens": {
+        "mean": null,
+        "median": null,
+        "n": 0
+      }
+    }
+  },
+  "provenance": "DERIVED from measured per-item timing records"
+}

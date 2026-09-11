@@ -431,7 +431,23 @@ Performance estimates can be accompanied by uncertainty intervals.
 
 ### Paired Testing
 
-For paired binary predictions, the project supports **McNemar's test** where appropriate.
+For paired binary predictions, the project supports **McNemar's test** where appropriate, plus a paired bootstrap CI for the accuracy difference (`bootstrap_paired_diff_ci`, joint per-item resampling) and a sign-flip permutation test (`permutation_paired_test`). When several comparisons are tested at once, Holm–Bonferroni (FWER) and Benjamini–Hochberg (FDR) corrections are available (`holm_bonferroni`, `benjamini_hochberg`). All are Monte-Carlo with fixed seeds and tested on synthetic data.
+
+### Evaluation Reliability Score (provisional)
+
+`evaluation_reliability_score` (in `reliability.py`) summarizes "how much can we trust this ranking" as a weighted mean of four [0,1] components: CI separation (non-overlapping Wilson pairs), bootstrap Kendall-tau, config stability, and seed stability. Components that cannot be computed are reported as `None` and excluded (weights renormalize — nothing imputed). The weights are **provisional**; `ers_ablation()` shows how the score reacts to dropping each component. The current committed 3-model matrix scores **ERS ≈ 0.716** (DERIVED, n=28 usable cells, 3 skipped) — a descriptive summary, not a validated measurement.
+
+### Failure Taxonomy
+
+`failures.py` classifies every scored item into mutually exclusive categories: `runtime_error`, `empty_output`, `unparseable`, `wrong_answer`, `correct`. Zeros are measured zeros. Real committed counts: Phi-3.5 int4 (69.9% correct) and SmolLM2 HF control (39.8% correct) are broken down per task in `reports/failures/`.
+
+### Runtime Profiling
+
+`profile.py` derives per-task and per-language latency/throughput (tok/s, e2e ms, TTFT, token counts) from measured per-item records. The committed vLLM run records `e2e_ms: 0.0` placeholders — these are counted (`n_e2e_zero_placeholder`) and excluded, never rendered as "0 ms". Committed profiles: Qwen-3B HF control (tok/s mean 10.8, TTFT ≈ 340–650 ms by task) and the vLLM cell (timings unavailable, accuracies still valid).
+
+### Research Dashboard
+
+`python -m apertus_eval_prep dashboard` aggregates registry coverage (MEASURED/SAMPLED/PENDING), the ERS, per-row artifact verification (recomputes config_hash from manifest settings and accuracy from items; currently 31/31 rows verify after a documented correction of 2 stale SmolLM2 sampled rows), and failure taxonomy. Output: `reports/dashboard/`.
 
 ### Ranking Stability
 

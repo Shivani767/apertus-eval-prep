@@ -409,6 +409,51 @@ def cmd_failures(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_dashboard(args: argparse.Namespace) -> int:
+    """Aggregate research report: coverage, ERS, deviation checks, failures."""
+    import json as _json
+
+    from apertus_eval_prep.dashboard import build_dashboard, render_dashboard_markdown
+
+    root = repo_root()
+    failure_runs = [Path(p) for p in (args.run or [])]
+    d = build_dashboard(
+        Path(args.registry), root,
+        failure_runs=failure_runs or None,
+        n_boot=args.n_boot, seed=args.seed,
+    )
+    out_dir = Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "dashboard.json").write_text(
+        _json.dumps(d, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+    md_path = out_dir / "dashboard.md"
+    md_path.write_text(render_dashboard_markdown(d), encoding="utf-8")
+    print(f"Wrote {out_dir / 'dashboard.json'} and {md_path}")
+    return 0
+
+
+def cmd_profile(args: argparse.Namespace) -> int:
+    """Runtime/tokenizer profile of a scored run (derived from measured items)."""
+    import json as _json
+
+    from apertus_eval_prep.profile import render_profile_markdown, runtime_profile
+
+    with open(args.run, encoding="utf-8") as f:
+        blob = _json.load(f)
+    prof = runtime_profile(blob)
+    out_dir = Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    stem = Path(args.run).stem
+    (out_dir / f"profile_{stem}.json").write_text(
+        _json.dumps(prof, indent=2) + "\n", encoding="utf-8"
+    )
+    md_path = out_dir / f"profile_{stem}.md"
+    md_path.write_text(render_profile_markdown(prof), encoding="utf-8")
+    print(f"Wrote {out_dir / f'profile_{stem}.json'} and {md_path}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="apertus-eval-prep",
@@ -535,6 +580,29 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_fail.add_argument("--out", default="reports/failures")
     p_fail.set_defaults(func=cmd_failures)
+
+    p_dash = sub.add_parser(
+        "dashboard",
+        help="Aggregate research report: coverage, ERS, deviations, failures.",
+    )
+    p_dash.add_argument("--registry", default="results/registry_paper.jsonl")
+    p_dash.add_argument("--out", default="reports/dashboard")
+    p_dash.add_argument("--n-boot", dest="n_boot", type=int, default=300)
+    p_dash.add_argument("--seed", type=int, default=0)
+    p_dash.add_argument(
+        "--run",
+        action="append",
+        help="Optional scored-run JSON for the failure-taxonomy section (repeatable).",
+    )
+    p_dash.set_defaults(func=cmd_dashboard)
+
+    p_prof = sub.add_parser(
+        "profile",
+        help="Runtime/tok-s profile by task and language from a scored run.",
+    )
+    p_prof.add_argument("--run", required=True, help="Scored run JSON.")
+    p_prof.add_argument("--out", default="reports/profile")
+    p_prof.set_defaults(func=cmd_profile)
     return parser
 
 
