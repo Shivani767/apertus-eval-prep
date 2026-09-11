@@ -1,0 +1,42 @@
+{
+  "all_cells": {
+    "ers": 0.7157,
+    "components": {
+      "ci_separation": 0.6666666666666666,
+      "bootstrap_tau": 0.8288888888888889,
+      "config_stability": 0.6441648659121131,
+      "seed_stability": null
+    },
+    "components_used": [
+      "bootstrap_tau",
+      "ci_separation",
+      "config_stability"
+    ],
+    "weights_used": {
+      "bootstrap_tau": 0.3,
+      "ci_separation": 0.4,
+      "config_stability": 0.2
+    },
+    "n_components": 3,
+    "bootstrap": {
+      "mean_tau": 0.8288888888888889,
+      "p_any_reversal": 0.25666666666666665,
+      "n_models": 3,
+      "n_configs": 8
+    },
+    "provisional": true,
+    "n_per_cell": 800,
+    "models": [
+      "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "Qwen/Qwen2.5-3B-Instruct",
+      "microsoft/Phi-3.5-mini-instruct"
+    ],
+    "n_configs_used": 11,
+    "n_missing_cells": 3,
+    "excluded_models_lt2_cells": [
+      "Qwen/Qwen2.5-7B-Instruct"
+    ],
+    "registry": "results/registry_paper.jsonl",
+    "provenance": "DERIVED from measured registry rows; not a new measurement"
+  }
+}

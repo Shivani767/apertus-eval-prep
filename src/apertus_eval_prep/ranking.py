@@ -106,7 +106,12 @@ def bootstrap_ranking_stability(
     if n_m < 2 or not usable:
         return {"mean_tau": None, "p_any_reversal": None,
                 "n_models": n_m, "n_configs": len(usable)}
-    ref_acc = [statistics.mean(score_matrix[m][c] for c in range(len(usable))) for m in range(n_m)]
+    # Column INDICES that are fully measured — positions, not column tuples.
+    usable_idx = [
+        c for c in range(len(score_matrix[0]))
+        if all(score_matrix[m][c] is not None for m in range(n_m))
+    ]
+    ref_acc = [statistics.mean(score_matrix[m][c] for c in usable_idx) for m in range(n_m)]
     ref_ranks = rank_high_is_better(ref_acc)
     rng = random.Random(seed)
     taus: list[float] = []

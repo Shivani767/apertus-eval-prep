@@ -223,6 +223,88 @@ def cmd_ci_width(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_ers(args: argparse.Namespace) -> int:
+    """Evaluation Reliability Score (DERIVED) from a committed registry.
+
+    Builds the models x configs accuracy matrix from registry rows sharing a
+    task+n. Models with < 2 measured cells are listed as excluded (they have
+    no within-model protocol spread). Missing cells stay None — never zero.
+    """
+    import json as _json
+
+    from apertus_eval_prep.reliability import evaluation_reliability_score
+    from apertus_eval_prep.registry import load_registry
+
+    root = repo_root()
+    rows = load_registry(Path(args.registry))
+    # NOTE: registry rows carry only the cross-task aggregate (overall);
+    # per-task matrices need the run blobs and are out of scope here.
+    cells: dict[str, dict[str, float]] = {}
+    n_per_cell: int | None = None
+    for r in rows:
+        if r.get("status") != "ok" or not r.get("overall"):
+            continue
+        n = int(r["overall"].get("n", 0) or 0)
+        if n_per_cell is None:
+            n_per_cell = n
+        elif n != n_per_cell:
+            print(f"warning: mixed n ({n_per_cell} vs {n}); using first, "
+                  f"skip? run={r.get('run_id')}")
+        cells.setdefault(r["model_id"], {})[
+            f"{r['factor']}={r['factor_level']}"
+        ] = float(r["overall"]["accuracy"])
+
+    configs = sorted({c for m in cells.values() for c in m})
+    matrix, names = [], []
+    for model, cfgs in cells.items():
+        if len(cfgs) < 2:
+            continue
+        names.append(model)
+        matrix.append([cfgs.get(c) for c in configs])
+    reports = {}
+    if len(names) >= 2 and n_per_cell:
+        out = evaluation_reliability_score(
+            matrix, n_per_cell=n_per_cell, n_boot=args.n_boot, seed=args.seed
+        )
+        out["n_per_cell"] = n_per_cell
+        out["models"] = names
+        out["n_configs_used"] = len(configs)
+        out["n_missing_cells"] = sum(1 for row in matrix for v in row if v is None)
+        out["excluded_models_lt2_cells"] = sorted(set(cells) - set(names))
+        out["registry"] = str(args.registry)
+        out["provenance"] = "DERIVED from measured registry rows; not a new measurement"
+        reports["all_cells"] = out
+
+    out_dir = Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / "ers.json"
+    out_path.write_text(_json.dumps(reports, indent=2) + "\n", encoding="utf-8")
+
+    md = ["# Evaluation Reliability Score (provisional, DERIVED)",
+          "",
+          "Source registry: `" + str(args.registry) + "`. "
+          "Components that need inputs the registry lacks are excluded and listed.",
+          ""]
+    for name, r in reports.items():
+        md.append(f"## {name}")
+        md.append("")
+        md.append(f"- **ERS: {r['ers']}** ({r['n_components']} components, provisional weights)")
+        comps = ", ".join(
+            f"{k}={v:.3f}" if v is not None else f"{k}=None"
+            for k, v in r["components"].items()
+        )
+        md.append(f"- components: {comps}")
+        if r["excluded_models_lt2_cells"]:
+            md.append(f"- excluded (<2 cells): {', '.join(r['excluded_models_lt2_cells'])}")
+        md.append(f"- bootstrap: tau={r['bootstrap']['mean_tau']}, "
+                  f"p(reversal)={r['bootstrap']['p_any_reversal']} "
+                  f"over {r['n_configs_used']} configs")
+        md.append("")
+    (out_dir / "ers.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    print(f"Wrote {out_path} and ers.md ({len(reports)} task groups)")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="apertus-eval-prep",
@@ -307,6 +389,17 @@ def build_parser() -> argparse.ArgumentParser:
     p_repro.add_argument("--experiment-id", dest="experiment_id")
     p_repro.add_argument("--out", help="Optional markdown output path")
     p_repro.set_defaults(func=cmd_reproduce)
+
+    p_ers = sub.add_parser(
+        "ers",
+        help="Evaluation Reliability Score (DERIVED) from a committed registry.",
+    )
+    p_ers.add_argument("--registry", default="results/registry_paper.jsonl")
+    p_ers.add_argument("--out", default="reports/ers")
+    p_ers.add_argument("--task", help="Restrict to one task id (default: all).")
+    p_ers.add_argument("--n-boot", dest="n_boot", type=int, default=300)
+    p_ers.add_argument("--seed", type=int, default=0)
+    p_ers.set_defaults(func=cmd_ers)
     return parser
 
 

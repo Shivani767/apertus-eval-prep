@@ -125,6 +125,25 @@ def test_ranking_layer():
     assert ranking.bootstrap_ranking_stability(matrix, n_boot=200, seed=0) == boot
 
 
+def test_bootstrap_ranking_stability_sparse_matrix():
+    # Regression: ref_acc used positional indices instead of usable column
+    # indices, crashing (or silently mis-meaning) on matrices with None cells.
+    sparse = [
+        [0.9, None, 0.9, 0.8],
+        [0.6, 0.7, None, 0.6],
+        [0.5, 0.6, 0.6, None],
+    ]
+    boot = ranking.bootstrap_ranking_stability(sparse, n_boot=100, seed=0)
+    assert boot["n_configs"] == 1  # only col 0 is fully measured
+    assert boot["mean_tau"] is not None
+    assert ranking.bootstrap_ranking_stability(sparse, n_boot=100, seed=0) == boot
+    # reference ranking from the single usable column, hand-checkable:
+    # means (0.9, 0.6, 0.5) -> ranks (1, 2, 3); every resample draws col 0,
+    # so tau must be exactly 1.0 and no reversal possible.
+    assert boot["mean_tau"] == 1.0
+    assert boot["p_any_reversal"] == 0.0
+
+
 def test_factorial_design_and_budget():
     study = load_study(ROOT / "configs" / "experiments" / "stability.yaml")
     cells = expand_factorial(
