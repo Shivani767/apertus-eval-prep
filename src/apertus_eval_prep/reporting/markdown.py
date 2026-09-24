@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 from typing import Any, Mapping
 
+from apertus_eval_prep.core.evidence import evidence_from_manifest
 from apertus_eval_prep.utils.pii import redact_text_for_report
 
 
@@ -45,11 +46,25 @@ def render_run_markdown(payload: Mapping[str, Any]) -> str:
     quality = metrics.get("quality") or {}
     model = manifest.get("model") or {}
     backend = manifest.get("backend") or {}
-    evidence = str(manifest.get("evidence_class") or metrics.get("evidence_class") or "MEASURED")
-    synthetic = evidence in {"MOCK", "DEMO", "DEMONSTRATION"}
+    evidence_record = evidence_from_manifest(manifest)
+    evidence = str(evidence_record.get("mode") or "UNKNOWN")
+    synthetic = evidence in {"MOCK", "SYNTHETIC"}
+    real_local = evidence == "LOCAL_REAL_MODEL"
+    evidence_notice = (
+        "Synthetic/mock evidence; not a real benchmark result."
+        if synthetic else
+        "Experimental real-model evidence; not production approval."
+        if real_local else
+        "Evidence mode does not by itself establish production validation."
+    )
     lines = [
         "# LLM Evaluation Run Report", "",
-        f"**Evidence class:** `{evidence}`" + ("  \\n> Synthetic/mock evidence; not a real benchmark result." if synthetic else ""),
+        f"**Evidence mode:** `{evidence}`",
+        f"> {evidence_notice}",
+        f"- Runtime environment: `{_safe(evidence_record.get('runtime_environment') or 'unavailable')}`",
+        f"- Hardware measured: `{evidence_record.get('hardware_measured')}`",
+        f"- Human reviewed: `{evidence_record.get('human_reviewed')}`",
+        f"- Pricing source: `{_safe(evidence_record.get('pricing_source') or 'unavailable')}`",
         "", "## Run identity", "",
         f"- Run ID: `{manifest.get('run_id', 'unknown')}`",
         f"- UTC: `{manifest.get('utc', 'unknown')}`",
@@ -75,6 +90,7 @@ def render_run_markdown(payload: Mapping[str, Any]) -> str:
     lines += ["", "## Release decision", "", f"- Status: **{((metrics.get('release_gate') or {}).get('status', 'INCONCLUSIVE'))}**", ""]
     reasons = (metrics.get("release_gate") or {}).get("reasons") or []
     lines += [f"- {_safe(reason)}" for reason in reasons] or ["- No release-gate reasons were recorded."]
+    lines += ["", "Release-gate results are engineering policy aids and are not production approval."]
     failures = list(payload.get("failures") or [])
     lines += _section("Failure fingerprint", [
         ("Recorded failures", fingerprint.get("n_failures", len(failures))),
@@ -135,6 +151,7 @@ def render_run_markdown(payload: Mapping[str, Any]) -> str:
         "- This report distinguishes observed measurements from synthetic/mock evidence; it does not certify a model or deployment.",
         "- Rule-based quality, groundedness, and uncertainty summaries do not replace human review for high-impact use cases.",
         "- Raw retention and PII redaction are controlled by the resolved run configuration.",
+        *[f"- {limit}" for limit in evidence_record.get("known_limitations") or []],
         "", "## Reproduction", "",
         f"`{_safe(manifest.get('entrypoint_command', 'apertus-eval-prep platform-run --config <config>'))}`",
     ]

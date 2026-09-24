@@ -15,6 +15,7 @@ from apertus_eval_prep.core.artifacts import (
     retained_text_payload, sanitize_response_payload,
 )
 from apertus_eval_prep.core.errors import PlatformError
+from apertus_eval_prep.core.evidence import evidence_from_manifest, evidence_metric_fields
 from apertus_eval_prep.core.provenance import build_dataset_lock, build_run_manifest, prompt_template_hash
 from apertus_eval_prep.core.registry import append_index
 from apertus_eval_prep.core.runner import RunResult
@@ -195,6 +196,8 @@ def run_safety_evaluation(spec: RunSpec, repo_root: str | Path, *, adapter: Mode
         )
         baseline_comparison["baseline_directory"] = str(baseline_path)
 
+    evidence = evidence_from_manifest(manifest)
+    evidence_fields = evidence_metric_fields(evidence)
     metrics_payload = {
         "schema_version": "1.0", "n_total": len(metric_results),
         "n_evaluated": len(evaluated_results), "n_skipped": len(metric_results) - len(evaluated_results),
@@ -206,7 +209,13 @@ def run_safety_evaluation(spec: RunSpec, repo_root: str | Path, *, adapter: Mode
         "usage": {"input_tokens": input_tokens, "output_tokens": output_tokens},
         "backend": spec.adapter.kind, "device": spec.runtime.device, "precision": spec.runtime.precision,
         "quantization": spec.runtime.quantization, "evidence_class": spec.evidence_class,
-        "synthetic_or_mock": spec.evidence_class in SYNTHETIC_EVIDENCE_CLASSES,
+        **evidence_fields,
+        "model_id": spec.adapter.model_id, "model_revision": spec.adapter.revision,
+        "tokenizer_id": spec.adapter.params.get("tokenizer_id", spec.adapter.model_id),
+        "tokenizer_revision": spec.adapter.params.get("tokenizer_revision", spec.adapter.revision),
+        "runtime_profile": manifest.get("runtime_profile"),
+        "known_limitations": evidence.get("known_limitations", []),
+        "cost_config": spec.cost.to_dict(),
         "confidence_intervals": {"safe_rate": bootstrap_mean_ci(values, n_boot=spec.metrics.n_boot, alpha=spec.metrics.alpha, seed=spec.metrics.seed)},
         "taxonomy": taxonomy,
         "baseline_comparison": baseline_comparison,

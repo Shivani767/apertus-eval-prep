@@ -18,6 +18,7 @@ from apertus_eval_prep.core.artifacts import (
 )
 from apertus_eval_prep.core.config import load_run_spec
 from apertus_eval_prep.core.errors import PlatformError
+from apertus_eval_prep.core.evidence import evidence_from_manifest, evidence_metric_fields
 from apertus_eval_prep.core.provenance import build_dataset_lock, build_run_manifest, prompt_template_hash
 from apertus_eval_prep.core.registry import append_index
 from apertus_eval_prep.core.schemas import RunSpec, SYNTHETIC_EVIDENCE_CLASSES
@@ -221,6 +222,8 @@ def run_evaluation(
     latency_metrics = summarize_latencies(latencies)
     if latencies and output_tokens:
         latency_metrics["throughput"] = output_tokens / (sum(latencies) / 1000.0)
+    evidence = evidence_from_manifest(manifest)
+    evidence_fields = evidence_metric_fields(evidence)
     metrics: dict[str, Any] = {
         "schema_version": "1.0", "n_total": len(batch), "n_scored": quality["n_scored"],
         "n_failed": len(failures), "n_runtime_failed": failed, "n_error": failed, "n_timeout": timeout_count,
@@ -230,7 +233,13 @@ def run_evaluation(
         "backend": spec.adapter.kind, "device": spec.runtime.device,
         "precision": spec.runtime.precision, "quantization": spec.runtime.quantization,
         "evidence_class": spec.evidence_class,
-        "synthetic_or_mock": spec.evidence_class in SYNTHETIC_EVIDENCE_CLASSES,
+        **evidence_fields,
+        "model_id": spec.adapter.model_id, "model_revision": spec.adapter.revision,
+        "tokenizer_id": spec.adapter.params.get("tokenizer_id", spec.adapter.model_id),
+        "tokenizer_revision": spec.adapter.params.get("tokenizer_revision", spec.adapter.revision),
+        "runtime_profile": manifest.get("runtime_profile"),
+        "known_limitations": evidence.get("known_limitations", []),
+        "cost_config": spec.cost.to_dict(),
         "release_gate": {"status": "INCONCLUSIVE", "reasons": ["no release-gate policy evaluated"]},
     }
     from apertus_eval_prep.release.deployment import CostModel, summarize_deployment

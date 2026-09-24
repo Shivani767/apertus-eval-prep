@@ -76,6 +76,30 @@ class AdapterResponseError(AdapterError):
     code = "adapter_response_error"
 
 
+class AdapterModelLoadError(AdapterError):
+    """Model/tokenizer loading failed."""
+
+    code = "adapter_model_load_error"
+
+
+class AdapterOOMError(AdapterError):
+    """The local model exhausted available device memory."""
+
+    code = "adapter_oom_error"
+
+
+class AdapterGenerationError(AdapterError):
+    """Local generation failed after the model was loaded."""
+
+    code = "adapter_generation_error"
+
+
+class AdapterMalformedOutputError(AdapterResponseError):
+    """Local model output did not match the expected generation contract."""
+
+    code = "adapter_malformed_output"
+
+
 class GateConfigError(PlatformError):
     """Release-gate specification is malformed."""
 

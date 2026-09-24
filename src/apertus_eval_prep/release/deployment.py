@@ -82,6 +82,8 @@ class CostModel:
     output_per_million: float | None = None
     currency: str = "USD"
     source: str = "manual configuration"
+    effective_date: str | None = None
+    estimate_label: str = "DERIVED_ESTIMATE"
 
     def __post_init__(self) -> None:
         for name, value in (
@@ -109,6 +111,8 @@ class CostModel:
             output_per_million=data.get("output_per_million", data.get("output_cost_per_million")),
             currency=str(data.get("currency", "USD")),
             source=str(data.get("source", "manual configuration")),
+            effective_date=data.get("effective_date"),
+            estimate_label=str(data.get("estimate_label", "DERIVED_ESTIMATE")),
         )
 
     def estimate(self, input_tokens: int | None, output_tokens: int | None) -> dict[str, Any]:
@@ -159,7 +163,8 @@ class CostModel:
                     "components": components, "missing": missing}
         value = float(components["input"] or 0.0) + float(components["output"] or 0.0)
         return {"value": value, "currency": self.currency, "quality": "DERIVED_ESTIMATE",
-                "source": self.source, "estimate": True, "components": components, "missing": []}
+                "source": self.source, "estimate": True, "estimate_label": self.estimate_label,
+                "effective_date": self.effective_date, "components": components, "missing": []}
 
 
 def summarize_deployment(metrics: Mapping[str, Any], *, cost_model: CostModel | None = None) -> dict[str, Any]:
@@ -193,6 +198,10 @@ def summarize_deployment(metrics: Mapping[str, Any], *, cost_model: CostModel | 
     if reliability is None:
         reliability = _ratio(metrics.get("n_successful"), n_total)
     agent_success = _first(system.get("task_completion_rate"), system.get("agent_success_rate"), metrics.get("agent_success_rate"))
+    evidence = _mapping(metrics.get("evidence"))
+    evidence_mode = _first(metrics.get("evidence_mode"), evidence.get("mode"))
+    evidence_mode = str(evidence_mode) if evidence_mode is not None else None
+    runtime_profile = _mapping(metrics.get("runtime_profile"))
     return {
         "quality": quality.get("mean"), "quality_score": quality.get("mean"), "task_score": quality.get("mean"),
         "n_scored": quality.get("n_scored"), "n_total": n_total, "n_successful": successful,
@@ -213,13 +222,20 @@ def summarize_deployment(metrics: Mapping[str, Any], *, cost_model: CostModel | 
         "cost_per_success_status": "DERIVED_ESTIMATE" if cost_per_success is not None else "UNAVAILABLE",
         "cost_status": cost.get("quality"),
         "backend": metrics.get("backend"), "device": metrics.get("device"),
+        "model_id": metrics.get("model_id"), "model_revision": metrics.get("model_revision"),
+        "tokenizer_id": metrics.get("tokenizer_id"), "tokenizer_revision": metrics.get("tokenizer_revision"),
         "precision": metrics.get("precision"), "quantization": metrics.get("quantization"),
         "memory_measurement": metrics.get("memory_measurement"),
+        "runtime_profile": runtime_profile or None,
+        "hardware_profile": runtime_profile or None,
         "error_rate": _first(metrics.get("error_rate"), _ratio(n_runtime, n_total)),
         "timeout_rate": _first(metrics.get("timeout_rate"), _ratio(n_timeout, n_total)),
         "failure_rate": _first(metrics.get("failure_rate"), _ratio(n_failed, n_total)),
         "run_failures": metrics.get("n_failed"), "runtime_failures": n_runtime,
-        "evidence_class": metrics.get("evidence_class"), "deployment": deployment,
+        "evidence_class": metrics.get("evidence_class"), "evidence_mode": evidence_mode,
+        "evidence": evidence or None, "cost_config": _mapping(metrics.get("cost_config")) or None,
+        "known_limitations": list(metrics.get("known_limitations") or evidence.get("known_limitations") or []),
+        "deployment": deployment,
     }
 
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Any, Mapping
 
-from apertus_eval_prep.release.gates import GateStatus, evaluate_release_gates
+from apertus_eval_prep.release.gates import GateStatus, RELEASE_GATE_DISCLAIMER, evaluate_release_gates
 from apertus_eval_prep.utils.pii import redact_text_for_report
 
 
@@ -11,7 +11,7 @@ def render_gate_markdown(decision: Mapping[str, Any]) -> str:
     lines = ["# Release-readiness gate", "", f"**Status:** `{decision.get('status', GateStatus.INCONCLUSIVE.value)}`", ""]
     reasons = decision.get("reasons") or []
     lines += [f"- {redact_text_for_report(str(reason))}" for reason in reasons] or ["- No failing rules were recorded."]
-    lines += ["", "Automated gates support, but do not replace, human safety review."]
+    lines += ["", RELEASE_GATE_DISCLAIMER]
     return "\n".join(lines) + "\n"
 
 

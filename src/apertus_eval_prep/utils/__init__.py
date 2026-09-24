@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from apertus_eval_prep.utils.environment import environment_snapshot, git_metadata
+from apertus_eval_prep.utils.runtime_profile import detect_runtime_environment, profile_runtime
 from apertus_eval_prep.utils.hashing import (
     canonical_json,
     hash_bytes,
@@ -55,6 +56,8 @@ __all__ = [
     "environment_snapshot",
     "get_logger",
     "git_metadata",
+    "detect_runtime_environment",
+    "profile_runtime",
     "hash_bytes",
     "hash_file",
     "hash_text",

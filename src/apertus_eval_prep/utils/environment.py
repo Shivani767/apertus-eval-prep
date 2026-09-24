@@ -70,8 +70,8 @@ def platform_metadata() -> dict[str, Any]:
     }
 
 
-def hardware_metadata() -> dict[str, Any]:
-    """CPU/GPU facts. Torch is optional and imported lazily."""
+def hardware_metadata(*, include_torch: bool = True) -> dict[str, Any]:
+    """CPU/GPU facts. Torch is optional and imported only when requested."""
     info: dict[str, Any] = {"cpu_count": os.cpu_count(), "accelerator": "none"}
     try:
         page_size = os.sysconf("SC_PAGE_SIZE")
@@ -79,6 +79,8 @@ def hardware_metadata() -> dict[str, Any]:
         info["ram_gb"] = round(page_size * pages / (1024**3), 2)
     except (ValueError, OSError, AttributeError):
         info["ram_gb"] = None
+    if not include_torch:
+        return info
     try:
         import torch  # local import: torch is a heavy optional dependency
 

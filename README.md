@@ -86,6 +86,42 @@ PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-fingerprint \
   --run runs/platform-smoke/run-id
 ```
 
+## Optional Real Model Experiments
+
+The default install and every CI test remain offline-only. Optional open-weight local Transformers evaluation uses a separate extra:
+
+```bash
+python -m pip install -e '.[real-model]'
+```
+
+Edit a template under `configs/colab/` (never commit credentials), then run:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-run \
+  --config configs/colab/local_real_model_smoke.yaml --out runs/colab-real/smoke
+
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-matrix \
+  --config configs/colab/local_real_model_variance.yaml --out runs/colab-real/variance
+
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-episode \
+  --config configs/colab/local_real_model_rag.yaml --out runs/colab-real/rag
+
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-safety \
+  --config configs/colab/local_real_model_safety.yaml --out runs/colab-real/safety
+
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-ingest-runs \
+  --runs RUN_DIRECTORY_1 RUN_DIRECTORY_2 --out runs/colab-real/comparison_points.json
+
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-select \
+  --points runs/colab-real/comparison_points.json \
+  --out runs/colab-real/selection.json
+
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-report \
+  --run RUN_DIRECTORY_1 --format both --out runs/colab-real/reports
+```
+
+`notebooks/colab_real_model_evaluation.ipynb` guides the same workflow in Colab. A `LOCAL_REAL_MODEL` report is experimental real-model evidence—not a production benchmark or approval. Colab sessions, allocated hardware, notebook overhead, and model availability vary. Manual prices are optional; unavailable token or pricing evidence remains unavailable rather than zero. See `docs/COLAB_EXPERIMENT_GUIDE.md` and `docs/REAL_EVALUATION_PROTOCOL.md`.
+
 ### Extending the platform
 
 - **Adapter:** implement `ModelAdapter.complete()` and register construction in `adapters/factory.py`.

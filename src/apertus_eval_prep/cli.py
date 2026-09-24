@@ -538,7 +538,10 @@ def cmd_platform_run(args: argparse.Namespace) -> int:
     result = run_evaluation(_platform_config(args), repo_root(), output_root=args.out,
                             run_id=args.run_id, command="apertus-eval-prep platform-run")
     print(json.dumps({"run_id": result.run_id, "directory": str(result.directory),
-                      "quality": result.metrics.get("quality"), "evidence_class": result.metrics.get("evidence_class")}, indent=2))
+                      "quality": result.metrics.get("quality"),
+                      "evidence_class": result.metrics.get("evidence_class"),
+                      "evidence_mode": result.metrics.get("evidence_mode"),
+                      "evidence": result.metrics.get("evidence")}, indent=2, default=str))
     return 0
 
 
@@ -626,6 +629,18 @@ def cmd_platform_gate(args: argparse.Namespace) -> int:
     write_json(run_dir / "metrics.json", redact_for_artifact(metrics))
     print(json.dumps(safe_decision, indent=2, default=str))
     return 0 if decision["status"] in {"PASS", "PASS_WITH_WATCHLIST"} else 2
+
+
+def cmd_platform_ingest_runs(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.release.ingest import ingest_run_directories
+    from apertus_eval_prep.utils.serialization import write_json
+
+    result = ingest_run_directories(
+        args.runs, allow_incompatible=bool(getattr(args, "allow_incompatible", False))
+    )
+    write_json(args.out, result)
+    print(json.dumps(result, indent=2, default=str))
+    return 0
 
 
 def cmd_platform_select(args: argparse.Namespace) -> int:
@@ -873,6 +888,18 @@ def build_parser() -> argparse.ArgumentParser:
     p_platform_gate.add_argument("--run", required=True)
     p_platform_gate.add_argument("--rules", help="YAML release-gate rules.")
     p_platform_gate.set_defaults(func=cmd_platform_gate)
+
+    p_platform_ingest = sub.add_parser(
+        "platform-ingest-runs",
+        help="Convert completed run artifacts into Phase 5 deployment comparison points.",
+    )
+    p_platform_ingest.add_argument("--runs", nargs="+", required=True, help="One or more run directories.")
+    p_platform_ingest.add_argument("--out", required=True, help="Output comparison-points JSON file.")
+    p_platform_ingest.add_argument(
+        "--allow-incompatible", action="store_true",
+        help="Record incompatible identities as warnings instead of rejecting the comparison.",
+    )
+    p_platform_ingest.set_defaults(func=cmd_platform_ingest_runs)
 
     p_platform_select = sub.add_parser("platform-select", help="Compare deployment points and apply constraints.")
     p_platform_select.add_argument("--points", required=True, help="JSON points file.")

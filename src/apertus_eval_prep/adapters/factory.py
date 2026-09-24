@@ -22,9 +22,16 @@ def adapter_from_spec(spec: AdapterSpec, *, seed: int = 0) -> ModelAdapter:
             params, name=spec.name, model_id=spec.model_id, revision=spec.revision, seed=seed
         )
     if spec.kind == "local":
+        # Preserve the existing lightweight local adapter API and behavior.
         from apertus_eval_prep.adapters.local import LocalAdapter
 
         return LocalAdapter.from_params(
+            params, name=spec.name, model_id=spec.model_id, revision=spec.revision, seed=seed
+        )
+    if spec.kind == "local_transformers":
+        from apertus_eval_prep.adapters.local_transformers import LocalTransformersAdapter
+
+        return LocalTransformersAdapter.from_params(
             params, name=spec.name, model_id=spec.model_id, revision=spec.revision, seed=seed
         )
     if spec.kind == "openai_compatible":

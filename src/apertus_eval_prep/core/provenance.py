@@ -14,13 +14,11 @@ from pathlib import Path
 from typing import Any
 
 from apertus_eval_prep.core.schemas import RunSpec
+from apertus_eval_prep.core.evidence import normalize_evidence
 from apertus_eval_prep.utils.environment import (
-    git_metadata,
-    hardware_metadata,
-    package_versions,
-    platform_metadata,
-    python_metadata,
+    git_metadata, hardware_metadata, package_versions, platform_metadata, python_metadata,
 )
+from apertus_eval_prep.utils.runtime_profile import profile_runtime
 from apertus_eval_prep.utils.hashing import hash_dataset, hash_file, hash_prompt, hash_task
 from apertus_eval_prep.utils.pii import redact_for_artifact, redact_text_for_artifact
 
@@ -136,6 +134,14 @@ def build_run_manifest(
     prompt_version = run_spec.prompt.version or run_spec.prompt.prompt_id or "unversioned"
     prompt_hash = template_hash or prompt_template_hash(run_spec, root)
     resolved_config_hash = config_hash or run_spec.config_hash()
+    evidence = normalize_evidence(
+        run_spec.evidence.to_dict(), legacy_class=run_spec.evidence_class, adapter_kind=run_spec.adapter.kind
+    )
+    runtime_profile = profile_runtime(
+        device=run_spec.runtime.device, precision=run_spec.runtime.precision,
+        quantization=run_spec.runtime.quantization,
+        include_torch=evidence["mode"] in {"LOCAL_REAL_MODEL", "HARDWARE_MEASURED"},
+    )
     manifest = {
         "artifact_format_version": ARTIFACT_FORMAT_VERSION,
         "run_id": run_id,
@@ -177,6 +183,8 @@ def build_run_manifest(
         "model": {
             "model_id": run_spec.adapter.model_id,
             "model_revision": run_spec.adapter.revision,
+            "tokenizer_id": run_spec.adapter.params.get("tokenizer_id", run_spec.adapter.model_id),
+            "tokenizer_revision": run_spec.adapter.params.get("tokenizer_revision", run_spec.adapter.revision),
             "adapter_kind": run_spec.adapter.kind,
             "adapter_name": run_spec.adapter.name,
         },
@@ -192,6 +200,11 @@ def build_run_manifest(
         "dimensions": run_spec.dimensions.to_dict(),
         "conditions": dict(run_spec.conditions),
         "evidence_class": run_spec.evidence_class,
+        "evidence_mode": evidence["mode"],
+        "evidence": evidence,
+        "cost": run_spec.cost.to_dict(),
+        "metric_definition_version": "1.0",
+        "runtime_profile": runtime_profile,
         "git_commit": git.get("commit"),
         "git_dirty": git.get("dirty"),
         "git": git,
@@ -199,7 +212,9 @@ def build_run_manifest(
             "python": python_metadata(),
             "platform": platform_metadata(),
             "platform_string": _platform.platform(),
-            "hardware": hardware_metadata(),
+            "hardware": hardware_metadata(
+                include_torch=evidence["mode"] in {"LOCAL_REAL_MODEL", "HARDWARE_MEASURED"}
+            ),
             "packages": package_versions(DEFAULT_PACKAGES),
         },
         "extra": dict(extra or {}),

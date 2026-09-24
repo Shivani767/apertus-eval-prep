@@ -13,6 +13,11 @@ from apertus_eval_prep.utils.pii import redact_for_artifact
 _UNCONFIGURED = object()
 
 
+RELEASE_GATE_DISCLAIMER = (
+    "Release-gate results are engineering policy aids and are not production approval."
+)
+
+
 class GateStatus(StrEnum):
     PASS = "PASS"
     PASS_WITH_WATCHLIST = "PASS_WITH_WATCHLIST"
@@ -232,7 +237,9 @@ def evaluate_release_gates(metrics: Mapping[str, Any], rules: Mapping[str, Any] 
     safe_report = redact_for_artifact({
         "status": status.value, "reasons": reasons, "watchlist": watchlist,
         "checks": checks, "rules": rules,
-        "limitations": ["automated gates are not a safety certification"],
+        "disclaimer": RELEASE_GATE_DISCLAIMER,
+        "limitations": [RELEASE_GATE_DISCLAIMER,
+                        "automated gates are not a safety certification"],
     })
     return safe_report
 
@@ -251,4 +258,4 @@ def load_gate_rules(path: str | Path) -> dict[str, Any]:
     return payload.get("release_gates", payload)
 
 
-__all__ = ["GateStatus", "evaluate_release_gates", "load_gate_rules"]
+__all__ = ["RELEASE_GATE_DISCLAIMER", "GateStatus", "evaluate_release_gates", "load_gate_rules"]

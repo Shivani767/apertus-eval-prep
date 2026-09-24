@@ -16,6 +16,7 @@ from apertus_eval_prep.core.artifacts import (
     retained_text_payload, sanitize_response_payload,
 )
 from apertus_eval_prep.core.errors import PlatformError
+from apertus_eval_prep.core.evidence import evidence_from_manifest, evidence_metric_fields
 from apertus_eval_prep.core.provenance import build_dataset_lock, build_run_manifest, prompt_template_hash
 from apertus_eval_prep.core.registry import append_index
 from apertus_eval_prep.core.schemas import RunSpec, SYNTHETIC_EVIDENCE_CLASSES
@@ -332,6 +333,8 @@ def run_episode_evaluation(spec: RunSpec, repo_root: str | Path, *,
 
               "unsafe_action_count": sum(bool(r.get("unsafe_action")) for r in scored_records)}
 
+    evidence = evidence_from_manifest(manifest)
+    evidence_fields = evidence_metric_fields(evidence)
     metrics = {"schema_version": "1.0", "n_total": len(episodes), "n_scored": quality["n_scored"],
                "n_failed": len(failures), "n_runtime_failed": runtime_failed, "n_error": runtime_failed, "n_timeout": timeout_count,
                "n_successful": sum(bool(item.get("correct")) for item in scored_records), "quality": quality, "system": system,
@@ -345,7 +348,13 @@ def run_episode_evaluation(spec: RunSpec, repo_root: str | Path, *,
                           "complete": bool(episodes) and usage_report_count == len(episodes)},
                "backend": spec.adapter.kind, "device": spec.runtime.device, "precision": spec.runtime.precision,
                "quantization": spec.runtime.quantization,
-               "evidence_class": spec.evidence_class, "synthetic_or_mock": spec.evidence_class in SYNTHETIC_EVIDENCE_CLASSES,
+               "evidence_class": spec.evidence_class, **evidence_fields,
+               "model_id": spec.adapter.model_id, "model_revision": spec.adapter.revision,
+               "tokenizer_id": spec.adapter.params.get("tokenizer_id", spec.adapter.model_id),
+               "tokenizer_revision": spec.adapter.params.get("tokenizer_revision", spec.adapter.revision),
+               "runtime_profile": manifest.get("runtime_profile"),
+               "known_limitations": evidence.get("known_limitations", []),
+               "cost_config": spec.cost.to_dict(),
                "release_gate": {"status": "INCONCLUSIVE", "reasons": ["episode evidence is not a release certification"]}}
     from apertus_eval_prep.release.deployment import summarize_deployment
     metrics["deployment"] = summarize_deployment(metrics, cost_model=cost_model)

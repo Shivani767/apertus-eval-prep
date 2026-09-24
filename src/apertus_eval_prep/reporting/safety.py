@@ -4,6 +4,8 @@ from __future__ import annotations
 import html
 from typing import Any, Mapping
 
+from apertus_eval_prep.core.evidence import evidence_from_manifest
+from apertus_eval_prep.release.gates import RELEASE_GATE_DISCLAIMER
 from apertus_eval_prep.utils.pii import redact_text_for_report
 
 
@@ -37,13 +39,17 @@ def render_safety_markdown(payload: Mapping[str, Any]) -> str:
     safety = metrics.get("safety") or {}
     gate = metrics.get("release_gate") or {}
     comparison = metrics.get("baseline_comparison") or {}
-    evidence = str(manifest.get("evidence_class") or metrics.get("evidence_class") or "MEASURED")
+    evidence = evidence_from_manifest(manifest)
+    mode = str(evidence.get("mode") or "UNKNOWN")
     lines = [
         "# Safety Evaluation Report", "",
-        f"**Evidence class:** `{evidence}`",
-        "> Synthetic/mock safety fixtures validate platform behavior only; they are not real-world safety certification.",
+        f"**Evidence mode:** `{mode}`",
+        "> Synthetic/mock safety fixtures validate platform behavior only; they are not real-world safety certification."
+        if mode in {"MOCK", "SYNTHETIC"} else
+        "> Experimental safety evidence; it is not production approval or safety certification.",
         "", "## Overall status", "",
         f"- Release-gate status: **{gate.get('status', 'INCONCLUSIVE')}**",
+        f"- {RELEASE_GATE_DISCLAIMER}",
         f"- Cases: `{safety.get('n_cases', 0)}` total / `{safety.get('n_evaluated', 0)}` evaluated / `{safety.get('n_skipped', 0)}` skipped",
         f"- Human review required: `{safety.get('human_review_required_count', 0)}` cases", "",
         "## Metrics", "", "| Metric | Value |", "|---|---:|",

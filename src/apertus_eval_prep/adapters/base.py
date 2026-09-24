@@ -17,6 +17,10 @@ from apertus_eval_prep.core.errors import AdapterError, AdapterResponseError, Ad
 __all__ = [
     "AdapterCapabilities",
     "AdapterError",
+    "AdapterModelLoadError",
+    "AdapterOOMError",
+    "AdapterGenerationError",
+    "AdapterMalformedOutputError",
     "AdapterResponse",
     "AdapterResponseError",
     "AdapterTimeoutError",

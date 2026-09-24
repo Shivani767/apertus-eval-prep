@@ -17,9 +17,10 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from apertus_eval_prep.core.errors import SchemaValidationError
+from apertus_eval_prep.core.evidence import EVIDENCE_MODES, infer_evidence_mode, normalize_evidence
 from apertus_eval_prep.utils.hashing import hash_config
 
-ADAPTER_KINDS: tuple[str, ...] = ("mock", "local", "openai_compatible")
+ADAPTER_KINDS: tuple[str, ...] = ("mock", "local", "local_transformers", "openai_compatible")
 TASK_KINDS: tuple[str, ...] = ("static_qa", "rag_episode", "agent_episode")
 JUDGE_MODES: tuple[str, ...] = ("rules", "adapter")
 QUANTIZATIONS: tuple[str, ...] = ("none", "int8", "int4")
@@ -589,6 +590,8 @@ class CostSpec:
     output_per_million: float | None = None
     currency: str = "USD"
     source: str = "manual configuration"
+    effective_date: str | None = None
+    estimate_label: str = "DERIVED_ESTIMATE"
 
     @classmethod
     def from_dict(cls, raw: dict[str, Any] | None) -> CostSpec:
@@ -605,6 +608,9 @@ class CostSpec:
             currency=as_str(data.get("currency"), "cost.currency", default="USD") or "USD",
             source=as_str(data.get("source"), "cost.source", default="manual configuration")
             or "manual configuration",
+            effective_date=as_str(data.get("effective_date"), "cost.effective_date"),
+            estimate_label=as_str(data.get("estimate_label"), "cost.estimate_label", default="DERIVED_ESTIMATE")
+            or "DERIVED_ESTIMATE",
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -613,6 +619,65 @@ class CostSpec:
             "output_per_million": self.output_per_million,
             "currency": self.currency,
             "source": self.source,
+            "effective_date": self.effective_date,
+            "estimate_label": self.estimate_label,
+        }
+
+
+@dataclass
+class EvidenceSpec:
+    """Versioned provenance claims; unavailable claims remain explicit."""
+
+    mode: str = "UNKNOWN"
+    runtime_environment: str | None = None
+    real_model_execution: bool = False
+    external_provider_execution: bool = False
+    hardware_measured: bool = False
+    human_reviewed: bool = False
+    pricing_source: str = "unavailable"
+    known_limitations: list[str] = field(default_factory=list)
+
+    @classmethod
+    def from_dict(
+        cls, raw: dict[str, Any] | None, *, legacy_class: str | None = None,
+        adapter_kind: str | None = None,
+    ) -> "EvidenceSpec":
+        data = _require_mapping(raw, "evidence")
+        mode = as_choice(
+            data.get("mode"), "evidence.mode", EVIDENCE_MODES,
+            default=infer_evidence_mode(legacy_class=legacy_class, adapter_kind=adapter_kind),
+        ) or "UNKNOWN"
+        runtime_environment = as_str(data.get("runtime_environment"), "evidence.runtime_environment")
+        known = as_str_list(data.get("known_limitations"), "evidence.known_limitations")
+        if mode in {"MOCK", "SYNTHETIC"} and not known:
+            known = ["Synthetic evidence is not real model evidence."]
+        try:
+            normalized = normalize_evidence(
+                data, legacy_class=legacy_class, adapter_kind=adapter_kind
+            )
+        except ValueError as exc:
+            raise SchemaValidationError("evidence", str(exc)) from exc
+        return cls(
+            mode=str(normalized["mode"]),
+            runtime_environment=normalized.get("runtime_environment"),
+            real_model_execution=bool(normalized["real_model_execution"]),
+            external_provider_execution=bool(normalized["external_provider_execution"]),
+            hardware_measured=bool(normalized["hardware_measured"]),
+            human_reviewed=bool(normalized["human_reviewed"]),
+            pricing_source=str(normalized["pricing_source"]),
+            known_limitations=list(normalized["known_limitations"]),
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schema_version": "1.0", "mode": self.mode,
+            "runtime_environment": self.runtime_environment,
+            "real_model_execution": self.real_model_execution,
+            "external_provider_execution": self.external_provider_execution,
+            "hardware_measured": self.hardware_measured,
+            "human_reviewed": self.human_reviewed,
+            "pricing_source": self.pricing_source,
+            "known_limitations": list(self.known_limitations),
         }
 
 
@@ -640,6 +705,7 @@ class RunSpec:
     reporting: ReportingSpec = field(default_factory=ReportingSpec)
     gates: GateRef = field(default_factory=GateRef)
     cost: CostSpec = field(default_factory=CostSpec)
+    evidence: EvidenceSpec = field(default_factory=EvidenceSpec)
     baseline_run: str | None = None
     conditions: dict[str, Any] = field(default_factory=dict)
     evidence_class: str = "MEASURED"
@@ -652,6 +718,13 @@ class RunSpec:
             run_block = dict(data.pop("run"))
             run_block.update({k: v for k, v in data.items() if k not in run_block})
             data = run_block
+        legacy_evidence_class = as_choice(
+            data.get("evidence_class"),
+            "run.evidence_class",
+            ("MEASURED", "MOCK", "DEMONSTRATION", "HUMAN_VALIDATED", "PROJECT_METRIC"),
+            default="MEASURED",
+        ) or "MEASURED"
+        adapter = AdapterSpec.from_dict(data.get("adapter"))
         return cls(
             run_name=as_str(data.get("name") or data.get("run_name"), "run.name", default="run")
             or "run",
@@ -661,7 +734,10 @@ class RunSpec:
             ),
             tags=as_str_list(data.get("tags"), "run.tags"),
             dimensions=Dimensions.from_dict(data.get("dimensions")),
-            adapter=AdapterSpec.from_dict(data.get("adapter")),
+            adapter=adapter,
+            evidence=EvidenceSpec.from_dict(
+                data.get("evidence"), legacy_class=legacy_evidence_class, adapter_kind=adapter.kind
+            ),
             prompt=PromptSpec.from_dict(data.get("prompt")),
             task=TaskSpec.from_dict(data.get("task")),
             decoding=DecodingSpec.from_dict(data.get("decoding")),
@@ -675,13 +751,7 @@ class RunSpec:
             conditions={
                 str(k): v for k, v in _require_mapping(data.get("conditions"), "run.conditions").items()
             },
-            evidence_class=as_choice(
-                data.get("evidence_class"),
-                "run.evidence_class",
-                ("MEASURED", "MOCK", "DEMONSTRATION", "HUMAN_VALIDATED", "PROJECT_METRIC"),
-                default="MEASURED",
-            )
-            or "MEASURED",
+            evidence_class=legacy_evidence_class,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -701,6 +771,7 @@ class RunSpec:
             "reporting": self.reporting.to_dict(),
             "release_gates": self.gates.to_dict(),
             "cost": self.cost.to_dict(),
+            "evidence": self.evidence.to_dict(),
             "baseline_run": self.baseline_run,
             "conditions": dict(self.conditions),
             "evidence_class": self.evidence_class,

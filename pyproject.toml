@@ -20,6 +20,11 @@ dependencies = [
 [project.optional-dependencies]
 # Preserve the legacy HF research harness without forcing GPU-scale installs
 # for users who only need the offline platform.
+real-model = [
+  "torch>=2.2",
+  "transformers>=4.44",
+  "accelerate>=0.30",
+]
 legacy = [
   "torch>=2.2",
   "transformers>=4.44",
