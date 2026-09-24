@@ -1,0 +1,33 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,graphicx,booktabs,microtype}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage[nameinlink,capitalize]{cleveref}
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning}
+\graphicspath{{figures/}}
+\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{5pt}
+\input{tables/numbers}
+\newcommand{\pp}{\ensuremath{\mathrm{pp}}}
+\newcommand{\taub}{\tau_b}
+\title{Configuration Sensitivity in LLM Evaluation: An Artifact-Based Case Study}
+\author{Shivani Bhandari}
+\date{Preprint manuscript}
+\begin{document}
+\maketitle
+\input{abstract}
+\input{intro}
+\input{framework}
+\input{setup}
+\input{results}
+\input{ranking}
+\input{discussion}
+\input{repro}
+\appendix
+\input{appendix}
+\bibliographystyle{plainnat}
+\bibliography{references}
+\end{document}
+

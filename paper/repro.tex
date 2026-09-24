@@ -1,0 +1,34 @@
+\section{Reproducibility}
+\label{sec:repro}
+
+\paragraph{Overarching principle.}
+Every number in this manuscript is traceable to a committed artifact. The paper pipeline recomputes every table and figure from the same frozen sources:
+\begin{enumerate}
+\item \texttt{paper/analysis/statistics.json}, produced by \texttt{scripts/statistical\_analysis.py} from the registry and run artifacts;
+\item the generated tables in \texttt{paper/tables/}, produced by \texttt{scripts/generate\_tables.py};
+\item the generated figures in \texttt{paper/figures/}, produced by \texttt{scripts/generate\_figures.py}.
+\end{enumerate}
+Running \texttt{python3 scripts/reproduce\_paper.py} runs the full chain
+(\texttt{statistical\_analysis.py} $\to$ \texttt{generate\_tables.py}
+$\to$ \texttt{generate\_figures.py} $\to$ \texttt{validate\_paper.py})
+and regenerates all downstream paper assets from the committed experiment artifacts. A validation script (\texttt{scripts/validate\_paper.py}) checks registry--artifact--table consistency, sample counts, interval arithmetic, and statistical corrections.
+
+\paragraph{Configuration registry.}
+\texttt{results/registry\_paper.jsonl} holds one row per completed cell with the configuration hash, model ID, factor and level, artifact path, git commit, hardware manifest, overall accuracy and Wilson 95\% CI, and UTC timestamp. Two stale registry rows carry in-row correction records documenting what changed and why; the correction is recorded in the same row rather than silently overwritten.
+
+\paragraph{Run artifacts.}
+Each \texttt{results/runs/<hash>.json} contains the full settings block (model and tokenizer IDs, \texttt{revision}, backend, chat template, prompt variant, system prompt, \texttt{max\_new\_tokens}, seed, dtype, quantization, temperature, top-$p$, batch size, data path, experiment ID), package versions (PyTorch, Transformers, vLLM, harness), the hardware manifest (platform, Python version, GPU model, CUDA availability), all 800 per-item records (item ID, task, gold, predicted, correct, raw generation, per-item timing), per-task and overall accuracies with Wilson intervals, and a latency block. The configuration hash is derived from the settings fields that affect the measurement; a hash re-derivation check (\texttt{python -m apertus\_eval\_prep reproduce --check}) recomputes each hash and accuracy directly from the artifact.
+
+\paragraph{Benchmark data.}
+All runs use the same frozen 800-item slice: 200 items each from ARC-Easy, GSM8K, HellaSwag, and MGSM (EN/DE/FR). Slices were built by shuffling the official splits with a fixed seed (0 for evaluation items, 1 for few-shot exemplars) and taking the first 200; hub revisions are pinned in the committed data manifest, and each slice file carries a content SHA-256 in the artifact catalog (\cref{tab:benchmarks}). Licenses: ARC-Easy CC-BY-SA-4.0; GSM8K, HellaSwag, and MGSM MIT.
+
+\paragraph{Software and hardware.}
+Runs were produced on NVIDIA Tesla T4 sessions under CUDA. Committed package versions include PyTorch 2.11.0+cu128, Transformers 5.15.0--5.16.1, vLLM 0.24.0 and 0.26.0, and the evaluation harness at versions 0.2.0--0.4.0. Runs span 14 distinct git commits of the harness between 2026-08-20 and 2026-09-10.
+
+\paragraph{Test coverage.}
+The harness test suite (33 test modules; 205 core tests pass on Python 3.14 without GPU dependencies) covers the statistics, ranking, reliability, registry, and report modules used in this paper.
+
+\paragraph{Experimental matrix.} \cref{fig:matrix} distinguishes historical OFAT coverage from the unrun nested factorial. \cref{tab:failures} reports automated output categories; \cref{tab:failure-analysis} gives selected archived examples, not manually adjudicated category prevalence.
+
+\paragraph{Compute requirements.}
+Inference on the T4 at batch size 1 across 31 cells with 800 items each was run incrementally on available GPU sessions. A full regeneration of the paper's numbers from scratch requires re-running that inference; the analysis, table, figure, and validation steps run on CPU and complete in minutes.

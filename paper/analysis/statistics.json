@@ -1,0 +1,5036 @@
+{
+  "registry_verification": [
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "ec364b645b1d3d09c3eeec3247d65a819e37872b",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.12.13",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-20T15:58:16Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "ec364b645b1d3d09c3eeec3247d65a819e37872b",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.12.13",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-20T17:31:17Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "6c8c9c433e0076203fdbcaa6b40b886f002f9203",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-22T16:19:31Z",
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_prompt_id_concise_a0852ca6fc3e5c08",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "6c8c9c433e0076203fdbcaa6b40b886f002f9203",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-22T16:50:54Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "concise",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_prompt_id_concise_a0852ca6fc3e5c08",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_prompt_id_5shot_b6968af4b73708f7",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "6c8c9c433e0076203fdbcaa6b40b886f002f9203",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-22T17:51:38Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "5shot",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_prompt_id_5shot_b6968af4b73708f7",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-7B-Instruct_quantization_int4_22a6a0a56a69a1cb",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "8555f7f25375a0fcd913d5ee3ffa825eb4361e97",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-22T20:19:34Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int4",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-7B-Instruct_quantization_int4_22a6a0a56a69a1cb",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_prompt_id_concise_e4980863069a102c",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "ebf46a0d477ec55f8229a3cbc80d709305fee6c2",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-22T18:41:25Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "concise",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_prompt_id_concise_e4980863069a102c",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_prompt_id_5shot_8b703d7cb8d9627a",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "ebf46a0d477ec55f8229a3cbc80d709305fee6c2",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-22T20:25:14Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "5shot",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_prompt_id_5shot_8b703d7cb8d9627a",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Phi-3.5-mini-instruct_prompt_id_concise_37963fc49f7e8eca",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "33c582c7de8dd18bc78f05c803b353dbd1808c22",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-23T14:48:10Z",
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "concise",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_prompt_id_concise_37963fc49f7e8eca",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Phi-3.5-mini-instruct_prompt_id_5shot_e8c0aa94458abbd2",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "33c582c7de8dd18bc78f05c803b353dbd1808c22",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-23T17:03:53Z",
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "5shot",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_prompt_id_5shot_e8c0aa94458abbd2",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_quantization_int8_46dd44d463433c26",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "580ab82775b16407d5a97073de7c9df7883d0612",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-23T18:33:54Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int8",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_quantization_int8_46dd44d463433c26",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_quantization_int4_72ac0b51cec27817",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "580ab82775b16407d5a97073de7c9df7883d0612",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-23T19:47:15Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int4",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_quantization_int4_72ac0b51cec27817",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_backend_vllm_8b096c40a70ae947",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "58dcd892f836c0d57cc8b783c571b220b729dce5",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.24.0+cu129",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-24T12:41:21Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "vllm",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_backend_vllm_8b096c40a70ae947",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_backend_vllm_d504f107b78b6804",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "58dcd892f836c0d57cc8b783c571b220b729dce5",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.24.0+cu129",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-24T15:22:26Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "vllm",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_backend_vllm_d504f107b78b6804",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_seed_1_4ae7b5af354b3423",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "33bcec9fb66dc75dc6c5a40774994bacb0d8c009",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-24T17:38:41Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 1,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_seed_1_4ae7b5af354b3423",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_seed_2_5041b3a8bf44df73",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "33bcec9fb66dc75dc6c5a40774994bacb0d8c009",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-24T18:34:32Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 2,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_seed_2_5041b3a8bf44df73",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Phi-3.5-mini-instruct_backend_vllm_e796a0ecee505133",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "0022b2bed8a91e4d9a121763610f073e76dcb53a",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.24.0+cu129",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-25T11:47:23Z",
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "vllm",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_backend_vllm_e796a0ecee505133",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_seed_1_e8b596c4b1a8a527",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "f76d8f7e89876303f4bd1a2f20c06926bce1d059",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-26T17:30:45Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 1,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_seed_1_e8b596c4b1a8a527",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_seed_2_02eb0dd059805c38",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "f76d8f7e89876303f4bd1a2f20c06926bce1d059",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-26T18:59:46Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 2,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_seed_2_02eb0dd059805c38",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_quantization_int8_6355a02b3f243353",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "1c8a4dabafb1eda3b03a85674059e8d2e383b0b5",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-28T16:12:20Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int8",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_quantization_int8_6355a02b3f243353",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_quantization_int4_f9457562c8aec49f",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "1c8a4dabafb1eda3b03a85674059e8d2e383b0b5",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-28T18:13:48Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int4",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_quantization_int4_f9457562c8aec49f",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Phi-3.5-mini-instruct_seed_1_f6611690d3503f3e",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "fba3f21c5627c71f1b7803954e5113b3a603918e",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-29T08:30:04Z",
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 1,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_seed_1_f6611690d3503f3e",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Phi-3.5-mini-instruct_seed_2_8e8f4b3cb10595a4",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "fba3f21c5627c71f1b7803954e5113b3a603918e",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-29T10:17:08Z",
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 2,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_seed_2_8e8f4b3cb10595a4",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Phi-3.5-mini-instruct_quantization_int8_cfd71ce6317d4a54",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.16.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-09-10T11:06:25Z",
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int8",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_quantization_int8_cfd71ce6317d4a54",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.16.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-09-10T13:27:18Z",
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int4",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed0_9ab2746ead7e2cb9",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "039cf37e32d8f33d11c276949cf74204bcd4df13",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-30T13:32:11Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed0_9ab2746ead7e2cb9",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed1_b3a50eddee120ab8",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "039cf37e32d8f33d11c276949cf74204bcd4df13",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-30T14:26:19Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 1,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed1_b3a50eddee120ab8",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed2_9544473e05a6b577",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "039cf37e32d8f33d11c276949cf74204bcd4df13",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-08-30T15:19:55Z",
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 2,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed2_9544473e05a6b577",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed0_5ca15230e22b3837",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.16.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-09-10T12:06:33Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed0_5ca15230e22b3837",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed1_535c365ca69c6f1f",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.16.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-09-10T13:41:08Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 1,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed1_535c365ca69c6f1f",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    {
+      "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed2_125dd27f9eac822d",
+      "artifact_exists": true,
+      "hash_matches_artifact": true,
+      "hash_matches_registry": true,
+      "accuracy_matches_registry": true,
+      "accuracy_matches_artifact": true,
+      "n_items": 800,
+      "git_commit": "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.16.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "utc": "2026-09-10T15:14:54Z",
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 2,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed2_125dd27f9eac822d",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    }
+  ],
+  "control": {
+    "SmolLM2-1.7B": {
+      "run_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "config_hash": "24ffe98d9250761d",
+      "n": 800,
+      "correct": 318,
+      "accuracy": 0.3975,
+      "ci95": [
+        0.3641556668528594,
+        0.4318240027693043
+      ],
+      "tasks": {
+        "arc_easy": {
+          "n": 200,
+          "correct": 144,
+          "accuracy": 0.72,
+          "accuracy_ci95": [
+            0.6540769541334948,
+            0.7776311022605082
+          ]
+        },
+        "gsm8k": {
+          "n": 200,
+          "correct": 64,
+          "accuracy": 0.32,
+          "accuracy_ci95": [
+            0.25926533315468203,
+            0.3875189843411335
+          ]
+        },
+        "hellaswag": {
+          "n": 200,
+          "correct": 66,
+          "accuracy": 0.33,
+          "accuracy_ci95": [
+            0.26857425870604107,
+            0.3978331522622292
+          ]
+        },
+        "mgsm": {
+          "n": 200,
+          "correct": 44,
+          "accuracy": 0.22,
+          "accuracy_ci95": [
+            0.16816538358833386,
+            0.2823879991829349
+          ]
+        }
+      },
+      "git_commit": "ec364b645b1d3d09c3eeec3247d65a819e37872b",
+      "utc": "2026-08-20T15:58:16Z"
+    },
+    "Qwen2.5-3B": {
+      "run_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "config_hash": "cff017903a47abb9",
+      "n": 800,
+      "correct": 515,
+      "accuracy": 0.64375,
+      "ci95": [
+        0.6099505015531839,
+        0.6761755715376845
+      ],
+      "tasks": {
+        "arc_easy": {
+          "n": 200,
+          "correct": 192,
+          "accuracy": 0.96,
+          "accuracy_ci95": [
+            0.9230679317990683,
+            0.9795943679338474
+          ]
+        },
+        "gsm8k": {
+          "n": 200,
+          "correct": 85,
+          "accuracy": 0.425,
+          "accuracy_ci95": [
+            0.3585361254351403,
+            0.49429067352144956
+          ]
+        },
+        "hellaswag": {
+          "n": 200,
+          "correct": 154,
+          "accuracy": 0.77,
+          "accuracy_ci95": [
+            0.706916956346966,
+            0.8229065674093107
+          ]
+        },
+        "mgsm": {
+          "n": 200,
+          "correct": 84,
+          "accuracy": 0.42,
+          "accuracy_ci95": [
+            0.353735991616169,
+            0.48927926060419347
+          ]
+        }
+      },
+      "git_commit": "ec364b645b1d3d09c3eeec3247d65a819e37872b",
+      "utc": "2026-08-20T17:31:17Z"
+    },
+    "Phi-3.5-mini": {
+      "run_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "config_hash": "31791224954ba45c",
+      "n": 800,
+      "correct": 536,
+      "accuracy": 0.67,
+      "ci95": [
+        0.636671909637674,
+        0.7017032724523965
+      ],
+      "tasks": {
+        "arc_easy": {
+          "n": 200,
+          "correct": 197,
+          "accuracy": 0.985,
+          "accuracy_ci95": [
+            0.9568342712073108,
+            0.9948857622067415
+          ]
+        },
+        "gsm8k": {
+          "n": 200,
+          "correct": 95,
+          "accuracy": 0.475,
+          "accuracy_ci95": [
+            0.4069162264657127,
+            0.5440260398531506
+          ]
+        },
+        "hellaswag": {
+          "n": 200,
+          "correct": 160,
+          "accuracy": 0.8,
+          "accuracy_ci95": [
+            0.7391448134346231,
+            0.8495479907390177
+          ]
+        },
+        "mgsm": {
+          "n": 200,
+          "correct": 84,
+          "accuracy": 0.42,
+          "accuracy_ci95": [
+            0.353735991616169,
+            0.48927926060419347
+          ]
+        }
+      },
+      "git_commit": "6c8c9c433e0076203fdbcaa6b40b886f002f9203",
+      "utc": "2026-08-22T16:19:31Z"
+    }
+  },
+  "contrasts": [
+    {
+      "model": "SmolLM2-1.7B",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "factor": "backend",
+      "level": "vllm",
+      "run_id": "SmolLM2-1.7B-Instruct_backend_vllm_8b096c40a70ae947",
+      "config_hash": "8b096c40a70ae947",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.3975,
+      "acc_variant": 0.42,
+      "delta_pp": 2.25,
+      "cohens_h": 0.0458,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 8,
+        "a_wrong_b_correct": 26,
+        "both_correct": 310,
+        "both_wrong": 456,
+        "disagreement_rate": 0.0425,
+        "chi2": 8.5,
+        "p_value": 0.0035514648077060707
+      },
+      "p_holm": 0.07779748075461534,
+      "p_bh": 0.013698507115437701
+    },
+    {
+      "model": "SmolLM2-1.7B",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "factor": "prompt_id",
+      "level": "5shot",
+      "run_id": "SmolLM2-1.7B-Instruct_prompt_id_5shot_b6968af4b73708f7",
+      "config_hash": "b6968af4b73708f7",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.3975,
+      "acc_variant": 0.3425,
+      "delta_pp": -5.5,
+      "cohens_h": -0.114,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 115,
+        "a_wrong_b_correct": 71,
+        "both_correct": 203,
+        "both_wrong": 411,
+        "disagreement_rate": 0.2325,
+        "chi2": 9.9409,
+        "p_value": 0.0016164999100584684
+      },
+      "p_holm": 0.03717949793134477,
+      "p_bh": 0.00872909951431573
+    },
+    {
+      "model": "SmolLM2-1.7B",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "factor": "prompt_id",
+      "level": "concise",
+      "run_id": "SmolLM2-1.7B-Instruct_prompt_id_concise_a0852ca6fc3e5c08",
+      "config_hash": "a0852ca6fc3e5c08",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.3975,
+      "acc_variant": 0.2325,
+      "delta_pp": -16.5,
+      "cohens_h": -0.358,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 194,
+        "a_wrong_b_correct": 62,
+        "both_correct": 124,
+        "both_wrong": 420,
+        "disagreement_rate": 0.32,
+        "chi2": 67.0352,
+        "p_value": 2.6670823084616477e-16
+      },
+      "p_holm": 7.201122232846449e-15,
+      "p_bh": 7.201122232846449e-15
+    },
+    {
+      "model": "SmolLM2-1.7B",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "factor": "quantization",
+      "level": "int4",
+      "run_id": "SmolLM2-1.7B-Instruct_quantization_int4_72ac0b51cec27817",
+      "config_hash": "72ac0b51cec27817",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.3975,
+      "acc_variant": 0.38625,
+      "delta_pp": -1.13,
+      "cohens_h": -0.023,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 102,
+        "a_wrong_b_correct": 93,
+        "both_correct": 216,
+        "both_wrong": 389,
+        "disagreement_rate": 0.2437,
+        "chi2": 0.3282,
+        "p_value": 0.5667178898445697
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "SmolLM2-1.7B",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "factor": "quantization",
+      "level": "int8",
+      "run_id": "SmolLM2-1.7B-Instruct_quantization_int8_46dd44d463433c26",
+      "config_hash": "46dd44d463433c26",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.3975,
+      "acc_variant": 0.4175,
+      "delta_pp": 2.0,
+      "cohens_h": 0.0407,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 36,
+        "a_wrong_b_correct": 52,
+        "both_correct": 282,
+        "both_wrong": 430,
+        "disagreement_rate": 0.11,
+        "chi2": 2.5568,
+        "p_value": 0.1098194088152372
+      },
+      "p_holm": 1.0,
+      "p_bh": 0.2695567307283095
+    },
+    {
+      "model": "SmolLM2-1.7B",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "factor": "sampled",
+      "level": "t0.7_seed0",
+      "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed0_9ab2746ead7e2cb9",
+      "config_hash": "9ab2746ead7e2cb9",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.3975,
+      "acc_variant": 0.3625,
+      "delta_pp": -3.5,
+      "cohens_h": -0.0721,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 106,
+        "a_wrong_b_correct": 78,
+        "both_correct": 212,
+        "both_wrong": 404,
+        "disagreement_rate": 0.23,
+        "chi2": 3.962,
+        "p_value": 0.04653958084700564
+      },
+      "p_holm": 0.8377124552461016,
+      "p_bh": 0.12565686828691525
+    },
+    {
+      "model": "SmolLM2-1.7B",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "factor": "sampled",
+      "level": "t0.7_seed1",
+      "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed1_b3a50eddee120ab8",
+      "config_hash": "b3a50eddee120ab8",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.3975,
+      "acc_variant": 0.37625,
+      "delta_pp": -2.13,
+      "cohens_h": -0.0436,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 105,
+        "a_wrong_b_correct": 88,
+        "both_correct": 213,
+        "both_wrong": 394,
+        "disagreement_rate": 0.2412,
+        "chi2": 1.3264,
+        "p_value": 0.24944223424368195
+      },
+      "p_holm": 1.0,
+      "p_bh": 0.5411460208332199
+    },
+    {
+      "model": "SmolLM2-1.7B",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "factor": "sampled",
+      "level": "t0.7_seed2",
+      "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed2_9544473e05a6b577",
+      "config_hash": "9544473e05a6b577",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.3975,
+      "acc_variant": 0.39,
+      "delta_pp": -0.75,
+      "cohens_h": -0.0154,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 87,
+        "a_wrong_b_correct": 81,
+        "both_correct": 231,
+        "both_wrong": 401,
+        "disagreement_rate": 0.21,
+        "chi2": 0.1488,
+        "p_value": 0.6996756256347049
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "SmolLM2-1.7B",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "factor": "seed",
+      "level": "1",
+      "run_id": "SmolLM2-1.7B-Instruct_seed_1_4ae7b5af354b3423",
+      "config_hash": "4ae7b5af354b3423",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.3975,
+      "acc_variant": 0.3975,
+      "delta_pp": 0.0,
+      "cohens_h": 0.0,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 0,
+        "a_wrong_b_correct": 0,
+        "both_correct": 318,
+        "both_wrong": 482,
+        "disagreement_rate": 0.0,
+        "chi2": 0.0,
+        "p_value": 1.0
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "SmolLM2-1.7B",
+      "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+      "factor": "seed",
+      "level": "2",
+      "run_id": "SmolLM2-1.7B-Instruct_seed_2_5041b3a8bf44df73",
+      "config_hash": "5041b3a8bf44df73",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.3975,
+      "acc_variant": 0.3975,
+      "delta_pp": 0.0,
+      "cohens_h": 0.0,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 0,
+        "a_wrong_b_correct": 0,
+        "both_correct": 318,
+        "both_wrong": 482,
+        "disagreement_rate": 0.0,
+        "chi2": 0.0,
+        "p_value": 1.0
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "Qwen2.5-3B",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "factor": "backend",
+      "level": "vllm",
+      "run_id": "Qwen2.5-3B-Instruct_backend_vllm_d504f107b78b6804",
+      "config_hash": "d504f107b78b6804",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.64375,
+      "acc_variant": 0.6675,
+      "delta_pp": 2.37,
+      "cohens_h": 0.05,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 28,
+        "a_wrong_b_correct": 47,
+        "both_correct": 487,
+        "both_wrong": 238,
+        "disagreement_rate": 0.0938,
+        "chi2": 4.32,
+        "p_value": 0.037666922228628684
+      },
+      "p_holm": 0.7356904645155158,
+      "p_bh": 0.11300076668588604
+    },
+    {
+      "model": "Qwen2.5-3B",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "factor": "prompt_id",
+      "level": "5shot",
+      "run_id": "Qwen2.5-3B-Instruct_prompt_id_5shot_8b703d7cb8d9627a",
+      "config_hash": "8b703d7cb8d9627a",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.64375,
+      "acc_variant": 0.68625,
+      "delta_pp": 4.25,
+      "cohens_h": 0.0901,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 47,
+        "a_wrong_b_correct": 81,
+        "both_correct": 468,
+        "both_wrong": 204,
+        "disagreement_rate": 0.16,
+        "chi2": 8.5078,
+        "p_value": 0.0035362491252097887
+      },
+      "p_holm": 0.07779748075461534,
+      "p_bh": 0.013698507115437701
+    },
+    {
+      "model": "Qwen2.5-3B",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "factor": "prompt_id",
+      "level": "concise",
+      "run_id": "Qwen2.5-3B-Instruct_prompt_id_concise_e4980863069a102c",
+      "config_hash": "e4980863069a102c",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.64375,
+      "acc_variant": 0.5125,
+      "delta_pp": -13.13,
+      "cohens_h": -0.2666,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 135,
+        "a_wrong_b_correct": 30,
+        "both_correct": 380,
+        "both_wrong": 255,
+        "disagreement_rate": 0.2062,
+        "chi2": 65.5515,
+        "p_value": 5.661457892424335e-16
+      },
+      "p_holm": 1.4719790520303272e-14,
+      "p_bh": 7.642968154772853e-15
+    },
+    {
+      "model": "Qwen2.5-3B",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "factor": "quantization",
+      "level": "int4",
+      "run_id": "Qwen2.5-3B-Instruct_quantization_int4_f9457562c8aec49f",
+      "config_hash": "f9457562c8aec49f",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.64375,
+      "acc_variant": 0.65625,
+      "delta_pp": 1.25,
+      "cohens_h": 0.0262,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 47,
+        "a_wrong_b_correct": 57,
+        "both_correct": 468,
+        "both_wrong": 228,
+        "disagreement_rate": 0.13,
+        "chi2": 0.7788,
+        "p_value": 0.37749425938634457
+      },
+      "p_holm": 1.0,
+      "p_bh": 0.7280246431022359
+    },
+    {
+      "model": "Qwen2.5-3B",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "factor": "quantization",
+      "level": "int8",
+      "run_id": "Qwen2.5-3B-Instruct_quantization_int8_6355a02b3f243353",
+      "config_hash": "6355a02b3f243353",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.64375,
+      "acc_variant": 0.6475,
+      "delta_pp": 0.37,
+      "cohens_h": 0.0078,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 45,
+        "a_wrong_b_correct": 48,
+        "both_correct": 470,
+        "both_wrong": 237,
+        "disagreement_rate": 0.1163,
+        "chi2": 0.043,
+        "p_value": 0.8357050269952793
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "Qwen2.5-3B",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "factor": "sampled",
+      "level": "t0.7_seed0",
+      "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed0_5ca15230e22b3837",
+      "config_hash": "5ca15230e22b3837",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.64375,
+      "acc_variant": 0.6425,
+      "delta_pp": -0.13,
+      "cohens_h": -0.0026,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 45,
+        "a_wrong_b_correct": 44,
+        "both_correct": 470,
+        "both_wrong": 241,
+        "disagreement_rate": 0.1113,
+        "chi2": 0.0,
+        "p_value": 1.0
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "Qwen2.5-3B",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "factor": "sampled",
+      "level": "t0.7_seed1",
+      "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed1_535c365ca69c6f1f",
+      "config_hash": "535c365ca69c6f1f",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.64375,
+      "acc_variant": 0.65,
+      "delta_pp": 0.62,
+      "cohens_h": 0.0131,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 42,
+        "a_wrong_b_correct": 47,
+        "both_correct": 473,
+        "both_wrong": 238,
+        "disagreement_rate": 0.1113,
+        "chi2": 0.1798,
+        "p_value": 0.6715664317280816
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "Qwen2.5-3B",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "factor": "sampled",
+      "level": "t0.7_seed2",
+      "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed2_125dd27f9eac822d",
+      "config_hash": "125dd27f9eac822d",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.64375,
+      "acc_variant": 0.63,
+      "delta_pp": -1.38,
+      "cohens_h": -0.0286,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 45,
+        "a_wrong_b_correct": 34,
+        "both_correct": 470,
+        "both_wrong": 251,
+        "disagreement_rate": 0.0988,
+        "chi2": 1.2658,
+        "p_value": 0.26055178780858734
+      },
+      "p_holm": 1.0,
+      "p_bh": 0.5411460208332199
+    },
+    {
+      "model": "Qwen2.5-3B",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "factor": "seed",
+      "level": "1",
+      "run_id": "Qwen2.5-3B-Instruct_seed_1_e8b596c4b1a8a527",
+      "config_hash": "e8b596c4b1a8a527",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.64375,
+      "acc_variant": 0.64375,
+      "delta_pp": 0.0,
+      "cohens_h": 0.0,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 0,
+        "a_wrong_b_correct": 0,
+        "both_correct": 515,
+        "both_wrong": 285,
+        "disagreement_rate": 0.0,
+        "chi2": 0.0,
+        "p_value": 1.0
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "Qwen2.5-3B",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "factor": "seed",
+      "level": "2",
+      "run_id": "Qwen2.5-3B-Instruct_seed_2_02eb0dd059805c38",
+      "config_hash": "02eb0dd059805c38",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.64375,
+      "acc_variant": 0.64375,
+      "delta_pp": 0.0,
+      "cohens_h": 0.0,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 0,
+        "a_wrong_b_correct": 0,
+        "both_correct": 515,
+        "both_wrong": 285,
+        "disagreement_rate": 0.0,
+        "chi2": 0.0,
+        "p_value": 1.0
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "Phi-3.5-mini",
+      "model_id": "microsoft/Phi-3.5-mini-instruct",
+      "factor": "backend",
+      "level": "vllm",
+      "run_id": "Phi-3.5-mini-instruct_backend_vllm_e796a0ecee505133",
+      "config_hash": "e796a0ecee505133",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.67,
+      "acc_variant": 0.67125,
+      "delta_pp": 0.12,
+      "cohens_h": 0.0027,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 22,
+        "a_wrong_b_correct": 23,
+        "both_correct": 514,
+        "both_wrong": 241,
+        "disagreement_rate": 0.0563,
+        "chi2": 0.0,
+        "p_value": 1.0
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "Phi-3.5-mini",
+      "model_id": "microsoft/Phi-3.5-mini-instruct",
+      "factor": "prompt_id",
+      "level": "5shot",
+      "run_id": "Phi-3.5-mini-instruct_prompt_id_5shot_e8c0aa94458abbd2",
+      "config_hash": "e8c0aa94458abbd2",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.67,
+      "acc_variant": 0.56375,
+      "delta_pp": -10.63,
+      "cohens_h": -0.2191,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 180,
+        "a_wrong_b_correct": 95,
+        "both_correct": 356,
+        "both_wrong": 169,
+        "disagreement_rate": 0.3438,
+        "chi2": 25.6582,
+        "p_value": 4.0756381162119203e-07
+      },
+      "p_holm": 1.01890952905298e-05,
+      "p_bh": 3.6680743045907284e-06
+    },
+    {
+      "model": "Phi-3.5-mini",
+      "model_id": "microsoft/Phi-3.5-mini-instruct",
+      "factor": "prompt_id",
+      "level": "concise",
+      "run_id": "Phi-3.5-mini-instruct_prompt_id_concise_37963fc49f7e8eca",
+      "config_hash": "37963fc49f7e8eca",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.67,
+      "acc_variant": 0.58875,
+      "delta_pp": -8.13,
+      "cohens_h": -0.1685,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 119,
+        "a_wrong_b_correct": 54,
+        "both_correct": 417,
+        "both_wrong": 210,
+        "disagreement_rate": 0.2162,
+        "chi2": 23.6763,
+        "p_value": 1.1397751819984722e-06
+      },
+      "p_holm": 2.735460436796333e-05,
+      "p_bh": 7.693482478489687e-06
+    },
+    {
+      "model": "Phi-3.5-mini",
+      "model_id": "microsoft/Phi-3.5-mini-instruct",
+      "factor": "quantization",
+      "level": "int4",
+      "run_id": "Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83",
+      "config_hash": "17c798b9a52bef83",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.67,
+      "acc_variant": 0.69875,
+      "delta_pp": 2.87,
+      "cohens_h": 0.0619,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 44,
+        "a_wrong_b_correct": 67,
+        "both_correct": 492,
+        "both_wrong": 197,
+        "disagreement_rate": 0.1388,
+        "chi2": 4.3604,
+        "p_value": 0.036784523225775786
+      },
+      "p_holm": 0.7356904645155158,
+      "p_bh": 0.11300076668588604
+    },
+    {
+      "model": "Phi-3.5-mini",
+      "model_id": "microsoft/Phi-3.5-mini-instruct",
+      "factor": "quantization",
+      "level": "int8",
+      "run_id": "Phi-3.5-mini-instruct_quantization_int8_cfd71ce6317d4a54",
+      "config_hash": "cfd71ce6317d4a54",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.67,
+      "acc_variant": 0.6725,
+      "delta_pp": 0.25,
+      "cohens_h": 0.0053,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 40,
+        "a_wrong_b_correct": 42,
+        "both_correct": 496,
+        "both_wrong": 222,
+        "disagreement_rate": 0.1025,
+        "chi2": 0.0122,
+        "p_value": 0.9120671518304257
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "Phi-3.5-mini",
+      "model_id": "microsoft/Phi-3.5-mini-instruct",
+      "factor": "seed",
+      "level": "1",
+      "run_id": "Phi-3.5-mini-instruct_seed_1_f6611690d3503f3e",
+      "config_hash": "f6611690d3503f3e",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.67,
+      "acc_variant": 0.67,
+      "delta_pp": 0.0,
+      "cohens_h": 0.0,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 0,
+        "a_wrong_b_correct": 0,
+        "both_correct": 536,
+        "both_wrong": 264,
+        "disagreement_rate": 0.0,
+        "chi2": 0.0,
+        "p_value": 1.0
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    },
+    {
+      "model": "Phi-3.5-mini",
+      "model_id": "microsoft/Phi-3.5-mini-instruct",
+      "factor": "seed",
+      "level": "2",
+      "run_id": "Phi-3.5-mini-instruct_seed_2_8e8f4b3cb10595a4",
+      "config_hash": "8e8f4b3cb10595a4",
+      "n": 800,
+      "n_paired": 800,
+      "n_dropped": 0,
+      "acc_control": 0.67,
+      "acc_variant": 0.67,
+      "delta_pp": 0.0,
+      "cohens_h": 0.0,
+      "mcnemar": {
+        "n": 800,
+        "a_correct_b_wrong": 0,
+        "a_wrong_b_correct": 0,
+        "both_correct": 536,
+        "both_wrong": 264,
+        "disagreement_rate": 0.0,
+        "chi2": 0.0,
+        "p_value": 1.0
+      },
+      "p_holm": 1.0,
+      "p_bh": 1.0
+    }
+  ],
+  "factor_sensitivity": {
+    "SmolLM2-1.7B": {
+      "backend": {
+        "n_configs": 1,
+        "range_pp": null,
+        "std_pp": null,
+        "cv": null,
+        "max_abs_delta_pp": 2.25
+      },
+      "control": {
+        "n_configs": 1,
+        "range_pp": null,
+        "std_pp": null,
+        "cv": null
+      },
+      "prompt_id": {
+        "n_configs": 2,
+        "range_pp": 11.0,
+        "std_pp": 5.5,
+        "cv": 0.1913,
+        "max_abs_delta_pp": 16.5
+      },
+      "quantization": {
+        "n_configs": 2,
+        "range_pp": 3.12,
+        "std_pp": 1.56,
+        "cv": 0.0389,
+        "max_abs_delta_pp": 2.0
+      },
+      "sampled": {
+        "n_configs": 3,
+        "range_pp": 2.75,
+        "std_pp": 1.12,
+        "cv": 0.0298,
+        "max_abs_delta_pp": 3.5
+      },
+      "seed": {
+        "n_configs": 2,
+        "range_pp": 0.0,
+        "std_pp": 0.0,
+        "cv": 0.0,
+        "max_abs_delta_pp": 0.0
+      }
+    },
+    "Qwen2.5-3B": {
+      "backend": {
+        "n_configs": 1,
+        "range_pp": null,
+        "std_pp": null,
+        "cv": null,
+        "max_abs_delta_pp": 2.37
+      },
+      "control": {
+        "n_configs": 1,
+        "range_pp": null,
+        "std_pp": null,
+        "cv": null
+      },
+      "prompt_id": {
+        "n_configs": 2,
+        "range_pp": 17.38,
+        "std_pp": 8.69,
+        "cv": 0.1449,
+        "max_abs_delta_pp": 13.13
+      },
+      "quantization": {
+        "n_configs": 2,
+        "range_pp": 0.88,
+        "std_pp": 0.44,
+        "cv": 0.0067,
+        "max_abs_delta_pp": 1.25
+      },
+      "sampled": {
+        "n_configs": 3,
+        "range_pp": 2.0,
+        "std_pp": 0.82,
+        "cv": 0.0129,
+        "max_abs_delta_pp": 1.38
+      },
+      "seed": {
+        "n_configs": 2,
+        "range_pp": 0.0,
+        "std_pp": 0.0,
+        "cv": 0.0,
+        "max_abs_delta_pp": 0.0
+      }
+    },
+    "Phi-3.5-mini": {
+      "backend": {
+        "n_configs": 1,
+        "range_pp": null,
+        "std_pp": null,
+        "cv": null,
+        "max_abs_delta_pp": 0.12
+      },
+      "control": {
+        "n_configs": 1,
+        "range_pp": null,
+        "std_pp": null,
+        "cv": null
+      },
+      "prompt_id": {
+        "n_configs": 2,
+        "range_pp": 2.5,
+        "std_pp": 1.25,
+        "cv": 0.0217,
+        "max_abs_delta_pp": 10.63
+      },
+      "quantization": {
+        "n_configs": 2,
+        "range_pp": 2.62,
+        "std_pp": 1.31,
+        "cv": 0.0191,
+        "max_abs_delta_pp": 2.87
+      },
+      "seed": {
+        "n_configs": 2,
+        "range_pp": 0.0,
+        "std_pp": 0.0,
+        "cv": 0.0,
+        "max_abs_delta_pp": 0.0
+      }
+    }
+  },
+  "ranking": {
+    "config_labels": [
+      "control",
+      "prompt_id=concise",
+      "prompt_id=5shot",
+      "backend=vllm",
+      "seed=1",
+      "seed=2",
+      "quantization=int8",
+      "quantization=int4"
+    ],
+    "models": [
+      "SmolLM2-1.7B",
+      "Qwen2.5-3B",
+      "Phi-3.5-mini"
+    ],
+    "matrix": [
+      [
+        0.3975,
+        0.2325,
+        0.3425,
+        0.42,
+        0.3975,
+        0.3975,
+        0.4175,
+        0.38625
+      ],
+      [
+        0.64375,
+        0.5125,
+        0.68625,
+        0.6675,
+        0.64375,
+        0.64375,
+        0.6475,
+        0.65625
+      ],
+      [
+        0.67,
+        0.58875,
+        0.56375,
+        0.67125,
+        0.67,
+        0.67,
+        0.6725,
+        0.69875
+      ]
+    ],
+    "cells": [
+      {
+        "config": "control",
+        "model": "SmolLM2-1.7B",
+        "acc": 0.3975,
+        "ci95": [
+          0.3641556668528594,
+          0.4318240027693043
+        ],
+        "correct": 318,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 144,
+            "accuracy": 0.72,
+            "accuracy_ci95": [
+              0.6540769541334948,
+              0.7776311022605082
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 64,
+            "accuracy": 0.32,
+            "accuracy_ci95": [
+              0.25926533315468203,
+              0.3875189843411335
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 66,
+            "accuracy": 0.33,
+            "accuracy_ci95": [
+              0.26857425870604107,
+              0.3978331522622292
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 44,
+            "accuracy": 0.22,
+            "accuracy_ci95": [
+              0.16816538358833386,
+              0.2823879991829349
+            ]
+          }
+        }
+      },
+      {
+        "config": "control",
+        "model": "Qwen2.5-3B",
+        "acc": 0.64375,
+        "ci95": [
+          0.6099505015531839,
+          0.6761755715376845
+        ],
+        "correct": 515,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 192,
+            "accuracy": 0.96,
+            "accuracy_ci95": [
+              0.9230679317990683,
+              0.9795943679338474
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 85,
+            "accuracy": 0.425,
+            "accuracy_ci95": [
+              0.3585361254351403,
+              0.49429067352144956
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 154,
+            "accuracy": 0.77,
+            "accuracy_ci95": [
+              0.706916956346966,
+              0.8229065674093107
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 84,
+            "accuracy": 0.42,
+            "accuracy_ci95": [
+              0.353735991616169,
+              0.48927926060419347
+            ]
+          }
+        }
+      },
+      {
+        "config": "control",
+        "model": "Phi-3.5-mini",
+        "acc": 0.67,
+        "ci95": [
+          0.636671909637674,
+          0.7017032724523965
+        ],
+        "correct": 536,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 197,
+            "accuracy": 0.985,
+            "accuracy_ci95": [
+              0.9568342712073108,
+              0.9948857622067415
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 95,
+            "accuracy": 0.475,
+            "accuracy_ci95": [
+              0.4069162264657127,
+              0.5440260398531506
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 160,
+            "accuracy": 0.8,
+            "accuracy_ci95": [
+              0.7391448134346231,
+              0.8495479907390177
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 84,
+            "accuracy": 0.42,
+            "accuracy_ci95": [
+              0.353735991616169,
+              0.48927926060419347
+            ]
+          }
+        }
+      },
+      {
+        "config": "prompt_id=concise",
+        "model": "SmolLM2-1.7B",
+        "acc": 0.2325,
+        "ci95": [
+          0.20454831743025073,
+          0.2630083813397859
+        ],
+        "correct": 186,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 113,
+            "accuracy": 0.565,
+            "accuracy_ci95": [
+              0.4957073625979479,
+              0.6318427449730074
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 10,
+            "accuracy": 0.05,
+            "accuracy_ci95": [
+              0.027382645600764376,
+              0.08957814813877463
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 54,
+            "accuracy": 0.27,
+            "accuracy_ci95": [
+              0.21323449814685985,
+              0.3354343519866823
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 9,
+            "accuracy": 0.045,
+            "accuracy_ci95": [
+              0.023852543001493396,
+              0.08329670400181825
+            ]
+          }
+        }
+      },
+      {
+        "config": "prompt_id=concise",
+        "model": "Qwen2.5-3B",
+        "acc": 0.5125,
+        "ci95": [
+          0.4778863073941623,
+          0.5469942207006958
+        ],
+        "correct": 410,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 195,
+            "accuracy": 0.975,
+            "accuracy_ci95": [
+              0.9428216595933592,
+              0.9892752803482385
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 30,
+            "accuracy": 0.15,
+            "accuracy_ci95": [
+              0.10713593562242096,
+              0.20605579284166492
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 157,
+            "accuracy": 0.785,
+            "accuracy_ci95": [
+              0.7229769265100358,
+              0.836281237454923
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 28,
+            "accuracy": 0.14,
+            "accuracy_ci95": [
+              0.09866982633455731,
+              0.1948988086570739
+            ]
+          }
+        }
+      },
+      {
+        "config": "prompt_id=concise",
+        "model": "Phi-3.5-mini",
+        "acc": 0.58875,
+        "ci95": [
+          0.5543073824635119,
+          0.6223443670099806
+        ],
+        "correct": 471,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 197,
+            "accuracy": 0.985,
+            "accuracy_ci95": [
+              0.9568342712073108,
+              0.9948857622067415
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 59,
+            "accuracy": 0.295,
+            "accuracy_ci95": [
+              0.23613943856849295,
+              0.36158714524618585
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 159,
+            "accuracy": 0.795,
+            "accuracy_ci95": [
+              0.7337430194757767,
+              0.8451382379616367
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 56,
+            "accuracy": 0.28,
+            "accuracy_ci95": [
+              0.22236889773949173,
+              0.34592304586650513
+            ]
+          }
+        }
+      },
+      {
+        "config": "prompt_id=5shot",
+        "model": "SmolLM2-1.7B",
+        "acc": 0.3425,
+        "ci95": [
+          0.31043896290752004,
+          0.3760663830972679
+        ],
+        "correct": 274,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 122,
+            "accuracy": 0.61,
+            "accuracy_ci95": [
+              0.5409374595716995,
+              0.6749165686253021
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 56,
+            "accuracy": 0.28,
+            "accuracy_ci95": [
+              0.22236889773949173,
+              0.34592304586650513
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 52,
+            "accuracy": 0.26,
+            "accuracy_ci95": [
+              0.20413830063574823,
+              0.3249074560253392
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 44,
+            "accuracy": 0.22,
+            "accuracy_ci95": [
+              0.16816538358833386,
+              0.2823879991829349
+            ]
+          }
+        }
+      },
+      {
+        "config": "prompt_id=5shot",
+        "model": "Qwen2.5-3B",
+        "acc": 0.68625,
+        "ci95": [
+          0.6532704261618352,
+          0.7174494424515507
+        ],
+        "correct": 549,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 192,
+            "accuracy": 0.96,
+            "accuracy_ci95": [
+              0.9230679317990683,
+              0.9795943679338474
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 107,
+            "accuracy": 0.535,
+            "accuracy_ci95": [
+              0.4658664687236334,
+              0.6028143584299581
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 146,
+            "accuracy": 0.73,
+            "accuracy_ci95": [
+              0.6645656480133176,
+              0.7867655018531402
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 104,
+            "accuracy": 0.52,
+            "accuracy_ci95": [
+              0.4510378507281443,
+              0.5882083362167652
+            ]
+          }
+        }
+      },
+      {
+        "config": "prompt_id=5shot",
+        "model": "Phi-3.5-mini",
+        "acc": 0.56375,
+        "ci95": [
+          0.5291613822633638,
+          0.5977293110204125
+        ],
+        "correct": 451,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 68,
+            "accuracy": 0.34,
+            "accuracy_ci95": [
+              0.27791545970908954,
+              0.40811504473163546
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 140,
+            "accuracy": 0.7,
+            "accuracy_ci95": [
+              0.6332093162728093,
+              0.7592525531762845
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 138,
+            "accuracy": 0.69,
+            "accuracy_ci95": [
+              0.6228282243374215,
+              0.7500105516392175
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 105,
+            "accuracy": 0.525,
+            "accuracy_ci95": [
+              0.4559739601468495,
+              0.5930837735342874
+            ]
+          }
+        }
+      },
+      {
+        "config": "backend=vllm",
+        "model": "SmolLM2-1.7B",
+        "acc": 0.42,
+        "ci95": [
+          0.38626075672160803,
+          0.4545038634713002
+        ],
+        "correct": 336,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 145,
+            "accuracy": 0.725,
+            "accuracy_ci95": [
+              0.6593166064233054,
+              0.7822029967069251
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 73,
+            "accuracy": 0.365,
+            "accuracy_ci95": [
+              0.30140526464926964,
+              0.433682973472592
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 71,
+            "accuracy": 0.355,
+            "accuracy_ci95": [
+              0.29198627540431327,
+              0.42347886924509376
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 47,
+            "accuracy": 0.235,
+            "accuracy_ci95": [
+              0.18157433415232718,
+              0.2984136888276235
+            ]
+          }
+        }
+      },
+      {
+        "config": "backend=vllm",
+        "model": "Qwen2.5-3B",
+        "acc": 0.6675,
+        "ci95": [
+          0.634122208005621,
+          0.6992768684654775
+        ],
+        "correct": 534,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 193,
+            "accuracy": 0.965,
+            "accuracy_ci95": [
+              0.9295293884777106,
+              0.9829444579914325
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 83,
+            "accuracy": 0.415,
+            "accuracy_ci95": [
+              0.3489428544975775,
+              0.48426085098655763
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 155,
+            "accuracy": 0.775,
+            "accuracy_ci95": [
+              0.7122587676433965,
+              0.8273763028491075
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 103,
+            "accuracy": 0.515,
+            "accuracy_ci95": [
+              0.44610849192745905,
+              0.583326148281223
+            ]
+          }
+        }
+      },
+      {
+        "config": "backend=vllm",
+        "model": "Phi-3.5-mini",
+        "acc": 0.67125,
+        "ci95": [
+          0.6379471474726961,
+          0.7029160874268601
+        ],
+        "correct": 537,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 198,
+            "accuracy": 0.99,
+            "accuracy_ci95": [
+              0.9642782382838243,
+              0.9972533418664554
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 89,
+            "accuracy": 0.445,
+            "accuracy_ci95": [
+              0.3778060100295353,
+              0.5142669758719639
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 160,
+            "accuracy": 0.8,
+            "accuracy_ci95": [
+              0.7391448134346231,
+              0.8495479907390177
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 90,
+            "accuracy": 0.45,
+            "accuracy_ci95": [
+              0.38264068402248536,
+              0.5192438486152413
+            ]
+          }
+        }
+      },
+      {
+        "config": "seed=1",
+        "model": "SmolLM2-1.7B",
+        "acc": 0.3975,
+        "ci95": [
+          0.3641556668528594,
+          0.4318240027693043
+        ],
+        "correct": 318,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 144,
+            "accuracy": 0.72,
+            "accuracy_ci95": [
+              0.6540769541334948,
+              0.7776311022605082
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 64,
+            "accuracy": 0.32,
+            "accuracy_ci95": [
+              0.25926533315468203,
+              0.3875189843411335
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 66,
+            "accuracy": 0.33,
+            "accuracy_ci95": [
+              0.26857425870604107,
+              0.3978331522622292
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 44,
+            "accuracy": 0.22,
+            "accuracy_ci95": [
+              0.16816538358833386,
+              0.2823879991829349
+            ]
+          }
+        }
+      },
+      {
+        "config": "seed=1",
+        "model": "Qwen2.5-3B",
+        "acc": 0.64375,
+        "ci95": [
+          0.6099505015531839,
+          0.6761755715376845
+        ],
+        "correct": 515,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 192,
+            "accuracy": 0.96,
+            "accuracy_ci95": [
+              0.9230679317990683,
+              0.9795943679338474
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 85,
+            "accuracy": 0.425,
+            "accuracy_ci95": [
+              0.3585361254351403,
+              0.49429067352144956
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 154,
+            "accuracy": 0.77,
+            "accuracy_ci95": [
+              0.706916956346966,
+              0.8229065674093107
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 84,
+            "accuracy": 0.42,
+            "accuracy_ci95": [
+              0.353735991616169,
+              0.48927926060419347
+            ]
+          }
+        }
+      },
+      {
+        "config": "seed=1",
+        "model": "Phi-3.5-mini",
+        "acc": 0.67,
+        "ci95": [
+          0.636671909637674,
+          0.7017032724523965
+        ],
+        "correct": 536,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 197,
+            "accuracy": 0.985,
+            "accuracy_ci95": [
+              0.9568342712073108,
+              0.9948857622067415
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 95,
+            "accuracy": 0.475,
+            "accuracy_ci95": [
+              0.4069162264657127,
+              0.5440260398531506
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 160,
+            "accuracy": 0.8,
+            "accuracy_ci95": [
+              0.7391448134346231,
+              0.8495479907390177
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 84,
+            "accuracy": 0.42,
+            "accuracy_ci95": [
+              0.353735991616169,
+              0.48927926060419347
+            ]
+          }
+        }
+      },
+      {
+        "config": "seed=2",
+        "model": "SmolLM2-1.7B",
+        "acc": 0.3975,
+        "ci95": [
+          0.3641556668528594,
+          0.4318240027693043
+        ],
+        "correct": 318,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 144,
+            "accuracy": 0.72,
+            "accuracy_ci95": [
+              0.6540769541334948,
+              0.7776311022605082
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 64,
+            "accuracy": 0.32,
+            "accuracy_ci95": [
+              0.25926533315468203,
+              0.3875189843411335
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 66,
+            "accuracy": 0.33,
+            "accuracy_ci95": [
+              0.26857425870604107,
+              0.3978331522622292
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 44,
+            "accuracy": 0.22,
+            "accuracy_ci95": [
+              0.16816538358833386,
+              0.2823879991829349
+            ]
+          }
+        }
+      },
+      {
+        "config": "seed=2",
+        "model": "Qwen2.5-3B",
+        "acc": 0.64375,
+        "ci95": [
+          0.6099505015531839,
+          0.6761755715376845
+        ],
+        "correct": 515,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 192,
+            "accuracy": 0.96,
+            "accuracy_ci95": [
+              0.9230679317990683,
+              0.9795943679338474
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 85,
+            "accuracy": 0.425,
+            "accuracy_ci95": [
+              0.3585361254351403,
+              0.49429067352144956
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 154,
+            "accuracy": 0.77,
+            "accuracy_ci95": [
+              0.706916956346966,
+              0.8229065674093107
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 84,
+            "accuracy": 0.42,
+            "accuracy_ci95": [
+              0.353735991616169,
+              0.48927926060419347
+            ]
+          }
+        }
+      },
+      {
+        "config": "seed=2",
+        "model": "Phi-3.5-mini",
+        "acc": 0.67,
+        "ci95": [
+          0.636671909637674,
+          0.7017032724523965
+        ],
+        "correct": 536,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 197,
+            "accuracy": 0.985,
+            "accuracy_ci95": [
+              0.9568342712073108,
+              0.9948857622067415
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 95,
+            "accuracy": 0.475,
+            "accuracy_ci95": [
+              0.4069162264657127,
+              0.5440260398531506
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 160,
+            "accuracy": 0.8,
+            "accuracy_ci95": [
+              0.7391448134346231,
+              0.8495479907390177
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 84,
+            "accuracy": 0.42,
+            "accuracy_ci95": [
+              0.353735991616169,
+              0.48927926060419347
+            ]
+          }
+        }
+      },
+      {
+        "config": "quantization=int8",
+        "model": "SmolLM2-1.7B",
+        "acc": 0.4175,
+        "ci95": [
+          0.38380102828101476,
+          0.4519874862929218
+        ],
+        "correct": 334,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 145,
+            "accuracy": 0.725,
+            "accuracy_ci95": [
+              0.6593166064233054,
+              0.7822029967069251
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 71,
+            "accuracy": 0.355,
+            "accuracy_ci95": [
+              0.29198627540431327,
+              0.42347886924509376
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 72,
+            "accuracy": 0.36,
+            "accuracy_ci95": [
+              0.296691973045667,
+              0.4285847183399673
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 46,
+            "accuracy": 0.23,
+            "accuracy_ci95": [
+              0.17709343259068935,
+              0.29308304365303406
+            ]
+          }
+        }
+      },
+      {
+        "config": "quantization=int8",
+        "model": "Qwen2.5-3B",
+        "acc": 0.6475,
+        "ci95": [
+          0.6137611107381477,
+          0.6798291207811779
+        ],
+        "correct": 518,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 192,
+            "accuracy": 0.96,
+            "accuracy_ci95": [
+              0.9230679317990683,
+              0.9795943679338474
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 88,
+            "accuracy": 0.44,
+            "accuracy_ci95": [
+              0.37297819251186043,
+              0.5092832466534114
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 147,
+            "accuracy": 0.735,
+            "accuracy_ci95": [
+              0.6698242380737778,
+              0.7913184585289075
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 91,
+            "accuracy": 0.455,
+            "accuracy_ci95": [
+              0.3874821930988368,
+              0.5242138862751171
+            ]
+          }
+        }
+      },
+      {
+        "config": "quantization=int8",
+        "model": "Phi-3.5-mini",
+        "acc": 0.6725,
+        "ci95": [
+          0.6392226443108979,
+          0.704128643398144
+        ],
+        "correct": 538,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 196,
+            "accuracy": 0.98,
+            "accuracy_ci95": [
+              0.9497129130941747,
+              0.9921955735836504
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 92,
+            "accuracy": 0.46,
+            "accuracy_ci95": [
+              0.3923305179997165,
+              0.5291771081104648
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 158,
+            "accuracy": 0.79,
+            "accuracy_ci95": [
+              0.7283538314009772,
+              0.8407158793002087
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 92,
+            "accuracy": 0.46,
+            "accuracy_ci95": [
+              0.3923305179997165,
+              0.5291771081104648
+            ]
+          }
+        }
+      },
+      {
+        "config": "quantization=int4",
+        "model": "SmolLM2-1.7B",
+        "acc": 0.38625,
+        "ci95": [
+          0.35313085260715366,
+          0.4204563417296377
+        ],
+        "correct": 309,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 136,
+            "accuracy": 0.68,
+            "accuracy_ci95": [
+              0.6124810156588666,
+              0.740734666845318
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 65,
+            "accuracy": 0.325,
+            "accuracy_ci95": [
+              0.2639157153923445,
+              0.3926801488396985
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 64,
+            "accuracy": 0.32,
+            "accuracy_ci95": [
+              0.25926533315468203,
+              0.3875189843411335
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 44,
+            "accuracy": 0.22,
+            "accuracy_ci95": [
+              0.16816538358833386,
+              0.2823879991829349
+            ]
+          }
+        }
+      },
+      {
+        "config": "quantization=int4",
+        "model": "Qwen2.5-3B",
+        "acc": 0.65625,
+        "ci95": [
+          0.6226611808522248,
+          0.6883454203335017
+        ],
+        "correct": 525,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 192,
+            "accuracy": 0.96,
+            "accuracy_ci95": [
+              0.9230679317990683,
+              0.9795943679338474
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 90,
+            "accuracy": 0.45,
+            "accuracy_ci95": [
+              0.38264068402248536,
+              0.5192438486152413
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 138,
+            "accuracy": 0.69,
+            "accuracy_ci95": [
+              0.6228282243374215,
+              0.7500105516392175
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 105,
+            "accuracy": 0.525,
+            "accuracy_ci95": [
+              0.4559739601468495,
+              0.5930837735342874
+            ]
+          }
+        }
+      },
+      {
+        "config": "quantization=int4",
+        "model": "Phi-3.5-mini",
+        "acc": 0.69875,
+        "ci95": [
+          0.6660693285666863,
+          0.7295310681415574
+        ],
+        "correct": 559,
+        "n": 800,
+        "tasks": {
+          "arc_easy": {
+            "n": 200,
+            "correct": 196,
+            "accuracy": 0.98,
+            "accuracy_ci95": [
+              0.9497129130941747,
+              0.9921955735836504
+            ]
+          },
+          "gsm8k": {
+            "n": 200,
+            "correct": 104,
+            "accuracy": 0.52,
+            "accuracy_ci95": [
+              0.4510378507281443,
+              0.5882083362167652
+            ]
+          },
+          "hellaswag": {
+            "n": 200,
+            "correct": 156,
+            "accuracy": 0.78,
+            "accuracy_ci95": [
+              0.7176120008170652,
+              0.8318346164116661
+            ]
+          },
+          "mgsm": {
+            "n": 200,
+            "correct": 103,
+            "accuracy": 0.515,
+            "accuracy_ci95": [
+              0.44610849192745905,
+              0.583326148281223
+            ]
+          }
+        }
+      }
+    ],
+    "tau_vs_control": [
+      {
+        "config": "control",
+        "tau_b": 1.0,
+        "reversals": 0,
+        "ranks": [
+          3.0,
+          2.0,
+          1.0
+        ],
+        "accs": [
+          0.3975,
+          0.6438,
+          0.67
+        ],
+        "n_models": 3,
+        "measured": true
+      },
+      {
+        "config": "prompt_id=concise",
+        "tau_b": 1.0,
+        "reversals": 0,
+        "ranks": [
+          3.0,
+          2.0,
+          1.0
+        ],
+        "accs": [
+          0.2325,
+          0.5125,
+          0.5887
+        ],
+        "n_models": 3,
+        "measured": true
+      },
+      {
+        "config": "prompt_id=5shot",
+        "tau_b": 0.3333,
+        "reversals": 1,
+        "ranks": [
+          3.0,
+          1.0,
+          2.0
+        ],
+        "accs": [
+          0.3425,
+          0.6863,
+          0.5637
+        ],
+        "n_models": 3,
+        "measured": true
+      },
+      {
+        "config": "backend=vllm",
+        "tau_b": 1.0,
+        "reversals": 0,
+        "ranks": [
+          3.0,
+          2.0,
+          1.0
+        ],
+        "accs": [
+          0.42,
+          0.6675,
+          0.6713
+        ],
+        "n_models": 3,
+        "measured": true
+      },
+      {
+        "config": "seed=1",
+        "tau_b": 1.0,
+        "reversals": 0,
+        "ranks": [
+          3.0,
+          2.0,
+          1.0
+        ],
+        "accs": [
+          0.3975,
+          0.6438,
+          0.67
+        ],
+        "n_models": 3,
+        "measured": true
+      },
+      {
+        "config": "seed=2",
+        "tau_b": 1.0,
+        "reversals": 0,
+        "ranks": [
+          3.0,
+          2.0,
+          1.0
+        ],
+        "accs": [
+          0.3975,
+          0.6438,
+          0.67
+        ],
+        "n_models": 3,
+        "measured": true
+      },
+      {
+        "config": "quantization=int8",
+        "tau_b": 1.0,
+        "reversals": 0,
+        "ranks": [
+          3.0,
+          2.0,
+          1.0
+        ],
+        "accs": [
+          0.4175,
+          0.6475,
+          0.6725
+        ],
+        "n_models": 3,
+        "measured": true
+      },
+      {
+        "config": "quantization=int4",
+        "tau_b": 1.0,
+        "reversals": 0,
+        "ranks": [
+          3.0,
+          2.0,
+          1.0
+        ],
+        "accs": [
+          0.3862,
+          0.6562,
+          0.6987
+        ],
+        "n_models": 3,
+        "measured": true
+      }
+    ],
+    "pair_ci_overlap": {
+      "SmolLM2-1.7B vs Qwen2.5-3B": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "SmolLM2-1.7B vs Phi-3.5-mini": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "Qwen2.5-3B vs Phi-3.5-mini": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    "pairwise_win_rates": {
+      "SmolLM2-1.7B > Qwen2.5-3B": 0.0,
+      "SmolLM2-1.7B > Phi-3.5-mini": 0.0,
+      "Qwen2.5-3B > SmolLM2-1.7B": 1.0,
+      "Qwen2.5-3B > Phi-3.5-mini": 0.125,
+      "Phi-3.5-mini > SmolLM2-1.7B": 1.0,
+      "Phi-3.5-mini > Qwen2.5-3B": 0.875
+    },
+    "rank_distributions": [
+      {
+        "mean_rank": 3.0,
+        "rank_variance": 0.0,
+        "p_rank_1": 0.0,
+        "rank_min": 3.0,
+        "rank_max": 3.0,
+        "n_configs": 8,
+        "n_skipped": 0
+      },
+      {
+        "mean_rank": 1.875,
+        "rank_variance": 0.109375,
+        "p_rank_1": 0.125,
+        "rank_min": 1.0,
+        "rank_max": 2.0,
+        "n_configs": 8,
+        "n_skipped": 0
+      },
+      {
+        "mean_rank": 1.125,
+        "rank_variance": 0.109375,
+        "p_rank_1": 0.875,
+        "rank_min": 1.0,
+        "rank_max": 2.0,
+        "n_configs": 8,
+        "n_skipped": 0
+      }
+    ],
+    "bootstrap": {
+      "mean_tau": 0.8403333333333334,
+      "p_any_reversal": 0.2395,
+      "n_models": 3,
+      "n_configs": 8
+    },
+    "phi_vs_qwen_head_to_head": [
+      {
+        "config": "control",
+        "phi_acc": 0.67,
+        "phi_ci": [
+          0.636671909637674,
+          0.7017032724523965
+        ],
+        "qwen_acc": 0.64375,
+        "qwen_ci": [
+          0.6099505015531839,
+          0.6761755715376845
+        ],
+        "phi_minus_qwen_pp": 2.62,
+        "ci_disjoint": false,
+        "winner": "Phi",
+        "mcnemar": {
+          "n": 800,
+          "a_correct_b_wrong": 82,
+          "a_wrong_b_correct": 61,
+          "both_correct": 454,
+          "both_wrong": 203,
+          "disagreement_rate": 0.1787,
+          "chi2": 2.7972,
+          "p_value": 0.09442891638007404
+        },
+        "n_paired": 800,
+        "p_holm": 0.47214458190037023
+      },
+      {
+        "config": "prompt_id=concise",
+        "phi_acc": 0.58875,
+        "phi_ci": [
+          0.5543073824635119,
+          0.6223443670099806
+        ],
+        "qwen_acc": 0.5125,
+        "qwen_ci": [
+          0.4778863073941623,
+          0.5469942207006958
+        ],
+        "phi_minus_qwen_pp": 7.63,
+        "ci_disjoint": true,
+        "winner": "Phi",
+        "mcnemar": {
+          "n": 800,
+          "a_correct_b_wrong": 104,
+          "a_wrong_b_correct": 43,
+          "both_correct": 367,
+          "both_wrong": 286,
+          "disagreement_rate": 0.1837,
+          "chi2": 24.4898,
+          "p_value": 7.470442823413915e-07
+        },
+        "n_paired": 800,
+        "p_holm": 5.22930997638974e-06
+      },
+      {
+        "config": "prompt_id=5shot",
+        "phi_acc": 0.56375,
+        "phi_ci": [
+          0.5291613822633638,
+          0.5977293110204125
+        ],
+        "qwen_acc": 0.68625,
+        "qwen_ci": [
+          0.6532704261618352,
+          0.7174494424515507
+        ],
+        "phi_minus_qwen_pp": -12.25,
+        "ci_disjoint": true,
+        "winner": "Qwen",
+        "mcnemar": {
+          "n": 800,
+          "a_correct_b_wrong": 85,
+          "a_wrong_b_correct": 183,
+          "both_correct": 366,
+          "both_wrong": 166,
+          "disagreement_rate": 0.335,
+          "chi2": 35.1082,
+          "p_value": 3.118832677266768e-09
+        },
+        "n_paired": 800,
+        "p_holm": 2.4950661418134142e-08
+      },
+      {
+        "config": "backend=vllm",
+        "phi_acc": 0.67125,
+        "phi_ci": [
+          0.6379471474726961,
+          0.7029160874268601
+        ],
+        "qwen_acc": 0.6675,
+        "qwen_ci": [
+          0.634122208005621,
+          0.6992768684654775
+        ],
+        "phi_minus_qwen_pp": 0.38,
+        "ci_disjoint": false,
+        "winner": "Phi",
+        "mcnemar": {
+          "n": 800,
+          "a_correct_b_wrong": 76,
+          "a_wrong_b_correct": 73,
+          "both_correct": 461,
+          "both_wrong": 190,
+          "disagreement_rate": 0.1862,
+          "chi2": 0.0268,
+          "p_value": 0.8698520758281653
+        },
+        "n_paired": 800,
+        "p_holm": 0.8698520758281653
+      },
+      {
+        "config": "seed=1",
+        "phi_acc": 0.67,
+        "phi_ci": [
+          0.636671909637674,
+          0.7017032724523965
+        ],
+        "qwen_acc": 0.64375,
+        "qwen_ci": [
+          0.6099505015531839,
+          0.6761755715376845
+        ],
+        "phi_minus_qwen_pp": 2.62,
+        "ci_disjoint": false,
+        "winner": "Phi",
+        "mcnemar": {
+          "n": 800,
+          "a_correct_b_wrong": 82,
+          "a_wrong_b_correct": 61,
+          "both_correct": 454,
+          "both_wrong": 203,
+          "disagreement_rate": 0.1787,
+          "chi2": 2.7972,
+          "p_value": 0.09442891638007404
+        },
+        "n_paired": 800,
+        "p_holm": 0.47214458190037023
+      },
+      {
+        "config": "seed=2",
+        "phi_acc": 0.67,
+        "phi_ci": [
+          0.636671909637674,
+          0.7017032724523965
+        ],
+        "qwen_acc": 0.64375,
+        "qwen_ci": [
+          0.6099505015531839,
+          0.6761755715376845
+        ],
+        "phi_minus_qwen_pp": 2.62,
+        "ci_disjoint": false,
+        "winner": "Phi",
+        "mcnemar": {
+          "n": 800,
+          "a_correct_b_wrong": 82,
+          "a_wrong_b_correct": 61,
+          "both_correct": 454,
+          "both_wrong": 203,
+          "disagreement_rate": 0.1787,
+          "chi2": 2.7972,
+          "p_value": 0.09442891638007404
+        },
+        "n_paired": 800,
+        "p_holm": 0.47214458190037023
+      },
+      {
+        "config": "quantization=int8",
+        "phi_acc": 0.6725,
+        "phi_ci": [
+          0.6392226443108979,
+          0.704128643398144
+        ],
+        "qwen_acc": 0.6475,
+        "qwen_ci": [
+          0.6137611107381477,
+          0.6798291207811779
+        ],
+        "phi_minus_qwen_pp": 2.5,
+        "ci_disjoint": false,
+        "winner": "Phi",
+        "mcnemar": {
+          "n": 800,
+          "a_correct_b_wrong": 87,
+          "a_wrong_b_correct": 67,
+          "both_correct": 451,
+          "both_wrong": 195,
+          "disagreement_rate": 0.1925,
+          "chi2": 2.3442,
+          "p_value": 0.1257536670437417
+        },
+        "n_paired": 800,
+        "p_holm": 0.47214458190037023
+      },
+      {
+        "config": "quantization=int4",
+        "phi_acc": 0.69875,
+        "phi_ci": [
+          0.6660693285666863,
+          0.7295310681415574
+        ],
+        "qwen_acc": 0.65625,
+        "qwen_ci": [
+          0.6226611808522248,
+          0.6883454203335017
+        ],
+        "phi_minus_qwen_pp": 4.25,
+        "ci_disjoint": false,
+        "winner": "Phi",
+        "mcnemar": {
+          "n": 800,
+          "a_correct_b_wrong": 98,
+          "a_wrong_b_correct": 64,
+          "both_correct": 461,
+          "both_wrong": 177,
+          "disagreement_rate": 0.2025,
+          "chi2": 6.7222,
+          "p_value": 0.009521891184098847
+        },
+        "n_paired": 800,
+        "p_holm": 0.05713134710459308
+      }
+    ]
+  },
+  "sampling": {
+    "SmolLM2-1.7B": {
+      "control_accuracy": 0.3975,
+      "sampled_seeds": {
+        "t0.7_seed0": {
+          "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed0_9ab2746ead7e2cb9",
+          "accuracy": 0.3625,
+          "ci95": [
+            0.3299185606486138,
+            0.3963956303079471
+          ],
+          "correct": 290,
+          "delta_pp_vs_control": -3.5,
+          "item_disagreement_rate": 0.23,
+          "mcnemar_p": 0.04654
+        },
+        "t0.7_seed1": {
+          "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed1_b3a50eddee120ab8",
+          "accuracy": 0.37625,
+          "ci95": [
+            0.3433468374211174,
+            0.41033593443978744
+          ],
+          "correct": 301,
+          "delta_pp_vs_control": -2.13,
+          "item_disagreement_rate": 0.2412,
+          "mcnemar_p": 0.249442
+        },
+        "t0.7_seed2": {
+          "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed2_9544473e05a6b577",
+          "accuracy": 0.39,
+          "ci95": [
+            0.35680371047033643,
+            0.4242476422949124
+          ],
+          "correct": 312,
+          "delta_pp_vs_control": -0.75,
+          "item_disagreement_rate": 0.21,
+          "mcnemar_p": 0.699676
+        }
+      },
+      "sampled_accs": [
+        0.3625,
+        0.37625,
+        0.39
+      ],
+      "sampled_std_pp": 1.12,
+      "sampled_range_pp": 2.75,
+      "bootstrap_ci_of_seed_mean": {
+        "mean": 0.3762,
+        "lo": 0.3625,
+        "hi": 0.39
+      },
+      "greedy_seeds": {
+        "1": {
+          "accuracy": 0.3975,
+          "mcnemar": {
+            "n": 800,
+            "a_correct_b_wrong": 0,
+            "a_wrong_b_correct": 0,
+            "both_correct": 318,
+            "both_wrong": 482,
+            "disagreement_rate": 0.0,
+            "chi2": 0.0,
+            "p_value": 1.0
+          },
+          "identical_to_control": true
+        },
+        "2": {
+          "accuracy": 0.3975,
+          "mcnemar": {
+            "n": 800,
+            "a_correct_b_wrong": 0,
+            "a_wrong_b_correct": 0,
+            "both_correct": 318,
+            "both_wrong": 482,
+            "disagreement_rate": 0.0,
+            "chi2": 0.0,
+            "p_value": 1.0
+          },
+          "identical_to_control": true
+        }
+      }
+    },
+    "Qwen2.5-3B": {
+      "control_accuracy": 0.64375,
+      "sampled_seeds": {
+        "t0.7_seed0": {
+          "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed0_5ca15230e22b3837",
+          "accuracy": 0.6425,
+          "ci95": [
+            0.6086807883468786,
+            0.6749572319345039
+          ],
+          "correct": 514,
+          "delta_pp_vs_control": -0.13,
+          "item_disagreement_rate": 0.1113,
+          "mcnemar_p": 1.0
+        },
+        "t0.7_seed1": {
+          "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed1_535c365ca69c6f1f",
+          "accuracy": 0.65,
+          "ci95": [
+            0.6163027473454666,
+            0.6822635897928307
+          ],
+          "correct": 520,
+          "delta_pp_vs_control": 0.62,
+          "item_disagreement_rate": 0.1113,
+          "mcnemar_p": 0.671566
+        },
+        "t0.7_seed2": {
+          "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed2_125dd27f9eac822d",
+          "accuracy": 0.63,
+          "ci95": [
+            0.5959969846064913,
+            0.662760507580033
+          ],
+          "correct": 504,
+          "delta_pp_vs_control": -1.38,
+          "item_disagreement_rate": 0.0988,
+          "mcnemar_p": 0.260552
+        }
+      },
+      "sampled_accs": [
+        0.6425,
+        0.65,
+        0.63
+      ],
+      "sampled_std_pp": 0.82,
+      "sampled_range_pp": 2.0,
+      "bootstrap_ci_of_seed_mean": {
+        "mean": 0.6408,
+        "lo": 0.63,
+        "hi": 0.65
+      },
+      "greedy_seeds": {
+        "1": {
+          "accuracy": 0.64375,
+          "mcnemar": {
+            "n": 800,
+            "a_correct_b_wrong": 0,
+            "a_wrong_b_correct": 0,
+            "both_correct": 515,
+            "both_wrong": 285,
+            "disagreement_rate": 0.0,
+            "chi2": 0.0,
+            "p_value": 1.0
+          },
+          "identical_to_control": true
+        },
+        "2": {
+          "accuracy": 0.64375,
+          "mcnemar": {
+            "n": 800,
+            "a_correct_b_wrong": 0,
+            "a_wrong_b_correct": 0,
+            "both_correct": 515,
+            "both_wrong": 285,
+            "disagreement_rate": 0.0,
+            "chi2": 0.0,
+            "p_value": 1.0
+          },
+          "identical_to_control": true
+        }
+      }
+    }
+  },
+  "latency": {
+    "SmolLM2-1.7B|control=control": {
+      "run_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "status": "MEASURED",
+      "ttft_ms_mean": 245.92,
+      "e2e_ms_mean": 4015.11,
+      "tokens_per_sec_mean": 23.833,
+      "raw": {
+        "n": 800,
+        "ttft_ms_mean": 245.92,
+        "ttft_ms_p50": 184.69,
+        "ttft_ms_p95": 444.29,
+        "e2e_ms_mean": 4015.11,
+        "e2e_ms_p95": 8571.46,
+        "tokens_per_sec_mean": 23.833
+      }
+    },
+    "SmolLM2-1.7B|backend=vllm": {
+      "run_id": "SmolLM2-1.7B-Instruct_backend_vllm_8b096c40a70ae947",
+      "status": "UNAVAILABLE",
+      "ttft_ms_mean": null,
+      "e2e_ms_mean": null,
+      "tokens_per_sec_mean": null,
+      "raw": {
+        "n": 800,
+        "ttft_ms_mean": null,
+        "ttft_ms_p50": null,
+        "ttft_ms_p95": null,
+        "e2e_ms_mean": 0.0,
+        "e2e_ms_p95": 0.0,
+        "tokens_per_sec_mean": null
+      }
+    },
+    "Qwen2.5-3B|control=control": {
+      "run_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "status": "MEASURED",
+      "ttft_ms_mean": 426.82,
+      "e2e_ms_mean": 6530.25,
+      "tokens_per_sec_mean": 10.81,
+      "raw": {
+        "n": 800,
+        "ttft_ms_mean": 426.82,
+        "ttft_ms_p50": 335.33,
+        "ttft_ms_p95": 759.68,
+        "e2e_ms_mean": 6530.25,
+        "e2e_ms_p95": 13483.56,
+        "tokens_per_sec_mean": 10.81
+      }
+    },
+    "Qwen2.5-3B|backend=vllm": {
+      "run_id": "Qwen2.5-3B-Instruct_backend_vllm_d504f107b78b6804",
+      "status": "UNAVAILABLE",
+      "ttft_ms_mean": null,
+      "e2e_ms_mean": null,
+      "tokens_per_sec_mean": null,
+      "raw": {
+        "n": 800,
+        "ttft_ms_mean": null,
+        "ttft_ms_p50": null,
+        "ttft_ms_p95": null,
+        "e2e_ms_mean": 0.0,
+        "e2e_ms_p95": 0.0,
+        "tokens_per_sec_mean": null
+      }
+    },
+    "Phi-3.5-mini|control=control": {
+      "run_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "status": "MEASURED",
+      "ttft_ms_mean": 513.1,
+      "e2e_ms_mean": 9116.87,
+      "tokens_per_sec_mean": 19.931,
+      "raw": {
+        "n": 800,
+        "ttft_ms_mean": 513.1,
+        "ttft_ms_p50": 400.24,
+        "ttft_ms_p95": 1207.63,
+        "e2e_ms_mean": 9116.87,
+        "e2e_ms_p95": 12701.62,
+        "tokens_per_sec_mean": 19.931
+      }
+    },
+    "Phi-3.5-mini|backend=vllm": {
+      "run_id": "Phi-3.5-mini-instruct_backend_vllm_e796a0ecee505133",
+      "status": "UNAVAILABLE",
+      "ttft_ms_mean": null,
+      "e2e_ms_mean": null,
+      "tokens_per_sec_mean": null,
+      "raw": {
+        "n": 800,
+        "ttft_ms_mean": null,
+        "ttft_ms_p50": null,
+        "ttft_ms_p95": null,
+        "e2e_ms_mean": 0.0,
+        "e2e_ms_p95": 0.0,
+        "tokens_per_sec_mean": null
+      }
+    }
+  },
+  "failures": {
+    "SmolLM2-1.7B|control=control": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 482,
+        "correct": 318
+      },
+      "correct_rate": 0.3975
+    },
+    "SmolLM2-1.7B|prompt_id=concise": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 1,
+        "wrong_answer": 613,
+        "correct": 186
+      },
+      "correct_rate": 0.2325
+    },
+    "SmolLM2-1.7B|prompt_id=5shot": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 526,
+        "correct": 274
+      },
+      "correct_rate": 0.3425
+    },
+    "SmolLM2-1.7B|backend=vllm": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 464,
+        "correct": 336
+      },
+      "correct_rate": 0.42
+    },
+    "SmolLM2-1.7B|seed=1": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 482,
+        "correct": 318
+      },
+      "correct_rate": 0.3975
+    },
+    "SmolLM2-1.7B|seed=2": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 482,
+        "correct": 318
+      },
+      "correct_rate": 0.3975
+    },
+    "SmolLM2-1.7B|quantization=int8": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 466,
+        "correct": 334
+      },
+      "correct_rate": 0.4175
+    },
+    "SmolLM2-1.7B|quantization=int4": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 491,
+        "correct": 309
+      },
+      "correct_rate": 0.3862
+    },
+    "Qwen2.5-3B|control=control": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 285,
+        "correct": 515
+      },
+      "correct_rate": 0.6438
+    },
+    "Qwen2.5-3B|prompt_id=concise": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 390,
+        "correct": 410
+      },
+      "correct_rate": 0.5125
+    },
+    "Qwen2.5-3B|prompt_id=5shot": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 251,
+        "correct": 549
+      },
+      "correct_rate": 0.6863
+    },
+    "Qwen2.5-3B|backend=vllm": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 266,
+        "correct": 534
+      },
+      "correct_rate": 0.6675
+    },
+    "Qwen2.5-3B|seed=1": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 285,
+        "correct": 515
+      },
+      "correct_rate": 0.6438
+    },
+    "Qwen2.5-3B|seed=2": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 285,
+        "correct": 515
+      },
+      "correct_rate": 0.6438
+    },
+    "Qwen2.5-3B|quantization=int8": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 282,
+        "correct": 518
+      },
+      "correct_rate": 0.6475
+    },
+    "Qwen2.5-3B|quantization=int4": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 275,
+        "correct": 525
+      },
+      "correct_rate": 0.6562
+    },
+    "Phi-3.5-mini|control=control": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 264,
+        "correct": 536
+      },
+      "correct_rate": 0.67
+    },
+    "Phi-3.5-mini|prompt_id=concise": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 329,
+        "correct": 471
+      },
+      "correct_rate": 0.5887
+    },
+    "Phi-3.5-mini|prompt_id=5shot": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 349,
+        "correct": 451
+      },
+      "correct_rate": 0.5637
+    },
+    "Phi-3.5-mini|backend=vllm": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 263,
+        "correct": 537
+      },
+      "correct_rate": 0.6713
+    },
+    "Phi-3.5-mini|seed=1": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 264,
+        "correct": 536
+      },
+      "correct_rate": 0.67
+    },
+    "Phi-3.5-mini|seed=2": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 264,
+        "correct": 536
+      },
+      "correct_rate": 0.67
+    },
+    "Phi-3.5-mini|quantization=int8": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 1,
+        "wrong_answer": 261,
+        "correct": 538
+      },
+      "correct_rate": 0.6725
+    },
+    "Phi-3.5-mini|quantization=int4": {
+      "n": 800,
+      "counts": {
+        "runtime_error": 0,
+        "empty_output": 0,
+        "unparseable": 0,
+        "wrong_answer": 241,
+        "correct": 559
+      },
+      "correct_rate": 0.6987
+    }
+  },
+  "ers": {
+    "matrix_8_configs": {
+      "ers": 0.7106,
+      "components": {
+        "ci_separation": 0.6667,
+        "bootstrap_tau": 0.8403,
+        "config_stability": 0.6037,
+        "seed_stability": null
+      },
+      "components_used": [
+        "bootstrap_tau",
+        "ci_separation",
+        "config_stability"
+      ],
+      "n_components": 3,
+      "bootstrap": {
+        "mean_tau": 0.8403,
+        "p_any_reversal": 0.2395,
+        "n_models": 3,
+        "n_configs": 8
+      }
+    },
+    "with_seed_component": {
+      "ers": 0.7395,
+      "components": {
+        "ci_separation": 0.6667,
+        "bootstrap_tau": 0.8403,
+        "config_stability": 0.6037,
+        "seed_stability": 1.0
+      }
+    },
+    "provisional": true
+  },
+  "provenance": {
+    "registry": "results/registry_paper.jsonl",
+    "n_registry_ok": 31,
+    "n_planned_t4_cells": 34,
+    "n_missing_cells": 3,
+    "missing_cells": [
+      {
+        "model": "microsoft/Phi-3.5-mini-instruct",
+        "factor": "sampled",
+        "level": "t0.7_seed0"
+      },
+      {
+        "model": "microsoft/Phi-3.5-mini-instruct",
+        "factor": "sampled",
+        "level": "t0.7_seed1"
+      },
+      {
+        "model": "microsoft/Phi-3.5-mini-instruct",
+        "factor": "sampled",
+        "level": "t0.7_seed2"
+      }
+    ],
+    "git_commits": [
+      "0022b2bed8a91e4d9a121763610f073e76dcb53a",
+      "039cf37e32d8f33d11c276949cf74204bcd4df13",
+      "1c8a4dabafb1eda3b03a85674059e8d2e383b0b5",
+      "33bcec9fb66dc75dc6c5a40774994bacb0d8c009",
+      "33c582c7de8dd18bc78f05c803b353dbd1808c22",
+      "580ab82775b16407d5a97073de7c9df7883d0612",
+      "58dcd892f836c0d57cc8b783c571b220b729dce5",
+      "6c8c9c433e0076203fdbcaa6b40b886f002f9203",
+      "8555f7f25375a0fcd913d5ee3ffa825eb4361e97",
+      "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "ebf46a0d477ec55f8229a3cbc80d709305fee6c2",
+      "ec364b645b1d3d09c3eeec3247d65a819e37872b",
+      "f76d8f7e89876303f4bd1a2f20c06926bce1d059",
+      "fba3f21c5627c71f1b7803954e5113b3a603918e"
+    ],
+    "utc_first": "2026-08-20T15:58:16Z",
+    "utc_last": "2026-09-10T15:14:54Z",
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.15.0",
+      "vllm": "0.26.0",
+      "apertus_eval_prep": "0.2.0"
+    },
+    "hardware_manifests": [
+      "{\"cuda\": true, \"gpu\": \"Tesla T4\", \"machine\": \"x86_64\", \"platform\": \"Linux-6.6.122+-x86_64-with-glibc2.35\", \"processor\": \"x86_64\", \"python\": \"3.12.13\", \"system\": \"Linux\"}",
+      "{\"cuda\": true, \"gpu\": \"Tesla T4\", \"machine\": \"x86_64\", \"platform\": \"Linux-6.6.122+-x86_64-with-glibc2.35\", \"processor\": \"x86_64\", \"python\": \"3.13.15\", \"system\": \"Linux\"}",
+      "{\"cuda\": true, \"gpu\": \"Tesla T4\", \"machine\": \"x86_64\", \"platform\": \"Linux-6.6.122+-x86_64-with-glibc2.39\", \"processor\": \"x86_64\", \"python\": \"3.13.15\", \"system\": \"Linux\"}"
+    ],
+    "python_versions": [
+      "3.12.13",
+      "3.13.15"
+    ],
+    "model_revisions_recorded": [
+      "None"
+    ],
+    "corrections_in_registry": [
+      "SmolLM2-1.7B-Instruct_sampled_t0.7_seed0_9ab2746ead7e2cb9",
+      "SmolLM2-1.7B-Instruct_sampled_t0.7_seed1_b3a50eddee120ab8",
+      "SmolLM2-1.7B-Instruct_sampled_t0.7_seed2_9544473e05a6b577"
+    ]
+  }
+}

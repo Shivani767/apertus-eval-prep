@@ -1,0 +1,134 @@
+\section{Results: Score Sensitivity}
+\label{sec:results}
+
+This section presents the core sensitivity results. A consolidated master
+table of all configurations is in \cref{tab:master}, and the experimental
+matrix is diagrammed in \cref{fig:matrix}. The full detailed analysis
+including per-task breakdowns and statistical tests appears in the
+following subsections, supported by \cref{tab:control,tab:sensitivity}.
+
+\input{tables/master_results.tex}
+
+\subsection{Control configuration}
+\label{sec:control}
+
+\cref{tab:control} reports Phi-3.5-mini at 67.000\%, Qwen2.5-3B at
+64.375\%, and SmolLM2-1.7B at 39.750\%. The paired Qwen-minus-Phi
+difference is $-2.625$\,pp (95\% interval [$-5.625$, $0.375$],
+Holm-adjusted $p=0.470$). This does not establish equivalence.
+Overlapping marginal Wilson intervals are descriptive, not a replacement
+for the paired comparison in \cref{tab:h2h}.
+
+\input{tables/audited_control.tex}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\node[draw,fill=gray!10,text width=0.9\linewidth,align=center,inner sep=8pt] (observed) {
+\textbf{Observed OFAT coverage: 31 completed / 34 planned}\\[3pt]
+\begin{tabular}{lrrrrrr}
+ & Control & Prompt & Runtime & Seed & Sample & Total\\
+SmolLM2 & 1 & 2 & 3 & 2 & 3 & 11\\
+Qwen 3B & 1 & 2 & 3 & 2 & 3 & 11\\
+Phi mini & 1 & 2 & 3 & 2 & 0/3 & 8/11\\
+Qwen 7B & 0 & 0 & 1 & 0 & 0 & 1
+\end{tabular}\\[3pt]
+Runtime groups vLLM, HF INT8 and HF INT4 variants.};
+\node[draw,dashed,below=8mm of observed,text width=0.9\linewidth,align=center,inner sep=8pt] (planned) {
+\textbf{Planned nested factorial: not run}\\[3pt]
+3 prompts $\times$ 3 runtime bundles $\times$ 3 greedy seeds\\
+Runtime: HF unquantized / HF INT8 / vLLM unquantized\\
+27 cells per model; 81 across three models\\
+Separate 200-item, two-task slice; no sampling arm};
+\draw[->] (observed) -- (planned);
+\end{tikzpicture}
+\caption{Observed coverage and planned follow-up. Counts denote run cells,
+not independent questions. The three absent OFAT cells are Phi sampling
+runs. The dashed block is a separate prospective experiment, not a grid
+that can be completed using the historical artifacts.}
+\label{fig:matrix}
+\end{figure}
+
+\subsection{Prompt changes are the dominant factor}
+\label{sec:prompt}
+
+\cref{fig:prompt} and \cref{tab:sensitivity} give the central sensitivity
+result. The \emph{concise} prompt is harmful everywhere, and its harm is
+concentrated in generative math: SmolLM2-1.7B drops 16.50\,\pp{} (39.75\%$\to$
+23.25\%), Qwen2.5-3B drops 13.13\,\pp{} (64.38\%$\to$51.25\%), and Phi-3.5-mini
+drops 8.13\,\pp{} (67.00\%$\to$58.88\%). All three McNemar contrasts remain
+significant after Holm correction ($p<0.001$ adjusted), with small-to-medium
+effect sizes ($h=-0.36$, $-0.27$, $-0.17$).
+
+Task-level breakdowns locate the damage: Qwen2.5-3B GSM8K falls from 85/200
+to 30/200 and MGSM from 84/200 to 28/200 under \emph{concise}, while ARC is
+nearly unchanged (192/200$\to$195/200)---the minimal instruction removes the
+step-by-step scaffold that the math tasks depend on.
+
+The \emph{5-shot} prompt has model-dependent, sign-changing effects. It
+\emph{helps} Qwen2.5-3B ($+4.25$\,pp{} to 68.63\%; raw McNemar $p=0.0035$,
+not significant after Holm at $0.078$), \emph{hurts} SmolLM2-1.7B ($-5.50$\,pp{}
+to 34.25\%; Holm-adjusted $p=0.037$), and \emph{hurts} Phi-3.5-mini by
+10.63\,\pp{} (to 56.37\%; Holm-adjusted $p<0.001$). The per-task pattern
+explains the Phi drop: five-shot exemplars lift its GSM8K (95/200$\to$140/200)
+and MGSM (84/200$\to$105/200) but collapse its ARC accuracy from 197/200 to
+68/200, apparently disrupting letter-answer extraction. The same factor
+therefore moves different models in different directions---an interaction-
+shaped pattern that the OFAT design surfaces qualitatively but cannot
+estimate formally (\cref{sec:factorial-plan}).
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.72\linewidth]{prompt_forest.pdf}
+\caption{Prompt-dependent extracted-answer accuracy with Wilson 95\% intervals.}
+\label{fig:prompt}
+\end{figure}
+\input{tables/audited_sensitivity.tex}
+\subsection{Quantization, backend, and sampling move scores little}
+\label{sec:sensitivity}
+
+Weight-only quantization changes scores by at most 2.87\,\pp{}
+(Phi-3.5-mini INT4: 67.00\% to 69.88\%, raw $p=0.037$; not significant
+after Holm, $p=0.736$). No quantization contrast survives family-wise
+correction. Switching to vLLM on identical prompts moves SmolLM2-1.7B
+by $+2.25$\,pp{} (raw $p=0.0036$; Holm $0.078$) and Qwen2.5-3B by
+$+2.37$\,pp{} (raw $p=0.038$), with Phi-3.5-mini unchanged ($+0.13$\,pp{},
+$p=1.0$). The direction is consistent (vLLM $\ge$ HF in all three cases)
+but no backend contrast is significant after Holm correction.
+
+Temperature-0.7 sampling (top-$p$ 0.95, three seeds) shifts net
+accuracy by at most 3.5\,pp relative to greedy (SmolLM2-1.7B: 39.75\%
+greedy vs.\ 36.25--39.00\% sampled; Qwen2.5-3B: 64.38\% greedy vs.\
+63.00--65.00\% sampled), while per-item disagreement against the
+control ranges from 9.9\% to 24.1\% across the six sampled contrasts.
+Sampling noise is therefore a high-churn, low-drift process whose net
+effect partially cancels. Under greedy decoding, changing the RNG seed
+is an exact no-op: all six greedy-seed contrasts are item-for-item
+identical to the control (0 discordant pairs out of 800 each).
+
+\subsection{Failure analysis}
+\label{sec:failures}
+
+Across all 31 successful runs, including sampling and the single 7B cell,
+24,800 output records contain 3 unparseable outputs and no empty outputs
+(\cref{tab:failures}). These are repeated responses to 800 items, not
+24,800 independent questions. An unparseable response is nonempty with a
+null stored prediction; a parseable wrong prediction is a separate category.
+Runtime failures outside successful archives are unknown.
+\input{tables/audited_failures.tex}
+
+\cref{tab:failure-analysis} provides selected, traceable examples of
+numeric-format failure, refusal, off-target response, and extraction
+mismatch. These examples do not estimate the prevalence of reasoning
+errors or demonstration copying. In particular, the archived Phi five-shot
+response explicitly answers C while the stored prediction is A and gold is C.
+Rare null predictions therefore do not establish extractor validity.
+The prompt-level task changes are consistent with sensitivity to answer
+format, but a causal attribution of every error requires blinded review.
+
+The single Qwen2.5-7B cell (INT4) scores 67.88\% (543/800; Wilson
+[64.6, 71.0]). With no fp16 control for the 7B model we cannot
+attribute anything about quantization at 7B, and we do not rank this
+cell against other models.
+
+\input{tables/failure_analysis.tex}

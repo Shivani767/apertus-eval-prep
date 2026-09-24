@@ -1,0 +1,17 @@
+\section{Artifact and Protocol Details}
+\label{sec:appendix}
+\paragraph{Evidence boundary.}
+Only successful rows of \path{results/registry_paper.jsonl} enter this analysis. Smoke runs, synthetic factorial fixtures, dashboards and archived copies are not additional experiments. The machine-readable audit records file hashes, notebook cells, run metadata and availability of recorded Git objects. Manifest values describe what was recorded, not independent authentication of execution.
+
+\paragraph{Exact protocol sources.}
+Prompt instructions are in \path{configs/prompts/default.yaml}, \path{configs/prompts/concise.yaml} and \path{configs/prompts/5shot.yaml}. Task exemplars and scored items are frozen in \path{data/official/fewshot.jsonl} and \path{data/official/eval_set.jsonl}. The default multiple-choice instruction is ``Reply with the letter of the correct answer (A, B, C, or D).'' Default math asks ``Reason step by step. Put the final numeric answer on the last line.'' No system instruction is specified in the default YAML. Current prompt assembly is in \path{src/apertus_eval_prep/prompting.py}. These sources do not reconstruct missing historical tokenizer-template bytes.
+
+\paragraph{Extraction.}
+\path{src/apertus_eval_prep/scoring.py} first checks a case-insensitive A--D prefix for multiple-choice outputs, otherwise the last standalone A--D letter. Prefix matching can accept the beginning of an ordinary word. Math extracts the last regex-matched number after removing commas and normalizing numeric representation. Thus parseability alone is not semantic correctness. These rules are included to make limitations inspectable, not endorsed as a validated scoring protocol.
+
+\paragraph{Data revisions and environments.}
+Full Hub revision strings and declared licenses are in \path{data/official/SOURCES.md}; local source SHA-256 values are recorded in \path{analysis/audited_statistics.json}. Per-run package/hardware/settings records are exported with that analysis. The following generated tables report artifact counts and descriptive failures without interpreting low malformed-output frequency as extractor validity.
+\input{tables/audited_failures}
+\input{tables/audited_tasks}
+\paragraph{Remaining work.}
+The unrun crossed design is \path{configs/experiments/t4_factorial.yaml}, with runner \path{scripts/run_t4_research.py}. It does not repair historical confounding. Confirmatory runs must pin revisions, hold environments fixed, archive effective prompts and defaults, and log every failed attempt. Output adjudication and recovering semantic question clusters precede stronger inferential claims. More models/tasks and randomized prompt/exemplar sets are required for broader generalization; they are not completed here.

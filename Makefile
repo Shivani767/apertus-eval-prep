@@ -36,8 +36,16 @@ report:
 catalog:
 	$(PYTHON) -m apertus_eval_prep catalog --out data/catalog
 
+.PHONY: analyze reproduce-full
 paper:
-	$(PYTHON) -m apertus_eval_prep paper --registry results/registry_paper.jsonl --out-dir paper
+	$(PYTHON) scripts/reproduce_paper.py
+
+analyze:
+	$(PYTHON) scripts/reproduce_paper.py --analyze-only
+
+# Plan only: no GPU execution until revisions/environment/scoring are reviewed.
+reproduce-full:
+	$(PYTHON) scripts/run_t4_research.py --stage 1 --model HuggingFaceTB/SmolLM2-1.7B-Instruct --dry-run
 
 figures:
 	$(PYTHON) -m apertus_eval_prep report --registry results/registry_paper.jsonl --out reports/stability_paper

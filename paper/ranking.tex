@@ -1,0 +1,114 @@
+\section{Decoding Stochasticity versus Determinism}
+\label{sec:sampling}
+\input{tables/sampling.tex}
+
+Two very different phenomena hide behind the word ``seed.'' We measure both
+in the same harness (\cref{tab:sampling}, \cref{fig:sampling}). For the
+consolidated view of all configurations including these results, see
+\cref{tab:master}.
+
+\paragraph{Greedy seed changes are exact no-ops.}
+Under temperature 0, changing the RNG seed (0$\to$1, 0$\to$2) reproduces the
+control run item-for-item in all six greedy-seed contrasts (0 discordant
+pairs out of 800 in each). In this harness, greedy decoding is deterministic
+across seeds, so greedy seed variation contributes exactly zero measured
+variance. Evaluations that report ``different-seed greedy runs'' as
+independent replicates should not expect them to vary under deterministic
+decoding; stochasticity must be introduced through sampling.
+
+\paragraph{Temperature-0.7 sampling produces churn with small drift.}
+At temperature 0.7, top-$p$ 0.95, the three seed replicates score:
+Qwen2.5-3B 64.25\%, 65.00\%, 63.00\% (range 2.00\,\pp); SmolLM2-1.7B 36.25\%,
+37.63\%, 39.00\% (range 2.75\,\pp). The seed-to-seed spread is thus
+comparable to the quantization and backend effects, and small compared to
+prompt effects. The per-item picture is very different: 9.9--24.1\% of
+items change correctness state between any sampled run and the greedy
+control (the Qwen range is 9.9--11.1\%; the SmolLM2 range is 21.0--24.1\%). Sampling noise is therefore far from a uniform small perturbation
+at the item level; it is a high-churn, low-drift process whose net effect
+partially cancels. A single sampled run can easily land $\pm$2\,\pp{} away
+from another seed's score purely by chance; on a leaderboard where the
+top-two gap is of this size (here 2.62\,pp{} with overlapping intervals),
+one sampling seed is not an adequate summary
+of a model.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.66\linewidth]{sampling_variance.pdf}
+\caption{Greedy decoding is seed-invariant (three identical points per
+model; 0 discordant items in 800), while temperature-0.7 sampling (three
+seeds, Wilson 95\% intervals) produces seed-to-seed ranges of 2.0--2.8\,\pp{}
+on top of a systematic drift relative to greedy.}
+\label{fig:sampling}
+\end{figure}
+
+\section{Ranking Stability}
+\label{sec:ranking}
+\input{tables/audited_ranking.tex}
+\input{tables/audited_head_to_head.tex}
+
+\subsection{Scores move; orderings mostly hold}
+\cref{tab:ranking} arranges the eight configurations measured for all three
+fully-evaluated models and computes, per configuration, the competition
+ranks and Kendall's $\taub$ against the control-config ranking. Under every
+measured factor except the five-shot prompt, the ranking is identical to
+the control ($\taub = 1.0$, zero reversals): Phi-3.5-mini first, Qwen2.5-3B
+second, SmolLM2-1.7B third. The five-shot prompt produces the single
+measured ranking change: $\taub = 0.33$ with one pairwise reversal, as
+Qwen2.5-3B (68.63\%) overtakes Phi-3.5-mini (56.37\%).
+
+\subsection{The reversal is interval-supported, and the control ordering is a tie}
+\cref{tab:h2h} examines the Phi/Qwen head-to-head. Under control (and under
+seeds, backend, and quantization) Phi-3.5-mini leads Qwen2.5-3B by
+$+0.38$ to $+4.25$\pp, but in all of those configurations the two Wilson
+intervals overlap: the control ordering is a point-estimate ordering on top
+of a statistical tie. Under the five-shot prompt the difference is
+$-12.26$\pp{} \emph{with disjoint intervals}---the only configuration in
+which either model statistically separates the other. We therefore state
+the finding conservatively: the measured configuration changes preserve a
+non-separated Phi$\geq$Qwen ordering, while one legitimate prompt change
+produces a statistically separated ordering in the opposite direction.
+
+Pairwise win rates over the eight shared configurations quantify the same
+asymmetry (\cref{fig:winprob}): Phi-3.5-mini beats Qwen2.5-3B in 87.5\% of
+configurations (7 of 8), Qwen2.5-3B and Phi-3.5-mini each beat SmolLM2-1.7B
+in 100\%. Mean competition ranks across the eight configurations are
+1.13 (Phi), 1.88 (Qwen), 3.00 (Smol); P(first place) is 87.5\% / 12.5\% /
+0\%. The seeded bootstrap over configurations (2{,}000 replicates, resampling
+the eight configurations with replacement) yields mean $\taub=0.84$
+against the mean-accuracy reference ranking and a 24.0\% probability that a
+resampled matrix produces at least one pairwise reversal relative to that
+reference---i.e., the top-two order is stable in the point-estimate
+sequence but only weakly separated statistically, consistent with the
+interval analysis.
+
+\subsection{Score instability vs.\ ranking instability}
+These are distinct quantities and both matter. The concise prompt moves
+scores enormously ($-8.1$ to $-16.5$\pp) yet changes no ordering
+($\taub=1.0$): every model degrades, and the relative ordering survives.
+The five-shot prompt moves scores less dramatically for two of three models
+and yet changes the \emph{decision} a leaderboard user would make, because
+the two strongest models swap places. A small score change is consequential
+when it crosses a ranking boundary between nearly-equal models; a large
+score change can be inconsequential for selection when it is uniform. This
+is the central practical lesson of the study for this model pair and task
+suite.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.5\linewidth]{rank_heatmap.pdf}
+\caption{Model rank (1 = best) per evaluation configuration. The outlined
+five-shot column is the only ranking change: Qwen2.5-3B and Phi-3.5-mini
+swap first and second place ($\taub=0.33$ vs.\ the control ranking, one
+pairwise reversal); SmolLM2-1.7B is third throughout.}
+\label{fig:rankheat}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.42\linewidth]{win_probability.pdf}
+\caption{Pairwise win rates over the eight shared configurations:
+fraction of configurations in which the row model's point estimate exceeds
+the column model's. Phi-3.5-mini leads Qwen2.5-3B in 7 of 8 configurations;
+both lead SmolLM2-1.7B in all 8.}
+\label{fig:winprob}
+\end{figure}

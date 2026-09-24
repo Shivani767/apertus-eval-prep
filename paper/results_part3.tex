@@ -1,0 +1,34 @@
+% Full results text (chunk 3 of 3): runtime + figures.
+
+\subsection{Runtime}
+
+The harness records per-item timing; measured control runs on the T4
+give 23.8 tokens/s for SmolLM2-1.7B, 10.8 for Qwen2.5-3B, and 19.9 for
+Phi-3.5-mini (appendix \cref{tab:latency}). Committed vLLM cells store
+0.0 timing placeholders; following the repository's cost model we treat
+these as UNAVAILABLE rather than zero, so we make no backend latency
+comparison. Quality--latency trade-offs are engineering-adjacent and
+are kept out of the ranking analyses.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.78\linewidth]{prompt_forest.pdf}
+\caption{Overall accuracy by prompt configuration with Wilson 95\%
+intervals (800 items; Tesla T4; greedy decoding). The shaded region
+highlights the five-shot configuration, where Qwen2.5-3B overtakes
+Phi-3.5-mini with disjoint intervals---the ranking reversal analyzed in
+\cref{sec:ranking}. The concise configuration degrades all three
+models, dominated by generative-math losses.}
+\label{fig:prompt}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\linewidth]{sensitivity_heatmap.pdf}
+\caption{Score change against each model's own control configuration
+(percentage points) across the seven non-control factors shared by all
+three fully-evaluated models. Prompt changes (columns 1--2) dominate;
+quantization, backend, and seed effects are smaller in this matrix. Values are point estimates; \cref{tab:sensitivity} carries the
+paired tests and corrected $p$-values.}
+\label{fig:heatmap}
+\end{figure}

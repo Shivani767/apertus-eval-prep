@@ -1,0 +1,36 @@
+\begin{abstract}
+Language-model comparisons can depend on the evaluation configuration as well as the model. We investigate how extracted-answer scores and point-estimate rankings differ across recorded prompt, backend, quantization, and decoding configurations. We audit an existing evaluation repository and reanalyze \RunCount{} completed runs on the same \ItemCount{}-item slice of ARC-Easy, GSM8K, HellaSwag, and multilingual grade-school mathematics. Three instruction-tuned models have a complete shared greedy-configuration matrix; a fourth model has only a single quantized measurement. We recompute accuracy from integer correctness counts, compare paired outcomes, and report configuration-specific rankings. The largest observed within-model prompt range is \PromptRange{} percentage points, compared with a \ControlGap{}-point control gap between the two highest-scoring models. Five-shot prompting reverses the point-estimate ordering of the two highest-scoring models, with a Qwen-minus-Phi difference of \FiveShotGap{} points. Other shared configurations preserve the control ordering. Recorded greedy-seed correctness vectors are identical, whereas sampled decoding changes item outcomes despite smaller net score movement. These are preliminary, protocol-specific findings: software environments evolved, model revisions were not archived, and the permissive answer extractor has not been independently validated. The artifacts support descriptive configuration-conditional reporting, not isolated causal effects or general leaderboard reliability. We provide a reproducible analysis pipeline and identify the matched-environment and scoring-validation experiments needed to strengthen the evidence.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+Benchmark comparisons inform model selection, but the reported score is produced by an evaluation procedure. Prompt instructions, demonstrations, answer extraction, inference implementations, and decoding defaults can all enter that procedure. Reproducible evaluation therefore requires more than naming a model and benchmark \citep{biderman2024lessons}. Prior work already establishes prompt sensitivity and changes in relative model performance \citep{sclar2024quantifying,mizrahi2024state}; we do not claim to discover this phenomenon.
+
+Our question is narrower: what can an existing configuration-aware evaluation artifact actually establish about score and ranking sensitivity? We analyze the recorded outputs rather than treating dashboard summaries, synthetic tests, or planned runs as empirical observations. This distinction is important because recorded configuration labels do not establish identical effective environments.
+
+The strongest descriptive finding is a change in the ordering of Qwen2.5-3B-Instruct and Phi-3.5-mini-instruct under a five-shot prompt. This accompanies substantial within-model score movement. The study also exposes provenance and measurement limitations, which we report alongside the results. We therefore frame benchmark scores as configuration-conditional measurements in this setting, not as evidence for a universal law or a validated reliability metric.
+
+Our contributions are:
+\begin{enumerate}
+\item An artifact audit distinguishing completed measurements, software demonstrations, and unrun experimental plans, including explicit provenance gaps.
+\item A count-based reanalysis of recorded score sensitivity with paired comparisons, separately defined multiplicity families, and pointwise uncertainty intervals.
+\item A descriptive ranking analysis over the complete shared matrix, with scripts connecting run artifacts to generated tables and vector figures.
+\end{enumerate}
+
+\section{Related Work}
+HELM emphasizes scenario coverage and multiple metrics \citep{liang2022holistic}; BIG-bench broadens the task space \citep{srivastava2022beyond}. The evaluation-harness literature documents comparability and reproduction problems \citep{biderman2024lessons}. Our implementation is not evidence that existing harnesses omit these concerns.
+
+FormatSpread examines meaning-preserving prompt-format variation \citep{sclar2024quantifying}; multi-prompt evaluation studies absolute and relative model behavior \citep{mizrahi2024state}. Our variants are not all meaning-preserving: asking for a final number instead of reasoning changes the requested behavior, and demonstrations change context. We study these operational choices rather than attribute differences to formatting alone. Error-bar methodology distinguishes point estimates from uncertainty \citep{miller2024adding}. We do not interpret overlapping marginal intervals as equivalence. Recorded backend and quantization bundles are not a controlled systems comparison. These findings do not establish performance on MMLU, BIG-bench, dynamic benchmarks, or public leaderboards.
+
+\section{Evaluation Setting}
+Let $M$ denote models, $T$ tasks, and $C$ evaluation configurations. For frozen items $D_t$, define
+\[
+ S(m,t,c)=|D_t|^{-1}\sum_{i\in D_t}\mathbf{1}\{e_t(g(m,i,c))=y_i\},
+\]
+where $g$ is generated text, $e_t$ is the task's answer extractor, and $y_i$ is the gold answer. The score measures extracted-answer agreement, not independently verified latent capability. A full $c$ includes weights/tokenizer revisions, rendered prompts, software, hardware, precision and generation defaults, not merely a registry label.
+
+Rather than only $S(m,t,c_0)$, we examine $\{S(m,t,c):c\in C_{\rm observed}\}$. Equal task-slice sizes make pooled accuracy equal to the unweighted mean across tasks. Define $R_c(m)$ by descending pooled accuracy. We report Kendall's $\tau_b$ against control and strict pairwise win fractions
+\[
+ \widehat P(A>B)=\frac{\sum_{c\in C_{AB}}\mathbf{1}\{S(A,c)>S(B,c)\}}{|C_{AB}|}.
+\]
+Here $C_{AB}$ contains observed shared configurations; ties are not wins. These fractions describe our selected matrix, not calibrated probabilities under future configuration choices.

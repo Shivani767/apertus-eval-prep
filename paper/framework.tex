@@ -1,0 +1,172 @@
+\section{The Evaluation Framework}
+\label{sec:framework}
+
+\subsection{Measurement formalization}
+
+Let $M$ be a set of models, $T$ a set of tasks, and $C$ a space of
+evaluation configurations, where a configuration $c \in C$ fixes the prompt
+variant, few-shot count, chat template, inference backend, quantization,
+decoding strategy, seed, and hardware/software environment. For a benchmark
+slice of $n$ items with gold answers, the measured score of model $m$ on
+task $t$ under configuration $c$ is
+\begin{equation}
+S(m, t, c) \;=\; \frac{1}{n_{t}} \sum_{i \in D_t} \mathbb{1}\!\left[
+\hat{y}_i(m, c) = y_i \right],
+\end{equation}
+where $D_t$ is the frozen item set for task $t$ ($|D_t| = 200$),
+$\hat{y}_i(m,c)$ is the extracted answer from the generated text, and $y_i$
+is the gold. The overall score pools the four tasks ($n = 800$). Conventional
+reporting emphasizes a single value $S(m, t, c_0)$ under one fixed
+configuration $c_0$; this work measures the set
+$\{S(m,t,c) : c \in C_{\text{measured}}\}$ over a controlled neighborhood of
+$c_0$ and asks what it implies for scores and rankings.
+
+Define the pooled score $\bar S(m,c)=|T|^{-1}\sum_{t\in T}S(m,t,c)$;
+this equals item-pooled accuracy because the task slices have equal size.
+A model \emph{ranking} under configuration $c$ is $R_c(m)$, the competition
+rank (1 = best) by $\bar S(m,c)$. Equal scores receive equal ranks; subsequent
+ranks skip the tied positions. Ranking stability across configurations is
+summarized by Kendall's $\taub$ between the control ranking $R_{c_0}$ and
+each variant ranking $R_c$ \citep{kendall1938new}, together with the number
+of pairwise reversals. We additionally report the pairwise win rate
+\begin{equation}
+P(A > B) \;=\; \frac{\left|\{c \in C_{\text{shared}} : \bar S(A,c) > \bar S(B,c)\}\right|}{|C_{\text{shared}}|},
+\end{equation}
+over configurations where both models were measured.
+
+\subsection{Interval-aware comparison}
+
+Every accuracy is reported with a Wilson score interval
+\citep{wilson1927probable}, which remains well behaved at the small $n$ and
+extreme proportions that occur in our cells. Marginal interval overlap is
+reported descriptively, not as a test of equal model performance. Overlap
+neither establishes equivalence nor rules out a paired difference. Wilson
+intervals assume binomial sampling; the fixed heterogeneous task mixture and
+possible dependence between items limit this interpretation. Paired
+item-level comparisons use McNemar's test \citep{mcnemar1947note} with
+continuity correction on the discordant pairs, which tests the paired
+hypothesis that the two configurations produce the same per-item correctness
+probability; because it uses pairing, it can detect changes even when
+unpaired intervals overlap. Effect sizes are reported as Cohen's $h$
+\citep{cohen1988statistical}. Because we evaluate a family of 27 OFAT
+contrasts against controls, we correct for multiple testing with
+Holm--Bonferroni \citep{holm1979simple} and report Benjamini--Hochberg
+false-discovery-rate-adjusted values \citep{benjamini1995controlling} in the
+appendix. Ranking-level uncertainty is quantified with a seeded bootstrap
+that resamples configurations (not items) and recomputes rankings.
+
+\subsection{What the framework records}
+
+Every run writes a JSON artifact containing: the full settings block (model
+ID, tokenizer ID, \texttt{revision}, backend, chat template, prompt variant,
+system prompt, \texttt{max\_new\_tokens}, seed, dtype, quantization,
+temperature, top-$p$, batch size, data path, and experiment ID); package
+versions (PyTorch, Transformers, vLLM, harness); the hardware manifest
+(platform, Python version, GPU model, CUDA availability); per-item records
+(item ID, task, gold, predicted, correct, raw generation, and per-item
+timing); per-task and overall accuracies with Wilson intervals; and a
+latency block. A 16-hex configuration hash is derived from the settings
+fields that affect the measurement; the registry stores one row per
+completed configuration, deduplicated by hash, and each row points at its
+artifact. Every artifact also embeds an \emph{incomparability} statement
+listing the dimensions that would make two scores non-comparable. These
+records are what allow every number in this paper to be traced to its
+configuration (\cref{sec:repro}).
+
+\subsection{Planned nested factorial experiment}
+\label{sec:factorial-plan}
+
+OFAT estimates simple effects at the control settings, not marginal effects
+averaged over other factors. The existing follow-up YAML specifies three
+prompts (default, concise, five-shot), three runtime bundles (HF
+unquantized, HF INT8, vLLM unquantized), and three greedy seeds (0, 1, 2):
+$3\times3\times3=27$ cells per model, or 81 for all three models.
+The runtime factor is bundled because vLLM quantization is unsupported in
+this harness. Prompt $\times$ backend is estimable at no quantization;
+Prompt $\times$ quantization is estimable within HF. Backend $\times$
+quantization cannot be identified from this support pattern.
+
+The plan in \texttt{configs/experiments/t4\_factorial.yaml} uses a separate
+200-item slice (100 ARC-Easy and 100 GSM8K), not the historical 800-item
+suite. Greedy seeds are determinism checks, not independent stochastic
+replicates. Sampling would require a separately declared decoding arm.
+Before execution, model revisions, software, hardware and scoring must be
+frozen. Interaction analysis should compare paired differences-in-differences
+on identical item IDs, reporting uncertainty with item-level pairing and
+accounting for repeated responses and related items; seed duplicates must
+not inflate the effective sample size. No factorial inference was run in
+this revision: the available machine has an Apple GPU, not the required
+CUDA/T4 environment. These remain prospective analyses, not results.
+
+
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Evaluation harnesses and holistic benchmarks.}
+The lm-evaluation-harness popularized configurable, task-level LLM
+evaluation \citep{gao2021framework}, and its maintainers document evaluation
+pitfalls including prompt-format drift, backend differences, and missing
+error bars \citep{biderman2024lessons}. HELM frames evaluation as a matrix
+of scenarios and metrics \citep{liang2022holistic}, BIG-bench scales task
+diversity \citep{srivastava2022beyond}, and Dynabench argues for dynamic,
+documented benchmark iteration \citep{kiela2021dynabench}. These systems provide configurable evaluation protocols. Our contribution
+is a bounded joint audit of operator choices and stored item outcomes,
+not a claim that existing harnesses cannot configure these dimensions.
+
+\paragraph{Prompt sensitivity.}
+\citet{sclar2024quantifying} measure performance spread under
+meaning-preserving prompt-format changes and find differences of up to tens
+of accuracy points, recommending ranges rather than single numbers.
+\citet{mizrahi2024state} evaluate 20 LLMs across 39 tasks under diverse
+prompts and show that single-prompt rankings can be brittle.
+\citet{zhu2024promptrobust} show robustness failures under adversarial
+prompt perturbations. Our study differs in scope---we use three deliberately
+distinct instruction configurations rather than large format
+distributions---but shares the premise that the prompt is part of the
+measurement, and extends the analysis to paired per-item artifacts,
+corrected paired tests, and explicit ranking-stability statistics on frozen
+slices.
+
+\paragraph{Statistical treatment of evaluations.}
+\citet{miller2024adding} formalizes evaluations as experiments and
+recommends super-population confidence intervals for reported scores;
+tinyBenchmarks \citep{polo2024tinybenchmarks} studies how few items suffice
+to estimate benchmark performance. We adopt interval reporting and add
+paired item-level tests (McNemar) with family-wise correction, effect
+sizes, and a config-level bootstrap for ranking stability.
+
+\paragraph{Backends and quantization.}
+vLLM's PagedAttention serving stack \citep{kwon2023efficient} and
+bitsandbytes INT8/INT4 quantization \citep{dettmers2022llm,dettmers2023case}
+are widely used in open-weight evaluation; k-bit scaling laws quantify
+aggregate zero-shot accuracy trade-offs across many models. Our study
+measures these dimensions as factors on fixed slices with paired statistics,
+including the observation that our harness deliberately calls vLLM in
+completion mode so that both backends consume byte-identical rendered
+prompts.
+
+\paragraph{Sampling temperature.}
+\citet{renze2024temperature} find no statistically significant effect of
+temperature on MCQA problem solving between 0.0 and 1.0 at their scale. Our
+sampling arm complements this with per-item churn measurements: net drift
+can be small while 9.9--24.1\% of items change correctness state.
+
+
+\paragraph{Reproducibility and benchmark reliability.}
+\citet{biderman2024lessons} document sensitivity to evaluation setup and
+recommend transparent reporting of evaluation conventions. Our paired
+artifact audit operationalizes this recommendation, while distinguishing
+stored-output reproducibility from historical inference replication.
+LiveBench \citep{white2024livebench}, first released in 2024 and revised in
+2025, uses frequently updated questions and objective ground-truth scoring
+to limit contamination and judging bias. This addresses a different threat
+from configuration sensitivity: our frozen public slices support paired
+comparisons but do not establish freedom from contamination.
+
+\paragraph{Quantization beyond the measured implementation.}
+AWQ \citep{lin2023awq} uses activation information to protect salient weight
+channels in low-bit weight-only quantization and evaluates language-model
+and domain-specific benchmarks. Alongside k-bit scaling laws
+\citep{dettmers2023case}, this shows why precision results must be tied to a
+specific method and workload. We test bitsandbytes, not AWQ, and make no
+claim that the small corrected effects here generalize to other quantizers.

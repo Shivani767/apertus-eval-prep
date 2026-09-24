@@ -1,0 +1,30 @@
+\begin{table}[tbp]
+\centering\small
+\caption{Selected archived failure examples (not an adjudicated prevalence
+estimate). Hashes identify run artifacts; IDs identify the scored items.
+Excerpts are verbatim prefixes or explicitly described summaries.}
+\label{tab:failure-analysis}
+\begin{tabular}{p{0.22\linewidth}p{0.69\linewidth}}
+\toprule
+Category & Archived evidence and interpretation\\
+\midrule
+Numeric-format failure & SmolLM2 concise, hash \texttt{a0852ca6fc3e5c08},
+\texttt{mgsm/eval/de\_0160}. The response begins ``Am Mittwoch beträgt die
+Wassertiefe des Tanks zwei Drittel dessen''. It expresses a fraction in
+words rather than the required numeric answer. Gold: 16; prediction: null.\\[5pt]
+Refusal & Phi INT8, hash \texttt{cfd71ce6317d4a54},
+\texttt{hellaswag/eval/7001}. The response begins ``None of the options
+provided are plausible or safe.'' Stored refusal flag: true; gold: A;
+prediction: null. This is a refusal, not evidence of a reasoning error.\\[5pt]
+Extraction mismatch & Phi five-shot, hash \texttt{e8c0aa94458abbd2},
+\texttt{arc\_easy/eval/MCAS\_2001\_5\_19}. Generation begins ``Answer: C''
+and explains photosynthesis; gold: C, stored prediction: A. This directly
+shows that a parseable stored answer can disagree with an explicit correct
+answer in the generation.\\[5pt]
+Off-target response & SmolLM2 sampling seed 1, hash
+\texttt{b3a50eddee120ab8}, \texttt{mgsm/eval/de\_0038}. The response
+begins ``Die Antwort betrifft die laufzeit und nicht die laufgeschwindigkeit.''
+It supplies no numeric answer; gold: 10, prediction: null.\\
+\bottomrule
+\end{tabular}
+\end{table}

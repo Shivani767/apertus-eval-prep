@@ -1,0 +1,116 @@
+# T4 factorial ground-truth study (docs/t4_experiment_plan.md).
+#
+# SUPPORT MATRIX (enforced by the backends, see backends/vllm_backend.py):
+#   hf   x none  = ok     hf   x int8 = ok (bitsandbytes, CUDA only)
+#   vllm x none  = ok     vllm x int8 = REFUSED (would confound backend x quant)
+# A full Cartesian 3x2x2x3 = 36 design is therefore structurally impossible.
+# The honest design below is a nested factorial:
+#
+#   runtime (3 levels) = (hf, none) | (hf, int8) | (vllm, none)
+#   prompt   (3 levels) = default | concise | 5shot
+#   seed     (3 levels) = 0 | 1 | 2
+#
+#   => 3 x 3 x 3 = 27 configurations per model (FULL).
+#   Measurable interactions: prompt x backend (at quant=none),
+#   prompt x quantization (at backend=hf). backend x quantization is
+#   structurally unavailable (vllm never runs quantized in this harness);
+#   the factorial analysis must REFUSE that pair, not report it.
+#
+# ONE frozen benchmark slice (arc_easy + gsm8k, limit 100/task).
+# Real inference happens ONLY on a free Colab T4 via scripts/run_t4_research.py.
+# Ground truth is defined WITHIN this evaluated configuration space only.
+
+study: t4_factorial_ground_truth
+experiment_id: t4_factorial
+
+data_path: data/official/eval_set.jsonl
+fewshot_path: data/official/fewshot.jsonl
+tasks: [arc_easy, gsm8k]
+max_new_tokens: 256
+dtype: auto
+chat_template: tokenizer
+tokenizer_id: null
+revision: null
+system_prompt: null
+batch_size: 1
+limit: 100            # per task; keeps a config within free-T4 session budget
+
+control:
+  backend: hf
+  chat_template: tokenizer
+  quantization: none
+  seed: 0
+  temperature: 0.0
+  top_p: 1.0
+  prompt_id: default
+
+models:
+  - HuggingFaceTB/SmolLM2-1.7B-Instruct   # Stage 1 ground truth
+  - Qwen/Qwen2.5-3B-Instruct              # Stage 2 (only after Stage 1 validates)
+  - microsoft/Phi-3.5-mini-instruct       # Stage 2 (only after Stage 1 validates)
+
+# Explicit design allow-list (auditable, no hidden Cartesian expansion).
+# Each combo = one configuration; 9 (prompt x runtime) x 3 seeds = 27/model.
+factorial_only_combos:
+  - {prompt_id: default, backend: hf,   quantization: none, seed: 0}
+  - {prompt_id: default, backend: hf,   quantization: none, seed: 1}
+  - {prompt_id: default, backend: hf,   quantization: none, seed: 2}
+  - {prompt_id: default, backend: hf,   quantization: int8, seed: 0}
+  - {prompt_id: default, backend: hf,   quantization: int8, seed: 1}
+  - {prompt_id: default, backend: hf,   quantization: int8, seed: 2}
+  - {prompt_id: default, backend: vllm, quantization: none, seed: 0}
+  - {prompt_id: default, backend: vllm, quantization: none, seed: 1}
+  - {prompt_id: default, backend: vllm, quantization: none, seed: 2}
+  - {prompt_id: concise, backend: hf,   quantization: none, seed: 0}
+  - {prompt_id: concise, backend: hf,   quantization: none, seed: 1}
+  - {prompt_id: concise, backend: hf,   quantization: none, seed: 2}
+  - {prompt_id: concise, backend: hf,   quantization: int8, seed: 0}
+  - {prompt_id: concise, backend: hf,   quantization: int8, seed: 1}
+  - {prompt_id: concise, backend: hf,   quantization: int8, seed: 2}
+  - {prompt_id: concise, backend: vllm, quantization: none, seed: 0}
+  - {prompt_id: concise, backend: vllm, quantization: none, seed: 1}
+  - {prompt_id: concise, backend: vllm, quantization: none, seed: 2}
+  - {prompt_id: 5shot,   backend: hf,   quantization: none, seed: 0}
+  - {prompt_id: 5shot,   backend: hf,   quantization: none, seed: 1}
+  - {prompt_id: 5shot,   backend: hf,   quantization: none, seed: 2}
+  - {prompt_id: 5shot,   backend: hf,   quantization: int8, seed: 0}
+  - {prompt_id: 5shot,   backend: hf,   quantization: int8, seed: 1}
+  - {prompt_id: 5shot,   backend: hf,   quantization: int8, seed: 2}
+  - {prompt_id: 5shot,   backend: vllm, quantization: none, seed: 0}
+  - {prompt_id: 5shot,   backend: vllm, quantization: none, seed: 1}
+  - {prompt_id: 5shot,   backend: vllm, quantization: none, seed: 2}
+
+# Documented fallback (NOT default): 18-config design = same prompt x runtime
+# grid with seeds [0, 1] only (two complete 3x3 factorial replicates). Used
+# ONLY if a Stage 2 session cannot finish 27 cells; recorded in the registry
+# when used. Consumed via --design reduced.
+factorial_only_combos_reduced:
+  - {prompt_id: default, backend: hf,   quantization: none, seed: 0}
+  - {prompt_id: default, backend: hf,   quantization: none, seed: 1}
+  - {prompt_id: default, backend: hf,   quantization: int8, seed: 0}
+  - {prompt_id: default, backend: hf,   quantization: int8, seed: 1}
+  - {prompt_id: default, backend: vllm, quantization: none, seed: 0}
+  - {prompt_id: default, backend: vllm, quantization: none, seed: 1}
+  - {prompt_id: concise, backend: hf,   quantization: none, seed: 0}
+  - {prompt_id: concise, backend: hf,   quantization: none, seed: 1}
+  - {prompt_id: concise, backend: hf,   quantization: int8, seed: 0}
+  - {prompt_id: concise, backend: hf,   quantization: int8, seed: 1}
+  - {prompt_id: concise, backend: vllm, quantization: none, seed: 0}
+  - {prompt_id: concise, backend: vllm, quantization: none, seed: 1}
+  - {prompt_id: 5shot,   backend: hf,   quantization: none, seed: 0}
+  - {prompt_id: 5shot,   backend: hf,   quantization: none, seed: 1}
+  - {prompt_id: 5shot,   backend: hf,   quantization: int8, seed: 0}
+  - {prompt_id: 5shot,   backend: hf,   quantization: int8, seed: 1}
+  - {prompt_id: 5shot,   backend: vllm, quantization: none, seed: 0}
+  - {prompt_id: 5shot,   backend: vllm, quantization: none, seed: 1}
+
+profiles:
+  cpu:
+    skip:
+      - {backend: vllm}
+      - {quantization: int8}   # bitsandbytes needs CUDA; macOS cannot run it
+
+# Stage gating (Stage 1 = SmolLM2 only) is enforced by
+# scripts/run_t4_research.py --stage {1,2}, NOT by profile skips: a stage-2
+# model must never run by accident, and skip lists that cannot match a cell
+# would silently do nothing.

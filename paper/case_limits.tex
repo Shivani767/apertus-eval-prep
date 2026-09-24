@@ -1,0 +1,30 @@
+\section{Discussion}
+The observed score movements and ranking change are consistent with treating a benchmark score as a configuration-conditional measurement here. This is an empirical framing, not a universal property proven here. Prior prompt-sensitivity work already motivates this perspective; our contribution is a transparent artifact reanalysis rather than methodological priority. A score range and a ranking reversal answer different questions. Both need task, configuration, provenance and measurement assumptions.
+
+\section{Limitations and Missing Experiments}
+\label{sec:limitations}
+\paragraph{Measurement validity.}
+Generative letter/number extraction differs from log-likelihood multiple-choice evaluation. No leaderboard comparison is warranted. The permissive parser has not been independently adjudicated; archived correctness is internally reproducible but may not reflect the intended final answer. A stratified blinded output review and prespecified parser comparisons are necessary before stronger capability claims. Contamination is unmeasured and may interact with prompting; keeping items fixed does not remove it.
+
+\paragraph{Provenance and control.}
+Unpinned model/tokenizer revisions, unarchived rendered prompts and changing software prevent exact historical inference reproduction. Declared \texttt{auto} precision does not prove matched precision. Settings hashes omit relevant source, data and environment context. Recorded Git IDs identify intended versions but some corresponding objects are absent locally. We cannot reconstruct missing information retrospectively or certify historical hardware from manifest strings alone. Headline contrasts require reruns with immutable revisions, prompt/token archival, resolved precision, complete environments, and fixed scoring.
+
+\paragraph{Scope and dependence.}
+The shared ranking covers small instruction-tuned models, selected configurations, small task slices and one recorded accelerator family. MGSM translations and related GSM8K questions are not independent semantic problems. Item-wise intervals and tests are conditional approximations; recovering source-question groups and cluster-aware inference is a priority. Post-hoc model-pair selection, limited prompt sampling and repeated greedy-seed columns restrict interpretation. There is no claim about frontier models, other languages, safety or general benchmark validity. Missing Phi sampled cells must be completed before reporting full sampled rankings.
+
+\paragraph{Interactions and proposed diagnostics.}
+The repository contains a future prompt $\times$ runtime $\times$ seed plan, not completed factorial evidence in the paper registry. No interaction effect is estimated. The Evaluation Reliability Score combines interval separation, bootstrap ranking stability, configuration stability and optional seed stability using provisional weights. It is exploratory tooling, not a calibrated metric; pooling repeated questions and reweighting selected configurations can make it misleading. We omit its numerical composite and do not treat synthetic software tests as empirical validation.
+
+\section{Reproducibility}
+\label{sec:repro}
+Evidence comes from \path{results/registry_paper.jsonl} and its raw run JSONs. Analysis verifies identities, labels, rescoring and configuration-hash consistency before computing exact-count summaries. \path{scripts/statistical_analysis.py} supplies the descriptive figure matrix; \path{scripts/audited_analysis.py} supplies exact conditional tests, task-stratified bootstrap intervals and tables. Legacy exploratory test implementations are not mixed with the manuscript's exact-test results.
+
+From the repository root, \texttt{make analyze} regenerates and checks assets without inference; \texttt{make paper} additionally compiles LaTeX. Select the interpreter with \texttt{PYTHON}. Existing NumPy, Matplotlib and PyYAML dependencies are used; Tectonic or PDFLaTeX/BibTeX is required for compilation. Source and asset hashes, per-run settings, package strings and hardware metadata are retained in the analysis directory. Analysis reproduction is feasible; exact historical inference is not established.
+
+The factorial runner supports a dry-run plan separate from paper reproduction. Execution requires model downloads and a compatible GPU environment; its unpinned defaults need review before confirmatory runs. No time or monetary estimate is claimed without measurement. Automated checks cover generated assets and references, not scientific validity or arbitrary numerical prose; a claim audit and human review remain necessary.
+
+\section{Ethical and Licensing Considerations}
+We make no safety, privacy, toxicity, legal-compliance or deployment claims. Contamination and memorization are unmeasured. Dataset/model licenses need review against primary distribution sources before redistributing snapshots or generations; attribution notes are not legal certification. No new private data were collected for this reanalysis. Author identity, affiliation and submission license require author confirmation; this draft has not been submitted or peer reviewed.
+
+\section{Conclusion}
+In the recorded matrix, prompt configurations coincide with substantial extracted-answer score movement and a top-two ordering change. Other shared configurations preserve the ordering. Paired analysis makes these observations inspectable, but scoring and provenance concerns preclude stronger causal or general reliability conclusions. Configuration-conditional reporting is a useful framing here. Matched-environment confirmation and output adjudication, rather than a larger narrative or unvalidated composite, are the next steps.

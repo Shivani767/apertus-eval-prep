@@ -1,0 +1,28 @@
+{
+  "n_runs": 1,
+  "models": [
+    "Qwen/Qwen2.5-0.5B-Instruct"
+  ],
+  "comparison": [
+    {
+      "label": "Mac-canary",
+      "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "rank": 1.0,
+      "overall_acc": 0.7143,
+      "overall_ci95": null,
+      "arc_easy_acc": 1.0,
+      "gsm8k_acc": 0.25,
+      "multilingual_acc": 0.875,
+      "template_canary_acc": 0.75
+    }
+  ],
+  "thinking_vs_non_thinking": [],
+  "quantization": [],
+  "paraphrase_robustness": [],
+  "cost_performance": [],
+  "multilingual": [],
+  "hallucination": [],
+  "safety_bias": [],
+  "robustness": [],
+  "kendall_tau_model_order": null
+}

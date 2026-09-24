@@ -17,6 +17,9 @@
 | prompt_id | concise | 1.0 | 0 |
 | quantization | int4 | None | None |
 | quantization | int8 | 1.0 | 0 |
+| sampled | t0.7_seed0 | None | None |
+| sampled | t0.7_seed1 | None | None |
+| sampled | t0.7_seed2 | None | None |
 | seed | 1 | 1.0 | 0 |
 | seed | 2 | 1.0 | 0 |
 
@@ -42,5 +45,10 @@ A `None` cell means the registry does not yet have that factor on enough models 
 | `Phi-3.5-mini-instruct` | backend | vllm | 800 | 22 | 23 | 0.0563 | 0.0 | 1.0 |
 | `SmolLM2-1.7B-Instruct` | seed | 1 | 800 | 0 | 0 | 0.0 | 0.0 | 1.0 |
 | `Qwen2.5-3B-Instruct` | seed | 1 | 800 | 0 | 0 | 0.0 | 0.0 | 1.0 |
+| `Phi-3.5-mini-instruct` | seed | 1 | 800 | 0 | 0 | 0.0 | 0.0 | 1.0 |
 | `SmolLM2-1.7B-Instruct` | seed | 2 | 800 | 0 | 0 | 0.0 | 0.0 | 1.0 |
 | `Qwen2.5-3B-Instruct` | seed | 2 | 800 | 0 | 0 | 0.0 | 0.0 | 1.0 |
+| `Phi-3.5-mini-instruct` | seed | 2 | 800 | 0 | 0 | 0.0 | 0.0 | 1.0 |
+| `SmolLM2-1.7B-Instruct` | sampled | t0.7_seed0 | 800 | 104 | 74 | 0.2225 | 4.7247 | 0.029732 |
+| `SmolLM2-1.7B-Instruct` | sampled | t0.7_seed1 | 800 | 103 | 79 | 0.2275 | 2.9066 | 0.088218 |
+| `SmolLM2-1.7B-Instruct` | sampled | t0.7_seed2 | 800 | 87 | 81 | 0.21 | 0.1488 | 0.699676 |

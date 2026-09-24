@@ -1,0 +1,748 @@
+{
+  "method": "exact McNemar + task-stratified paired bootstrap; conditional item-independence approximation",
+  "contrasts": [
+    {
+      "n": 800,
+      "losses": 8,
+      "wins": 26,
+      "delta_pp": 2.25,
+      "ci95_pp": [
+        0.8750000000000001,
+        3.6249999999999996
+      ],
+      "p_exact": 0.0029350556433200836,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "SmolLM2-1.7B",
+      "factor": "backend",
+      "level": "vllm",
+      "run_id": "SmolLM2-1.7B-Instruct_backend_vllm_8b096c40a70ae947",
+      "control_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "p_holm": 0.06457122415304184
+    },
+    {
+      "n": 800,
+      "losses": 115,
+      "wins": 71,
+      "delta_pp": -5.5,
+      "ci95_pp": [
+        -8.875,
+        -2.25
+      ],
+      "p_exact": 0.0015466250339729094,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "SmolLM2-1.7B",
+      "factor": "prompt_id",
+      "level": "5shot",
+      "run_id": "SmolLM2-1.7B-Instruct_prompt_id_5shot_b6968af4b73708f7",
+      "control_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "p_holm": 0.03557237578137692
+    },
+    {
+      "n": 800,
+      "losses": 194,
+      "wins": 62,
+      "delta_pp": -16.5,
+      "ci95_pp": [
+        -20.25,
+        -12.75
+      ],
+      "p_exact": 5.170358551084912e-17,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "SmolLM2-1.7B",
+      "factor": "prompt_id",
+      "level": "concise",
+      "run_id": "SmolLM2-1.7B-Instruct_prompt_id_concise_a0852ca6fc3e5c08",
+      "control_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "p_holm": 1.3442932232820771e-15
+    },
+    {
+      "n": 800,
+      "losses": 102,
+      "wins": 93,
+      "delta_pp": -1.125,
+      "ci95_pp": [
+        -4.5,
+        2.25
+      ],
+      "p_exact": 0.5668305073491772,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "SmolLM2-1.7B",
+      "factor": "quantization",
+      "level": "int4",
+      "run_id": "SmolLM2-1.7B-Instruct_quantization_int4_72ac0b51cec27817",
+      "control_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 36,
+      "wins": 52,
+      "delta_pp": 2.0,
+      "ci95_pp": [
+        -0.375,
+        4.125
+      ],
+      "p_exact": 0.10929542977731425,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "SmolLM2-1.7B",
+      "factor": "quantization",
+      "level": "int8",
+      "run_id": "SmolLM2-1.7B-Instruct_quantization_int8_46dd44d463433c26",
+      "control_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 106,
+      "wins": 78,
+      "delta_pp": -3.5,
+      "ci95_pp": [
+        -6.75,
+        -0.24687499999998863
+      ],
+      "p_exact": 0.04624472804214931,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "SmolLM2-1.7B",
+      "factor": "sampled",
+      "level": "t0.7_seed0",
+      "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed0_9ab2746ead7e2cb9",
+      "control_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "p_holm": 0.8324051047586876
+    },
+    {
+      "n": 800,
+      "losses": 105,
+      "wins": 88,
+      "delta_pp": -2.125,
+      "ci95_pp": [
+        -5.5,
+        1.25
+      ],
+      "p_exact": 0.249376690043636,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "SmolLM2-1.7B",
+      "factor": "sampled",
+      "level": "t0.7_seed1",
+      "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed1_b3a50eddee120ab8",
+      "control_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 87,
+      "wins": 81,
+      "delta_pp": -0.75,
+      "ci95_pp": [
+        -4.0,
+        2.25
+      ],
+      "p_exact": 0.6997974882614125,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "SmolLM2-1.7B",
+      "factor": "sampled",
+      "level": "t0.7_seed2",
+      "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed2_9544473e05a6b577",
+      "control_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 0,
+      "wins": 0,
+      "delta_pp": 0.0,
+      "ci95_pp": [
+        0.0,
+        0.0
+      ],
+      "p_exact": 1.0,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "SmolLM2-1.7B",
+      "factor": "seed",
+      "level": "1",
+      "run_id": "SmolLM2-1.7B-Instruct_seed_1_4ae7b5af354b3423",
+      "control_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 0,
+      "wins": 0,
+      "delta_pp": 0.0,
+      "ci95_pp": [
+        0.0,
+        0.0
+      ],
+      "p_exact": 1.0,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "SmolLM2-1.7B",
+      "factor": "seed",
+      "level": "2",
+      "run_id": "SmolLM2-1.7B-Instruct_seed_2_5041b3a8bf44df73",
+      "control_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 28,
+      "wins": 47,
+      "delta_pp": 2.375,
+      "ci95_pp": [
+        0.25,
+        4.5
+      ],
+      "p_exact": 0.03695490402736831,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Qwen2.5-3B",
+      "factor": "backend",
+      "level": "vllm",
+      "run_id": "Qwen2.5-3B-Instruct_backend_vllm_d504f107b78b6804",
+      "control_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 0.726129822826357
+    },
+    {
+      "n": 800,
+      "losses": 47,
+      "wins": 81,
+      "delta_pp": 4.25,
+      "ci95_pp": [
+        1.5,
+        7.000000000000001
+      ],
+      "p_exact": 0.0033741850200922,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Qwen2.5-3B",
+      "factor": "prompt_id",
+      "level": "5shot",
+      "run_id": "Qwen2.5-3B-Instruct_prompt_id_5shot_8b703d7cb8d9627a",
+      "control_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 0.0708578854219362
+    },
+    {
+      "n": 800,
+      "losses": 135,
+      "wins": 30,
+      "delta_pp": -13.125,
+      "ci95_pp": [
+        -15.875,
+        -10.375
+      ],
+      "p_exact": 4.156988971980213e-17,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Qwen2.5-3B",
+      "factor": "prompt_id",
+      "level": "concise",
+      "run_id": "Qwen2.5-3B-Instruct_prompt_id_concise_e4980863069a102c",
+      "control_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 1.1223870224346575e-15
+    },
+    {
+      "n": 800,
+      "losses": 47,
+      "wins": 57,
+      "delta_pp": 1.25,
+      "ci95_pp": [
+        -1.25,
+        3.6249999999999996
+      ],
+      "p_exact": 0.37758392329809853,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Qwen2.5-3B",
+      "factor": "quantization",
+      "level": "int4",
+      "run_id": "Qwen2.5-3B-Instruct_quantization_int4_f9457562c8aec49f",
+      "control_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 45,
+      "wins": 48,
+      "delta_pp": 0.375,
+      "ci95_pp": [
+        -2.0,
+        2.625
+      ],
+      "p_exact": 0.8358461346314852,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Qwen2.5-3B",
+      "factor": "quantization",
+      "level": "int8",
+      "run_id": "Qwen2.5-3B-Instruct_quantization_int8_6355a02b3f243353",
+      "control_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 45,
+      "wins": 44,
+      "delta_pp": -0.125,
+      "ci95_pp": [
+        -2.5,
+        2.125
+      ],
+      "p_exact": 1.0,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Qwen2.5-3B",
+      "factor": "sampled",
+      "level": "t0.7_seed0",
+      "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed0_5ca15230e22b3837",
+      "control_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 42,
+      "wins": 47,
+      "delta_pp": 0.625,
+      "ci95_pp": [
+        -1.7500000000000002,
+        2.875
+      ],
+      "p_exact": 0.6718086491746106,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Qwen2.5-3B",
+      "factor": "sampled",
+      "level": "t0.7_seed1",
+      "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed1_535c365ca69c6f1f",
+      "control_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 45,
+      "wins": 34,
+      "delta_pp": -1.375,
+      "ci95_pp": [
+        -3.6249999999999996,
+        0.625
+      ],
+      "p_exact": 0.26042552589724327,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Qwen2.5-3B",
+      "factor": "sampled",
+      "level": "t0.7_seed2",
+      "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed2_125dd27f9eac822d",
+      "control_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 0,
+      "wins": 0,
+      "delta_pp": 0.0,
+      "ci95_pp": [
+        0.0,
+        0.0
+      ],
+      "p_exact": 1.0,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Qwen2.5-3B",
+      "factor": "seed",
+      "level": "1",
+      "run_id": "Qwen2.5-3B-Instruct_seed_1_e8b596c4b1a8a527",
+      "control_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 0,
+      "wins": 0,
+      "delta_pp": 0.0,
+      "ci95_pp": [
+        0.0,
+        0.0
+      ],
+      "p_exact": 1.0,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Qwen2.5-3B",
+      "factor": "seed",
+      "level": "2",
+      "run_id": "Qwen2.5-3B-Instruct_seed_2_02eb0dd059805c38",
+      "control_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 22,
+      "wins": 23,
+      "delta_pp": 0.125,
+      "ci95_pp": [
+        -1.5,
+        1.7500000000000002
+      ],
+      "p_exact": 1.0,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Phi-3.5-mini",
+      "factor": "backend",
+      "level": "vllm",
+      "run_id": "Phi-3.5-mini-instruct_backend_vllm_e796a0ecee505133",
+      "control_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 180,
+      "wins": 95,
+      "delta_pp": -10.625,
+      "ci95_pp": [
+        -14.000000000000002,
+        -7.375
+      ],
+      "p_exact": 3.3152981900018633e-07,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Phi-3.5-mini",
+      "factor": "prompt_id",
+      "level": "5shot",
+      "run_id": "Phi-3.5-mini-instruct_prompt_id_5shot_e8c0aa94458abbd2",
+      "control_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "p_holm": 8.288245475004658e-06
+    },
+    {
+      "n": 800,
+      "losses": 119,
+      "wins": 54,
+      "delta_pp": -8.125,
+      "ci95_pp": [
+        -11.25,
+        -4.875
+      ],
+      "p_exact": 8.574841261650031e-07,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Phi-3.5-mini",
+      "factor": "prompt_id",
+      "level": "concise",
+      "run_id": "Phi-3.5-mini-instruct_prompt_id_concise_37963fc49f7e8eca",
+      "control_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "p_holm": 2.0579619027960077e-05
+    },
+    {
+      "n": 800,
+      "losses": 44,
+      "wins": 67,
+      "delta_pp": 2.875,
+      "ci95_pp": [
+        0.25,
+        5.5
+      ],
+      "p_exact": 0.03630649114131785,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Phi-3.5-mini",
+      "factor": "quantization",
+      "level": "int4",
+      "run_id": "Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83",
+      "control_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "p_holm": 0.726129822826357
+    },
+    {
+      "n": 800,
+      "losses": 40,
+      "wins": 42,
+      "delta_pp": 0.25,
+      "ci95_pp": [
+        -2.0,
+        2.375
+      ],
+      "p_exact": 0.9121566075526039,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Phi-3.5-mini",
+      "factor": "quantization",
+      "level": "int8",
+      "run_id": "Phi-3.5-mini-instruct_quantization_int8_cfd71ce6317d4a54",
+      "control_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 0,
+      "wins": 0,
+      "delta_pp": 0.0,
+      "ci95_pp": [
+        0.0,
+        0.0
+      ],
+      "p_exact": 1.0,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Phi-3.5-mini",
+      "factor": "seed",
+      "level": "1",
+      "run_id": "Phi-3.5-mini-instruct_seed_1_f6611690d3503f3e",
+      "control_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "p_holm": 1.0
+    },
+    {
+      "n": 800,
+      "losses": 0,
+      "wins": 0,
+      "delta_pp": 0.0,
+      "ci95_pp": [
+        0.0,
+        0.0
+      ],
+      "p_exact": 1.0,
+      "n_boot": 4000,
+      "seed": 0,
+      "model": "Phi-3.5-mini",
+      "factor": "seed",
+      "level": "2",
+      "run_id": "Phi-3.5-mini-instruct_seed_2_8e8f4b3cb10595a4",
+      "control_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "p_holm": 1.0
+    }
+  ],
+  "head_to_head": [
+    {
+      "n": 800,
+      "losses": 82,
+      "wins": 61,
+      "delta_pp": -2.625,
+      "ci95_pp": [
+        -5.625,
+        0.375
+      ],
+      "p_exact": 0.09408333024523294,
+      "n_boot": 4000,
+      "seed": 0,
+      "config": "control=control",
+      "phi_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+      "qwen_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+      "p_holm": 0.4704166512261647
+    },
+    {
+      "n": 800,
+      "losses": 104,
+      "wins": 43,
+      "delta_pp": -7.625,
+      "ci95_pp": [
+        -10.625,
+        -4.625
+      ],
+      "p_exact": 5.195289743459175e-07,
+      "n_boot": 4000,
+      "seed": 0,
+      "config": "prompt_id=concise",
+      "phi_id": "Phi-3.5-mini-instruct_prompt_id_concise_37963fc49f7e8eca",
+      "qwen_id": "Qwen2.5-3B-Instruct_prompt_id_concise_e4980863069a102c",
+      "p_holm": 3.6367028204214225e-06
+    },
+    {
+      "n": 800,
+      "losses": 85,
+      "wins": 183,
+      "delta_pp": 12.25,
+      "ci95_pp": [
+        9.0,
+        15.5
+      ],
+      "p_exact": 2.0823773078423298e-09,
+      "n_boot": 4000,
+      "seed": 0,
+      "config": "prompt_id=5shot",
+      "phi_id": "Phi-3.5-mini-instruct_prompt_id_5shot_e8c0aa94458abbd2",
+      "qwen_id": "Qwen2.5-3B-Instruct_prompt_id_5shot_8b703d7cb8d9627a",
+      "p_holm": 1.6659018462738638e-08
+    },
+    {
+      "n": 800,
+      "losses": 76,
+      "wins": 73,
+      "delta_pp": -0.375,
+      "ci95_pp": [
+        -3.375,
+        2.5031250000000114
+      ],
+      "p_exact": 0.8699229710286416,
+      "n_boot": 4000,
+      "seed": 0,
+      "config": "backend=vllm",
+      "phi_id": "Phi-3.5-mini-instruct_backend_vllm_e796a0ecee505133",
+      "qwen_id": "Qwen2.5-3B-Instruct_backend_vllm_d504f107b78b6804",
+      "p_holm": 0.8699229710286416
+    },
+    {
+      "n": 800,
+      "losses": 82,
+      "wins": 61,
+      "delta_pp": -2.625,
+      "ci95_pp": [
+        -5.625,
+        0.375
+      ],
+      "p_exact": 0.09408333024523294,
+      "n_boot": 4000,
+      "seed": 0,
+      "config": "seed=1",
+      "phi_id": "Phi-3.5-mini-instruct_seed_1_f6611690d3503f3e",
+      "qwen_id": "Qwen2.5-3B-Instruct_seed_1_e8b596c4b1a8a527",
+      "p_holm": 0.4704166512261647
+    },
+    {
+      "n": 800,
+      "losses": 82,
+      "wins": 61,
+      "delta_pp": -2.625,
+      "ci95_pp": [
+        -5.625,
+        0.375
+      ],
+      "p_exact": 0.09408333024523294,
+      "n_boot": 4000,
+      "seed": 0,
+      "config": "seed=2",
+      "phi_id": "Phi-3.5-mini-instruct_seed_2_8e8f4b3cb10595a4",
+      "qwen_id": "Qwen2.5-3B-Instruct_seed_2_02eb0dd059805c38",
+      "p_holm": 0.4704166512261647
+    },
+    {
+      "n": 800,
+      "losses": 87,
+      "wins": 67,
+      "delta_pp": -2.5,
+      "ci95_pp": [
+        -5.5,
+        0.625
+      ],
+      "p_exact": 0.12547871343864164,
+      "n_boot": 4000,
+      "seed": 0,
+      "config": "quantization=int8",
+      "phi_id": "Phi-3.5-mini-instruct_quantization_int8_cfd71ce6317d4a54",
+      "qwen_id": "Qwen2.5-3B-Instruct_quantization_int8_6355a02b3f243353",
+      "p_holm": 0.4704166512261647
+    },
+    {
+      "n": 800,
+      "losses": 98,
+      "wins": 64,
+      "delta_pp": -4.25,
+      "ci95_pp": [
+        -7.375,
+        -1.2468749999999886
+      ],
+      "p_exact": 0.009309685871403356,
+      "n_boot": 4000,
+      "seed": 0,
+      "config": "quantization=int4",
+      "phi_id": "Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83",
+      "qwen_id": "Qwen2.5-3B-Instruct_quantization_int4_f9457562c8aec49f",
+      "p_holm": 0.05585811522842013
+    }
+  ],
+  "sources": {
+    "Makefile": "6b269e26240d29630d18f5637e8cec2d7feb176d25f191997918ac571757320d",
+    "configs/experiments/stability.yaml": "bba4b55de6a01dac9654afe53a3b1426da15a5b5d9722bfeb1a06cd1771f9d02",
+    "configs/prompts/5shot.yaml": "bac1803c4150f29e19afb8dbda0d824cc98ee2987f0969dec091f962eea53ff3",
+    "configs/prompts/concise.yaml": "fef647b93bb890ee80d6c4828dd5320ea0355b3fb2e172b8ed7cfe950dd08b85",
+    "configs/prompts/default.yaml": "1c5042746d68701e86f7021ecf8f00bacb54243577cf360f0c070cb06159e156",
+    "data/official/eval_set.jsonl": "a3204f98ca69ea380a6ce7a70ea52b97511c5418ea58b55571f0063efb35fde6",
+    "data/official/fewshot.jsonl": "a60202a4e66c235ebeda14f0e8cb04c53c5a81ed06feb047da97a5ac145197c9",
+    "pyproject.toml": "2f69974b8fe529727a870ae21af18996f7a11726319dd545287ea9cc586e1e9a",
+    "results/registry_paper.jsonl": "340153b47bdbb735f5199c7a7dba6412abe6237b8b57d3acafcd208931ea162d",
+    "results/runs/Phi-3.5-mini-instruct_backend_vllm_e796a0ecee505133.json": "9766e77436617b65b34f84fc8f05d343b407538b9f99a227987b42b2a1b13774",
+    "results/runs/Phi-3.5-mini-instruct_control_control_31791224954ba45c.json": "b17cbfb8129467909087c101bd1e6699e2777ea7ca4787c6777bcb6d65175a6d",
+    "results/runs/Phi-3.5-mini-instruct_prompt_id_5shot_e8c0aa94458abbd2.json": "49de7a3bc2a6249d02556ebca5fa2d77791029008bf33c8c6a2b53384fd01237",
+    "results/runs/Phi-3.5-mini-instruct_prompt_id_concise_37963fc49f7e8eca.json": "cde1d1e238f962809daad3cb4f6820c32fa1b63fb2405faa6cc3c31bd5b3532c",
+    "results/runs/Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83.json": "e9d0495c90f85019e6667e359629e304406d79e8b65f702632696eb85ed037a3",
+    "results/runs/Phi-3.5-mini-instruct_quantization_int8_cfd71ce6317d4a54.json": "5c2ee5f7588f17e303d37771a603bbec062198a40714bf67e6eee44956742370",
+    "results/runs/Phi-3.5-mini-instruct_seed_1_f6611690d3503f3e.json": "ae92898692e59626af8a9e05a1d28260e28ac2dac92577913a6d9f5b9d3b2682",
+    "results/runs/Phi-3.5-mini-instruct_seed_2_8e8f4b3cb10595a4.json": "41257cb29711ab7d7bbb15f3d39652dc5d55f2998d70c60846008bfa2a220e15",
+    "results/runs/Qwen2.5-3B-Instruct_backend_vllm_d504f107b78b6804.json": "f82ee0919eb2f60cd604ec91728c6eb4e64d32f274ddae768302ef052d1b1887",
+    "results/runs/Qwen2.5-3B-Instruct_control_control_cff017903a47abb9.json": "a814b7c720cda3bc409c3f15cbcb7cdc92973673f32b1a59e72fabd95ef54d1b",
+    "results/runs/Qwen2.5-3B-Instruct_prompt_id_5shot_8b703d7cb8d9627a.json": "ce8ae3f3ca2479094d39e8777567198acdfc1dc2f67eccc8c9b5bb29666afccc",
+    "results/runs/Qwen2.5-3B-Instruct_prompt_id_concise_e4980863069a102c.json": "e0243911e3506e357a4235532f8e650259ee51c2b047435ce35ba986f7fc02a5",
+    "results/runs/Qwen2.5-3B-Instruct_quantization_int4_f9457562c8aec49f.json": "f98f409d7b62d1788368a5a13b2b6a2855b5bb8bdeed4777015b5d73a8eecdad",
+    "results/runs/Qwen2.5-3B-Instruct_quantization_int8_6355a02b3f243353.json": "2eebeaf22ce9ed3bb28dd819804c268c74c7c5c4bab0d3a0d2676e3f66048d67",
+    "results/runs/Qwen2.5-3B-Instruct_sampled_t0.7_seed0_5ca15230e22b3837.json": "3b18406c1ab2875d3be61a19bfda1be5d6b5cada9cadd1f1944bbdccbcd9d5ba",
+    "results/runs/Qwen2.5-3B-Instruct_sampled_t0.7_seed1_535c365ca69c6f1f.json": "8bdd20cffa3bd6d4fb39b50f06f1ce89aa39ef806d395a94fff4fd3a008d6384",
+    "results/runs/Qwen2.5-3B-Instruct_sampled_t0.7_seed2_125dd27f9eac822d.json": "4daf9ea42641c5457e3870f5c2d5455a8a04c8a62f147bd0cb23c48c6dd7f4d3",
+    "results/runs/Qwen2.5-3B-Instruct_seed_1_e8b596c4b1a8a527.json": "b109f92031dcbdb09e4c4544d92bdf6e5fc4ac837792a5c3ce1f68c425bfd50d",
+    "results/runs/Qwen2.5-3B-Instruct_seed_2_02eb0dd059805c38.json": "4e8eeac07038b12e1738cbfb6dfca3bf4c3b4b410b986a0c858edcdee9a27407",
+    "results/runs/Qwen2.5-7B-Instruct_quantization_int4_22a6a0a56a69a1cb.json": "17a9027655adba9df41f04df7dd5994e3a948ae975a47f023661c92f38cd2293",
+    "results/runs/SmolLM2-1.7B-Instruct_backend_vllm_8b096c40a70ae947.json": "4f6d289034d142bbf0e24952b85d3a2beb31b7e9f8293663eb983a7857d04f82",
+    "results/runs/SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d.json": "dc692ae4b6f65cace0649469867eff75326efb08a9355de0dded5bb4a0475708",
+    "results/runs/SmolLM2-1.7B-Instruct_prompt_id_5shot_b6968af4b73708f7.json": "25e2944f6592d0365eed382a95d6b87254440e9a166e7b3fa14dde2ecf472d87",
+    "results/runs/SmolLM2-1.7B-Instruct_prompt_id_concise_a0852ca6fc3e5c08.json": "c3143febe4d913913021632a0738a42bed2dca1aa149a5b4216fcda2541414df",
+    "results/runs/SmolLM2-1.7B-Instruct_quantization_int4_72ac0b51cec27817.json": "aa64ac75ff5180d72a1851fa9f1eec03ca7a0a2ddc69971dbfe7dbab6dd26311",
+    "results/runs/SmolLM2-1.7B-Instruct_quantization_int8_46dd44d463433c26.json": "a0164fa9c2487852dbaa5c200700e3b80e67101d1ac2707b4a8b207f3957056c",
+    "results/runs/SmolLM2-1.7B-Instruct_sampled_t0.7_seed0_9ab2746ead7e2cb9.json": "15fd34482f3cc55ea599eacef2eea386c61280cf88bc8fa252373f6da0e3c10f",
+    "results/runs/SmolLM2-1.7B-Instruct_sampled_t0.7_seed1_b3a50eddee120ab8.json": "790436fbc27f9ebc14d1ed7e382dd1eccaaa0c6acdb9c9eb62b86a6c36a788ce",
+    "results/runs/SmolLM2-1.7B-Instruct_sampled_t0.7_seed2_9544473e05a6b577.json": "c216c9a692569f2731b17de2520db8d6f0d8b8bad1ad333f672463bdddd3419b",
+    "results/runs/SmolLM2-1.7B-Instruct_seed_1_4ae7b5af354b3423.json": "c1cecbf337405cedd98c864377d046d8a21dd1326dbbcf8d84274d3e96941a37",
+    "results/runs/SmolLM2-1.7B-Instruct_seed_2_5041b3a8bf44df73.json": "03eb71e009a5d575ff6cd1c1ca456c6291b8cc9591e2435fad8ab53ade84bc3e",
+    "scripts/audited_analysis.py": "26fd499f96d1e9126cee1e7c9a29aadc4a42447c91f35d618d9387c6d4c3c199",
+    "scripts/generate_figures.py": "80a52b5ae5d24758c5c4199021d53a267ec3bbd804ffe3daf275d1176473d173",
+    "scripts/paper_common.py": "096cb73902fe3df48b603e77e1774fd4d891b28bb72cb1fd2480c433ad21ce58",
+    "scripts/reproduce_paper.py": "e0cd1ec415822184f453207c47a00c152893b5f694f253728d759ed04adfd738",
+    "scripts/statistical_analysis.py": "e4c5260b9b69ce662b22ad4f2fd4477f68475e8c8fb01bd26675e114d7179b44",
+    "scripts/validate_paper.py": "3a38b11c9bcfaf0423beb133a050c50f055e8c2a6f6ff93ed18eb7a51e68a555",
+    "src/apertus_eval_prep/__init__.py": "fd5e1f8cfbde2e41d6c06f96f74dbe8495f1cf3faa4ea6f50d3bfdaf41b5b306",
+    "src/apertus_eval_prep/__main__.py": "523086b05adbf20404e921f39e5edea56c79150b8cb1d5e0d377dd64063e5afb",
+    "src/apertus_eval_prep/adaptive.py": "ff7a06e388950a1ee9d1eb78021ff177fe7ceab1bbd294104406a9f2b41d8c83",
+    "src/apertus_eval_prep/analysis.py": "a52f0469aac87be8da60abd4c86ff095cfd04142893eef9122b60a1402051b7a",
+    "src/apertus_eval_prep/backends/__init__.py": "259a604ef13b0dfa8a5ed9f7bebb46580e5350acb1b846b4999d2dbc742d1552",
+    "src/apertus_eval_prep/backends/hf.py": "991ba9209483708cd48996b67713a8412c3744ee7af266622f002dccdbae3e2b",
+    "src/apertus_eval_prep/backends/hf_load.py": "578165890e6dfdf99ee8bea1f3c8124153e33b04468871e717a3ea3bc1c944f2",
+    "src/apertus_eval_prep/backends/vllm_backend.py": "877981732a50f7bf541724a0cca8b05dd49a1a2d4c77309a72f042d96c54d735",
+    "src/apertus_eval_prep/benchmark_report.py": "b3248a29b6c407afbd534e4ebfe764a3c3d6cadfc089f72b6564722946c2d8c6",
+    "src/apertus_eval_prep/catalog.py": "8a15d015a6418489e305efb2ae22672f6f84e190f16fbfd472d74e3bf3f8e132",
+    "src/apertus_eval_prep/checkpoint.py": "00faca418ee19f98c888f86638743d91f8e4638a8d5dcfd91197c6cdc09bd732",
+    "src/apertus_eval_prep/cli.py": "f7c83323fffe73eae370d432d7bb8edff7ff326450a983555e5f90c67358dd02",
+    "src/apertus_eval_prep/compare.py": "f5502288df4a4e271009bcb95be09b60d177486457994153fd8dc96442b2da29",
+    "src/apertus_eval_prep/config.py": "83a201561b5ab83b413ee4de0152c3215c81e2f02397025cb8a120f833f1c743",
+    "src/apertus_eval_prep/cost.py": "9bde1e373658ddbdb69572386a0e42cb803cb5edba9ca3338e5493dfe9316536",
+    "src/apertus_eval_prep/dashboard.py": "9d47862744ada7aa97b8dc60dcd571269dd0849dbe967e0e925a5b3aa8cfb483",
+    "src/apertus_eval_prep/dump_prompts.py": "141e04efece29019e286ac13cbfb8765da4111d3ca8dcdbf37fffea1a6342604",
+    "src/apertus_eval_prep/experiment_runner.py": "166c0365b1d6ce4ba38c51597e9b7d6fbbc3c930339bdf1003263502a7d19d13",
+    "src/apertus_eval_prep/failures.py": "be0172e67cf5c9115be865662ffbf12476f0a8c1fff3948aceba62e0854d4be6",
+    "src/apertus_eval_prep/fragility.py": "531a2ccb4ba31f1fdc1948653170fd3288734f431b197f662cd5b23e1c484d1c",
+    "src/apertus_eval_prep/heldout.py": "d518f409e4b9e169dbc97904830559c5dd712c169592508ae585e7866feb9b90",
+    "src/apertus_eval_prep/interaction.py": "fac48a7d42f5c037e9ea903cf3fe22850c6b319a4b2179d8e77a65ea4c0d79ea",
+    "src/apertus_eval_prep/manifest.py": "d8cd9dd4cc268e0c91ac87884c66f8c4f496575f8bb39d098ae7abd6f4949446",
+    "src/apertus_eval_prep/metamorphic.py": "e0eaa286165b0e3ba113eadbe55c02e606648bb264a8efb5f38f15202d928f73",
+    "src/apertus_eval_prep/pareto.py": "045cb24221fda237fc9581bfdcaef8d5c2482ababd7353106cb15661dfc5d4af",
+    "src/apertus_eval_prep/profile.py": "dc8e517da46eda1a6f6f2e7751de6000f90be2628b652a7d7a33531c6bd55486",
+    "src/apertus_eval_prep/prompting.py": "136f0b8c0e300e2d06beed9ce18a78c54f1233aa9a56d03dd7c14956b11817fe",
+    "src/apertus_eval_prep/prompts.py": "ad4bda80d756c40e8015f386eb0ede741dea52775fc96ac987f119361cc97e9d",
+    "src/apertus_eval_prep/ranking.py": "91c8f521491306b9882949a80cf7a4dbef1dbab265a9a13b37e0246911d0a307",
+    "src/apertus_eval_prep/registry.py": "33f435874c7c864e4c85f49de7fd1c9110fe336bdb9d2ca79006fd8527912797",
+    "src/apertus_eval_prep/reliability.py": "2583a17a45f0833f3183da05b97a6134aa2b9724cce895464fd1053f4bc2c096",
+    "src/apertus_eval_prep/report.py": "8c4ac1fefd280b13464251975b49b8f17ff339845e31d1a2fa8b564af8e32ea6",
+    "src/apertus_eval_prep/report_generation.py": "3f3e04d6e59e74a51def5d9c196e6c632d9001bbc4ddbc3c69ed117006bed4a6",
+    "src/apertus_eval_prep/reproduce.py": "29dd8eb99b6a530927cc62c304b1426c4965b4e8c243787d8104483e0e575c63",
+    "src/apertus_eval_prep/result_schema.py": "886ab5d2ac8e2194a9758e83fd096c3ca147d47c291e88bebcc2659cccabdfe6",
+    "src/apertus_eval_prep/run_eval.py": "ac8bf6d9a4178db4a8a4b794e46e97e243c70aaa8ca7dad6edfe207ecab7502f",
+    "src/apertus_eval_prep/scoring.py": "841d8602a1607fe92b701259ee9396bd72787e23b2283b5e9448b0990c528405",
+    "src/apertus_eval_prep/site.py": "b883ef9d4d13ab7f4aeca2629cdca2a369a2a4463374e5ec06d008fe9b34e0d2",
+    "src/apertus_eval_prep/stability.py": "f3a3fdf86a865a038ca1536f87753b9e32e2706f2706b374356558389b2cb14d",
+    "src/apertus_eval_prep/stats.py": "a16546a1a51ab41573d0acdd91e9d74b9a3ca8478a6dc56f490863b05de2f2da",
+    "src/apertus_eval_prep/strict_scoring.py": "f782a419f02ba4e13b7bb85a370159cac4e8bdaef57e476bbefdfed43bab91b8",
+    "src/apertus_eval_prep/sweep.py": "3b82d2fbbdc6195c73eef36524a7b29126bbc08d1e822bdb1e91dd8f1c9e0a34",
+    "src/apertus_eval_prep/templates.py": "c1161dd035028bd1de6c355decf2de5c4bc02f27514497a66fe5e709cb9000c7",
+    "src/apertus_eval_prep/variance.py": "72263a25cfb0af214cd0106fdf7f6ce8a96d97823e1c6083059c43bb769495fe"
+  }
+}

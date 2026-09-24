@@ -1,0 +1,241 @@
+\begin{thebibliography}{29}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abdin et~al.(2024)Abdin, Aneja, Awadalla, Awadallah, Awan, Bach,
+  Bahree, Bakhtiari, Bao, Behl, et~al.]{abdin2024phi3}
+Marah Abdin, Jyoti Aneja, Hany Awadalla, Ahmed Awadallah, Ammar~Ahmad Awan,
+  Nguyen Bach, Amit Bahree, Arash Bakhtiari, Jianmin Bao, Harkirat Behl, et~al.
+\newblock Phi-3 technical report: A highly capable language model locally on
+  your phone.
+\newblock \emph{arXiv preprint arXiv:2404.14219}, 2024.
+
+\bibitem[Ben~Allal et~al.(2025)Ben~Allal, Lozhkov, Bakouch, Bl{\'a}zquez,
+  Penedo, Tunstall, Marafioti, Kydl{\'i}{\v{c}}ek, Lajar{\'i}n, Srivastav,
+  Lochner, Fahlgren, Nguyen, Fourrier, Burtenshaw, Larcher, Zhao, Zakka,
+  Morlon, Raffel, von Werra, and Wolf]{allal2025smollm2}
+Loubna Ben~Allal, Anton Lozhkov, Elie Bakouch, Gabriel~Mart{\'i}n Bl{\'a}zquez,
+  Guilherme Penedo, Lewis Tunstall, Andr{\'e}s Marafioti, Hynek
+  Kydl{\'i}{\v{c}}ek, Agust{\'i}n~Piqueres Lajar{\'i}n, Vaibhav Srivastav,
+  Joshua Lochner, Caleb Fahlgren, Xuan-Son Nguyen, Cl{\'e}mentine Fourrier, Ben
+  Burtenshaw, Hugo Larcher, Haojun Zhao, Cyril Zakka, Mathieu Morlon, Colin
+  Raffel, Leandro von Werra, and Thomas Wolf.
+\newblock {SmolLM2}: When smol goes big -- data-centric training of a small
+  language model.
+\newblock \emph{arXiv preprint arXiv:2502.02737}, 2025.
+
+\bibitem[Benjamini and Hochberg(1995)]{benjamini1995controlling}
+Yoav Benjamini and Yosef Hochberg.
+\newblock Controlling the false discovery rate: A practical and powerful
+  approach to multiple testing.
+\newblock \emph{Journal of the Royal Statistical Society: Series B
+  (Methodological)}, 57\penalty0 (1):\penalty0 289--300, 1995.
+
+\bibitem[Biderman et~al.(2024)Biderman, Schoelkopf, Sutawika, Gao, Tow, Abbasi,
+  Aji, Ammanamanchi, Black, Clive, DiPofi, Etxaniz, Fattori, Forde, Foster,
+  Hsu, Jaiswal, Lee, Li, Lovering, et~al.]{biderman2024lessons}
+Stella Biderman, Hailey Schoelkopf, Lintang Sutawika, Leo Gao, Jonathan Tow,
+  Baber Abbasi, Alham~Fikri Aji, Pawan~Sasanka Ammanamanchi, Sidney Black,
+  Jordan Clive, Anthony DiPofi, Julen Etxaniz, Benjamin Fattori, Jessica~Zosa
+  Forde, Charles Foster, Jeffrey Hsu, Mimansa Jaiswal, Wilson~Y. Lee, Haonan
+  Li, Charles Lovering, et~al.
+\newblock Lessons from the trenches on reproducible evaluation of language
+  models.
+\newblock \emph{arXiv preprint arXiv:2405.14782}, 2024.
+
+\bibitem[Clark et~al.(2018)Clark, Cowhey, Etzioni, Khot, Sabharwal, Schoenick,
+  and Tafjord]{clark2018think}
+Peter Clark, Isaac Cowhey, Oren Etzioni, Tushar Khot, Ashish Sabharwal, Carissa
+  Schoenick, and Oyvind Tafjord.
+\newblock Think you have solved question answering? {T}ry {ARC}, the {AI2}
+  reasoning challenge.
+\newblock In \emph{arXiv preprint arXiv:1803.05457}, 2018.
+
+\bibitem[Cobbe et~al.(2021)Cobbe, Kosaraju, Bavarian, Chen, Jun, Kaiser,
+  Plappert, Tworek, Hilton, Nakano, Hesse, and Schulman]{cobbe2021training}
+Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz
+  Kaiser, Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano,
+  Christopher Hesse, and John Schulman.
+\newblock Training verifiers to solve math word problems.
+\newblock \emph{arXiv preprint arXiv:2110.14168}, 2021.
+
+\bibitem[Cohen(1988)]{cohen1988statistical}
+Jacob Cohen.
+\newblock \emph{Statistical Power Analysis for the Behavioral Sciences}.
+\newblock Lawrence Erlbaum Associates, Hillsdale, NJ, 2nd edition, 1988.
+
+\bibitem[Dettmers and Zettlemoyer(2023)]{dettmers2023case}
+Tim Dettmers and Luke Zettlemoyer.
+\newblock The case for 4-bit precision: k-bit inference scaling laws.
+\newblock In \emph{Proceedings of the 40th International Conference on Machine
+  Learning (ICML)}, 2023.
+
+\bibitem[Dettmers et~al.(2022)Dettmers, Lewis, Shleifer, and
+  Zettlemoyer]{dettmers2022llm}
+Tim Dettmers, Mike Lewis, Sam Shleifer, and Luke Zettlemoyer.
+\newblock {LLM.int8()}: 8-bit matrix multiplication for transformers at scale.
+\newblock In \emph{Advances in Neural Information Processing Systems 35
+  (NeurIPS)}, 2022.
+
+\bibitem[Gao et~al.(2021)Gao, Tow, Biderman, Black, DiPofi, Foster, Golding,
+  Hsu, McDonell, Muennighoff, Phang, Reynolds, Tang, Thite, Wang, Wang, and
+  Zou]{gao2021framework}
+Leo Gao, Jonathan Tow, Stella Biderman, Sid Black, Anthony DiPofi, Charles
+  Foster, Laurence Golding, Jeffrey Hsu, Kyle McDonell, Niklas Muennighoff,
+  Jason Phang, Laria Reynolds, Eric Tang, Anish Thite, Ben Wang, Kevin Wang,
+  and Andy Zou.
+\newblock A framework for few-shot language model evaluation.
+\newblock Zenodo, lm-evaluation-harness v0.0.1, 2021.
+\newblock \url{https://github.com/EleutherAI/lm-evaluation-harness}.
+
+\bibitem[Holm(1979)]{holm1979simple}
+Sture Holm.
+\newblock A simple sequentially rejective multiple test procedure.
+\newblock \emph{Scandinavian Journal of Statistics}, 6\penalty0 (2):\penalty0
+  65--70, 1979.
+
+\bibitem[Kendall(1938)]{kendall1938new}
+Maurice~G. Kendall.
+\newblock A new measure of rank correlation.
+\newblock \emph{Biometrika}, 30\penalty0 (1/2):\penalty0 81--93, 1938.
+
+\bibitem[Kiela et~al.(2021)Kiela, Bartolo, Nie, Kaushik, Geiger, Wu, Vidgen,
+  Prasad, Singh, Ringshia, Ma, Ponti, Barezi, et~al.]{kiela2021dynabench}
+Douwe Kiela, Max Bartolo, Yixin Nie, Divyansh Kaushik, Anas Geiger, Zhengxuan
+  Wu, Bertie Vidgen, Grusha Prasad, Amandeep Singh, Persi Ringshia, Zhiyi Ma,
+  Edoardo Ponti, Sonal Barezi, et~al.
+\newblock Dynabench: Rethinking benchmarking in {NLP}.
+\newblock In \emph{Proceedings of the 2021 Conference of the North American
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies}, pages 4110--4124, 2021.
+
+\bibitem[Kwon et~al.(2023)Kwon, Li, Zhuang, Sheng, Zheng, Yu, Gonzalez, Zhang,
+  and Stoica]{kwon2023efficient}
+Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, Cody~Hao Yu,
+  Joseph~E. Gonzalez, Hao Zhang, and Ion Stoica.
+\newblock Efficient memory management for large language model serving with
+  {PagedAttention}.
+\newblock In \emph{Proceedings of the 29th Symposium on Operating Systems
+  Principles (SOSP)}, 2023.
+
+\bibitem[Liang et~al.(2022)Liang, Bommasani, Lee, Tsipras, Soylu, Yasunaga,
+  Zhang, Narayanan, Wu, Kumar, Newman, Yuan, Yan, Zhang, Cosgrove, Manning,
+  R{\'e}, Acosta-Navas, Hudson, Zelikman, et~al.]{liang2022holistic}
+Percy Liang, Rishi Bommasani, Tony Lee, Dimitris Tsipras, Dilara Soylu,
+  Michihiro Yasunaga, Yian Zhang, Deepak Narayanan, Yuhuai Wu, Ananya Kumar,
+  Benjamin Newman, Binhang Yuan, Bobby Yan, Ce~Zhang, Christian Cosgrove,
+  Christopher~D. Manning, Christopher R{\'e}, Diana Acosta-Navas, Drew~A.
+  Hudson, Eric Zelikman, et~al.
+\newblock Holistic evaluation of language models.
+\newblock \emph{arXiv preprint arXiv:2211.09110}, 2022.
+
+\bibitem[Lin et~al.(2023)Lin, Tang, Tang, Yang, Chen, Wang, Xiao, Dang, Gan,
+  and Han]{lin2023awq}
+Ji~Lin, Jiaming Tang, Haotian Tang, Shang Yang, Wei-Ming Chen, Wei-Chen Wang,
+  Guangxuan Xiao, Xingyu Dang, Chuang Gan, and Song Han.
+\newblock {AWQ}: Activation-aware weight quantization for {LLM} compression and
+  acceleration.
+\newblock \emph{arXiv preprint arXiv:2306.00978}, 2023.
+\newblock URL \url{https://arxiv.org/abs/2306.00978}.
+
+\bibitem[Maia~Polo et~al.(2024)Maia~Polo, Weber, Choshen, Sun, Xu, and
+  Yurochkin]{polo2024tinybenchmarks}
+Felipe Maia~Polo, Lucas Weber, Leshem Choshen, Yuekai Sun, Gongjun Xu, and
+  Mikhail Yurochkin.
+\newblock tinybenchmarks: Evaluating {LLMs} with fewer examples.
+\newblock In \emph{Proceedings of the 41st International Conference on Machine
+  Learning (ICML)}, 2024.
+
+\bibitem[McNemar(1947)]{mcnemar1947note}
+Quinn McNemar.
+\newblock Note on the sampling error of the difference between correlated
+  proportions or percentages.
+\newblock \emph{Psychometrika}, 12\penalty0 (2):\penalty0 153--157, 1947.
+
+\bibitem[Miller(2024)]{miller2024adding}
+Evan Miller.
+\newblock Adding error bars to evals: A statistical approach to language model
+  evaluations.
+\newblock \emph{arXiv preprint arXiv:2411.00640}, 2024.
+
+\bibitem[Mizrahi et~al.(2024)Mizrahi, Kaplan, Malkin, Dror, Shahaf, and
+  Stanovsky]{mizrahi2024state}
+Moran Mizrahi, Guy Kaplan, Dan Malkin, Rotem Dror, Dafna Shahaf, and Gabriel
+  Stanovsky.
+\newblock State of what art? {A} call for multi-prompt {LLM} evaluation.
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  12:\penalty0 933--949, 2024.
+
+\bibitem[{Qwen Team} et~al.(2024){Qwen Team}, Yang, Yang, Zhang, Hui, Zheng,
+  Yu, Li, Liu, Huang, et~al.]{yang2024qwen25}
+{Qwen Team}, An~Yang, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo~Zheng, Bowen
+  Yu, Chengyuan Li, Dayiheng Liu, Fei Huang, et~al.
+\newblock Qwen2.5 technical report.
+\newblock \emph{arXiv preprint arXiv:2412.15115}, 2024.
+
+\bibitem[Renze and G{\"u}ven(2024)]{renze2024temperature}
+Matthew Renze and Erhan G{\"u}ven.
+\newblock The effect of sampling temperature on problem solving in large
+  language models.
+\newblock In \emph{Findings of the Association for Computational Linguistics:
+  EMNLP 2024}, pages 7346--7356, 2024.
+\newblock URL \url{https://arxiv.org/abs/2402.05201}.
+
+\bibitem[Sclar et~al.(2024)Sclar, Choi, Tsvetkov, and
+  Suhr]{sclar2024quantifying}
+Melanie Sclar, Yejin Choi, Yulia Tsvetkov, and Alane Suhr.
+\newblock Quantifying language models' sensitivity to spurious features in
+  prompt design or: How {I} learned to start worrying about prompt formatting.
+\newblock In \emph{The Twelfth International Conference on Learning
+  Representations (ICLR)}, 2024.
+
+\bibitem[Shi et~al.(2022)Shi, Suzgun, Freitag, Wang, Srivats, Vosoughi, Chung,
+  Tay, Ruder, Zhou, Das, and Wei]{shi2022language}
+Freda Shi, Mirac Suzgun, Markus Freitag, Xuezhi Wang, Suraj Srivats, Soroush
+  Vosoughi, Hyung~Won Chung, Yi~Tay, Sebastian Ruder, Denny Zhou, Dipanjan Das,
+  and Jason Wei.
+\newblock Language models are multilingual chain-of-thought reasoners.
+\newblock \emph{arXiv preprint arXiv:2210.03057}, 2022.
+
+\bibitem[Srivastava et~al.(2022)Srivastava, Rastogi, Rao, Shoeb, Abid, Fisch,
+  Brown, Santoro, Gupta, Garriga-Alonso, et~al.]{srivastava2022beyond}
+Aarohi Srivastava, Abhinav Rastogi, Abhishek Rao, Abu Awal~Md Shoeb, Abubakar
+  Abid, Adam Fisch, Adam~R. Brown, Adam Santoro, Aditya Gupta, Adri{\`a}
+  Garriga-Alonso, et~al.
+\newblock Beyond the imitation game: Quantifying and extrapolating the
+  capabilities of language models.
+\newblock \emph{arXiv preprint arXiv:2206.04615}, 2022.
+
+\bibitem[White et~al.(2024)White, Dooley, Roberts, Pal, Feuer, Jain,
+  Shwartz-Ziv, Jain, Saifullah, Dey, et~al.]{white2024livebench}
+Colin White, Samuel Dooley, Manley Roberts, Arka Pal, Ben Feuer, Siddhartha
+  Jain, Ravid Shwartz-Ziv, Neel Jain, Khalid Saifullah, Sreemanti Dey, et~al.
+\newblock {LiveBench}: A challenging, contamination-limited {LLM} benchmark.
+\newblock \emph{arXiv preprint arXiv:2406.19314}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2406.19314}.
+
+\bibitem[Wilson(1927)]{wilson1927probable}
+Edwin~B. Wilson.
+\newblock Probable inference, the law of succession, and statistical inference.
+\newblock \emph{Journal of the American Statistical Association}, 22\penalty0
+  (158):\penalty0 209--212, 1927.
+
+\bibitem[Zellers et~al.(2019)Zellers, Holtzman, Bisk, Farhadi, and
+  Choi]{zellers2019hellaswag}
+Rowan Zellers, Ari Holtzman, Yonatan Bisk, Ali Farhadi, and Yejin Choi.
+\newblock {HellaSwag}: Can a machine really finish your sentence?
+\newblock In \emph{Proceedings of the 57th Annual Meeting of the Association
+  for Computational Linguistics}, pages 4791--4800, 2019.
+
+\bibitem[Zhu et~al.(2023)Zhu, Wang, Zhou, Wang, Chen, Wang, Yang, Ye, Zhang,
+  Gong, and Xie]{zhu2024promptrobust}
+Kaijie Zhu, Jindong Wang, Jiaheng Zhou, Zichen Wang, Hao Chen, Yidong Wang,
+  Linyi Yang, Wei Ye, Yue Zhang, Neil~Zhenqiang Gong, and Xing Xie.
+\newblock {PromptRobust}: Towards evaluating the robustness of large language
+  models on adversarial prompts.
+\newblock \emph{arXiv preprint arXiv:2306.04528}, 2023.
+
+\end{thebibliography}

@@ -1,0 +1,25 @@
+\section{Results and Sensitivity}
+\label{sec:results}
+The largest observed within-model prompt range is Qwen's \PromptRange{} percentage points, compared with the \ControlGap{}-point Phi-over-Qwen gap under control (\cref{tab:control,fig:prompt}). This comparison is descriptive: ranges depend on the variants selected. It is not a variance decomposition or a claim that prompts always dominate evaluation uncertainty.
+\input{tables/audited_control}
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.78\linewidth]{prompt_forest.pdf}
+\caption{Extracted-answer accuracy under recorded prompt variants. Marginal Wilson intervals use the same frozen items and are correlated across conditions. Five-shot changes the top-two ordering; paired differences appear in \cref{tab:h2h}.}
+\label{fig:prompt}
+\end{figure}
+Concise reduces all three models' pooled scores. Five-shot has heterogeneous effects: Qwen improves, while Smol and Phi decline. These observations involve both instruction and context changes, not a purely formatting effect. \Cref{tab:sensitivity} reports paired effects and uncertainty. No backend or quantization contrast meets a family-wise threshold of 0.05 in this exact-test analysis; this does not establish absence or practical equivalence. The comparisons remain subject to provenance confounding.
+\input{tables/audited_sensitivity}
+
+\subsection{Ranking stability}
+\Cref{tab:ranking} shows that only five-shot changes the point-estimate ordering within the shared matrix. It places Qwen ahead of Phi by \FiveShotGap{} points. Concise instead favors Phi; both comparisons are supported by the conditional paired analysis (\cref{tab:h2h}). Control's Holm-adjusted paired $p=\ControlPairedP{}$ does not establish equivalence. Overlapping Wilson intervals are not a ``statistical tie.''
+\input{tables/audited_head_to_head}
+\input{tables/audited_ranking}
+Phi has a higher point estimate than Qwen in seven of eight selected configurations; each beats Smol throughout. Repeated greedy-seed columns give control-like outcomes extra weight in this fraction. It is not a probability of outperforming on a future benchmark. Large score changes need not change rankings (concise); the five-shot ordering change answers a different question from score sensitivity. We omit configuration-bootstrap ranking probabilities from central evidence because variants were deliberately selected rather than sampled from a specified population.
+
+\subsection{Decoding, failures, and efficiency}
+The recorded greedy-seed correctness vectors match control exactly. This establishes correctness invariance in these runs, not identical text, tokens, or general decoding determinism. Sampled decoding changes item correctness while producing smaller net shifts; the missing Phi sampling runs preclude a complete sampled ranking comparison. Sampling temperature and top-$p$ both differ from control.
+
+The extractor assigns multiple-choice letters or numeric answers from generated text. A wrong extracted answer may reflect reasoning, copied demonstrations, misleading intermediate text, or an extractor error. Rare explicit unparseable outputs do not validate extraction, and we do not infer causal failure mechanisms from those counts. All recorded scored items, including malformed or empty outputs if present, remain in accuracy denominators. Successful-run selection cannot establish the absence of timeouts or failures in unarchived attempts. The artifact-backed failure table in the appendix distinguishes these scopes.
+
+Timing is ancillary. Recorded vLLM zeros are unavailable measurements, not zero latency. HF measurements are specific to their runtime; without matched effective settings and validated instrumentation we make no comparative quality--efficiency claim. Memory, monetary cost, and energy trade-offs are not established by the paper matrix.

@@ -1,0 +1,115 @@
+\section{Introduction}
+\label{sec:intro}
+
+Benchmark scores increasingly influence which open-weight LLMs practitioners
+select, which research directions are pursued, and which claims of progress
+are accepted. Leaderboards compress each model's behavior on a benchmark
+into a single number, and model comparisons are routinely made by comparing
+those numbers across models.
+
+A benchmark score, however, is not produced by the model alone. It is
+produced by a measurement pipeline: a prompt template and instruction
+phrasing, a number of few-shot exemplars, a chat template applied to the
+rendered prompt, an inference backend and its version, a numerical precision
+or quantization scheme, a decoding strategy with its seeds, and the hardware
+the model runs on. Each of these is an operator choice that a reasonable
+evaluation could set differently without changing the scientific question
+being asked.
+
+Prior work has documented that such choices matter. Prompt formatting alone
+can spread performance by tens of accuracy points
+\citep{sclar2024quantifying}, single-prompt evaluations can be brittle
+enough that ranking claims do not survive a multi-prompt analysis
+\citep{mizrahi2024state}, and adversarial prompt perturbations reliably
+degrade LLM performance \citep{zhu2024promptrobust}. Evaluation-harness
+developers have catalogued reproducibility hazards spanning backend,
+precision, and prompt handling \citep{biderman2024lessons}, and statistical
+treatments of evaluation as an experiment have argued for interval-based
+reporting \citep{miller2024adding}.
+
+Nevertheless, many published comparisons---particularly comparisons of
+open-weight models assembled from heterogeneous runs---still rest on a
+single configuration per model, and the interaction between configuration
+sensitivity and \emph{model ranking} is rarely quantified directly. A score
+change that leaves the ordering intact supports different conclusions than
+one that swaps first and second place. Quantifying that distinction requires
+per-item paired artifacts measured across multiple configuration dimensions
+and models, which few evaluation setups publish alongside their scores.
+
+This paper addresses that gap with a controlled empirical study built on a
+configuration-aware evaluation harness. The harness records a full manifest
+for every run---model and tokenizer identity, backend and version, chat
+template, prompt variant, decoding parameters, seed, quantization, hardware,
+package versions, and a SHA-256-derived configuration hash---writes per-item
+correctness records, and registers every completed run in a hash-deduplicated
+registry that binds the artifact to its configuration. On this infrastructure
+we run a one-factor-at-a-time (OFAT) study: one control configuration per
+model, with a single factor varied at a time across prompt variant, greedy
+seed, inference backend, quantization level, and an explicitly sampled
+decoding arm, on a frozen 800-item benchmark slice held fixed across all
+runs. OFAT isolates each dimension's marginal effect relative to the frozen
+baseline; it does not estimate interaction effects between dimensions, a
+limitation we return to in \cref{sec:limitations}.
+The measured results are: (i) prompt configuration is the dominant source
+of score variability, moving a model's overall accuracy by up to
+17.4\,\pp{}---about six times the 2.6\,\pp{} control-configuration gap between
+the two strongest models, whose control Wilson intervals overlap; (ii) a
+single legitimate prompt change (adding five few-shot exemplars) reverses
+the Phi-3.5-mini / Qwen2.5-3B ordering with disjoint 95\% Wilson intervals
+($\taub=0.33$ against the control ranking, one pairwise reversal), while
+the other seven shared configurations preserve the control ordering; (iii)
+quantization (INT8/INT4 via bitsandbytes) and backend (Hugging Face
+\texttt{generate} vs.\ vLLM on identical rendered prompts) move scores by
+at most 2.9\,\pp{} and 2.4\,\pp{}, and neither change is statistically
+significant after Holm correction over the full 27-contrast family; (iv)
+under greedy decoding, changing the RNG seed is an exact no-op (0 discordant
+items out of 800 in every contrast), whereas temperature-0.7 sampling
+changes 9.9--24.1\% of per-item outcomes while shifting net accuracy by at
+most 3.5\,\pp{}.
+
+This paper makes the following contributions:
+\begin{enumerate}
+  \item \textbf{A configuration-aware evaluation framework} that records the
+  full evaluation context (manifest, configuration hash, git commit,
+  hardware, package versions) for every run, documents incomparability
+  explicitly, and registers results in a hash-deduplicated registry with
+  per-item artifacts (\cref{sec:framework,sec:repro}).
+  \item \textbf{A controlled OFAT sensitivity study} over five factor
+  families on frozen official benchmark slices, with paired per-item
+  statistics---Wilson intervals, exact McNemar tests with Holm correction
+  over the 27-contrast family, paired bootstrap difference intervals, and
+  supplementary Cohen's $h$ effect sizes---quantifying how much each dimension moves
+  scores (\cref{sec:results,sec:sensitivity}).
+  \item \textbf{A ranking-stability analysis} that separates score movement
+  from ordering movement: Kendall's $\taub$ against the control ranking,
+  pairwise reversal counts, per-configuration ranks, pairwise win rates over
+  shared configurations, and a seeded bootstrap of ranking
+  stability---including a measured, interval-supported ranking reversal
+  under a prompt change (\cref{sec:ranking}).
+  \item \textbf{An analysis of decoding stochasticity versus determinism}
+  quantifying both the per-item churn and the net drift induced by
+  temperature-0.7 sampling, and the exact seed-invariance of greedy
+  decoding, in the same harness (\cref{sec:sampling}).
+  \item \textbf{A post-hoc failure audit} categorizing incorrect and
+  unparseable outputs across all 24,800 generated outputs, with
+  representative examples and failure category analysis
+  (\cref{sec:failures}).
+  \item \textbf{A planned factorial experiment} (Prompt $\times$ Runtime
+  $\times$ Seed) to analyze interaction effects that OFAT cannot recover,
+  with committed configuration (\cref{sec:factorial-plan}).
+  \item \textbf{Reproducibility artifacts} binding every reported number to
+  its configuration hash, run manifest, git commit, and raw per-item
+  records, with scripts that regenerate every table and figure in this
+  paper from those artifacts (\cref{sec:repro}).
+\end{enumerate}
+
+We frame the measurement question formally in \cref{sec:framework}, describe
+the experimental setup in \cref{sec:setup}, and present results in
+\cref{sec:results}--\cref{sec:ranking}. \cref{sec:discussion} discusses
+implications and the distinction between score and ranking instability; the
+provisional reliability composite and exploratory diagnostics appear there.
+\cref{sec:limitations} states limitations explicitly, organized as threats
+to validity. We claim no results
+beyond the measured models, tasks, configurations, and hardware documented
+here.
+

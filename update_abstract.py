@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+"""Update abstract.tex with strengthened content."""
+import os
+
+path = '/Users/shivanibhandari/Downloads/ETH : EPFL Apertus /apertus-eval-prep/paper/abstract.tex'
+
+new_content = r"""\begin{abstract}
+Large language model (LLM) benchmark scores are routinely reported as single
+numbers under one evaluation configuration, and model comparisons are made
+on that basis. We present a controlled, reproducible evaluation framework
+that treats the evaluation configuration---prompt template, few-shot count,
+inference backend, quantization, and decoding seed---as part of the
+measurement, and we use it to measure how sensitive benchmark scores and
+model rankings are to reasonable configuration changes. 
+
+Using a frozen 800-item slice (ARC-Easy, GSM8K, HellaSwag, MGSM EN/DE/FR) with generative
+exact-match scoring, we run a one-factor-at-a-time (OFAT) study over \textbf{three instruction-tuned models} (SmolLM2-1.7B, Qwen2.5-3B, Phi-3.5-mini) plus one single-cell Qwen2.5-7B measurement, producing \textbf{31 committed configurations} with per-item artifacts across \textbf{five factor families} (prompt, greedy seed, backend, quantization, sampling). Prompt changes dominate: within a model, prompt configuration moves overall accuracy by up to 17.4 percentage points (pp), about six times the 2.6\,pp control-configuration gap between the top two models, whose Wilson intervals overlap. One legitimate prompt change (adding five exemplars) reverses the Phi-3.5-mini / Qwen2.5-3B ordering with disjoint 95\% confidence intervals (Kendall $\tau_b=0.33$ against the control ranking); quantization and backend changes move scores by at most 2.9\,pp and produce no reversals. Greedy decoding is exactly seed-invariant (0 discordant items in 800), while temperature-0.7 sampling changes 9.9--24.1\% of per-item outcomes with small net drift ($\leq$3.5\,pp). 
+
+We complement the OFAT analysis with a \textbf{post-hoc failure audit} categorizing incorrect and unparseable outputs, and we outline a planned factorial experiment (Prompt $\times$ Runtime $\times$ Seed) to analyze interaction effects that OFAT cannot recover. Paired McNemar tests with Holm correction, effect sizes (Cohen's $h$), seeded bootstrap ranking stability, and an exploratory reliability composite accompany the descriptive analysis. Reported results trace to committed run manifests, configuration hashes, and raw per-item records.
+
+We conclude that in this setting benchmark scores behave as configuration-conditional measurements, and we recommend reporting the configuration alongside interval-quantified scores. The framework, registry, and full provenance chain are released so that each number in this paper can be re-derived.
+\end{abstract}
+"""
+
+with open(path, 'w') as f:
+    f.write(new_content)
+
+print(f"Updated {path}")

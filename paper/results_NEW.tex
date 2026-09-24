@@ -1,0 +1,24 @@
+\section{Results: Score Sensitivity (Clean Draft)}
+\label{sec:results}
+
+\subsection{Control configuration}
+\label{sec:control}
+
+Control accuracies are in \cref{tab:control}. Full provenance is in
+\cref{sec:repro}; every number below traces to
+\texttt{paper/analysis/statistics.json} via the paper pipeline. The
+control-configuration gap between the top two models is 2.62\,pp, with
+overlapping Wilson intervals; score effects below should be read against
+that near-tie baseline.
+
+\input{tables/main_results.tex}
+
+\subsection{Prompt effects}
+\label{sec:prompt}
+
+\cref{tab:sensitivity,fig:prompt} show the central sensitivity result:
+the concise and 5-shot prompt variants move every model's score, and
+the 5-shot direction is model-dependent. Full per-task cell values are
+in the JSON analysis artifact; paired McNemar tests with Holm
+correction over the 27-contrast family are in \cref{tab:sensitivity}
+and the appendix.

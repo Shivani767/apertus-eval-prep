@@ -1,0 +1,162 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{Benchmark scores as configuration-conditional measurements.}
+The measured pattern---large prompt effects, small backend/quantization
+effects, a prompt-induced rank reversal between nearly-equal models, exact
+greedy seed-invariance, and high-churn sampling---supports treating a
+reported score as a measurement produced by a model \emph{under} an
+evaluation configuration, rather than as an intrinsic scalar property of
+the model. We state this as an empirical claim about the measured setting
+(three small instruction-tuned models, four generative tasks on frozen
+200-item slices, one GPU family), not as a universal law; the framework
+exists precisely so that others can measure it elsewhere.
+
+\paragraph{What follows for reporting practice.}
+Three cheap changes to evaluation reports would have made every claim in
+this paper verifiable and most misreadings impossible: (1) publish the
+configuration (prompt template, few-shot count, backend and version,
+quantization, decoding, seed) next to every number, in machine-readable
+form; (2) publish per-item correctness records so that paired tests are
+possible, not just aggregate scores; (3) report interval-quantified scores
+and, for model comparisons, interval-overlap or paired-test outcomes rather
+than point-estimate ranks alone. None of these require new inference: they
+require recording what the runner already knows.
+
+\paragraph{Score changes vs.\ ranking changes.}
+The concise-prompt result shows that a factor can move scores by 8--17\,\pp{}
+without changing any ordering; the five-shot result shows that a factor can
+flip the top-two order of models whose control scores differ by only
+2.6\,\pp. For model selection, the ranking is the decision-relevant quantity,
+and it is precisely the quantity most sensitive to near-ties. Evaluation
+reports that compress a model to one number cannot distinguish these
+regimes.
+\paragraph{Provisional reliability diagnostics.}
+As exploratory tooling (not validated methodology), the framework computes
+an Evaluation Reliability Score (ERS): a weighted composite of four
+components---CI separation among model pairs (0.667 here), seeded bootstrap
+ranking stability (mean $\taub=0.84$), within/between config-stability
+(0.604), and greedy-seed stability (1.0 when the seed cells are
+supplied)---yielding ERS $= 0.711$ (3-component) or $0.740$ (4-component)
+on our eight-configuration matrix (appendix \cref{tab:ers}). We present
+ERS as a proposed descriptive diagnostic whose components are individually
+meaningful, explicitly not as a validated metric; its weights are
+provisional and its sensitivity to weight choice can be ablated in the
+framework. We also ship (but do not claim results from) infrastructure for
+budget-constrained evaluation scheduling, which connects to
+efficient-evaluation work such as tinyBenchmarks
+\citep{polo2024tinybenchmarks}.
+
+\paragraph{Failure analysis implications.}
+The automated categories (\cref{tab:failures}) contain 3 unparseable and
+11,175 parseable incorrect responses across 24,800 outputs, with no empty
+outputs. This does not imply that parsing is harmless: the selected
+extraction mismatch in \cref{tab:failure-analysis} shows that a correct
+explicit answer may still be scored incorrectly. Counts of genuine reasoning
+errors, demonstration copying, and extraction errors require independent
+adjudication and are not inferred from the null-prediction rate.
+
+\section{Threats to Validity and Limitations}
+\label{sec:limitations}
+
+We organize threats to validity following conventional categories, adapted
+for an artifact-based observational study.
+
+\subsection{Construct validity}
+\textit{What we measure may not correspond to what we claim to measure.}
+
+\begin{itemize}
+  \item \textbf{Scoring protocol.} Generative exact-match with letter/number
+extraction differs from the log-likelihood multiple-choice protocol used by
+standard leaderboards.
+  \item \textbf{Extractor validation.} The permissive parser has not been
+independently adjudicated.
+  \item \textbf{Task coverage.} Four tasks do not represent the full
+space of LLM capabilities.
+  \item \textbf{Contamination.} Benchmark contamination is unmeasured here.
+\end{itemize}
+
+\subsection{Internal validity}
+\textit{Explanations other than the configuration change may account for observed differences.}
+
+\begin{itemize}
+  \item \textbf{Software drift.} Runs span 14 distinct git commits with
+varying package versions.
+  \item \textbf{Model revisions.} Model and tokenizer hub revisions were
+not pinned in run manifests.
+  \item \textbf{Precision.} Recorded as \texttt{dtype=auto}.
+  \item \textbf{Post-hoc selection.} The Phi/Qwen comparison was
+selected after observing top scores.
+\end{itemize}
+
+\subsection{External validity}
+\textit{Results may not generalize beyond the measured setting.}
+
+\begin{itemize}
+  \item \textbf{Model scale.} Three models (1.7B--3.8B) plus one 7B cell.
+  \item \textbf{Benchmark slices.} 200-item slices are small.
+  \item \textbf{Hardware.} All runs on NVIDIA Tesla T4.
+  \item \textbf{Sampling coverage.} Missing Phi-3.5-mini sampling cells.
+  \item \textbf{Configuration space.} Other dimensions not explored.
+\end{itemize}
+
+\subsection{Statistical conclusion validity}
+\textit{Statistical inferences may be weakened by assumption violations.}
+
+\begin{itemize}
+  \item \textbf{Item dependence.} MGSM translations and GSM8K questions
+are not independent.
+  \item \textbf{Multiple testing.} Holm--Bonferroni is conservative.
+  \item \textbf{Interval interpretation.} Wilson intervals assume
+binomial sampling.
+  \item \textbf{Paired test assumptions.} McNemar assumes independent
+discordant pairs.
+  \item \textbf{Bootstrap scope.} Ranking resamples configurations;
+paired differences resample items within tasks. Neither corrects for all
+cross-task or translated-item dependence.
+\end{itemize}
+
+\subsection{Measurement and recording limitations}
+\textit{Data quality and completeness constraints.}
+
+\begin{itemize}
+  \item \textbf{Missing cells.} Three Phi-3.5-mini sampling cells missing.
+  \item \textbf{Latency placeholders.} vLLM cells store 0.0 timing.
+  \item \textbf{Reproducibility scope.} Analysis reproduction feasible.
+  \item \textbf{OFAT, not factorial.} Full factorial (Prompt $\times$ Runtime $\times$
+Seed) planned and committed to \texttt{t4\_factorial.yaml}.
+\end{itemize}
+
+\section{Ethical Considerations}
+\label{sec:ethics}
+This study uses small, publicly licensed benchmark slices (CC-BY-SA-4.0,
+MIT) redistributed at reduced size with attribution and license statements
+in the data manifest; users of the slices should consult the originals for
+full terms. We did not evaluate safety behaviors, toxicity, or privacy, and
+draw no conclusions about them; the repository's 6-item safety canary is a
+pipeline check, not a safety evaluation. Benchmark contamination is
+unmeasured here (\cref{sec:limitations}), and we caution against reading
+absolute accuracies as capability statements. No human subjects data is
+involved.
+
+\section{Conclusion}
+\label{sec:conclusion}
+We presented a configuration-aware, artifact-complete evaluation framework
+and used it to measure how three small instruction-tuned LLMs' benchmark
+scores and rankings respond to reasonable evaluation-configuration changes
+on frozen slices. Prompt configuration was the dominant source of
+variability (up to 17.4\,\pp{} within a model, versus a 2.6\,\pp{} top-two
+control gap with overlapping intervals); one prompt change produced a
+statistically separated reversal of the top-two ranking; quantization and
+backend effects were small and not significant after multiple-testing
+correction; greedy decoding was exactly seed-invariant; and temperature
+sampling induced high per-item churn with small net drift. The practical
+conclusion for this setting is to treat a benchmark score as a measurement
+conditioned on its configuration: publish the configuration, the per-item
+records, and interval-aware comparisons alongside every number. The
+framework, registry, and full provenance chain are released so that each
+number in this paper can be re-derived, and so that the factorial and
+scaling extensions needed to broaden these conclusions can be run on the
+same footing.
+
+

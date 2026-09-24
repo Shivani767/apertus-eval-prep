@@ -1,0 +1,99 @@
+\section{Experimental Setup}
+\label{sec:setup}
+
+\subsection{Models}
+We evaluate three instruction-tuned models under the full OFAT design---
+Phi-3.5-mini-instruct (3.8B parameters) \citep{abdin2024phi3},
+Qwen2.5-3B-Instruct \citep{yang2024qwen25}, and
+SmolLM2-1.7B-Instruct \citep{allal2025smollm2}---plus
+Qwen2.5-7B-Instruct under a single INT4-quantized configuration
+(\cref{tab:models}). The 7B model's fp16, INT8, and vLLM cells exceed the
+16\,GB Tesla~T4 budget of our compute environment, so Qwen2.5-7B appears in
+no ranking analysis and is reported as a single measurement. Model hub
+revisions were not pinned in the run manifests (\texttt{revision: null}
+resolves to the hub default at run time and was not recorded); this is a
+known limitation (\cref{sec:limitations}).
+
+\subsection{Benchmarks}
+\label{sec:benchmarks}
+All runs use the same frozen 800-item slice: 200 items each from ARC-Easy
+\citep{clark2018think}, GSM8K \citep{cobbe2021training}, HellaSwag
+\citep{zellers2019hellaswag}, and MGSM pooled over English, German, and
+French \citep{shi2022language}. Slices were built by shuffling the official
+splits with a fixed seed (0 for evaluation items, 1 for few-shot exemplars)
+and taking the first 200; hub revisions are pinned in the committed data
+manifest, and each slice file carries a content SHA-256 in the artifact
+catalog (\cref{tab:benchmarks}). Scoring is generative exact match: for
+multiple-choice tasks the model generates text and the first option letter
+is extracted; for math tasks the last number in the generated text is
+extracted. This protocol is deliberately \emph{not} the log-likelihood
+multiple-choice protocol used by lm-eval leaderboards; our numbers are not
+comparable to leaderboard scores and we do not treat them as such.
+
+\subsection{Control configuration and factors}
+\label{sec:factors}
+The control configuration $c_0$ for every model is: Hugging Face
+\texttt{generate} backend, the tokenizer's own chat template applied by the
+harness (generation runs in completion mode on the rendered string), greedy
+decoding (temperature 0, top-$p$ 1, seed 0), \texttt{max\_new\_tokens}=256,
+no quantization, the \emph{default} prompt variant (zero-shot with
+task-type instructions: letter-answer for ARC/HellaSwag, step-by-step with
+final numeric answer for GSM8K/MGSM), batch size 1, on a NVIDIA Tesla T4
+under CUDA. From this baseline we vary one factor at a time:
+\begin{itemize}
+  \item \textbf{Prompt} (\texttt{prompt\_id}): \emph{concise} (minimal
+  reply-only instructions, zero-shot) and \emph{5-shot} (five frozen
+  exemplars appended, instructions unchanged). Exemplars come from frozen
+  official train/test splits outside the scored items.
+  \item \textbf{Greedy seed}: the RNG seed is changed to 1 and 2 under
+  temperature 0. These cells measure decoding determinism, not
+  stochasticity.
+  \item \textbf{Backend}: vLLM \citep{kwon2023efficient} (versions 0.24.0
+  and 0.26.0 across runs) replacing Hugging Face \texttt{generate}
+  \citep{biderman2024lessons}, with byte-identical rendered prompts.
+  \item \textbf{Quantization}: INT8 and INT4 weight-only via bitsandbytes
+  \citep{dettmers2022llm} on the HF path. Quantization is never crossed
+  with vLLM in this harness.
+  \item \textbf{Sampling}: temperature 0.7, top-$p$ 0.95, seeds 0/1/2,
+  measured for SmolLM2-1.7B and Qwen2.5-3B (the Phi-3.5-mini sampling cells
+  are the three missing cells of the planned 34-cell matrix).
+\end{itemize}
+Every factor's levels, the frozen control, and the per-hardware skip rules
+are declared in one committed YAML configuration
+(\texttt{configs/experiments/stability.yaml}), and each cell's settings are
+frozen into its run manifest.
+
+\subsection{Provenance and completeness}
+The committed registry contains 31 completed cells with \texttt{status=ok}
+out of 34 planned Tesla-T4 cells (\cref{tab:coverage}); the three missing
+cells are the Phi-3.5-mini sampling arm. Runs were produced on Colab
+Tesla-T4 sessions between 2026-08-20 and 2026-09-10 and are bound to 14
+distinct git commits of the harness; three stale registry rows were corrected
+against their artifacts with the correction recorded in-row (appendix).
+All runs report $n=800$ items; item-level pairing is exact (no dropped IDs
+in any contrast).
+
+\subsection{Statistical methods}
+We report Wilson 95\% intervals \citep{wilson1927probable} for accuracy.
+Main-table contrasts use exact conditional paired McNemar tests
+\citep{mcnemar1947note}, with Holm--Bonferroni correction
+\citep{holm1979simple} over 27 same-model contrasts, including greedy
+seeds and sampling. The eight Qwen/Phi comparisons form a separate Holm
+family. Differences are in percentage points (pp), not relative percent.
+Their pointwise 95\% intervals use a task-stratified paired item bootstrap
+(4,000 replicates, seed 0); these are conditional approximations, not
+simultaneous or cluster-robust population intervals.
+
+The appendix additionally reports the legacy continuity-corrected McNemar
+analysis, Benjamini--Hochberg values \citep{benjamini1995controlling}, and
+Cohen's $h$ \citep{cohen1988statistical}, a marginal standardized effect
+that does not encode pairing. Kendall's $\taub$ \citep{kendall1938new},
+pairwise reversals, and win fractions summarize eight shared configurations.
+The exploratory ranking bootstrap resamples configurations (2,000
+replicates); the sampling mean bootstrap resamples just three seeds.
+Neither should be confused with the paired item bootstrap. Related MGSM
+translations and GSM8K items weaken independence assumptions. All reported
+statistics are re-derived from stored item records (\cref{sec:repro}).
+
+\input{tables/models.tex}
+\input{tables/benchmarks.tex}

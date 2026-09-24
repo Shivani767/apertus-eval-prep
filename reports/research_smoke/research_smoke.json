@@ -1,0 +1,637 @@
+{
+  "data": "synthetic (validation only, NOT experimental evidence)",
+  "generated_utc": "2026-09-12T15:50:06.218643+00:00",
+  "seed": 0,
+  "n_models": 4,
+  "n_configs": 24,
+  "heldout": {
+    "budgets": {
+      "4": {
+        "budget": 4,
+        "seed": 28,
+        "split": {
+          "n_total": 24,
+          "n_train": 4,
+          "n_heldout": 20,
+          "method": "deterministic seeded shuffle; partition stored, not recomputed",
+          "leakage_guard": "train and heldout are disjoint by construction"
+        },
+        "score_prediction_error_mae": 0.017849,
+        "ranking_recovery": {
+          "spearman": 1.0,
+          "kendall_tau": 1.0
+        },
+        "pairwise_decision_accuracy": 1.0,
+        "n_decidable_pairs": 12,
+        "n_pairs_excluded_ties": 0,
+        "reliability_calibration": {
+          "ece": 0.0,
+          "brier": 0.0,
+          "log_loss": 0.0,
+          "auroc": 1.0
+        },
+        "reliability_estimation_error_mae": 0.0,
+        "ci_coverage": 1.0,
+        "n_pairs": 12,
+        "provenance": "estimator fit on train configs only; held-out configs used for evaluation"
+      },
+      "8": {
+        "budget": 8,
+        "seed": 56,
+        "split": {
+          "n_total": 24,
+          "n_train": 8,
+          "n_heldout": 16,
+          "method": "deterministic seeded shuffle; partition stored, not recomputed",
+          "leakage_guard": "train and heldout are disjoint by construction"
+        },
+        "score_prediction_error_mae": 0.003935,
+        "ranking_recovery": {
+          "spearman": 1.0,
+          "kendall_tau": 1.0
+        },
+        "pairwise_decision_accuracy": 1.0,
+        "n_decidable_pairs": 12,
+        "n_pairs_excluded_ties": 0,
+        "reliability_calibration": {
+          "ece": 0.0,
+          "brier": 0.0,
+          "log_loss": 0.0,
+          "auroc": 1.0
+        },
+        "reliability_estimation_error_mae": 0.0,
+        "ci_coverage": 1.0,
+        "n_pairs": 12,
+        "provenance": "estimator fit on train configs only; held-out configs used for evaluation"
+      },
+      "12": {
+        "budget": 12,
+        "seed": 84,
+        "split": {
+          "n_total": 24,
+          "n_train": 12,
+          "n_heldout": 12,
+          "method": "deterministic seeded shuffle; partition stored, not recomputed",
+          "leakage_guard": "train and heldout are disjoint by construction"
+        },
+        "score_prediction_error_mae": 0.014062,
+        "ranking_recovery": {
+          "spearman": 1.0,
+          "kendall_tau": 1.0
+        },
+        "pairwise_decision_accuracy": 1.0,
+        "n_decidable_pairs": 12,
+        "n_pairs_excluded_ties": 0,
+        "reliability_calibration": {
+          "ece": 0.0,
+          "brier": 0.0,
+          "log_loss": 0.0,
+          "auroc": 1.0
+        },
+        "reliability_estimation_error_mae": 0.0,
+        "ci_coverage": 1.0,
+        "n_pairs": 12,
+        "provenance": "estimator fit on train configs only; held-out configs used for evaluation"
+      },
+      "16": {
+        "budget": 16,
+        "seed": 112,
+        "split": {
+          "n_total": 24,
+          "n_train": 16,
+          "n_heldout": 8,
+          "method": "deterministic seeded shuffle; partition stored, not recomputed",
+          "leakage_guard": "train and heldout are disjoint by construction"
+        },
+        "score_prediction_error_mae": 0.007023,
+        "ranking_recovery": {
+          "spearman": 1.0,
+          "kendall_tau": 1.0
+        },
+        "pairwise_decision_accuracy": 1.0,
+        "n_decidable_pairs": 12,
+        "n_pairs_excluded_ties": 0,
+        "reliability_calibration": {
+          "ece": 0.0,
+          "brier": 0.0,
+          "log_loss": 0.0,
+          "auroc": 1.0
+        },
+        "reliability_estimation_error_mae": 0.0,
+        "ci_coverage": 1.0,
+        "n_pairs": 12,
+        "provenance": "estimator fit on train configs only; held-out configs used for evaluation"
+      }
+    },
+    "n_boot": 100,
+    "base_seed": 0,
+    "note": "each budget uses a deterministic derived seed (no reuse of configs)"
+  },
+  "interaction_design": {
+    "n_cells": 32,
+    "studies": {
+      "prompt\u00d7backend": {
+        "design": "balanced",
+        "selected": 3,
+        "full": 4
+      },
+      "prompt\u00d7quantization": {
+        "design": "balanced",
+        "selected": 3,
+        "full": 4
+      },
+      "backend\u00d7quantization": {
+        "design": "balanced",
+        "selected": 3,
+        "full": 4
+      },
+      "prompt\u00d7decoding": {
+        "design": "balanced",
+        "selected": 3,
+        "full": 4
+      }
+    }
+  },
+  "budget_curves": {
+    "curves": {
+      "random": {
+        "4": {
+          "n_rep": 20,
+          "values": {
+            "ranking_recovery": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "pairwise_decision_accuracy": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "score_error_mae": {
+              "mean": 0.02034,
+              "ci_lo": 0.004192,
+              "ci_hi": 0.037914
+            },
+            "reliability_error_mae": {
+              "mean": 0.020184,
+              "ci_lo": 0.004289,
+              "ci_hi": 0.029292
+            },
+            "kendall_tau": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "evaluation_cost": {
+              "mean": 4.0,
+              "ci_lo": 4.0,
+              "ci_hi": 4.0
+            },
+            "n_measured": {
+              "mean": 4.0,
+              "ci_lo": 4.0,
+              "ci_hi": 4.0
+            }
+          }
+        },
+        "8": {
+          "n_rep": 20,
+          "values": {
+            "ranking_recovery": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "pairwise_decision_accuracy": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "score_error_mae": {
+              "mean": 0.015079,
+              "ci_lo": 0.005063,
+              "ci_hi": 0.030197
+            },
+            "reliability_error_mae": {
+              "mean": 0.013931,
+              "ci_lo": 0.005195,
+              "ci_hi": 0.023695
+            },
+            "kendall_tau": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "evaluation_cost": {
+              "mean": 8.0,
+              "ci_lo": 8.0,
+              "ci_hi": 8.0
+            },
+            "n_measured": {
+              "mean": 8.0,
+              "ci_lo": 8.0,
+              "ci_hi": 8.0
+            }
+          }
+        },
+        "12": {
+          "n_rep": 20,
+          "values": {
+            "ranking_recovery": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "pairwise_decision_accuracy": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "score_error_mae": {
+              "mean": 0.011758,
+              "ci_lo": 0.003673,
+              "ci_hi": 0.028208
+            },
+            "reliability_error_mae": {
+              "mean": 0.009597,
+              "ci_lo": 0.001603,
+              "ci_hi": 0.020505
+            },
+            "kendall_tau": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "evaluation_cost": {
+              "mean": 12.0,
+              "ci_lo": 12.0,
+              "ci_hi": 12.0
+            },
+            "n_measured": {
+              "mean": 12.0,
+              "ci_lo": 12.0,
+              "ci_hi": 12.0
+            }
+          }
+        }
+      },
+      "ofat": {
+        "4": {
+          "n_rep": 20,
+          "values": {
+            "ranking_recovery": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "score_error_mae": {
+              "mean": 0.006668,
+              "ci_lo": 0.006668,
+              "ci_hi": 0.006668
+            },
+            "reliability_error_mae": {
+              "mean": 0.001955,
+              "ci_lo": 0.001955,
+              "ci_hi": 0.001955
+            },
+            "evaluation_cost": {
+              "mean": 4.0,
+              "ci_lo": 4.0,
+              "ci_hi": 4.0
+            },
+            "n_measured": {
+              "mean": 4.0,
+              "ci_lo": 4.0,
+              "ci_hi": 4.0
+            }
+          }
+        },
+        "8": {
+          "n_rep": 20,
+          "values": {
+            "ranking_recovery": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "score_error_mae": {
+              "mean": 0.002742,
+              "ci_lo": 0.002742,
+              "ci_hi": 0.002742
+            },
+            "reliability_error_mae": {
+              "mean": 0.003508,
+              "ci_lo": 0.003508,
+              "ci_hi": 0.003508
+            },
+            "evaluation_cost": {
+              "mean": 8.0,
+              "ci_lo": 8.0,
+              "ci_hi": 8.0
+            },
+            "n_measured": {
+              "mean": 8.0,
+              "ci_lo": 8.0,
+              "ci_hi": 8.0
+            }
+          }
+        },
+        "12": {
+          "n_rep": 20,
+          "values": {
+            "ranking_recovery": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "score_error_mae": {
+              "mean": 0.003071,
+              "ci_lo": 0.003071,
+              "ci_hi": 0.003071
+            },
+            "reliability_error_mae": {
+              "mean": 0.001156,
+              "ci_lo": 0.001156,
+              "ci_hi": 0.001156
+            },
+            "evaluation_cost": {
+              "mean": 12.0,
+              "ci_lo": 12.0,
+              "ci_hi": 12.0
+            },
+            "n_measured": {
+              "mean": 12.0,
+              "ci_lo": 12.0,
+              "ci_hi": 12.0
+            }
+          }
+        }
+      },
+      "apertus_r": {
+        "4": {
+          "n_rep": 20,
+          "values": {
+            "ranking_recovery": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "pairwise_decision_accuracy": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "score_error_mae": {
+              "mean": 0.018998,
+              "ci_lo": 0.012371,
+              "ci_hi": 0.030584
+            },
+            "reliability_error_mae": {
+              "mean": 0.025267,
+              "ci_lo": 0.025267,
+              "ci_hi": 0.025267
+            },
+            "kendall_tau": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "evaluation_cost": {
+              "mean": 4.0,
+              "ci_lo": 4.0,
+              "ci_hi": 4.0
+            },
+            "n_measured": {
+              "mean": 4.0,
+              "ci_lo": 4.0,
+              "ci_hi": 4.0
+            }
+          }
+        },
+        "8": {
+          "n_rep": 20,
+          "values": {
+            "ranking_recovery": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "pairwise_decision_accuracy": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "score_error_mae": {
+              "mean": 0.016632,
+              "ci_lo": 0.010007,
+              "ci_hi": 0.029891
+            },
+            "reliability_error_mae": {
+              "mean": 0.021807,
+              "ci_lo": 0.021181,
+              "ci_hi": 0.023532
+            },
+            "kendall_tau": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "evaluation_cost": {
+              "mean": 8.0,
+              "ci_lo": 8.0,
+              "ci_hi": 8.0
+            },
+            "n_measured": {
+              "mean": 8.0,
+              "ci_lo": 8.0,
+              "ci_hi": 8.0
+            }
+          }
+        },
+        "12": {
+          "n_rep": 20,
+          "values": {
+            "ranking_recovery": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "pairwise_decision_accuracy": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "score_error_mae": {
+              "mean": 0.016637,
+              "ci_lo": 0.010888,
+              "ci_hi": 0.029994
+            },
+            "reliability_error_mae": {
+              "mean": 0.021322,
+              "ci_lo": 0.021085,
+              "ci_hi": 0.021757
+            },
+            "kendall_tau": {
+              "mean": 1.0,
+              "ci_lo": 1.0,
+              "ci_hi": 1.0
+            },
+            "evaluation_cost": {
+              "mean": 12.0,
+              "ci_lo": 12.0,
+              "ci_hi": 12.0
+            },
+            "n_measured": {
+              "mean": 12.0,
+              "ci_lo": 12.0,
+              "ci_hi": 12.0
+            }
+          }
+        }
+      }
+    },
+    "budgets": [
+      4,
+      8,
+      12
+    ],
+    "strategies": [
+      "random",
+      "ofat",
+      "apertus_r"
+    ],
+    "n_rep": 20,
+    "base_seed": 0,
+    "note": "known score table replay; all strategies get the same budget per point"
+  },
+  "leave_one_model_out": {
+    "budgets": {
+      "8": {
+        "experiment_type": "leave_one_model_out",
+        "budget": 8,
+        "seed": 56,
+        "hidden_model_index": 0,
+        "n_visible_models": 3,
+        "split": {
+          "n_total": 24,
+          "n_train": 8,
+          "n_heldout": 16,
+          "method": "deterministic seeded shuffle; partition stored, not recomputed"
+        },
+        "in_distribution_visible": {
+          "pairwise_decision_accuracy": 1.0,
+          "reliability_estimation_error_mae": 0.0,
+          "n_decidable_pairs": 6
+        },
+        "out_of_distribution_hidden": {
+          "stability": {
+            "std_all_configs": 0.013866,
+            "std_holdout_configs": 0.012919,
+            "spread_all_configs": 0.046276,
+            "n_holdout_configs": 16
+          },
+          "pair_flip_rates": [
+            {
+              "visible_model_index": 1,
+              "hidden_wins_fraction": 1.0,
+              "tie_fraction": 0.0,
+              "n_configs": 16
+            },
+            {
+              "visible_model_index": 2,
+              "hidden_wins_fraction": 1.0,
+              "tie_fraction": 0.0,
+              "n_configs": 16
+            },
+            {
+              "visible_model_index": 3,
+              "hidden_wins_fraction": 1.0,
+              "tie_fraction": 0.0,
+              "n_configs": 16
+            }
+          ],
+          "label": "OOD targets reported, not predicted (no cross-model estimator fitted)"
+        },
+        "power_note": "low-power probe with few models; descriptive only",
+        "provenance": "hidden model excluded from all fitting"
+      },
+      "16": {
+        "experiment_type": "leave_one_model_out",
+        "budget": 16,
+        "seed": 112,
+        "hidden_model_index": 3,
+        "n_visible_models": 3,
+        "split": {
+          "n_total": 24,
+          "n_train": 16,
+          "n_heldout": 8,
+          "method": "deterministic seeded shuffle; partition stored, not recomputed"
+        },
+        "in_distribution_visible": {
+          "pairwise_decision_accuracy": 1.0,
+          "reliability_estimation_error_mae": 0.0,
+          "n_decidable_pairs": 6
+        },
+        "out_of_distribution_hidden": {
+          "stability": {
+            "std_all_configs": 0.05568,
+            "std_holdout_configs": 0.064064,
+            "spread_all_configs": 0.181487,
+            "n_holdout_configs": 8
+          },
+          "pair_flip_rates": [
+            {
+              "visible_model_index": 0,
+              "hidden_wins_fraction": 0.0,
+              "tie_fraction": 0.0,
+              "n_configs": 8
+            },
+            {
+              "visible_model_index": 1,
+              "hidden_wins_fraction": 0.0,
+              "tie_fraction": 0.0,
+              "n_configs": 8
+            },
+            {
+              "visible_model_index": 2,
+              "hidden_wins_fraction": 0.0,
+              "tie_fraction": 0.0,
+              "n_configs": 8
+            }
+          ],
+          "label": "OOD targets reported, not predicted (no cross-model estimator fitted)"
+        },
+        "power_note": "low-power probe with few models; descriptive only",
+        "provenance": "hidden model excluded from all fitting"
+      }
+    },
+    "base_seed": 0,
+    "note": "each budget uses a deterministic derived seed"
+  },
+  "summary": {
+    "random": {
+      "ranking_recovery@8": 1.0,
+      "ranking_recovery@12": 1.0
+    },
+    "ofat": {
+      "ranking_recovery@8": 1.0,
+      "ranking_recovery@12": 1.0
+    },
+    "apertus_r": {
+      "ranking_recovery@8": 1.0,
+      "ranking_recovery@12": 1.0
+    }
+  },
+  "heldout_recovery_trend": {
+    "4": {
+      "kendall_tau": 1.0
+    },
+    "8": {
+      "kendall_tau": 1.0
+    },
+    "12": {
+      "kendall_tau": 1.0
+    }
+  }
+}

@@ -184,3 +184,197 @@ def ers_ablation(
             ),
         }
     return {"ers": base["ers"], "drop_one": drops}
+# ---------------------------------------------------------------------------
+# The three stability types (research Phase 4)
+#
+# 1. SCORE stability    — how much the measured score varies (std/CV).
+# 2. RANKING stability  — how much model ordering varies (bootstrap tau).
+# 3. DECISION reliability — P(A > B | C ~ P(C)), the probability that a
+#    model comparison decision holds under the configuration distribution.
+# ---------------------------------------------------------------------------
+
+
+def pairwise_decision_reliability(
+    score_matrix: Sequence[Sequence[float | None]],
+    *,
+    n_boot: int = 1000,
+    seed: int = 0,
+    reference_ranking: Sequence[float] | None = None,
+) -> dict[str, Any]:
+    """Bootstrap estimate of P(A > B | C ~ P(C)) for every model pair.
+
+    Configurations are resampled WITH replacement (empirical configuration
+    distribution); for each replicate the per-model mean accuracy over the
+    resampled configs gives a pairwise winner. Ties are not wins (reported
+    separately as p_tie). ``p_win[i][j]`` = fraction of replicates where
+    model i beats model j.
+
+    ``reference_ranking`` (optional): per-model mean accuracy used to turn
+    pairwise probabilities into a decision-agreement score — the fraction of
+    reference-ordered pairs whose predicted winner matches the reference.
+    """
+    import random as _random
+
+    n_m = len(score_matrix)
+    if n_m < 2:
+        return {"n_models": n_m, "p_win": None, "p_tie": None,
+                "mean_decision_reliability": None,
+                "reason": "need >= 2 models"}
+    usable_idx = [
+        c for c in range(len(score_matrix[0]))
+        if all(score_matrix[m][c] is not None for m in range(n_m))
+    ]
+    if not usable_idx:
+        return {"n_models": n_m, "p_win": None, "p_tie": None,
+                "mean_decision_reliability": None,
+                "reason": "no configuration measured for all models"}
+    rng = _random.Random(seed)
+    wins = [[0] * n_m for _ in range(n_m)]
+    ties = [[0] * n_m for _ in range(n_m)]
+    for _ in range(n_boot):
+        sample = [rng.choice(usable_idx) for _ in usable_idx]
+        means = [
+            sum(score_matrix[m][c] for c in sample) / len(sample)
+            for m in range(n_m)
+        ]
+        for i in range(n_m):
+            for j in range(n_m):
+                if i == j:
+                    continue
+                if means[i] > means[j]:
+                    wins[i][j] += 1
+                elif means[i] == means[j]:
+                    ties[i][j] += 1
+    p_win = [
+        [round(wins[i][j] / n_boot, 4) if i != j else None for j in range(n_m)]
+        for i in range(n_m)
+    ]
+    p_tie = [
+        [round(ties[i][j] / n_boot, 4) if i != j else None for j in range(n_m)]
+        for i in range(n_m)
+    ]
+    # mean decisiveness across ordered pairs (excluding self-pairs)
+    ordered = [p_win[i][j] for i in range(n_m) for j in range(n_m) if i != j]
+    mean_dec = mean(ordered) if ordered else None
+
+    agreement = None
+    if reference_ranking is not None and len(reference_ranking) == n_m:
+        decision_agreements = []
+        for i in range(n_m):
+            for j in range(i + 1, n_m):
+                ref_i = reference_ranking[i]
+                ref_j = reference_ranking[j]
+                if ref_i == ref_j:
+                    continue
+                winner = i if ref_i > ref_j else j
+                decision_agreements.append(p_win[winner][i if winner == j else j])
+        agreement = round(mean(decision_agreements), 4) if decision_agreements else None
+
+    return {
+        "method": "config bootstrap, P(A>B | C ~ P_emp(C)); ties are not wins",
+        "n_models": n_m,
+        "n_configs_used": len(usable_idx),
+        "n_boot": n_boot,
+        "seed": seed,
+        "p_win": p_win,
+        "p_tie": p_tie,
+        "mean_pairwise_decisiveness": round(mean_dec, 4) if mean_dec is not None else None,
+        "decision_agreement_with_reference": agreement,
+        "assumption": "observed configurations treated as i.i.d. sample from P(C)",
+    }
+
+
+def decision_reliability(
+    score_matrix: Sequence[Sequence[float | None]],
+    model_a: int,
+    model_b: int,
+    *,
+    n_boot: int = 1000,
+    seed: int = 0,
+) -> float | None:
+    """DecisionReliability(A, B) = P(A > B | C ~ P(C)) for one ordered pair."""
+    out = pairwise_decision_reliability(
+        score_matrix, n_boot=n_boot, seed=seed
+    )
+    p_win = out.get("p_win")
+    if p_win is None:
+        return None
+    return p_win[model_a][model_b]
+
+
+def stability_profile(
+    score_matrix: Sequence[Sequence[float | None]],
+    *,
+    n_boot: int = 300,
+    seed: int = 0,
+    n_per_cell: int | None = None,
+) -> dict[str, Any]:
+    """One profile exposing the three stability types side by side.
+
+    1. score_stability      : per-model std + CV across configs; mean.
+    2. ranking_stability    : bootstrap Kendall-tau vs reference ranking
+                              (+ ERS bootstrap component).
+    3. decision_reliability : pairwise P(A>B) decisiveness + agreement with
+                              the reference (mean-accuracy) ranking.
+
+    Each type is reported separately and labeled; they are NOT interchangeable.
+    """
+    from apertus_eval_prep.stability import coef_of_variation, score_std
+
+    ref_acc = [
+        mean(s for s in row if s is not None)
+        for row in score_matrix
+        if any(s is not None for s in row)
+    ]
+    matrix = [
+        [row[c] if c < len(row) else None for c in range(len(score_matrix[0]))]
+        for row in score_matrix
+    ]
+    per_model: list[dict[str, Any]] = []
+    for m, row in enumerate(matrix):
+        vals = [float(v) for v in row if v is not None]
+        per_model.append({
+            "model_index": m,
+            "n_configs": len(vals),
+            "mean_score": round(mean(vals), 4) if vals else None,
+            "score_std": round(score_std(vals), 6) if score_std(vals) is not None else None,
+            "score_cv": round(coef_of_variation(vals), 6) if coef_of_variation(vals) is not None else None,
+        })
+    score_summary = {
+        "mean_within_model_std": round(
+            mean(p["score_std"] for p in per_model if p["score_std"] is not None), 6
+        ) if any(p["score_std"] is not None for p in per_model) else None,
+        "max_within_model_std": round(
+            max(p["score_std"] for p in per_model if p["score_std"] is not None), 6
+        ) if any(p["score_std"] is not None for p in per_model) else None,
+    }
+
+    ranking = bootstrap_ranking_stability(matrix, n_boot=n_boot, seed=seed)
+    decision = pairwise_decision_reliability(
+        matrix, n_boot=max(100, n_boot), seed=seed, reference_ranking=ref_acc
+    )
+    ers = evaluation_reliability_score(
+        matrix, n_per_cell=n_per_cell, n_boot=n_boot, seed=seed
+    )
+    return {
+        "stability_types": ["score", "ranking", "decision"],
+        "score_stability": {"per_model": per_model, "summary": score_summary},
+        "ranking_stability": {
+            "bootstrap_mean_tau": ranking.get("mean_tau"),
+            "p_any_reversal": ranking.get("p_any_reversal"),
+            "n_configs": ranking.get("n_configs"),
+        },
+        "decision_reliability": {
+            "mean_pairwise_decisiveness": decision.get("mean_pairwise_decisiveness"),
+            "decision_agreement_with_reference": decision.get("decision_agreement_with_reference"),
+            "p_win": decision.get("p_win"),
+        },
+        "ers_summary": {"ers": ers.get("ers"), "n_components": ers.get("n_components")},
+        "labels": {
+            "score": "MEASURED spread of scores across configurations",
+            "ranking": "DERIVED bootstrap rank agreement vs reference ranking",
+            "decision": "DERIVED P(A>B | C ~ P_emp(C)); provisional, not calibrated",
+        },
+        "provisional": True,
+    }
+    return p_win[model_a][model_b]

@@ -1,0 +1,41 @@
+% Full results text (chunk 1 of 3): control + prompt sensitivity.
+
+\section{Results: Score Sensitivity}
+\label{sec:results}
+
+\subsection{Control configuration}
+\label{sec:control}
+
+\cref{tab:control} reports the control accuracies. Phi-3.5-mini scores
+67.0\% and Qwen2.5-3B 64.4\%; their Wilson intervals overlap
+([63.7, 70.2] vs.\ [61.0, 67.6]). This overlap is descriptive;
+it does not establish equivalence or test the paired difference between
+the top two models. SmolLM2-1.7B (39.8\%) is separated from both. We
+emphasize this because the magnitude of every subsequent configuration
+effect should be read against a top-two gap that is itself small and
+interval-overlapping.
+
+\subsection{Prompt changes are the dominant factor}
+
+\cref{fig:prompt} and \cref{tab:sensitivity} give the central
+sensitivity result. The \emph{concise} prompt is harmful everywhere,
+and its harm is concentrated in generative math: SmolLM2-1.7B drops
+16.50\,\pp{} (39.75\% to 23.25\%), Qwen2.5-3B drops 13.13\,\pp{}
+(64.38\% to 51.25\%), and Phi-3.5-mini drops 8.13\,\pp{} (67.00\% to
+58.88\%). All three McNemar contrasts remain significant after Holm
+correction ($p<0.001$ adjusted), with small-to-medium effect sizes
+($h=-0.36$, $-0.27$, $-0.17$).
+
+The \emph{5-shot} prompt has model-dependent, sign-changing effects. It
+\emph{helps} Qwen2.5-3B ($+4.25$\,pp{} to 68.63\%; raw McNemar
+$p=0.0035$, not significant after Holm at $0.078$, significant under BH
+at $0.014$), \emph{hurts} SmolLM2-1.7B ($-5.50$\,pp{} to 34.25\%;
+Holm-adjusted $p=0.037$), and \emph{hurts} Phi-3.5-mini by
+10.63\,\pp{} (to 56.37\%; Holm-adjusted $p<0.001$). The same factor
+therefore moves different models in different directions---an
+interaction-shaped pattern that the OFAT design surfaces qualitatively
+but cannot estimate formally (\cref{sec:limitations}).
+
+Within a model, prompt configuration moves overall accuracy by up to
+17.4\,pp, about six times the 2.62\,pp control-configuration gap
+between the top two models.

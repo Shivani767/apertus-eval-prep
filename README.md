@@ -534,15 +534,23 @@ The paper experiment matrix currently tracks:
 | Paper matrix             | **31 / 34 cells** |
 | Completion               | **91.2%**         |
 | Remaining cells          | **3 (Phi `sampled` T=0.7 × 3)** |
-| Automated tests          | **124 passing**   |
+| Automated tests          | **231 passing**   |
 | Statistical methodology  | **Implemented**   |
 | Reproduction CLI         | **Available**     |
 | Result registry          | **Committed**     |
 | Paper artifacts          | **Committed**     |
 | Validation documentation | **Available**     |
 | Benchmark suite          | **Extended**      |
+| T4 factorial plan        | **Documented** ([`docs/t4_experiment_plan.md`](docs/t4_experiment_plan.md)) |
+| T4 runner + offline analyzer | **Implemented** (`scripts/run_t4_research.py`, `scripts/analyze_research_results.py`) |
+| Real-model T4 experiments | **Pending — researcher launches Colab/T4 manually** |
 
 > **Only committed measurements are reported as results. Pending cells remain explicitly incomplete.**
+>
+> **T4 phase status: infrastructure validated; synthetic pipeline validated
+> (clearly labeled `synthetic`, never used as evidence); real-model
+> experiments pending.** The staged plan, exact commands, and statistical
+> discipline for the real runs are in [`docs/t4_experiment_plan.md`](docs/t4_experiment_plan.md).
 
 Primary artifacts:
 
@@ -577,7 +585,7 @@ pytest -q
 Current validation:
 
 ```text
-124 tests passing
+231 tests passing
 ```
 
 ## Run a Smoke Evaluation
@@ -689,7 +697,7 @@ apertus-eval-prep/
 │       ├── report.py        # Report generation
 │       └── ...
 │
-├── tests/                   # Automated tests (124 passing)
+├── tests/                   # Automated tests (231 passing)
 │
 ├── CITATION.cff
 ├── Dockerfile

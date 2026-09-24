@@ -1,0 +1,57 @@
+% Full results text (chunk 2 of 3): quantization, backend, sampling, failures.
+
+\subsection{Quantization, backend, and sampling move scores little}
+\label{sec:sensitivity}
+
+Weight-only quantization changes scores by at most 2.87\,\pp{}
+(Phi-3.5-mini INT4: 67.00\% to 69.88\%, raw $p=0.037$; not significant
+after Holm, $p=0.736$). No quantization contrast survives family-wise
+correction. Switching to vLLM on identical prompts moves SmolLM2-1.7B
+by $+2.25$\,pp{} (raw $p=0.0036$; Holm $0.078$, BH $0.014$) and
+Qwen2.5-3B by $+2.37$\,pp{} (raw $p=0.038$), with Phi-3.5-mini
+unchanged ($+0.13$\,pp{}, $p=1.0$). The direction is consistent
+(vLLM $\ge$ HF in all three cases) but no backend contrast is
+significant after Holm correction. These small positive shifts are
+consistent with backend numerical differences on generative tasks of
+the kind documented for lm-eval \citep{biderman2024lessons}; at our
+scale they are suggestions, not established effects.
+
+Temperature-0.7 sampling (top-$p$ 0.95, three seeds) shifts net
+accuracy by at most 3.5\,pp relative to greedy (SmolLM2-1.7B: 39.75\%
+greedy vs.\ 36.25--39.00\% sampled; Qwen2.5-3B: 64.38\% greedy vs.\
+63.00--65.00\% sampled), while per-item disagreement against the
+control ranges from 9.9\% to 24.1\% across the six sampled contrasts.
+Sampling noise is therefore a high-churn, low-drift process whose net
+effect partially cancels. Under greedy decoding, changing the RNG seed
+is an exact no-op: all six greedy-seed contrasts are item-for-item
+identical to the control (0 discordant pairs out of 800 each), so
+greedy seed variation contributes exactly zero measured variance in
+this harness.
+
+\subsection{Failure analysis}
+\label{sec:failures}
+
+The failure analysis covers the shared greedy matrix only, excluding
+sampling and the single 7B cell. \cref{tab:failure-analysis} provides
+post-hoc output categories across all successful paper runs. It contains
+two outputs classified as unparseable in 19{,}200 scored item records
+(one SmolLM2 concise cell, one Phi INT8 cell), and zero classified empty
+outputs. These records reuse the same evaluation items across runs and are
+not independent examples. Rare recorded parse failures do not establish
+extractor validity: a plausible but incorrectly extracted answer may still
+be classified as \emph{wrong\_answer}. Runtime failures absent from
+completed-run artifacts cannot be counted from this analysis.
+
+\paragraph{Failure categories.} Representative failure modes include
+\textbf{format violations} (no extractable answer format produced),
+\textbf{wrong extraction} (correct reasoning but wrong final answer),
+\textbf{demonstration copying} (model echoes few-shot exemplars), and
+\textbf{empty/near-empty outputs} (very rare). See \cref{tab:failure-analysis}
+for examples and counts. The key observation is that parse failures are
+negligible ($\leq$3 out of 24,800), but extraction errors within parseable
+outputs are more common and may bias accuracy downward.
+
+The single Qwen2.5-7B cell (INT4) scores 67.88\% (543/800; Wilson
+[64.6, 71.0]). With no fp16 control for the 7B model we cannot
+attribute anything about quantization at 7B, and we do not rank this
+cell against other models.

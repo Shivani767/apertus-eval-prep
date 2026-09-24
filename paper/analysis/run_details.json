@@ -1,0 +1,3093 @@
+[
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+    "manifest": {
+      "utc": "2026-08-20T15:58:16Z",
+      "git_commit": "ec364b645b1d3d09c3eeec3247d65a819e37872b",
+      "git_dirty": false,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.12.13",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_control_control_24ffe98d9250761d",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 144,
+        "accuracy": 0.72,
+        "accuracy_ci95": [
+          0.6540769541334948,
+          0.7776311022605082
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 64,
+        "accuracy": 0.32,
+        "accuracy_ci95": [
+          0.25926533315468203,
+          0.3875189843411335
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 66,
+        "accuracy": 0.33,
+        "accuracy_ci95": [
+          0.26857425870604107,
+          0.3978331522622292
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 44,
+        "accuracy": 0.22,
+        "accuracy_ci95": [
+          0.16816538358833386,
+          0.2823879991829349
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 318,
+        "accuracy": 0.3975,
+        "accuracy_ci95": [
+          0.3641556668528594,
+          0.4318240027693043
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+    "manifest": {
+      "utc": "2026-08-20T17:31:17Z",
+      "git_commit": "ec364b645b1d3d09c3eeec3247d65a819e37872b",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.12.13",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_control_control_cff017903a47abb9",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 192,
+        "accuracy": 0.96,
+        "accuracy_ci95": [
+          0.9230679317990683,
+          0.9795943679338474
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 85,
+        "accuracy": 0.425,
+        "accuracy_ci95": [
+          0.3585361254351403,
+          0.49429067352144956
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 154,
+        "accuracy": 0.77,
+        "accuracy_ci95": [
+          0.706916956346966,
+          0.8229065674093107
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 84,
+        "accuracy": 0.42,
+        "accuracy_ci95": [
+          0.353735991616169,
+          0.48927926060419347
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 515,
+        "accuracy": 0.64375,
+        "accuracy_ci95": [
+          0.6099505015531839,
+          0.6761755715376845
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+    "manifest": {
+      "utc": "2026-08-22T16:19:31Z",
+      "git_commit": "6c8c9c433e0076203fdbcaa6b40b886f002f9203",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_control_control_31791224954ba45c",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 197,
+        "accuracy": 0.985,
+        "accuracy_ci95": [
+          0.9568342712073108,
+          0.9948857622067415
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 95,
+        "accuracy": 0.475,
+        "accuracy_ci95": [
+          0.4069162264657127,
+          0.5440260398531506
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 160,
+        "accuracy": 0.8,
+        "accuracy_ci95": [
+          0.7391448134346231,
+          0.8495479907390177
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 84,
+        "accuracy": 0.42,
+        "accuracy_ci95": [
+          0.353735991616169,
+          0.48927926060419347
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 536,
+        "accuracy": 0.67,
+        "accuracy_ci95": [
+          0.636671909637674,
+          0.7017032724523965
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_prompt_id_concise_a0852ca6fc3e5c08",
+    "manifest": {
+      "utc": "2026-08-22T16:50:54Z",
+      "git_commit": "6c8c9c433e0076203fdbcaa6b40b886f002f9203",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "concise",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_prompt_id_concise_a0852ca6fc3e5c08",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 113,
+        "accuracy": 0.565,
+        "accuracy_ci95": [
+          0.4957073625979479,
+          0.6318427449730074
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 10,
+        "accuracy": 0.05,
+        "accuracy_ci95": [
+          0.027382645600764376,
+          0.08957814813877463
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 54,
+        "accuracy": 0.27,
+        "accuracy_ci95": [
+          0.21323449814685985,
+          0.3354343519866823
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 9,
+        "accuracy": 0.045,
+        "accuracy_ci95": [
+          0.023852543001493396,
+          0.08329670400181825
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 186,
+        "accuracy": 0.2325,
+        "accuracy_ci95": [
+          0.20454831743025073,
+          0.2630083813397859
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_prompt_id_5shot_b6968af4b73708f7",
+    "manifest": {
+      "utc": "2026-08-22T17:51:38Z",
+      "git_commit": "6c8c9c433e0076203fdbcaa6b40b886f002f9203",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "5shot",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_prompt_id_5shot_b6968af4b73708f7",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 122,
+        "accuracy": 0.61,
+        "accuracy_ci95": [
+          0.5409374595716995,
+          0.6749165686253021
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 56,
+        "accuracy": 0.28,
+        "accuracy_ci95": [
+          0.22236889773949173,
+          0.34592304586650513
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 52,
+        "accuracy": 0.26,
+        "accuracy_ci95": [
+          0.20413830063574823,
+          0.3249074560253392
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 44,
+        "accuracy": 0.22,
+        "accuracy_ci95": [
+          0.16816538358833386,
+          0.2823879991829349
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 274,
+        "accuracy": 0.3425,
+        "accuracy_ci95": [
+          0.31043896290752004,
+          0.3760663830972679
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-7B-Instruct_quantization_int4_22a6a0a56a69a1cb",
+    "manifest": {
+      "utc": "2026-08-22T20:19:34Z",
+      "git_commit": "8555f7f25375a0fcd913d5ee3ffa825eb4361e97",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int4",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-7B-Instruct_quantization_int4_22a6a0a56a69a1cb",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 199,
+        "accuracy": 0.995,
+        "accuracy_ci95": [
+          0.9722262956021082,
+          0.999116831284399
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 89,
+        "accuracy": 0.445,
+        "accuracy_ci95": [
+          0.3778060100295353,
+          0.5142669758719639
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 157,
+        "accuracy": 0.785,
+        "accuracy_ci95": [
+          0.7229769265100358,
+          0.836281237454923
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 98,
+        "accuracy": 0.49,
+        "accuracy_ci95": [
+          0.4215627833121336,
+          0.5588141232154117
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 543,
+        "accuracy": 0.67875,
+        "accuracy_ci95": [
+          0.6456040402713695,
+          0.7101875114851014
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_prompt_id_concise_e4980863069a102c",
+    "manifest": {
+      "utc": "2026-08-22T18:41:25Z",
+      "git_commit": "ebf46a0d477ec55f8229a3cbc80d709305fee6c2",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "concise",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_prompt_id_concise_e4980863069a102c",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 195,
+        "accuracy": 0.975,
+        "accuracy_ci95": [
+          0.9428216595933592,
+          0.9892752803482385
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 30,
+        "accuracy": 0.15,
+        "accuracy_ci95": [
+          0.10713593562242096,
+          0.20605579284166492
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 157,
+        "accuracy": 0.785,
+        "accuracy_ci95": [
+          0.7229769265100358,
+          0.836281237454923
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 28,
+        "accuracy": 0.14,
+        "accuracy_ci95": [
+          0.09866982633455731,
+          0.1948988086570739
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 410,
+        "accuracy": 0.5125,
+        "accuracy_ci95": [
+          0.4778863073941623,
+          0.5469942207006958
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_prompt_id_5shot_8b703d7cb8d9627a",
+    "manifest": {
+      "utc": "2026-08-22T20:25:14Z",
+      "git_commit": "ebf46a0d477ec55f8229a3cbc80d709305fee6c2",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "5shot",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_prompt_id_5shot_8b703d7cb8d9627a",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 192,
+        "accuracy": 0.96,
+        "accuracy_ci95": [
+          0.9230679317990683,
+          0.9795943679338474
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 107,
+        "accuracy": 0.535,
+        "accuracy_ci95": [
+          0.4658664687236334,
+          0.6028143584299581
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 146,
+        "accuracy": 0.73,
+        "accuracy_ci95": [
+          0.6645656480133176,
+          0.7867655018531402
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 104,
+        "accuracy": 0.52,
+        "accuracy_ci95": [
+          0.4510378507281443,
+          0.5882083362167652
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 549,
+        "accuracy": 0.68625,
+        "accuracy_ci95": [
+          0.6532704261618352,
+          0.7174494424515507
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Phi-3.5-mini-instruct_prompt_id_concise_37963fc49f7e8eca",
+    "manifest": {
+      "utc": "2026-08-23T14:48:10Z",
+      "git_commit": "33c582c7de8dd18bc78f05c803b353dbd1808c22",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "concise",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_prompt_id_concise_37963fc49f7e8eca",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 197,
+        "accuracy": 0.985,
+        "accuracy_ci95": [
+          0.9568342712073108,
+          0.9948857622067415
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 59,
+        "accuracy": 0.295,
+        "accuracy_ci95": [
+          0.23613943856849295,
+          0.36158714524618585
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 159,
+        "accuracy": 0.795,
+        "accuracy_ci95": [
+          0.7337430194757767,
+          0.8451382379616367
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 56,
+        "accuracy": 0.28,
+        "accuracy_ci95": [
+          0.22236889773949173,
+          0.34592304586650513
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 471,
+        "accuracy": 0.58875,
+        "accuracy_ci95": [
+          0.5543073824635119,
+          0.6223443670099806
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Phi-3.5-mini-instruct_prompt_id_5shot_e8c0aa94458abbd2",
+    "manifest": {
+      "utc": "2026-08-23T17:03:53Z",
+      "git_commit": "33c582c7de8dd18bc78f05c803b353dbd1808c22",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "5shot",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_prompt_id_5shot_e8c0aa94458abbd2",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 68,
+        "accuracy": 0.34,
+        "accuracy_ci95": [
+          0.27791545970908954,
+          0.40811504473163546
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 140,
+        "accuracy": 0.7,
+        "accuracy_ci95": [
+          0.6332093162728093,
+          0.7592525531762845
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 138,
+        "accuracy": 0.69,
+        "accuracy_ci95": [
+          0.6228282243374215,
+          0.7500105516392175
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 105,
+        "accuracy": 0.525,
+        "accuracy_ci95": [
+          0.4559739601468495,
+          0.5930837735342874
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 451,
+        "accuracy": 0.56375,
+        "accuracy_ci95": [
+          0.5291613822633638,
+          0.5977293110204125
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_quantization_int8_46dd44d463433c26",
+    "manifest": {
+      "utc": "2026-08-23T18:33:54Z",
+      "git_commit": "580ab82775b16407d5a97073de7c9df7883d0612",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int8",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_quantization_int8_46dd44d463433c26",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 145,
+        "accuracy": 0.725,
+        "accuracy_ci95": [
+          0.6593166064233054,
+          0.7822029967069251
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 71,
+        "accuracy": 0.355,
+        "accuracy_ci95": [
+          0.29198627540431327,
+          0.42347886924509376
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 72,
+        "accuracy": 0.36,
+        "accuracy_ci95": [
+          0.296691973045667,
+          0.4285847183399673
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 46,
+        "accuracy": 0.23,
+        "accuracy_ci95": [
+          0.17709343259068935,
+          0.29308304365303406
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 334,
+        "accuracy": 0.4175,
+        "accuracy_ci95": [
+          0.38380102828101476,
+          0.4519874862929218
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_quantization_int4_72ac0b51cec27817",
+    "manifest": {
+      "utc": "2026-08-23T19:47:15Z",
+      "git_commit": "580ab82775b16407d5a97073de7c9df7883d0612",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int4",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_quantization_int4_72ac0b51cec27817",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 136,
+        "accuracy": 0.68,
+        "accuracy_ci95": [
+          0.6124810156588666,
+          0.740734666845318
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 65,
+        "accuracy": 0.325,
+        "accuracy_ci95": [
+          0.2639157153923445,
+          0.3926801488396985
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 64,
+        "accuracy": 0.32,
+        "accuracy_ci95": [
+          0.25926533315468203,
+          0.3875189843411335
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 44,
+        "accuracy": 0.22,
+        "accuracy_ci95": [
+          0.16816538358833386,
+          0.2823879991829349
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 309,
+        "accuracy": 0.38625,
+        "accuracy_ci95": [
+          0.35313085260715366,
+          0.4204563417296377
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_backend_vllm_8b096c40a70ae947",
+    "manifest": {
+      "utc": "2026-08-24T12:41:21Z",
+      "git_commit": "58dcd892f836c0d57cc8b783c571b220b729dce5",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.24.0+cu129",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "vllm",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_backend_vllm_8b096c40a70ae947",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 145,
+        "accuracy": 0.725,
+        "accuracy_ci95": [
+          0.6593166064233054,
+          0.7822029967069251
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 73,
+        "accuracy": 0.365,
+        "accuracy_ci95": [
+          0.30140526464926964,
+          0.433682973472592
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 71,
+        "accuracy": 0.355,
+        "accuracy_ci95": [
+          0.29198627540431327,
+          0.42347886924509376
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 47,
+        "accuracy": 0.235,
+        "accuracy_ci95": [
+          0.18157433415232718,
+          0.2984136888276235
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 336,
+        "accuracy": 0.42,
+        "accuracy_ci95": [
+          0.38626075672160803,
+          0.4545038634713002
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_backend_vllm_d504f107b78b6804",
+    "manifest": {
+      "utc": "2026-08-24T15:22:26Z",
+      "git_commit": "58dcd892f836c0d57cc8b783c571b220b729dce5",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.24.0+cu129",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "vllm",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_backend_vllm_d504f107b78b6804",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 193,
+        "accuracy": 0.965,
+        "accuracy_ci95": [
+          0.9295293884777106,
+          0.9829444579914325
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 83,
+        "accuracy": 0.415,
+        "accuracy_ci95": [
+          0.3489428544975775,
+          0.48426085098655763
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 155,
+        "accuracy": 0.775,
+        "accuracy_ci95": [
+          0.7122587676433965,
+          0.8273763028491075
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 103,
+        "accuracy": 0.515,
+        "accuracy_ci95": [
+          0.44610849192745905,
+          0.583326148281223
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 534,
+        "accuracy": 0.6675,
+        "accuracy_ci95": [
+          0.634122208005621,
+          0.6992768684654775
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_seed_1_4ae7b5af354b3423",
+    "manifest": {
+      "utc": "2026-08-24T17:38:41Z",
+      "git_commit": "33bcec9fb66dc75dc6c5a40774994bacb0d8c009",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 1,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_seed_1_4ae7b5af354b3423",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 144,
+        "accuracy": 0.72,
+        "accuracy_ci95": [
+          0.6540769541334948,
+          0.7776311022605082
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 64,
+        "accuracy": 0.32,
+        "accuracy_ci95": [
+          0.25926533315468203,
+          0.3875189843411335
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 66,
+        "accuracy": 0.33,
+        "accuracy_ci95": [
+          0.26857425870604107,
+          0.3978331522622292
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 44,
+        "accuracy": 0.22,
+        "accuracy_ci95": [
+          0.16816538358833386,
+          0.2823879991829349
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 318,
+        "accuracy": 0.3975,
+        "accuracy_ci95": [
+          0.3641556668528594,
+          0.4318240027693043
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_seed_2_5041b3a8bf44df73",
+    "manifest": {
+      "utc": "2026-08-24T18:34:32Z",
+      "git_commit": "33bcec9fb66dc75dc6c5a40774994bacb0d8c009",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 2,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_seed_2_5041b3a8bf44df73",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 144,
+        "accuracy": 0.72,
+        "accuracy_ci95": [
+          0.6540769541334948,
+          0.7776311022605082
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 64,
+        "accuracy": 0.32,
+        "accuracy_ci95": [
+          0.25926533315468203,
+          0.3875189843411335
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 66,
+        "accuracy": 0.33,
+        "accuracy_ci95": [
+          0.26857425870604107,
+          0.3978331522622292
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 44,
+        "accuracy": 0.22,
+        "accuracy_ci95": [
+          0.16816538358833386,
+          0.2823879991829349
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 318,
+        "accuracy": 0.3975,
+        "accuracy_ci95": [
+          0.3641556668528594,
+          0.4318240027693043
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Phi-3.5-mini-instruct_backend_vllm_e796a0ecee505133",
+    "manifest": {
+      "utc": "2026-08-25T11:47:23Z",
+      "git_commit": "0022b2bed8a91e4d9a121763610f073e76dcb53a",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.24.0+cu129",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "vllm",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_backend_vllm_e796a0ecee505133",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 198,
+        "accuracy": 0.99,
+        "accuracy_ci95": [
+          0.9642782382838243,
+          0.9972533418664554
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 89,
+        "accuracy": 0.445,
+        "accuracy_ci95": [
+          0.3778060100295353,
+          0.5142669758719639
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 160,
+        "accuracy": 0.8,
+        "accuracy_ci95": [
+          0.7391448134346231,
+          0.8495479907390177
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 90,
+        "accuracy": 0.45,
+        "accuracy_ci95": [
+          0.38264068402248536,
+          0.5192438486152413
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 537,
+        "accuracy": 0.67125,
+        "accuracy_ci95": [
+          0.6379471474726961,
+          0.7029160874268601
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_seed_1_e8b596c4b1a8a527",
+    "manifest": {
+      "utc": "2026-08-26T17:30:45Z",
+      "git_commit": "f76d8f7e89876303f4bd1a2f20c06926bce1d059",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 1,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_seed_1_e8b596c4b1a8a527",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 192,
+        "accuracy": 0.96,
+        "accuracy_ci95": [
+          0.9230679317990683,
+          0.9795943679338474
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 85,
+        "accuracy": 0.425,
+        "accuracy_ci95": [
+          0.3585361254351403,
+          0.49429067352144956
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 154,
+        "accuracy": 0.77,
+        "accuracy_ci95": [
+          0.706916956346966,
+          0.8229065674093107
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 84,
+        "accuracy": 0.42,
+        "accuracy_ci95": [
+          0.353735991616169,
+          0.48927926060419347
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 515,
+        "accuracy": 0.64375,
+        "accuracy_ci95": [
+          0.6099505015531839,
+          0.6761755715376845
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_seed_2_02eb0dd059805c38",
+    "manifest": {
+      "utc": "2026-08-26T18:59:46Z",
+      "git_commit": "f76d8f7e89876303f4bd1a2f20c06926bce1d059",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.0",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 2,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_seed_2_02eb0dd059805c38",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 192,
+        "accuracy": 0.96,
+        "accuracy_ci95": [
+          0.9230679317990683,
+          0.9795943679338474
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 85,
+        "accuracy": 0.425,
+        "accuracy_ci95": [
+          0.3585361254351403,
+          0.49429067352144956
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 154,
+        "accuracy": 0.77,
+        "accuracy_ci95": [
+          0.706916956346966,
+          0.8229065674093107
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 84,
+        "accuracy": 0.42,
+        "accuracy_ci95": [
+          0.353735991616169,
+          0.48927926060419347
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 515,
+        "accuracy": 0.64375,
+        "accuracy_ci95": [
+          0.6099505015531839,
+          0.6761755715376845
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_quantization_int8_6355a02b3f243353",
+    "manifest": {
+      "utc": "2026-08-28T16:12:20Z",
+      "git_commit": "1c8a4dabafb1eda3b03a85674059e8d2e383b0b5",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int8",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_quantization_int8_6355a02b3f243353",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 192,
+        "accuracy": 0.96,
+        "accuracy_ci95": [
+          0.9230679317990683,
+          0.9795943679338474
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 88,
+        "accuracy": 0.44,
+        "accuracy_ci95": [
+          0.37297819251186043,
+          0.5092832466534114
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 147,
+        "accuracy": 0.735,
+        "accuracy_ci95": [
+          0.6698242380737778,
+          0.7913184585289075
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 91,
+        "accuracy": 0.455,
+        "accuracy_ci95": [
+          0.3874821930988368,
+          0.5242138862751171
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 518,
+        "accuracy": 0.6475,
+        "accuracy_ci95": [
+          0.6137611107381477,
+          0.6798291207811779
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_quantization_int4_f9457562c8aec49f",
+    "manifest": {
+      "utc": "2026-08-28T18:13:48Z",
+      "git_commit": "1c8a4dabafb1eda3b03a85674059e8d2e383b0b5",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.2.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int4",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_quantization_int4_f9457562c8aec49f",
+        "paraphrase_id": "orig",
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 192,
+        "accuracy": 0.96,
+        "accuracy_ci95": [
+          0.9230679317990683,
+          0.9795943679338474
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 90,
+        "accuracy": 0.45,
+        "accuracy_ci95": [
+          0.38264068402248536,
+          0.5192438486152413
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 138,
+        "accuracy": 0.69,
+        "accuracy_ci95": [
+          0.6228282243374215,
+          0.7500105516392175
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 105,
+        "accuracy": 0.525,
+        "accuracy_ci95": [
+          0.4559739601468495,
+          0.5930837735342874
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 525,
+        "accuracy": 0.65625,
+        "accuracy_ci95": [
+          0.6226611808522248,
+          0.6883454203335017
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Phi-3.5-mini-instruct_seed_1_f6611690d3503f3e",
+    "manifest": {
+      "utc": "2026-08-29T08:30:04Z",
+      "git_commit": "fba3f21c5627c71f1b7803954e5113b3a603918e",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 1,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_seed_1_f6611690d3503f3e",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 197,
+        "accuracy": 0.985,
+        "accuracy_ci95": [
+          0.9568342712073108,
+          0.9948857622067415
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 95,
+        "accuracy": 0.475,
+        "accuracy_ci95": [
+          0.4069162264657127,
+          0.5440260398531506
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 160,
+        "accuracy": 0.8,
+        "accuracy_ci95": [
+          0.7391448134346231,
+          0.8495479907390177
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 84,
+        "accuracy": 0.42,
+        "accuracy_ci95": [
+          0.353735991616169,
+          0.48927926060419347
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 536,
+        "accuracy": 0.67,
+        "accuracy_ci95": [
+          0.636671909637674,
+          0.7017032724523965
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Phi-3.5-mini-instruct_seed_2_8e8f4b3cb10595a4",
+    "manifest": {
+      "utc": "2026-08-29T10:17:08Z",
+      "git_commit": "fba3f21c5627c71f1b7803954e5113b3a603918e",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 2,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_seed_2_8e8f4b3cb10595a4",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 197,
+        "accuracy": 0.985,
+        "accuracy_ci95": [
+          0.9568342712073108,
+          0.9948857622067415
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 95,
+        "accuracy": 0.475,
+        "accuracy_ci95": [
+          0.4069162264657127,
+          0.5440260398531506
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 160,
+        "accuracy": 0.8,
+        "accuracy_ci95": [
+          0.7391448134346231,
+          0.8495479907390177
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 84,
+        "accuracy": 0.42,
+        "accuracy_ci95": [
+          0.353735991616169,
+          0.48927926060419347
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 536,
+        "accuracy": 0.67,
+        "accuracy_ci95": [
+          0.636671909637674,
+          0.7017032724523965
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Phi-3.5-mini-instruct_quantization_int8_cfd71ce6317d4a54",
+    "manifest": {
+      "utc": "2026-09-10T11:06:25Z",
+      "git_commit": "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.16.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int8",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_quantization_int8_cfd71ce6317d4a54",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 196,
+        "accuracy": 0.98,
+        "accuracy_ci95": [
+          0.9497129130941747,
+          0.9921955735836504
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 92,
+        "accuracy": 0.46,
+        "accuracy_ci95": [
+          0.3923305179997165,
+          0.5291771081104648
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 158,
+        "accuracy": 0.79,
+        "accuracy_ci95": [
+          0.7283538314009772,
+          0.8407158793002087
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 92,
+        "accuracy": 0.46,
+        "accuracy_ci95": [
+          0.3923305179997165,
+          0.5291771081104648
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 538,
+        "accuracy": 0.6725,
+        "accuracy_ci95": [
+          0.6392226443108979,
+          0.704128643398144
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83",
+    "manifest": {
+      "utc": "2026-09-10T13:27:18Z",
+      "git_commit": "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.16.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "microsoft/Phi-3.5-mini-instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "int4",
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Phi-3.5-mini-instruct_quantization_int4_17c798b9a52bef83",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 196,
+        "accuracy": 0.98,
+        "accuracy_ci95": [
+          0.9497129130941747,
+          0.9921955735836504
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 104,
+        "accuracy": 0.52,
+        "accuracy_ci95": [
+          0.4510378507281443,
+          0.5882083362167652
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 156,
+        "accuracy": 0.78,
+        "accuracy_ci95": [
+          0.7176120008170652,
+          0.8318346164116661
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 103,
+        "accuracy": 0.515,
+        "accuracy_ci95": [
+          0.44610849192745905,
+          0.583326148281223
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 559,
+        "accuracy": 0.69875,
+        "accuracy_ci95": [
+          0.6660693285666863,
+          0.7295310681415574
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed0_9ab2746ead7e2cb9",
+    "manifest": {
+      "utc": "2026-08-30T13:32:11Z",
+      "git_commit": "039cf37e32d8f33d11c276949cf74204bcd4df13",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed0_9ab2746ead7e2cb9",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 115,
+        "accuracy": 0.575,
+        "accuracy_ci95": [
+          0.5057093264785504,
+          0.6414638745648598
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 61,
+        "accuracy": 0.305,
+        "accuracy_ci95": [
+          0.2453641563073518,
+          0.3719855209797817
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 61,
+        "accuracy": 0.305,
+        "accuracy_ci95": [
+          0.2453641563073518,
+          0.3719855209797817
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 53,
+        "accuracy": 0.265,
+        "accuracy_ci95": [
+          0.20868154147109252,
+          0.33017576192622233
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 290,
+        "accuracy": 0.3625,
+        "accuracy_ci95": [
+          0.3299185606486138,
+          0.3963956303079471
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed1_b3a50eddee120ab8",
+    "manifest": {
+      "utc": "2026-08-30T14:26:19Z",
+      "git_commit": "039cf37e32d8f33d11c276949cf74204bcd4df13",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 1,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed1_b3a50eddee120ab8",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 118,
+        "accuracy": 0.59,
+        "accuracy_ci95": [
+          0.5207645903369228,
+          0.6558432509151694
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 64,
+        "accuracy": 0.32,
+        "accuracy_ci95": [
+          0.25926533315468203,
+          0.3875189843411335
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 74,
+        "accuracy": 0.37,
+        "accuracy_ci95": [
+          0.3061260840985929,
+          0.4387737007594962
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 45,
+        "accuracy": 0.225,
+        "accuracy_ci95": [
+          0.1726236971508926,
+          0.2877412323566035
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 301,
+        "accuracy": 0.37625,
+        "accuracy_ci95": [
+          0.3433468374211174,
+          0.41033593443978744
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed2_9544473e05a6b577",
+    "manifest": {
+      "utc": "2026-08-30T15:19:55Z",
+      "git_commit": "039cf37e32d8f33d11c276949cf74204bcd4df13",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.15.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 2,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "SmolLM2-1.7B-Instruct_sampled_t0.7_seed2_9544473e05a6b577",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 131,
+        "accuracy": 0.655,
+        "accuracy_ci95": [
+          0.5867558925905387,
+          0.717402056232509
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 66,
+        "accuracy": 0.33,
+        "accuracy_ci95": [
+          0.26857425870604107,
+          0.3978331522622292
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 68,
+        "accuracy": 0.34,
+        "accuracy_ci95": [
+          0.27791545970908954,
+          0.40811504473163546
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 47,
+        "accuracy": 0.235,
+        "accuracy_ci95": [
+          0.18157433415232718,
+          0.2984136888276235
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 312,
+        "accuracy": 0.39,
+        "accuracy_ci95": [
+          0.35680371047033643,
+          0.4242476422949124
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed0_5ca15230e22b3837",
+    "manifest": {
+      "utc": "2026-09-10T12:06:33Z",
+      "git_commit": "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.16.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 0,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed0_5ca15230e22b3837",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 192,
+        "accuracy": 0.96,
+        "accuracy_ci95": [
+          0.9230679317990683,
+          0.9795943679338474
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 77,
+        "accuracy": 0.385,
+        "accuracy_ci95": [
+          0.32033309726923387,
+          0.4540013277975372
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 156,
+        "accuracy": 0.78,
+        "accuracy_ci95": [
+          0.7176120008170652,
+          0.8318346164116661
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 89,
+        "accuracy": 0.445,
+        "accuracy_ci95": [
+          0.3778060100295353,
+          0.5142669758719639
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 514,
+        "accuracy": 0.6425,
+        "accuracy_ci95": [
+          0.6086807883468786,
+          0.6749572319345039
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed1_535c365ca69c6f1f",
+    "manifest": {
+      "utc": "2026-09-10T13:41:08Z",
+      "git_commit": "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.16.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 1,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed1_535c365ca69c6f1f",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 192,
+        "accuracy": 0.96,
+        "accuracy_ci95": [
+          0.9230679317990683,
+          0.9795943679338474
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 86,
+        "accuracy": 0.43,
+        "accuracy_ci95": [
+          0.36334322333434593,
+          0.49929512235847123
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 157,
+        "accuracy": 0.785,
+        "accuracy_ci95": [
+          0.7229769265100358,
+          0.836281237454923
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 85,
+        "accuracy": 0.425,
+        "accuracy_ci95": [
+          0.3585361254351403,
+          0.49429067352144956
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 520,
+        "accuracy": 0.65,
+        "accuracy_ci95": [
+          0.6163027473454666,
+          0.6822635897928307
+        ]
+      }
+    }
+  },
+  {
+    "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed2_125dd27f9eac822d",
+    "manifest": {
+      "utc": "2026-09-10T15:14:54Z",
+      "git_commit": "daa243d6212bedbd692484b30fe77d6512f7cbe1",
+      "git_dirty": true,
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.16.1",
+        "vllm": "0.26.0",
+        "apertus_eval_prep": "0.4.0"
+      },
+      "hardware": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "python": "3.13.15",
+        "gpu": "Tesla T4",
+        "cuda": true
+      },
+      "settings": {
+        "model_id": "Qwen/Qwen2.5-3B-Instruct",
+        "tokenizer_id": null,
+        "revision": null,
+        "backend": "hf",
+        "chat_template": "tokenizer",
+        "system_prompt": null,
+        "max_new_tokens": 256,
+        "seed": 2,
+        "dtype": "auto",
+        "data_path": "data/official/eval_set.jsonl",
+        "tasks": [
+          "arc_easy",
+          "gsm8k",
+          "hellaswag",
+          "mgsm"
+        ],
+        "limit": null,
+        "batch_size": 1,
+        "quantization": "none",
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "prompt_id": "default",
+        "fewshot_path": "data/official/fewshot.jsonl",
+        "experiment_id": "stability",
+        "run_id": "Qwen2.5-3B-Instruct_sampled_t0.7_seed2_125dd27f9eac822d",
+        "paraphrase_id": "orig",
+        "thinking_mode": false,
+        "cost_per_1m_input_tokens": null,
+        "cost_per_1m_output_tokens": null,
+        "device": "cuda"
+      }
+    },
+    "tasks": {
+      "arc_easy": {
+        "n": 200,
+        "correct": 192,
+        "accuracy": 0.96,
+        "accuracy_ci95": [
+          0.9230679317990683,
+          0.9795943679338474
+        ]
+      },
+      "gsm8k": {
+        "n": 200,
+        "correct": 67,
+        "accuracy": 0.335,
+        "accuracy_ci95": [
+          0.2732408697841648,
+          0.4029780879203329
+        ]
+      },
+      "hellaswag": {
+        "n": 200,
+        "correct": 152,
+        "accuracy": 0.76,
+        "accuracy_ci95": [
+          0.6962665902079601,
+          0.8139338400758618
+        ]
+      },
+      "mgsm": {
+        "n": 200,
+        "correct": 93,
+        "accuracy": 0.465,
+        "accuracy_ci95": [
+          0.397185641570042,
+          0.5341335312763666
+        ]
+      },
+      "overall": {
+        "n": 800,
+        "correct": 504,
+        "accuracy": 0.63,
+        "accuracy_ci95": [
+          0.5959969846064913,
+          0.662760507580033
+        ]
+      }
+    }
+  }
+]
