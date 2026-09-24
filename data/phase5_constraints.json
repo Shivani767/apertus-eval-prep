@@ -1,0 +1,7 @@
+{
+  "min_quality": 0.80,
+  "min_groundedness": 0.80,
+  "max_p95_latency_ms": 200.0,
+  "max_cost_per_success": 0.008,
+  "max_variance": 0.025
+}

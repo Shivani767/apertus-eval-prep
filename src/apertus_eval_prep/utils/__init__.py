@@ -1,0 +1,83 @@
+"""Shared utilities: hashing, serialization, PII redaction, environment, logging."""
+
+from __future__ import annotations
+
+from apertus_eval_prep.utils.environment import environment_snapshot, git_metadata
+from apertus_eval_prep.utils.hashing import (
+    canonical_json,
+    hash_bytes,
+    hash_file,
+    hash_text,
+    short_id,
+    stable_hash,
+    hash_config,
+    hash_dataset,
+    hash_prompt,
+    hash_task,
+)
+from apertus_eval_prep.utils.logging_utils import StructuredLogger, get_logger
+from apertus_eval_prep.utils.pii import (
+    DEFAULT_POLICY,
+    RedactionPolicy,
+    RedactionReport,
+    detect_sensitive,
+    redact_for_artifact,
+    redact_structure,
+    redact_text,
+    redact_text_for_artifact,
+    redact_text_for_report,
+    sanitize_for_report,
+    truncate_text,
+)
+from apertus_eval_prep.utils.serialization import (
+    append_jsonl,
+    atomic_write_text,
+    read_json,
+    read_jsonl,
+    read_text,
+    read_yaml,
+    to_jsonable,
+    write_json,
+    write_jsonl,
+    write_text,
+    write_yaml,
+)
+
+__all__ = [
+    "DEFAULT_POLICY",
+    "RedactionPolicy",
+    "RedactionReport",
+    "StructuredLogger",
+    "append_jsonl",
+    "atomic_write_text",
+    "canonical_json",
+    "detect_sensitive",
+    "environment_snapshot",
+    "get_logger",
+    "git_metadata",
+    "hash_bytes",
+    "hash_file",
+    "hash_text",
+    "hash_config",
+    "hash_dataset",
+    "hash_prompt",
+    "hash_task",
+    "read_json",
+    "read_jsonl",
+    "read_text",
+    "read_yaml",
+    "redact_structure",
+    "redact_text",
+    "redact_for_artifact",
+    "redact_text_for_artifact",
+    "redact_text_for_report",
+    "sanitize_for_report",
+    "short_id",
+    "stable_hash",
+    "to_jsonable",
+    "truncate_text",
+    "write_json",
+    "write_jsonl",
+    "write_text",
+    "write_yaml",
+]

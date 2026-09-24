@@ -1,5 +1,8 @@
 import pytest
 
+pytest.importorskip("torch")
+pytest.importorskip("transformers")
+
 from apertus_eval_prep.backends.hf import load_dtype, resolve_dtype, suppress_quantization_warnings
 from apertus_eval_prep.backends.hf_load import load_causal_lm, patch_stale_cache_api
 from apertus_eval_prep.config import RunConfig

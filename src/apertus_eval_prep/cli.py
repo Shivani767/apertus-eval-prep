@@ -514,6 +514,140 @@ def cmd_experiment(args: argparse.Namespace) -> int:
     return 0
 
 
+def _platform_config(args: argparse.Namespace):
+    from apertus_eval_prep.core.config import load_run_spec
+
+    overrides = {}
+    for item in getattr(args, "set", None) or []:
+        if "=" not in item:
+            raise SystemExit(f"--set expects dotted.path=value, got {item!r}")
+        key, value = item.split("=", 1)
+        try:
+            overrides[key] = json.loads(value)
+        except json.JSONDecodeError:
+            overrides[key] = value
+    spec = load_run_spec(Path(args.config), overrides)
+    if getattr(args, "no_raw", False):
+        spec.reporting.include_raw_outputs = False
+    return spec
+
+
+def cmd_platform_run(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.core.runner import run_evaluation
+
+    result = run_evaluation(_platform_config(args), repo_root(), output_root=args.out,
+                            run_id=args.run_id, command="apertus-eval-prep platform-run")
+    print(json.dumps({"run_id": result.run_id, "directory": str(result.directory),
+                      "quality": result.metrics.get("quality"), "evidence_class": result.metrics.get("evidence_class")}, indent=2))
+    return 0
+
+
+def cmd_platform_matrix(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.experiments.matrix import run_experiment_matrix
+
+    result = run_experiment_matrix(args.config, repo_root(), output_root=args.out,
+                                   command="apertus-eval-prep platform-matrix")
+    print(json.dumps(result.to_dict(), indent=2, default=str))
+    return 0
+
+
+def cmd_platform_compare(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.experiments.compare import compare_run_directories, comparison_markdown
+    from apertus_eval_prep.utils.serialization import write_text
+
+    out = Path(args.out)
+    result = compare_run_directories(args.baseline, args.candidate, output=out.with_suffix(".json"))
+    write_text(out.with_suffix(".md"), comparison_markdown(result))
+    print(json.dumps(result, indent=2, default=str))
+    return 0
+
+
+def cmd_platform_episode(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.core.runner import run_evaluation
+
+    result = run_evaluation(_platform_config(args), repo_root(), output_root=args.out,
+                            run_id=getattr(args, "run_id", None), command="apertus-eval-prep platform-episode")
+    print(json.dumps({"run_id": result.run_id, "directory": str(result.directory),
+                      "system": result.metrics.get("system"), "evidence_class": result.metrics.get("evidence_class")}, indent=2))
+    return 0
+
+
+def cmd_platform_safety(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.safety.runner import run_safety_evaluation
+
+    spec = _platform_config(args)
+    if getattr(args, "baseline_run", None):
+        spec.baseline_run = args.baseline_run
+    result = run_safety_evaluation(spec, repo_root(), output_root=args.out,
+                                   run_id=getattr(args, "run_id", None),
+                                   command="apertus-eval-prep platform-safety")
+    print(json.dumps({"run_id": result.run_id, "directory": str(result.directory),
+                      "safety": result.metrics.get("safety"), "evidence_class": result.metrics.get("evidence_class")}, indent=2))
+    return 0
+
+
+
+def cmd_platform_report(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.reporting.platform import write_run_reports
+
+    paths = write_run_reports(
+        args.run,
+        report_format=args.format,
+        output_dir=args.out,
+        baseline_run=getattr(args, "baseline_run", None),
+    )
+    print(json.dumps({key: str(value) if value else None for key, value in paths.items()}, indent=2))
+    return 0
+
+
+def cmd_platform_fingerprint(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.reporting.platform import write_failure_fingerprint
+
+    path, fingerprint = write_failure_fingerprint(
+        args.run, baseline_run=getattr(args, "baseline_run", None)
+    )
+    print(json.dumps({"path": str(path), "fingerprint": fingerprint}, indent=2, default=str))
+    return 0
+
+
+def cmd_platform_gate(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.core.artifacts import GATE_REPORT
+    from apertus_eval_prep.release.gates import evaluate_release_gates
+    from apertus_eval_prep.utils.serialization import read_json, read_yaml, write_json
+    from apertus_eval_prep.utils.pii import redact_for_artifact
+
+    run_dir = Path(args.run)
+    metrics = read_json(run_dir / "metrics.json")
+    rules = read_yaml(args.rules) if args.rules else {}
+    decision = evaluate_release_gates(metrics, rules.get("release_gates", rules))
+    safe_decision = redact_for_artifact(decision)
+    write_json(run_dir / GATE_REPORT, safe_decision)
+    metrics["release_gate"] = safe_decision
+    write_json(run_dir / "metrics.json", redact_for_artifact(metrics))
+    print(json.dumps(safe_decision, indent=2, default=str))
+    return 0 if decision["status"] in {"PASS", "PASS_WITH_WATCHLIST"} else 2
+
+
+def cmd_platform_select(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.release.deployment import compare_deployment_configurations
+    from apertus_eval_prep.utils.serialization import read_json, write_json
+
+    payload = read_json(args.points)
+    points = payload.get("points", payload) if isinstance(payload, dict) else payload
+    constraints = read_json(args.constraints) if args.constraints else None
+    result = compare_deployment_configurations(points, constraints=constraints)
+    if args.out:
+        write_json(args.out, result)
+    print(json.dumps(result, indent=2, default=str))
+    return 0
+
+def _add_platform_args(p: argparse.ArgumentParser, *, out_default: str | None = None) -> None:
+    p.add_argument("--config", required=True, help="Typed platform YAML run spec.")
+    p.add_argument("--out", default=out_default, help="Output root or report path.")
+    p.add_argument("--set", action="append", help="Dotted config override, e.g. decoding.seed=2.")
+    p.add_argument("--no-raw", dest="no_raw", action="store_true", help="Disable raw output retention.")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="apertus-eval-prep",
@@ -697,6 +831,54 @@ def build_parser() -> argparse.ArgumentParser:
     p_exp.add_argument("--n-boot", dest="n_boot", type=int, default=300)
     p_exp.add_argument("--seed", type=int, default=0)
     p_exp.set_defaults(func=cmd_experiment)
+    p_platform_run = sub.add_parser("platform-run", help="Run a typed offline/local evaluation and write an immutable artifact.")
+    _add_platform_args(p_platform_run)
+    p_platform_run.add_argument("--run-id", dest="run_id")
+    p_platform_run.set_defaults(func=cmd_platform_run)
+
+    p_platform_matrix = sub.add_parser("platform-matrix", help="Expand and run a deterministic experiment matrix.")
+    _add_platform_args(p_platform_matrix)
+    p_platform_matrix.set_defaults(func=cmd_platform_matrix)
+
+    p_platform_compare = sub.add_parser("platform-compare", help="Compare two typed run directories with paired statistics.")
+    p_platform_compare.add_argument("--baseline", required=True)
+    p_platform_compare.add_argument("--candidate", required=True)
+    p_platform_compare.add_argument("--out", required=True)
+    p_platform_compare.set_defaults(func=cmd_platform_compare)
+
+    p_platform_episode = sub.add_parser("platform-episode", help="Run a RAG/agent episode evaluation.")
+    _add_platform_args(p_platform_episode)
+    p_platform_episode.add_argument("--run-id", dest="run_id")
+    p_platform_episode.set_defaults(func=cmd_platform_episode)
+
+    p_platform_safety = sub.add_parser("platform-safety", help="Run the sanitized offline safety suite.")
+    _add_platform_args(p_platform_safety)
+    p_platform_safety.add_argument("--run-id", dest="run_id")
+    p_platform_safety.add_argument("--baseline-run", dest="baseline_run", help="Optional prior safety run directory for aligned comparison.")
+    p_platform_safety.set_defaults(func=cmd_platform_safety)
+
+    p_platform_report = sub.add_parser("platform-report", help="Rebuild Markdown/HTML reports from an existing run.")
+    p_platform_report.add_argument("--run", required=True, help="Run directory containing manifest.json and metrics.json.")
+    p_platform_report.add_argument("--format", dest="format", choices=["markdown", "html", "both"], default="both")
+    p_platform_report.add_argument("--out", help="Optional output directory; defaults to the run directory.")
+    p_platform_report.add_argument("--baseline-run", dest="baseline_run")
+    p_platform_report.set_defaults(func=cmd_platform_report)
+
+    p_platform_fingerprint = sub.add_parser("platform-fingerprint", help="Rebuild failure_fingerprint.json from failures.jsonl.")
+    p_platform_fingerprint.add_argument("--run", required=True)
+    p_platform_fingerprint.add_argument("--baseline-run", dest="baseline_run")
+    p_platform_fingerprint.set_defaults(func=cmd_platform_fingerprint)
+
+    p_platform_gate = sub.add_parser("platform-gate", help="Evaluate release gates against an existing run.")
+    p_platform_gate.add_argument("--run", required=True)
+    p_platform_gate.add_argument("--rules", help="YAML release-gate rules.")
+    p_platform_gate.set_defaults(func=cmd_platform_gate)
+
+    p_platform_select = sub.add_parser("platform-select", help="Compare deployment points and apply constraints.")
+    p_platform_select.add_argument("--points", required=True, help="JSON points file.")
+    p_platform_select.add_argument("--constraints", help="JSON constraints file.")
+    p_platform_select.add_argument("--out")
+    p_platform_select.set_defaults(func=cmd_platform_select)
     return parser
 
 

@@ -1,0 +1,17 @@
+name: platform-safety
+adapter:
+  kind: mock
+  name: mock-safety
+  model_id: synthetic/mock-safety-v1
+  revision: fixture-v1
+  params: {mode: normal, unsafe_rate: 0.0, false_refusal_rate: 0.0, skill: 1.0, seed_jitter: 0.0}
+task:
+  kind: static_qa
+  path: data/platform_safety.jsonl
+evaluators:
+  safety: true
+  safety_cases_path: data/platform_safety.jsonl
+  quality: false
+metrics: {n_boot: 100, seed: 13}
+reporting: {output_dir: runs/platform-safety, markdown: true, html: true}
+evidence_class: MOCK

@@ -1,0 +1,41 @@
+name: platform-phase4-safety
+adapter:
+  kind: mock
+  name: mock-phase4-safety
+  model_id: synthetic/mock-phase4-safety-v1
+  revision: fixture-v1
+  params:
+    mode: normal
+    unsafe_rate: 0.0
+    false_refusal_rate: 0.0
+    skill: 1.0
+    seed_jitter: 0.0
+task:
+  kind: static_qa
+  path: data/platform_phase4_safety.jsonl
+evaluators:
+  safety: true
+  safety_cases_path: data/platform_phase4_safety.jsonl
+  safety_taxonomy_path: configs/safety_taxonomy_phase4.yaml
+  safety_category_weights:
+    prompt_injection: 1.5
+    unsafe_tool_use: 2.0
+    privacy_sensitive_output: 1.5
+  safety_severity_weights:
+    critical: 2.0
+  quality: false
+metrics:
+  n_boot: 100
+  alpha: 0.05
+  seed: 41
+  practical_effect_threshold: 0.02
+  min_sample_size: 2
+reporting:
+  output_dir: runs/platform-phase4-safety
+  markdown: true
+  html: true
+  include_raw_outputs: true
+  pii_redaction: true
+release_gates:
+  path: configs/release_gates/phase4.yaml
+evidence_class: MOCK

@@ -3,8 +3,113 @@
 ### A reproducible LLM evaluation system for measuring how models, prompts, inference backends, quantization, decoding, and runtime configuration affect benchmark results.
 
 [![Research Artifact](https://img.shields.io/badge/Status-Research%20Artifact-blue)](https://github.com/Shivani767/apertus-eval-prep)
-[![Tests](https://img.shields.io/badge/Tests-135%20passing-success)](https://github.com/Shivani767/apertus-eval-prep/tree/master/tests)
-[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/Shivani767/apertus-eval-prep/blob/master/LICENSE)
+[![Tests](https://img.shields.io/badge/Tests-336%20passing-success)](https://github.com/Shivani767/apertus-eval-prep/tree/master/tests)
+[![License](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/Shivani767/apertus-eval-prep/blob/master/LICENSE)
+
+## Industry-grade platform layer
+
+Apertus Eval Prep is a **reproducible LLM evaluation and release-readiness platform** that measures model and system capability, robustness, safety, groundedness, latency, cost, and deployment sensitivity under realistic evaluation conditions. It is not positioned as merely a benchmark runner.
+
+The typed `platform-*` workflow is offline-first and complements the mature legacy HF/vLLM research harness. Every run records dataset, prompt, model, runtime, environment, and configuration provenance in an immutable artifact directory. Scores produced by the deterministic mock adapter are explicitly labelled `MOCK`; they are never presented as real benchmark evidence.
+
+### Platform capabilities
+
+- Reproducible experiments with resolved configuration, hashes, Git/environment metadata, and append-only JSONL observations.
+- Evaluation Variance Lab matrices over seed, prompt, decoding, backend, precision, quantization, task, and split conditions.
+- Statistical uncertainty, paired comparisons, configurable regression classification, and the experimental Robust Capability Score (RCS).
+- Static QA plus multi-step RAG/agent episodes with groundedness, tool-schema/sequence checks, recovery, and safe perturbations.
+- Sanitized safety taxonomy, attack success/false-refusal/risk metrics, failure fingerprints, deployment trade-offs, and release gates.
+- Lightweight Markdown/HTML reports, CI-friendly exit codes, PII-aware logging, and configurable raw retention.
+
+### Architecture
+
+```text
+typed YAML / dataset
+        ↓
+validated RunSpec → adapter registry → task/episode runner
+        ↓                         ↘ mock / local / OpenAI-compatible
+immutable run artifacts ← evaluators ← metrics and provenance
+        ↓
+matrix / comparison / safety / selection / release gates
+        ↓
+Markdown + static HTML + CI decision
+```
+
+Optional dimensions such as `language`, `locale`, `domain`, `risk_category`, and `deployment_environment` are supported by the schemas. The core fixtures and quickstart remain focused on general English evaluation.
+
+### Offline quickstart
+
+```bash
+python -m venv .venv
+.venv/bin/python -m pip install -e '.[dev]'
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-run \
+  --config configs/platform_smoke.yaml --out runs/platform-smoke
+```
+
+The command runs without internet, API keys, paid models, or a GPU. Inspect the printed run directory for `manifest.json`, `config.resolved.yaml`, `dataset.lock.json`, `raw_outputs.jsonl`, `scored_examples.jsonl`, `metrics.json`, `confidence_intervals.json`, `failures.jsonl`, `failure_fingerprint.json`, and static reports. The run is synthetic `MOCK` evidence; it is a pipeline/reproducibility smoke test, not a real benchmark result.
+
+For a reproducibility check, rerun the same command with a new output root and compare the semantic hashes in `manifest.json` (`config_hash`, `dataset_hash`, `prompt.prompt_hash`, and `task_hash`). The run ID and UTC timestamp are expected to differ.
+
+### Example workflows
+
+```bash
+# deterministic variance matrix
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-matrix \
+  --config configs/platform_matrix.yaml --out runs/platform-matrix
+
+# compare two immutable run directories (paired per-example analysis)
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-compare \
+  --baseline runs/baseline-run --candidate runs/candidate-run --out reports/comparison
+
+# synthetic RAG and tool-agent episodes
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-episode \
+  --config configs/platform_rag.yaml --out runs/platform-rag
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-episode \
+  --config configs/platform_agent.yaml --out runs/platform-agent
+
+# sanitized safety suite and release decision
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-safety \
+  --config configs/platform_safety.yaml --out runs/platform-safety
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-gate \
+  --run runs/platform-safety/run-id --rules configs/release_gates/example.yaml
+
+# deployment selection / Pareto analysis
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-select \
+  --points data/phase5_points.json --constraints data/phase5_constraints.json \
+  --out reports/deployment-selection.json
+
+# rebuild the release-review report from an existing run
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-report \
+  --run runs/platform-smoke/run-id --format both
+
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-fingerprint \
+  --run runs/platform-smoke/run-id
+```
+
+### Extending the platform
+
+- **Adapter:** implement `ModelAdapter.complete()` and register construction in `adapters/factory.py`.
+- **Task:** implement `Task.metadata_for()` and `Task.score()` or add an episode schema under `tasks/`.
+- **Evaluator:** add a typed evaluator that consumes per-example records and returns explicit counts/uncertainty.
+- **Release policy:** put thresholds in a version-controlled YAML file; never hide safety or deployment assumptions in code.
+- **Failure reporting:** normalize records with `release.failures.normalize_failure_record`; use `failure_fingerprint` for observed-pattern aggregation, never as a causal explanation.
+
+### Interpretation and limitations
+
+Read the evidence class before comparing numbers. `MOCK`, `DEMONSTRATION`, `MEASURED`, `HUMAN_VALIDATED`, and `PROJECT_METRIC` are distinct. Automated safety, groundedness, and release checks are decision aids—not safety certification, clinical validation, or production approval. High-impact deployments should add representative human review, real backend measurements, privacy review, and monitoring.
+
+### Research contribution
+
+The project’s thesis is that **LLM benchmark scores are deployment-condition dependent**. Its differentiating contributions are the Evaluation Variance Lab, the explicitly experimental RCS, failure fingerprints, release-readiness gates, and RAG/agent episode evaluation.
+
+### Roadmap
+
+1. Expand real, versioned English benchmark and deployment adapters.
+2. Add calibrated human-label workflows and inter-rater reliability studies.
+3. Add statistical power/planning tools and richer multi-factor designs.
+4. Add organization-specific threat models, privacy controls, and production monitoring integrations.
+
+---
 
 ---
 

@@ -1,0 +1,16 @@
+name: platform-agent
+adapter:
+  kind: mock
+  name: mock-oracle
+  model_id: synthetic/mock-oracle-v1
+  revision: fixture-v1
+  params: {mode: normal, skill: 1.0, fail_rate: 0.0, seed_jitter: 0.0}
+task:
+  kind: agent_episode
+  path: data/platform_episodes.jsonl
+  limit: 3
+decoding: {seed: 12, temperature: 0.0, max_new_tokens: 32}
+evaluators: {groundedness: true, quality: true, safety: false, tool_use: true}
+metrics: {n_boot: 100, seed: 12}
+reporting: {output_dir: runs/platform-agent, markdown: true, html: true}
+evidence_class: MOCK
