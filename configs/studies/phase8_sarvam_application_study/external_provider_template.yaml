@@ -1,0 +1,43 @@
+# Provider template only. Do not put a URL or key value in git.
+# Replace the placeholder base URL privately before running, or use an
+# environment-specific overlay; the adapter reads credentials only from the
+# variable named by api_key_env.
+name: sarvam-application-external-provider
+adapter:
+  kind: openai_compatible
+  name: external-provider
+  model_id: EXTERNAL_PROVIDER_MODEL_ID
+  revision: OPTIONAL_MODEL_REVISION
+  params:
+    base_url: EXTERNAL_PROVIDER_BASE_URL
+    api_key_env: EXTERNAL_PROVIDER_API_KEY
+    timeout_s: 120
+task: {kind: static_qa, path: data/eval_set.jsonl, tasks: [arc_easy, gsm8k, hallucination, robustness, safety_bias, template_canary], limit: 38}
+prompt: {prompt_id: sarvam-external, version: v1, template: base}
+decoding: {seed: 11, temperature: 0.0, top_p: 1.0, max_new_tokens: 256}
+runtime: {device: provider, precision: auto, quantization: none, timeout_s: 120}
+evaluators: {quality: true, groundedness: true, safety: false, tool_use: false, cost_latency: true}
+metrics: {n_boot: 400, alpha: 0.05, seed: 11, practical_effect_threshold: 0.02, min_sample_size: 20}
+cost:
+  input_per_million: null
+  output_per_million: null
+  currency: USD
+  source: manual_config
+  effective_date: null
+  estimate_label: DERIVED_ESTIMATE
+evidence:
+  mode: EXTERNAL_PROVIDER
+  runtime_environment: external_provider
+  real_model_execution: true
+  external_provider_execution: true
+  hardware_measured: false
+  human_reviewed: false
+  pricing_source: manual_config
+  known_limitations:
+    - Provider backend hardware is not directly observable.
+    - Client-side latency includes network and provider variance.
+    - Prices are unavailable unless the investigator supplies versioned pricing.
+    - Provider results are not production approval.
+reporting: {output_dir: runs/sarvam-application-external, markdown: true, html: true}
+release_gates: {path: configs/studies/phase8_sarvam_application_study/study_release_gates.yaml}
+evidence_class: MEASURED

@@ -38,6 +38,7 @@ apertus-eval-prep/
 
 # Generated platform reports and local comparison output
 runs/
+configs/studies/phase8_sarvam_application_study/local_user_config.yaml
 reports/platform-*/
 reports/generated/
 reports/**/comparison.json

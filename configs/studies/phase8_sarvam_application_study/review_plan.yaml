@@ -1,0 +1,19 @@
+review:
+  study_id: sarvam_application_real_eval_v1
+  target_sample_size: 30
+  seed: 7
+  strategy: stratified
+  dimensions: [correctness, groundedness, safe_behavior, instruction_following, tool_use_correctness]
+  oversample:
+    - baseline_candidate_disagreement
+    - safety_critical_failures
+    - condition_sensitive_failures
+    - rag_unsupported_claims
+    - tool_failure_recovery_examples
+  reviewer_identity: anonymous_hashed_identifier_only
+  rubric_version: phase8-v1
+  status: TEMPLATE_ONLY
+  human_reviewed: false
+  notes: >-
+    Exported templates are not completed human evidence. Collect only approved,
+    sanitized annotations and ingest them with platform-ingest-review.
