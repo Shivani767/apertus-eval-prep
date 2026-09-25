@@ -5,8 +5,16 @@ import time
 import warnings
 from threading import Thread
 
-import torch
-from transformers import AutoTokenizer, TextIteratorStreamer
+try:  # Optional legacy runtime; importing the module must stay lightweight.
+    import torch
+except ImportError:  # pragma: no cover - exercised in minimal platform installs
+    torch = None  # type: ignore[assignment]
+
+try:  # Optional legacy runtime.
+    from transformers import AutoTokenizer, TextIteratorStreamer
+except ImportError:  # pragma: no cover - exercised in minimal platform installs
+    AutoTokenizer = None  # type: ignore[assignment,misc]
+    TextIteratorStreamer = None  # type: ignore[assignment,misc]
 
 from apertus_eval_prep.backends import Generation
 from apertus_eval_prep.backends.hf_load import load_causal_lm, patch_stale_cache_api
@@ -16,37 +24,57 @@ _patch_stale_cache_api = patch_stale_cache_api
 _load_causal_lm = load_causal_lm
 
 
+def _require_torch():
+    if torch is None:
+        raise ImportError(
+            "The legacy HF backend requires PyTorch. Install the optional runtime with "
+            "pip install -e '.[legacy]'."
+        )
+    return torch
+
+
+def _require_transformers():
+    if AutoTokenizer is None or TextIteratorStreamer is None:
+        raise ImportError(
+            "The legacy HF backend requires transformers. Install the optional runtime with "
+            "pip install -e '.[legacy]'."
+        )
+    return AutoTokenizer, TextIteratorStreamer
+
+
 def detect_device() -> str:
-    if torch.cuda.is_available():
+    torch_module = _require_torch()
+    if torch_module.cuda.is_available():
         return "cuda"
-    if getattr(torch.backends, "mps", None) and torch.backends.mps.is_available():
+    if getattr(torch_module.backends, "mps", None) and torch_module.backends.mps.is_available():
         return "mps"
     return "cpu"
 
 
-def resolve_dtype(name: str, device: str) -> torch.dtype:
+def resolve_dtype(name: str, device: str):
+    torch_module = _require_torch()
     mapping = {
-        "float32": torch.float32,
-        "fp32": torch.float32,
-        "float16": torch.float16,
-        "fp16": torch.float16,
-        "bfloat16": torch.bfloat16,
-        "bf16": torch.bfloat16,
+        "float32": torch_module.float32,
+        "fp32": torch_module.float32,
+        "float16": torch_module.float16,
+        "fp16": torch_module.float16,
+        "bfloat16": torch_module.bfloat16,
+        "bf16": torch_module.bfloat16,
     }
     if name != "auto":
         return mapping[name]
     if device == "cuda":
-        return torch.bfloat16
+        return torch_module.bfloat16
     if device == "mps":
-        return torch.float16
-    return torch.float32
+        return torch_module.float16
+    return torch_module.float32
 
 
-def load_dtype(cfg: RunConfig, device: str) -> torch.dtype:
+def load_dtype(cfg: RunConfig, device: str):
     """Dtype used when loading the model. Quantized CUDA loads use fp16 (T4 has no native bf16)."""
     dtype = resolve_dtype(cfg.dtype, device)
     if cfg.quantization != "none" and device == "cuda":
-        return torch.float16
+        return _require_torch().float16
     return dtype
 
 
@@ -63,12 +91,13 @@ def free_cuda_memory() -> None:
     import gc
 
     gc.collect()
-    if torch.cuda.is_available():
-        torch.cuda.empty_cache()
-        torch.cuda.ipc_collect()
+    torch_module = _require_torch()
+    if torch_module.cuda.is_available():
+        torch_module.cuda.empty_cache()
+        torch_module.cuda.ipc_collect()
 
 
-def _quant_config(quantization: str, compute_dtype: torch.dtype):
+def _quant_config(quantization: str, compute_dtype):
     if quantization == "none":
         return None
     try:
@@ -116,10 +145,12 @@ class HFBackend:
         if cfg.quantization != "none":
             suppress_quantization_warnings()
             free_cuda_memory()
-        torch.manual_seed(cfg.seed)
+        torch_module = _require_torch()
+        tokenizer_cls, _ = _require_transformers()
+        torch_module.manual_seed(cfg.seed)
         if self.device == "cuda":
-            torch.cuda.manual_seed_all(cfg.seed)
-        self.tokenizer = AutoTokenizer.from_pretrained(
+            torch_module.cuda.manual_seed_all(cfg.seed)
+        self.tokenizer = tokenizer_cls.from_pretrained(
             cfg.tokenizer_name(),
             revision=cfg.revision,
             trust_remote_code=True,
@@ -143,10 +174,11 @@ class HFBackend:
         self.model.eval()
 
     def generate_one(self, prompt: str, max_new_tokens: int) -> Generation:
+        _, streamer_cls = _require_transformers()
         encoded = self.tokenizer(prompt, return_tensors="pt")
         device = next(self.model.parameters()).device
         encoded = {k: v.to(device) for k, v in encoded.items()}
-        streamer = TextIteratorStreamer(
+        streamer = streamer_cls(
             self.tokenizer,
             skip_prompt=True,
             skip_special_tokens=True,

@@ -1,0 +1,4 @@
+{"id":"platform_qa_001","task":"platform_qa","language":"en","gold":"B","metadata":{"answer_format":"letter"},"prompt":"Which option is a renewable energy source?\nA) Coal\nB) Wind\nC) Diesel\nD) Natural gas\nReply with the letter only."}
+{"id":"platform_qa_002","task":"platform_qa","language":"en","gold":"C","metadata":{"answer_format":"letter"},"prompt":"Which planet is known as the Red Planet?\nA) Venus\nB) Jupiter\nC) Mars\nD) Mercury\nReply with the letter only."}
+{"id":"platform_qa_003","task":"platform_qa","language":"en","gold":"A","metadata":{"answer_format":"letter"},"prompt":"Which gas do plants absorb during photosynthesis?\nA) Carbon dioxide\nB) Helium\nC) Neon\nD) Krypton\nReply with the letter only."}
+{"id":"platform_qa_004","task":"platform_qa","language":"en","gold":"D","metadata":{"answer_format":"letter"},"prompt":"Which organ pumps blood through the body?\nA) Liver\nB) Lung\nC) Kidney\nD) Heart\nReply with the letter only."}

@@ -1,0 +1,37 @@
+name: Offline evaluation CI
+
+'on':
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install package
+        run: python -m pip install -e '.[dev]'
+      - name: Compile
+        run: python -m compileall -q src
+      - name: Unit and integration tests
+        run: python -m pytest -q
+      - name: Offline platform smoke
+        run: |
+          python -m apertus_eval_prep platform-run \
+            --config configs/platform_smoke.yaml \
+            --out runs/ci-smoke
+      - uses: actions/upload-artifact@v4
+        with:
+          name: platform-smoke-report
+          path: |
+            runs/ci-smoke/*/report.*
+            runs/ci-smoke/*/failure_fingerprint.json
+          if-no-files-found: error

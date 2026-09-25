@@ -1,0 +1,41 @@
+name: platform-smoke
+adapter:
+  kind: mock
+  name: mock-oracle
+  model_id: synthetic/mock-oracle-v1
+  revision: fixture-v1
+  params:
+    mode: normal
+    skill: 0.95
+    fail_rate: 0.0
+    seed_jitter: 0.0
+    temperature_penalty: 0.0
+prompt:
+  prompt_id: platform-smoke
+  version: v1
+task:
+  kind: static_qa
+  path: data/platform_smoke.jsonl
+  tasks: [platform_qa]
+  limit: 4
+decoding:
+  seed: 7
+  temperature: 0.0
+  max_new_tokens: 16
+evaluators:
+  quality: true
+  groundedness: false
+  safety: false
+  tool_use: false
+  cost_latency: true
+metrics:
+  n_boot: 100
+  alpha: 0.05
+  seed: 7
+reporting:
+  output_dir: runs/platform-smoke
+  markdown: true
+  html: true
+  include_raw_outputs: true
+  pii_redaction: true
+evidence_class: MOCK

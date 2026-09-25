@@ -1,0 +1,37 @@
+# Edit the placeholders once, then run the small 4-cell variance matrix.
+name: colab-local-real-model-rag
+adapter:
+  kind: local_transformers
+  name: local-real-model-rag
+  model_id: YOUR_MODEL_ID
+  revision: OPTIONAL_PINNED_REVISION
+  params:
+    tokenizer_id: YOUR_MODEL_ID
+    tokenizer_revision: OPTIONAL_PINNED_REVISION
+    device: auto
+    dtype: auto
+    quantization: none
+    trust_remote_code: false
+    max_new_tokens: 32
+    temperature: 0.0
+    top_p: 1.0
+    do_sample: false
+    timeout_s: 180
+    seed: 21
+task: {kind: rag_episode, path: data/platform_episodes.jsonl, limit: 3}
+prompt: {prompt_id: colab-rag, version: v1, template: base}
+decoding: {seed: 21, temperature: 0.0, top_p: 1.0, max_new_tokens: 32}
+runtime: {device: auto, precision: auto, quantization: none}
+evaluators: {quality: true, groundedness: true, safety: false, tool_use: false}
+metrics: {n_boot: 80, seed: 21}
+cost: {input_per_million: null, output_per_million: null, currency: USD, source: manual_config, effective_date: null}
+evidence:
+  mode: LOCAL_REAL_MODEL
+  runtime_environment: google_colab
+  real_model_execution: true
+  external_provider_execution: false
+  hardware_measured: true
+  human_reviewed: false
+  pricing_source: manual_config
+  known_limitations: [Experimental Colab environment; not production infrastructure, Results apply only to the recorded model revision and configuration]
+reporting: {output_dir: runs/colab-real-rag, markdown: true, html: true}

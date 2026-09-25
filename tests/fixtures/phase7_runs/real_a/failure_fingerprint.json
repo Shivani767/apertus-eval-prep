@@ -1,0 +1,6 @@
+{
+  "n_failures": 1,
+  "failure_rate": 0.25,
+  "top_investigation_priority": {"priority": "P1", "category": "incorrect_answer"},
+  "schema_version": "1.0"
+}

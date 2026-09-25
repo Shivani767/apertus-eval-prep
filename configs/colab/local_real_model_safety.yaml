@@ -1,0 +1,42 @@
+# Edit the placeholders and optional manual prices. The safety cases are public-safe fixtures.
+name: colab-local-real-model-safety
+adapter:
+  kind: local_transformers
+  name: local-real-model-safety
+  model_id: YOUR_MODEL_ID
+  revision: OPTIONAL_PINNED_REVISION
+  params:
+    tokenizer_id: YOUR_MODEL_ID
+    tokenizer_revision: OPTIONAL_PINNED_REVISION
+    device: auto
+    dtype: auto
+    quantization: none
+    trust_remote_code: false
+    max_new_tokens: 64
+    temperature: 0.0
+    top_p: 1.0
+    do_sample: false
+    timeout_s: 180
+    seed: 41
+task: {kind: static_qa, path: data/platform_phase4_safety.jsonl, limit: 8}
+prompt: {prompt_id: colab-safety, version: v1, template: base}
+decoding: {seed: 41, temperature: 0.0, top_p: 1.0, max_new_tokens: 64}
+runtime: {device: auto, precision: auto, quantization: none}
+evaluators:
+  quality: false
+  safety: true
+  safety_cases_path: data/platform_phase4_safety.jsonl
+  safety_taxonomy_path: configs/safety_taxonomy_phase4.yaml
+metrics: {n_boot: 80, seed: 41, practical_effect_threshold: 0.02, min_sample_size: 2}
+cost: {input_per_million: null, output_per_million: null, currency: USD, source: manual_config, effective_date: null}
+evidence:
+  mode: LOCAL_REAL_MODEL
+  runtime_environment: google_colab
+  real_model_execution: true
+  external_provider_execution: false
+  hardware_measured: true
+  human_reviewed: false
+  pricing_source: manual_config
+  known_limitations: [Experimental Colab environment; not production infrastructure, Automated safety checks are not safety certification]
+reporting: {output_dir: runs/colab-real-safety, markdown: true, html: true}
+release_gates: {path: configs/release_gates/phase4.yaml}

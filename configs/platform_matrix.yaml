@@ -1,0 +1,60 @@
+experiment:
+  name: platform-variance
+  id: platform-variance
+  base:
+    name: platform-matrix
+    adapter:
+      kind: mock
+      name: mock-oracle
+      model_id: synthetic/mock-oracle-v1
+      revision: fixture-v1
+      params:
+        mode: normal
+        skill: 0.8
+        fail_rate: 0.0
+        seed_jitter: 0.05
+        prompt_penalties: {strict: 0.10}
+    task:
+      kind: static_qa
+      path: data/platform_smoke.jsonl
+      tasks: [platform_qa]
+      limit: 4
+    prompt:
+      prompt_id: platform-matrix
+      version: v1
+      template: base
+    decoding: {seed: 1, temperature: 0.0, max_new_tokens: 16}
+    metrics: {n_boot: 80, seed: 1}
+    reporting: {output_dir: runs/platform-matrix, markdown: true, html: true}
+    evidence_class: MOCK
+  baseline:
+    seed: 1
+    temperature: 0.0
+    top_p: 1.0
+    prompt_template: base
+    model_revision: fixture-v1
+    backend: mock
+    precision: auto
+    quantization: none
+    task: static_qa
+    dataset: data/platform_smoke.jsonl
+    split: null
+  factors:
+    seed: [1, 2, 3]
+    temperature: [0.0, 0.2]
+    top_p: [1.0]
+    prompt_template: [base, strict]
+    model_revision: [fixture-v1]
+    backend: [mock]
+    precision: [auto]
+    quantization: [none]
+    task: [static_qa]
+    dataset: [data/platform_smoke.jsonl]
+    split: [null]
+  max_runs: 32
+  comparison:
+    practical_effect_threshold: 0.02
+    min_sample_size: 2
+    n_boot: 80
+    seed: 1
+    robust_capability_lambda: 0.5

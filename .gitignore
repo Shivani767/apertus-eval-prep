@@ -19,18 +19,38 @@ hf_cache/
 
 # Measured runs live in results/ and are part of the public artefact.
 
-.env
+*.env
+*.env.*
+.env.*
+!/.env.example
 .python-version
+*.secret
+secrets/
+.local-secrets/
 
-# Ops notes for local understanding only — not part of the public tree.
+# Environment and local secrets
+.env
+*.env
 notes/
 
 # Local duplicate checkout — not part of the public tree.
 apertus-eval-prep/
 
-# Regenerated report junk
-reports/**/*.html
-reports/**/analysis.json
+# Generated platform reports and local comparison output
+runs/
+configs/studies/phase8_sarvam_application_study/local_user_config.yaml
+reports/platform-*/
+reports/generated/
+reports/**/comparison.json
+reports/**/comparison.md
+*.log
+
+# Local test and type caches
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.coverage
+htmlcov/
 
 # Frontend build artifacts / deps (regenerable via npm install && vite build)
 frontend/node_modules/

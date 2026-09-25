@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "reasons": [],
+  "disclaimer": "Release-gate results are engineering policy aids and are not production approval.",
+  "limitations": ["Release-gate results are engineering policy aids and are not production approval.", "Fixture artifact"]
+}

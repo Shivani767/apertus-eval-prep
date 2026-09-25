@@ -1,0 +1,44 @@
+study:
+  study_id: REPLACE_WITH_STUDY_ID
+  study_title: Phase 8 local real-model experimental study
+  research_question: "How stable are quality, safety, groundedness, latency, and cost under valid deployment-relevant conditions?"
+  hypothesis_ids: [H1, H2, H3, H4]
+  planned_sample_counts: {core: 50, rag: 15, agent: 10, safety: 20}
+  protocol_path: docs/PHASE8_STUDY_PROTOCOL.md
+  preregistration_path: docs/PHASE8_PREREGISTRATION_TEMPLATE.md
+  deviation_log_path: docs/PHASE8_DEVIATION_LOG_TEMPLATE.md
+  evidence_mode: LOCAL_REAL_MODEL
+  investigator: REPLACE_WITH_INVESTIGATOR
+  matrix:
+    models: [REPLACE_WITH_MODEL_ID]
+    prompt_templates: [base, strict]
+    seeds: [1, 2, 3]
+    dtype: [auto]
+    quantization: [none]
+    decoding: {temperature: [0.0, 0.2], top_p: [1.0]}
+  suites: {rag: REPLACE_WITH_RAG_FIXTURE, safety: REPLACE_WITH_SANITIZED_SAFETY_FIXTURE}
+  human_review: {dimensions: [correctness, groundedness, safe_behavior], sample_size: 20, strategy: stratified}
+  release_gates: {path: configs/release_gates/phase8_study.yaml}
+base:
+  adapter:
+    kind: local_transformers
+    model_id: REPLACE_WITH_MODEL_ID
+    revision: OPTIONAL_PINNED_REVISION
+    params: {tokenizer_id: REPLACE_WITH_TOKENIZER_ID, tokenizer_revision: OPTIONAL_PINNED_REVISION}
+  task: {kind: static_qa, path: REPLACE_WITH_CORE_DATASET, limit: 50}
+  prompt: {prompt_id: REPLACE_WITH_PROMPT_ID, version: v1, template: base}
+  decoding: {seed: 1, temperature: 0.0, top_p: 1.0, max_new_tokens: 256}
+  runtime: {device: auto, precision: auto, quantization: none}
+  cost: {input_per_million: null, output_per_million: null, currency: USD, source: manual_config}
+  evidence:
+    mode: LOCAL_REAL_MODEL
+    runtime_environment: local_or_colab
+    real_model_execution: true
+    external_provider_execution: false
+    hardware_measured: true
+    human_reviewed: false
+    pricing_source: manual_config
+    known_limitations: ["Experimental environment; not production infrastructure"]
+comparison: {practical_effect_threshold: 0.02, min_sample_size: 20, n_boot: 400, seed: 0, robust_capability_lambda: 1.0}
+max_runs: 64
+allow_mock: false

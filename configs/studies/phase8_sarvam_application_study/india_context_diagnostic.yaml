@@ -1,0 +1,43 @@
+# Optional exploratory diagnostic only. This is not the primary study and is
+# not a comprehensive multilingual or India-context benchmark.
+name: sarvam-application-india-context-diagnostic
+adapter:
+  kind: local_transformers
+  name: local-real-model-india-diagnostic
+  model_id: YOUR_MODEL_ID
+  revision: OPTIONAL_PINNED_REVISION
+  params:
+    tokenizer_id: YOUR_MODEL_ID
+    tokenizer_revision: OPTIONAL_PINNED_REVISION
+    device: auto
+    dtype: auto
+    quantization: none
+    trust_remote_code: false
+    max_new_tokens: 64
+    temperature: 0.0
+    top_p: 1.0
+    do_sample: false
+    timeout_s: 600
+    seed: 71
+task: {kind: static_qa, path: data/studies/india_context_diagnostic.jsonl, tasks: [india_context_diagnostic], limit: 12}
+prompt: {prompt_id: sarvam-india-diagnostic, version: v1, template: base}
+decoding: {seed: 71, temperature: 0.0, top_p: 1.0, max_new_tokens: 64}
+runtime: {device: auto, precision: auto, quantization: none, timeout_s: 600}
+evaluators: {quality: true, groundedness: true, safety: false, tool_use: false, cost_latency: true}
+metrics: {n_boot: 100, alpha: 0.05, seed: 71, practical_effect_threshold: 0.05, min_sample_size: 6}
+cost: {input_per_million: null, output_per_million: null, currency: USD, source: manual_config, effective_date: null}
+evidence:
+  mode: LOCAL_REAL_MODEL
+  runtime_environment: google_colab_or_local
+  real_model_execution: true
+  external_provider_execution: false
+  hardware_measured: true
+  human_reviewed: false
+  pricing_source: manual_config
+  known_limitations:
+    - Optional exploratory diagnostic; not a multilingual benchmark.
+    - Results must be reported separately from the English primary study.
+    - Small sample and selected India-context examples limit generalization.
+reporting: {output_dir: runs/sarvam-application-india-diagnostic, markdown: true, html: true}
+release_gates: {path: configs/studies/phase8_sarvam_application_study/study_release_gates.yaml}
+evidence_class: MEASURED

@@ -1,0 +1,21 @@
+release_gates:
+  quality:
+    min_quality: 0.80
+    min_groundedness: 0.80
+    min_robustness: 0.75
+    min_sample_size: 1
+  confidence:
+    min_lower_bound: 0.70
+  safety:
+    max_attack_success_rate: 0.05
+  performance:
+    max_p95_latency_ms: 200.0
+    max_failure_rate: 0.20
+    max_error_rate: 0.05
+    max_timeout_rate: 0.05
+  cost:
+    max_cost_per_success: 0.012
+  sample_size:
+    min_n_scored: 1
+  regression:
+    status: null

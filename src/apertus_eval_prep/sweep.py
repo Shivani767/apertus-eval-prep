@@ -127,7 +127,10 @@ def expand_factorial(
     import itertools
 
     models = [str(m) for m in study["models"]]
-    names = sorted(axes)
+    names = (
+        sorted({k for combo in only_combos for k in combo})
+        if only_combos is not None else sorted(axes)
+    )
     combos = (
         [dict(zip(names, vals)) for vals in itertools.product(*(axes[k] for k in names))]
         if only_combos is None
@@ -242,19 +245,39 @@ def run_id_for(cell: dict[str, Any], digest: str) -> str:
     return f"{model}_{factor}_{level}_{digest}"
 
 
-def execute_sweep(
-    study_path: Path,
+def execute_cells(
+    cells: list[dict[str, Any]],
     repo_root: Path,
     out_dir: Path,
     registry_path: Path,
-    profile: str | None = None,
+    *,
     limit: int | None = None,
     dry_run: bool = False,
     force: bool = False,
     only_model: str | None = None,
     only_factor: str | None = None,
+    mark_failures: bool = False,
 ) -> list[dict[str, Any]]:
-    from apertus_eval_prep.registry import append_registry, completed_hashes, config_hash, load_registry
+    """Run an explicit cell list through the harness + registry (shared path).
+
+    Extracted from ``execute_sweep`` so interaction studies and other
+    experiment types reuse the exact same runner, resume, and registry
+    machinery as OFAT. Every cell must be a RunConfig-compatible dict
+    (see ``cell_to_run_config``); provenance fields ``factor`` /
+    ``factor_level`` / ``design`` / ``design_axes`` ride along to the
+    registry row.
+
+    ``mark_failures``: when True, a cell whose evaluation raises gets an
+    explicit ``status: "failed"`` registry row (with the error text) and the
+    batch continues — required for resumable long sessions. Default False
+    preserves the historical raise-on-error behaviour for OFAT.
+    """
+    from apertus_eval_prep.registry import (
+        append_registry,
+        completed_hashes,
+        config_hash,
+        load_registry,
+    )
     from apertus_eval_prep.run_eval import run_eval
 
     out_dir = Path(out_dir)
@@ -264,8 +287,7 @@ def execute_sweep(
     if not registry_path.is_absolute():
         registry_path = repo_root / registry_path
 
-    study = load_study(study_path)
-    cells = expand_ofat(study, profile=profile)
+    cells = [dict(c) for c in cells]
     if only_model:
         cells = [c for c in cells if c["model_id"] == only_model]
         if not cells:
@@ -302,7 +324,31 @@ def execute_sweep(
             continue
         out_dir.mkdir(parents=True, exist_ok=True)
         ckpt = out_dir / f"{rid}.partial.jsonl"
-        payload = run_eval(cfg, repo_root, checkpoint_path=ckpt)
+        try:
+            payload = run_eval(cfg, repo_root, checkpoint_path=ckpt)
+        except Exception as exc:  # noqa: BLE001 - failures must be explicit rows
+            if not mark_failures:
+                raise
+            # Mark the failure in the registry and keep going so a long T4
+            # session never loses completed cells to one bad config. Resume
+            # semantics only skip status=="ok", so failed cells are retried.
+            append_registry(
+                registry_path,
+                {
+                    "run_id": rid,
+                    "config_hash": digest,
+                    "experiment_id": cfg.experiment_id,
+                    "model_id": cfg.model_id,
+                    "factor": cell.get("factor"),
+                    "factor_level": cell.get("factor_level"),
+                    "path": None,
+                    "status": "failed",
+                    "error": f"{type(exc).__name__}: {exc}",
+                },
+            )
+            planned[-1]["failed"] = True
+            print(f"FAIL {rid} {type(exc).__name__}: {exc}", flush=True)
+            continue
         payload["factor"] = cell.get("factor")
         payload["factor_level"] = cell.get("factor_level")
         payload["config_hash"] = digest
@@ -330,3 +376,110 @@ def execute_sweep(
         )
         done.add(digest)
     return planned
+
+
+def execute_sweep(
+    study_path: Path,
+    repo_root: Path,
+    out_dir: Path,
+    registry_path: Path,
+    profile: str | None = None,
+    limit: int | None = None,
+    dry_run: bool = False,
+    force: bool = False,
+    only_model: str | None = None,
+    only_factor: str | None = None,
+) -> list[dict[str, Any]]:
+    """OFAT sweep; delegates to the shared ``execute_cells`` path."""
+    study = load_study(study_path)
+    cells = expand_ofat(study, profile=profile)
+    return execute_cells(
+        cells, repo_root, out_dir, registry_path,
+        limit=limit, dry_run=dry_run, force=force,
+        only_model=only_model, only_factor=only_factor,
+    )
+
+
+def expand_factorial_study(
+    study: dict[str, Any],
+    *,
+    design: str = "full",
+    profile: str | None = None,
+) -> list[dict[str, Any]]:
+    """Factorial cells from a study's design block (T4 research design).
+
+    Two equivalent study formats:
+
+    - ``factorial_only_combos`` / ``factorial_only_combos_reduced``: an
+      explicit, human-auditable allow-list of configuration combos (used for
+      the T4 nested design where the support matrix forbids some Cartesian
+      cells, e.g. vllm x quantized).
+    - ``factorial_axes`` / ``factorial_axes_reduced``: full Cartesian product
+      of the axes (classic factorial).
+
+    ``design="full"`` uses the primary block; ``design="reduced"`` the
+    documented fallback. An unknown design or a missing block raises — the
+    design is never silently substituted.
+    """
+    combos_key = {
+        "full": "factorial_only_combos",
+        "reduced": "factorial_only_combos_reduced",
+    }
+    axes_key = {
+        "full": "factorial_axes",
+        "reduced": "factorial_axes_reduced",
+    }
+    if design not in combos_key:
+        raise ValueError(f"design must be one of {sorted(combos_key)}, got {design!r}")
+    explicit = study.get(combos_key[design])
+    if explicit:
+        seen: set[tuple] = set()
+        unique: list[dict[str, Any]] = []
+        for combo in explicit:
+            key = tuple(sorted((str(k), str(v)) for k, v in combo.items()))
+            if key in seen:
+                raise ValueError(
+                    f"duplicate combo in {combos_key[design]!r}: {combo!r}"
+                )
+            seen.add(key)
+            unique.append(dict(combo))
+        # include_control=False: the factorial grid ALREADY contains the
+        # all-control cell (default prompt, base runtime, seed 0); adding a
+        # separate control cell would duplicate that configuration.
+        return expand_factorial(study, {}, only_combos=unique,
+                                include_control=False, profile=profile)
+    axes = study.get(axes_key[design])
+    if not axes:
+        raise ValueError(
+            f"study has neither {combos_key[design]!r} nor {axes_key[design]!r} "
+            f"(design={design!r})"
+        )
+    return expand_factorial(
+        study,
+        {k: [str(v) for v in vals] for k, vals in axes.items()},
+        profile=profile,
+    )
+
+
+def execute_factorial(
+    study_path: Path,
+    repo_root: Path,
+    out_dir: Path,
+    registry_path: Path,
+    *,
+    design: str = "full",
+    profile: str | None = None,
+    limit: int | None = None,
+    dry_run: bool = False,
+    force: bool = False,
+    only_model: str | None = None,
+    mark_failures: bool = False,
+) -> list[dict[str, Any]]:
+    """Factorial sweep (T4 ground-truth); shares the OFAT executor."""
+    study = load_study(study_path)
+    cells = expand_factorial_study(study, design=design, profile=profile)
+    return execute_cells(
+        cells, repo_root, out_dir, registry_path,
+        limit=limit, dry_run=dry_run, force=force, only_model=only_model,
+        mark_failures=mark_failures,
+    )
