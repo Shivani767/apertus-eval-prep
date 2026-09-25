@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 import pytest
+import yaml
 
 from apertus_eval_prep.core.artifacts import RetentionPolicy, RunStore
 from apertus_eval_prep.core.config import expand_experiment, load_experiment_spec, load_run_spec
@@ -111,6 +112,58 @@ def test_matrix_runs_child_artifacts(tmp_path):
     result = run_experiment_matrix(ROOT / "configs/platform_matrix.yaml", ROOT, output_root=tmp_path)
     assert result.report["experiment_summary"]["n_ok"] >= 10
     assert any(cell.run_id for cell in result.cells)
+
+
+def test_matrix_records_failing_cells_without_crashing(tmp_path):
+    """A broken cell must be reported, not raise from the error handler itself."""
+    config = tmp_path / "broken.yaml"
+    config.write_text(
+        yaml.safe_dump(
+            {
+                "experiment": {
+                    "id": "broken_cells",
+                    "name": "broken",
+                    "base": {
+                        "adapter": {"kind": "mock", "model_id": "m"},
+                        "task": {"kind": "static_qa", "path": "data/DOES_NOT_EXIST.jsonl"},
+                    },
+                    "factors": {"seed": [1, 2]},
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    result = run_experiment_matrix(config, ROOT, output_root=tmp_path / "out")
+    assert [cell.status for cell in result.cells] == ["error", "error", "error"]
+    assert all("DatasetError" in (cell.error or "") for cell in result.cells)
+    assert all("TokenError" not in (cell.error or "") for cell in result.cells)
+    assert result.report["experiment_summary"]["n_error"] == 3
+
+
+def test_matrix_redacts_credentials_in_cell_errors(tmp_path):
+    config = tmp_path / "secret.yaml"
+    config.write_text(
+        yaml.safe_dump(
+            {
+                "experiment": {
+                    "id": "secret_cells",
+                    "name": "secret",
+                    "base": {
+                        "adapter": {
+                            "kind": "mock",
+                            "model_id": "m",
+                            "params": {"api_key": "sk-abcdefghijklmnop"},
+                        },
+                        "task": {"kind": "static_qa", "path": "data/DOES_NOT_EXIST.jsonl"},
+                    },
+                    "factors": {"seed": [1]},
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    result = run_experiment_matrix(config, ROOT, output_root=tmp_path / "out")
+    assert "sk-abcdefghijklmnop" not in json.dumps(result.to_dict())
 
 
 def test_paired_comparison_and_regression_boundaries():

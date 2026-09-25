@@ -12,7 +12,11 @@ from apertus_eval_prep.metrics.aggregate import summarize_scores
 from apertus_eval_prep.metrics.confidence_intervals import bootstrap_mean_ci
 from apertus_eval_prep.metrics.paired_comparison import paired_comparison
 from apertus_eval_prep.metrics.robustness import analyze_condition_sensitivity, robust_capability_score
-from apertus_eval_prep.utils.pii import redact_for_artifact, redact_text_for_report
+from apertus_eval_prep.utils.pii import (
+    redact_for_artifact,
+    redact_text_for_artifact,
+    redact_text_for_report,
+)
 from apertus_eval_prep.utils.serialization import read_jsonl, write_json, write_text
 from apertus_eval_prep.experiments.reporting import render_experiment_html, render_experiment_markdown
 
