@@ -8,13 +8,17 @@ EVIDENCE_MODES: tuple[str, ...] = (
     "HARDWARE_MEASURED", "HUMAN_VALIDATED", "MIXED", "UNKNOWN",
 )
 SYNTHETIC_EVIDENCE_MODES = frozenset({"MOCK", "SYNTHETIC"})
+REAL_EVIDENCE_MODES = frozenset({
+    "LOCAL_REAL_MODEL", "EXTERNAL_PROVIDER", "HARDWARE_MEASURED", "HUMAN_VALIDATED",
+})
 
 
 def _validate_consistency(data: Mapping[str, Any], mode: str) -> None:
     real = bool(data.get("real_model_execution"))
     external = bool(data.get("external_provider_execution"))
-    human = bool(data.get("human_reviewed"))
-    if mode in SYNTHETIC_EVIDENCE_MODES and (real or external):
+    hardware = bool(data.get("hardware_measured", False))
+    human = bool(data.get("human_reviewed", False))
+    if mode in SYNTHETIC_EVIDENCE_MODES and (real or external or hardware or human):
         raise ValueError(f"{mode} evidence cannot claim real or external model execution")
     if mode == "LOCAL_REAL_MODEL" and not real:
         raise ValueError("LOCAL_REAL_MODEL evidence requires real_model_execution=true")
@@ -22,6 +26,8 @@ def _validate_consistency(data: Mapping[str, Any], mode: str) -> None:
         raise ValueError("EXTERNAL_PROVIDER evidence requires external_provider_execution=true")
     if mode == "HUMAN_VALIDATED" and not human:
         raise ValueError("HUMAN_VALIDATED evidence requires human_reviewed=true")
+    if mode == "HARDWARE_MEASURED" and not hardware:
+        raise ValueError("HARDWARE_MEASURED evidence requires hardware_measured=true")
 
 
 def infer_evidence_mode(*, legacy_class: str | None = None, adapter_kind: str | None = None) -> str:
@@ -59,6 +65,7 @@ def normalize_evidence(
         {
             "real_model_execution": real_model_execution,
             "external_provider_execution": external_provider_execution,
+            "hardware_measured": bool(data.get("hardware_measured", False)),
             "human_reviewed": human_reviewed,
         },
         mode,
@@ -107,7 +114,8 @@ def evidence_for_spec_payload(
 
 
 __all__ = [
-    "EVIDENCE_MODES", "SYNTHETIC_EVIDENCE_MODES", "infer_evidence_mode",
+    "EVIDENCE_MODES", "SYNTHETIC_EVIDENCE_MODES", "REAL_EVIDENCE_MODES",
+    "infer_evidence_mode",
     "normalize_evidence", "evidence_from_manifest", "evidence_metric_fields",
     "evidence_for_spec_payload",
 ]

@@ -18,4 +18,9 @@ Use `normalize_failure_record` for new failure producers. Keep raw observations 
 
 ## Add a gate
 
+
+## Add a study or human-review dimension
+
+Study configuration changes belong in `study/schema.py` and should preserve evidence-mode, identity, and placeholder validation. Review dimensions and labels belong in `review/schema.py`; never accept raw reviewer identifiers or unmarked human-review claims. Add deterministic sampling/ingestion/agreement tests, sanitized fixtures, and a report assertion. See `docs/PHASE8_STUDY_PROTOCOL.md`, `docs/HUMAN_REVIEW_PROTOCOL.md`, and `docs/ANNOTATION_GUIDELINES.md`.
+
 Put thresholds and category weights in YAML. Test status precedence and missing-evidence behavior. A gate should be auditable, versioned, and safe to run offline in CI.

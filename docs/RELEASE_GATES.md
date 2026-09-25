@@ -24,4 +24,7 @@ A gate is an engineering policy, not a safety certification or production approv
 
 ## Review report
 
+
+Phase 8 study gates are engineering policy aids for experimental evidence, not production approval. `configs/release_gates/phase8_study.yaml` is intentionally conservative; missing human review, real-model evidence, or safety observations remains inconclusive. Study reports must state evidence mode and limitations, and release decisions should never be described as certification.
+
 `platform-report --run <run-directory> --format both` rebuilds the release-review Markdown and escaped static HTML from the run manifest, metrics, confidence intervals, optional safety/RAG sections, gate result, and failure fingerprint. `platform-fingerprint --run <run-directory>` rebuilds the derived diagnostic JSON. Neither command reruns the model.

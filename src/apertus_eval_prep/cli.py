@@ -631,6 +631,35 @@ def cmd_platform_gate(args: argparse.Namespace) -> int:
     return 0 if decision["status"] in {"PASS", "PASS_WITH_WATCHLIST"} else 2
 
 
+def cmd_platform_export_review(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.review.export import export_review_package
+    result = export_review_package(
+        args.run, args.out, dimensions=args.dimensions, sample_size=args.sample_size,
+        strategy=args.sampling_strategy, seed=args.seed, baseline_run=args.baseline_run,
+        study_id=args.study_id, rubric_version=args.rubric_version,
+    )
+    print(json.dumps(result, indent=2, default=str))
+    return 0
+
+
+def cmd_platform_ingest_review(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.review.ingest import ingest_annotations
+    result = ingest_annotations(args.input, args.out, study_id=args.study_id)
+    print(json.dumps({k: v for k, v in result.items() if k != "annotations"}, indent=2, default=str))
+    return 0
+
+
+def cmd_platform_study_analyze(args: argparse.Namespace) -> int:
+    from apertus_eval_prep.study.analysis import analyze_study
+    from apertus_eval_prep.study.reporting import write_study_outputs
+    from apertus_eval_prep.study.schema import load_study_config
+    spec = load_study_config(args.study_config)
+    summary = analyze_study(spec, args.runs, reviews=args.reviews)
+    paths = write_study_outputs(summary, args.out)
+    print(json.dumps({"paths": paths, "evidence_modes": summary.get("evidence_modes"), "real_model_evidence_available": summary.get("real_model_evidence_available")}, indent=2, default=str))
+    return 0
+
+
 def cmd_platform_ingest_runs(args: argparse.Namespace) -> int:
     from apertus_eval_prep.release.ingest import ingest_run_directories
     from apertus_eval_prep.utils.serialization import write_json
@@ -888,6 +917,31 @@ def build_parser() -> argparse.ArgumentParser:
     p_platform_gate.add_argument("--run", required=True)
     p_platform_gate.add_argument("--rules", help="YAML release-gate rules.")
     p_platform_gate.set_defaults(func=cmd_platform_gate)
+
+    p_export_review = sub.add_parser("platform-export-review", help="Export a sanitized JSONL human-review package from a run.")
+    p_export_review.add_argument("--run", required=True)
+    p_export_review.add_argument("--out", required=True)
+    p_export_review.add_argument("--dimensions", nargs="+", default=None)
+    p_export_review.add_argument("--sample-size", dest="sample_size", type=int, default=50)
+    p_export_review.add_argument("--sampling-strategy", dest="sampling_strategy", choices=["random", "stratified", "priority"], default="stratified")
+    p_export_review.add_argument("--seed", type=int, default=0)
+    p_export_review.add_argument("--baseline-run", dest="baseline_run")
+    p_export_review.add_argument("--study-id", default="REPLACE_WITH_STUDY_ID")
+    p_export_review.add_argument("--rubric-version", default="phase8-v1")
+    p_export_review.set_defaults(func=cmd_platform_export_review)
+
+    p_ingest_review = sub.add_parser("platform-ingest-review", help="Validate completed review annotations and write a review summary.")
+    p_ingest_review.add_argument("--input", required=True)
+    p_ingest_review.add_argument("--out", required=True)
+    p_ingest_review.add_argument("--study-id", dest="study_id")
+    p_ingest_review.set_defaults(func=cmd_platform_ingest_review)
+
+    p_study_analyze = sub.add_parser("platform-study-analyze", help="Aggregate compatible completed runs into a Phase 8 study report.")
+    p_study_analyze.add_argument("--study-config", dest="study_config", required=True)
+    p_study_analyze.add_argument("--runs", nargs="+", required=True)
+    p_study_analyze.add_argument("--reviews")
+    p_study_analyze.add_argument("--out", required=True)
+    p_study_analyze.set_defaults(func=cmd_platform_study_analyze)
 
     p_platform_ingest = sub.add_parser(
         "platform-ingest-runs",

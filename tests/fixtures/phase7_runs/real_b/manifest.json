@@ -1,5 +1,6 @@
 {
   "run_id": "fixture-real-b",
+  "study_id": "phase8-fixture-study",
   "run_name": "fixture-real-b",
   "config_hash": "config-b",
   "dataset": {"id": "dataset-fixture", "path": "tests/fixtures/phase7_dataset.jsonl", "hash": "dataset-fixture"},

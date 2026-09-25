@@ -39,3 +39,21 @@ PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-report \
 ```
 
 Review generated artifacts for secrets and ensure generated `runs/` output is not committed. Use `docs/INDUSTRY_UPGRADE_PLAN.md` for architecture and migration context.
+
+## Phase 8 study/review contributions
+
+Study and annotation changes must remain offline-safe and evidence-safe. Real-model configs use placeholders and cannot silently select a mock adapter; mock studies require an explicit `allow_mock` flag. Review packages contain sanitized templates only until reviewers complete them with valid rubric labels, anonymous reviewer hashes, timestamps, confidence, and linked evidence references. Agreement metrics are consistency diagnostics, not correctness or production-approval claims.
+
+Before submitting a Phase 8 change, validate the study config and deterministic fixtures:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m pytest tests/test_phase8_study.py -q
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-export-review \
+  --run runs/local-smoke/run-id --out review_package.jsonl \
+  --sample-size 10 --sampling-strategy stratified --study-id local-demo
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-study-analyze \
+  --study-config configs/studies/phase8_mock_study.yaml \
+  --runs RUN_A RUN_B --out reports/phase8-study
+```
+
+Do not commit completed private annotations, reviewer identities, private datasets, generated runs, or secrets. Use `docs/PHASE8_STUDY_PROTOCOL.md`, `docs/HUMAN_REVIEW_PROTOCOL.md`, and `docs/PHASE8_EXECUTION_RUNBOOK.md` for the full workflow.

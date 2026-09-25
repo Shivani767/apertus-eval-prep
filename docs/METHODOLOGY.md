@@ -36,4 +36,9 @@ Each applicable run writes `failures.jsonl` and `failure_fingerprint.json`. The 
 
 ## Limitations
 
+
+## Study-level evidence and human review
+
+A study aggregates only compatible run identities and records whether the available evidence is synthetic, real-model, or human-reviewed. `MOCK`/synthetic artifacts cannot establish real-model conclusions. Human-review evidence requires valid completed annotations linked to non-synthetic runs; templates and synthetic-only annotations remain `human_reviewed=false`. Agreement is a consistency diagnostic, not proof of validity, safety, or production readiness. See `docs/PHASE8_STUDY_PROTOCOL.md` and `docs/HUMAN_REVIEW_PROTOCOL.md`.
+
 Fixtures are small and synthetic. Heuristics do not establish factuality, legal/medical suitability, or safety certification. High-impact decisions require representative data, human review, threat modeling, and real deployment measurements.

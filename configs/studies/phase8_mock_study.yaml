@@ -1,0 +1,34 @@
+study:
+  study_id: phase8-demo
+  study_title: Phase 8 synthetic framework-validation study
+  research_question: "How stable are observed quality, safety, groundedness, latency, and cost under declared synthetic conditions?"
+  hypothesis_ids: [H1, H2, H3, H4]
+  planned_sample_counts: {core: 4, rag: 3, agent: 3, safety: 11}
+  protocol_path: docs/PHASE8_STUDY_PROTOCOL.md
+  preregistration_path: docs/PHASE8_PREREGISTRATION_TEMPLATE.md
+  deviation_log_path: docs/PHASE8_DEVIATION_LOG_TEMPLATE.md
+  evidence_mode: MOCK
+  investigator: REPLACE_WITH_INVESTIGATOR
+  matrix:
+    models: [synthetic/mock-oracle-v1]
+    prompt_templates: [base, strict]
+    seeds: [1, 2, 3]
+    dtype: [auto]
+    quantization: [none]
+    decoding: {temperature: [0.0, 0.2], top_p: [1.0]}
+  suites: {rag: data/platform_episodes.jsonl, safety: data/platform_phase4_safety.jsonl}
+  human_review: {dimensions: [correctness, groundedness, safe_behavior], sample_size: 4, strategy: stratified}
+  release_gates: {path: configs/release_gates/phase8_study.yaml}
+allow_mock: true
+base:
+  adapter:
+    kind: mock
+    model_id: synthetic/mock-oracle-v1
+    revision: fixture-v1
+  task: {kind: static_qa, path: data/platform_smoke.jsonl, tasks: [platform_qa], limit: 4}
+  prompt: {prompt_id: phase8-demo, version: v1, template: base}
+  decoding: {seed: 1, temperature: 0.0, top_p: 1.0, max_new_tokens: 16}
+  metrics: {n_boot: 40, seed: 1}
+  reporting: {output_dir: runs/phase8-demo, markdown: true, html: true}
+comparison: {practical_effect_threshold: 0.02, min_sample_size: 2, n_boot: 40, seed: 1, robust_capability_lambda: 0.5}
+max_runs: 32

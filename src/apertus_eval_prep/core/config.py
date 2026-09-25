@@ -17,6 +17,7 @@ cells in the same order, which is what makes a matrix reproducible.
 from __future__ import annotations
 
 import itertools
+from collections.abc import Mapping
 from copy import deepcopy
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -145,8 +146,12 @@ def load_run_spec(
 
 
 def load_experiment_spec(path: str | Path) -> ExperimentSpec:
-    """Load and validate an experiment (matrix) spec."""
-    return ExperimentSpec.from_dict(resolve_config_file(path))
+    """Load and validate an experiment spec, including a Phase 8 study matrix."""
+    raw = resolve_config_file(path)
+    if "study" in raw and not isinstance(raw.get("experiment"), Mapping):
+        from apertus_eval_prep.study.schema import StudySpec
+        raw = StudySpec.from_dict(raw).to_experiment_dict()
+    return ExperimentSpec.from_dict(raw)
 
 
 def set_paths(data: dict[str, Any], settings: dict[str, Any]) -> dict[str, Any]:

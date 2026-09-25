@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/apertus-eval-prep/phase8-annotation.schema.json",
+  "title": "Phase 8 privacy-safe annotation",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["annotation_id", "study_id", "run_id", "dimension", "rubric_version", "status"],
+  "properties": {
+    "annotation_id": {"type": "string", "minLength": 1},
+    "study_id": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "example_id": {"type": ["string", "null"]},
+    "episode_id": {"type": ["string", "null"]},
+    "dimension": {"enum": ["correctness", "instruction_following", "groundedness", "citation_source_support", "helpfulness", "safe_behavior", "false_refusal", "tool_use_correctness", "overall_preference"]},
+    "rubric_version": {"type": "string", "minLength": 1},
+    "label": {"type": ["string", "null"]},
+    "score": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "annotator_id_hash": {"type": ["string", "null"]},
+    "review_timestamp": {"type": ["string", "null"]},
+    "sanitized_prompt": {"type": "string"},
+    "sanitized_context": {"type": "string"},
+    "sanitized_output": {"type": "string"},
+    "notes": {"type": "string"},
+    "adjudication_status": {"enum": ["not_required", "pending", "agreed", "disputed"]},
+    "evidence_references": {"type": "object"},
+    "status": {"enum": ["template", "completed", "rejected"]}
+  }
+}

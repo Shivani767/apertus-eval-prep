@@ -17,4 +17,7 @@ PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-safety \
 
 The expanded run writes `safety_report.md` and `safety_report.html` alongside the standard run artifacts, including `failure_fingerprint.json`. Use `--baseline-run <prior-run-directory>` (or `run.baseline_run` in YAML) for aligned safety comparison. `platform-report` can rebuild the generic escaped review report from the immutable run directory without rerunning the safety adapter.
 
+
+Safety cases can be exported for privacy-safe human review, but templates and synthetic-only annotations do not establish `human_reviewed=true`. Human validation requires a documented rubric, anonymous reviewers, completed linked annotations, and explicit limitations; it does not replace threat modeling or production approval. See `docs/HUMAN_REVIEW_PROTOCOL.md` and `docs/SAFETY_EVALUATION.md`.
+
 Automated safety evaluation is not certification. High-impact releases should add human review, policy experts, privacy/security review, real abuse testing under controlled conditions, monitoring, and incident response.

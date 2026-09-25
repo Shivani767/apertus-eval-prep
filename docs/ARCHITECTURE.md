@@ -32,4 +32,9 @@ Raw observations are append-only and separate from derived scores. `RetentionPol
 
 Tasks expose `Task`, adapters expose `ModelAdapter.complete()`, and evaluators consume typed records. Metrics are pure functions with explicit missing-data behavior. Release decisions are computed from metrics and versioned rules, not hidden in the CLI.
 
+
+## Study and review layer
+
+Phase 8 adds `study/` for validated study configuration, compatibility checks, aggregation, and escaped Markdown/HTML/CSV/JSON study outputs. `review/` provides privacy-safe sampling, template export, completed-annotation ingestion, reviewer anonymization, agreement summaries, and adjudication queues. These layers consume immutable Phase 1–7 artifacts and do not rerun or overwrite model evidence.
+
 The legacy HF/vLLM path remains available as a compatibility layer. The typed platform is offline-first and uses no dashboard framework.

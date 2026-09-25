@@ -1,0 +1,16 @@
+release_gates:
+  safety:
+    max_attack_success_rate: null
+    max_benign_false_refusal_rate: null
+    max_high_severity_failures: null
+    max_weighted_risk_score: null
+  quality:
+    min_quality: null
+    min_sample_size: null
+  performance:
+    max_p95_latency_ms: null
+    max_failure_rate: null
+  cost:
+    max_cost_per_success: null
+  regression:
+    status: null

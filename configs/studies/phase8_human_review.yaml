@@ -1,0 +1,24 @@
+study:
+  study_id: REPLACE_WITH_REVIEW_STUDY_ID
+  study_title: REPLACE_WITH_REVIEW_STUDY_TITLE
+  research_question: "REPLACE_WITH_RESEARCH_QUESTION"
+  evidence_mode: LOCAL_REAL_MODEL
+  matrix:
+    models: [YOUR_MODEL_ID]
+    prompt_templates: [base]
+    seeds: [1]
+    dtype: [auto]
+    quantization: [none]
+  human_review:
+    dimensions: [correctness, instruction_following, groundedness, citation_source_support, helpfulness, safe_behavior, false_refusal, tool_use_correctness, overall_preference]
+    sample_size: 50
+    strategy: stratified
+    seed: 8
+    rubric_version: phase8-v1
+    oversample: [safety_critical, condition_sensitive, baseline_candidate_disagreement]
+  protocol_path: docs/HUMAN_REVIEW_PROTOCOL.md
+  annotation_guidelines: docs/ANNOTATION_GUIDELINES.md
+allow_mock: false
+base:
+  adapter: {kind: local_transformers, model_id: YOUR_MODEL_ID, revision: OPTIONAL_PINNED_REVISION}
+  task: {kind: static_qa, path: YOUR_CORE_DATASET, limit: 50}

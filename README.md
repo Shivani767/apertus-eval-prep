@@ -1034,3 +1034,57 @@ GitHub: [Shivani767](https://github.com/Shivani767)
 ### Research Status
 
 **Active research artifact — experiments and results are added as measurements are completed.**
+
+
+## Phase 8: Experimental study and human-review workflow
+
+Phase 8 adds a preregistration-aware study layer without changing the behavior of earlier evaluation commands. It distinguishes framework validation, synthetic demonstration, experimental real-model evidence, human-reviewed evidence, and production validation. A study report never turns `MOCK` fixtures into scientific claims.
+
+Study protocol and templates:
+
+- `docs/PHASE8_STUDY_PROTOCOL.md`
+- `docs/PHASE8_PREREGISTRATION_TEMPLATE.md`
+- `docs/PHASE8_DEVIATION_LOG_TEMPLATE.md`
+- `docs/PHASE8_EXECUTION_RUNBOOK.md`
+- `docs/TECHNICAL_REPORT_TEMPLATE.md`
+- `docs/PORTFOLIO_CASE_STUDY_TEMPLATE.md`
+
+Use the explicitly synthetic CI study:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-matrix \
+  --config configs/studies/phase8_mock_study.yaml --out runs/phase8-demo
+```
+
+For a real study, edit `configs/studies/phase8_real_model_study.yaml`, complete the preregistration before execution, and use the run IDs recorded by the matrix. A study cannot silently use a mock adapter under a real evidence mode.
+
+Export a deterministic, sanitized review package:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-export-review \
+  --run RUN_DIRECTORY --dimensions correctness groundedness \
+  --sample-size 20 --sampling-strategy stratified --seed 7 \
+  --study-id STUDY_ID --out review_package.jsonl
+```
+
+Ingest completed annotations only after a real review process has produced them:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-ingest-review \
+  --input completed_annotations.jsonl --out review_results.json --study-id STUDY_ID
+```
+
+Templates, empty packages, and annotations linked only to synthetic evidence leave `human_reviewed: false`. Agreement statistics are consistency measures, not proof of correctness or safety validity. Reviewers must use anonymous reviewer identifiers, sanitized content, and a documented rubric; never commit private datasets, names, or secrets.
+
+Aggregate compatible run artifacts and optional review results:
+
+```bash
+PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-study-analyze \
+  --study-config configs/studies/phase8_real_model_study.yaml \
+  --runs RUN_A RUN_B --reviews review_results.json \
+  --out reports/phase8_study
+```
+
+The study bundle includes `study_manifest.json`, `study_summary.json`, Markdown/HTML reports, comparison/metric/failure CSVs, review summary, and limitations. Incompatible identities are rejected. The report labels missing real-model evidence and treats human review as unavailable unless valid completed non-synthetic annotations are linked.
+
+The human-review workflow and limitations are documented in `docs/HUMAN_REVIEW_PROTOCOL.md` and `docs/ANNOTATION_GUIDELINES.md`. Study analysis is framework support, not a substitute for preregistration, domain expertise, or production validation.

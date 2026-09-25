@@ -50,6 +50,7 @@ def _identity(manifest: Mapping[str, Any], metrics: Mapping[str, Any]) -> dict[s
     prompt = manifest.get("prompt") if isinstance(manifest.get("prompt"), Mapping) else {}
     evidence = evidence_from_manifest(manifest)
     return {
+        "study_id": manifest.get("study_id") or manifest.get("experiment_id"),
         "dataset_hash": manifest.get("dataset_hash") or dataset.get("hash"),
         "task_hash": manifest.get("task_hash") or task.get("hash"),
         "prompt_hash": manifest.get("prompt_hash") or prompt.get("prompt_hash") or prompt.get("template_hash"),
@@ -83,6 +84,7 @@ def ingest_run_directory(run_dir: str | Path) -> dict[str, Any]:
         "runtime_profile": manifest.get("runtime_profile"),
         "hardware_profile": manifest.get("runtime_profile"),
         "run_id": manifest.get("run_id") or directory.name,
+        "study_id": identity.get("study_id"),
         "run_directory": str(directory),
         "label": f"{model.get('model_id') or manifest.get('model_id') or 'model'}@"
                  f"{model.get('model_revision') or manifest.get('model_revision') or 'unpinned'}",

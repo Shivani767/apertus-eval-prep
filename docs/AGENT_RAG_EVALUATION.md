@@ -29,4 +29,7 @@ PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-episode \
 
 The five-fixture slice covers customer-support RAG, contradictory policy, tool use, tool-failure recovery, and sanitized retrieval-injection detection. It is synthetic `MOCK` evidence and should not be described as a real model benchmark. The standard run report and failure fingerprint are written alongside `tool_traces.jsonl`; rebuild them with `platform-report` and `platform-fingerprint` without rerunning the adapter.
 
+
+Human review of episode outputs is optional and uses the sanitized `platform-export-review` workflow. Record groundedness, tool-use correctness, recovery, safety behavior, and disagreement with the rubric version; synthetic episode evidence is not human validation or a production safety result. See `docs/HUMAN_REVIEW_PROTOCOL.md` and `docs/ANNOTATION_GUIDELINES.md`.
+
 For production RAG/agent claims, add real tool sandboxes, representative retrieval corpora, trace retention controls, human review, and adversarial testing under an organizational threat model.

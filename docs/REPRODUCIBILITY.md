@@ -29,4 +29,9 @@ PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-fingerprint \
 
 These commands consume the immutable run directory and do not rerun the model. `failure_fingerprint.json` is derived from `failures.jsonl`; it is not a second source of raw evidence. The report generator escapes model/output content and exposes missing evidence rather than converting it to zero.
 
+
+## Phase 8 study artifacts
+
+Before a study, complete `docs/PHASE8_PREREGISTRATION_TEMPLATE.md` and maintain `docs/PHASE8_DEVIATION_LOG_TEMPLATE.md`. Study analysis writes `study_manifest.json`, `study_summary.json`, Markdown/HTML reports, comparison/metric/failure CSVs, review summary, and limitations. It validates study ID, dataset/task/prompt/metric identity, and evidence mode before aggregation. Review packages are sanitized and deterministic; completed annotations are validated separately. See `docs/PHASE8_EXECUTION_RUNBOOK.md`.
+
 For a candidate comparison, keep the dataset, task selection, prompt protocol, evaluator, and scoring conditions aligned; change only the intended factor. The comparison artifact reports aligned and missing IDs. Raw retention and PII redaction are explicit configuration choices, so reproduction does not imply that sensitive text should be published.
