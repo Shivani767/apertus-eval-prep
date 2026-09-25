@@ -1,216 +1,280 @@
 # Apertus Eval Prep
 
-### A reproducible LLM evaluation system for measuring how models, prompts, inference backends, quantization, decoding, and runtime configuration affect benchmark results.
+### Reliable, configuration-aware evaluation for LLM systems
+
+> **How much of an LLM benchmark result comes from the model — and how much comes from the way we evaluate it?**
 
 [![Research Artifact](https://img.shields.io/badge/Status-Research%20Artifact-blue)](https://github.com/Shivani767/apertus-eval-prep)
-[![Tests](https://img.shields.io/badge/Tests-336%20passing-success)](https://github.com/Shivani767/apertus-eval-prep/tree/master/tests)
-[![License](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/Shivani767/apertus-eval-prep/blob/master/LICENSE)
+[![Tests](https://img.shields.io/badge/Tests-124%20passing-success)](https://github.com/Shivani767/apertus-eval-prep/tree/master/tests)
+[![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/Shivani767/apertus-eval-prep/blob/master/LICENSE)
 
-## Industry-grade platform layer
+**Research dashboard:**
+https://shivani767.github.io/apertus-eval-prep/
 
-Apertus Eval Prep is a **reproducible LLM evaluation and release-readiness platform** that measures model and system capability, robustness, safety, groundedness, latency, cost, and deployment sensitivity under realistic evaluation conditions. It is not positioned as merely a benchmark runner.
-
-The typed `platform-*` workflow is offline-first and complements the mature legacy HF/vLLM research harness. Every run records dataset, prompt, model, runtime, environment, and configuration provenance in an immutable artifact directory. Scores produced by the deterministic mock adapter are explicitly labelled `MOCK`; they are never presented as real benchmark evidence.
-
-### Platform capabilities
-
-- Reproducible experiments with resolved configuration, hashes, Git/environment metadata, and append-only JSONL observations.
-- Evaluation Variance Lab matrices over seed, prompt, decoding, backend, precision, quantization, task, and split conditions.
-- Statistical uncertainty, paired comparisons, configurable regression classification, and the experimental Robust Capability Score (RCS).
-- Static QA plus multi-step RAG/agent episodes with groundedness, tool-schema/sequence checks, recovery, and safe perturbations.
-- Sanitized safety taxonomy, attack success/false-refusal/risk metrics, failure fingerprints, deployment trade-offs, and release gates.
-- Lightweight Markdown/HTML reports, CI-friendly exit codes, PII-aware logging, and configurable raw retention.
-
-### Architecture
-
-```text
-typed YAML / dataset
-        ↓
-validated RunSpec → adapter registry → task/episode runner
-        ↓                         ↘ mock / local / OpenAI-compatible
-immutable run artifacts ← evaluators ← metrics and provenance
-        ↓
-matrix / comparison / safety / selection / release gates
-        ↓
-Markdown + static HTML + CI decision
-```
-
-Optional dimensions such as `language`, `locale`, `domain`, `risk_category`, and `deployment_environment` are supported by the schemas. The core fixtures and quickstart remain focused on general English evaluation.
-
-### Offline quickstart
-
-```bash
-python -m venv .venv
-.venv/bin/python -m pip install -e '.[dev]'
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-run \
-  --config configs/platform_smoke.yaml --out runs/platform-smoke
-```
-
-The command runs without internet, API keys, paid models, or a GPU. Inspect the printed run directory for `manifest.json`, `config.resolved.yaml`, `dataset.lock.json`, `raw_outputs.jsonl`, `scored_examples.jsonl`, `metrics.json`, `confidence_intervals.json`, `failures.jsonl`, `failure_fingerprint.json`, and static reports. The run is synthetic `MOCK` evidence; it is a pipeline/reproducibility smoke test, not a real benchmark result.
-
-For a reproducibility check, rerun the same command with a new output root and compare the semantic hashes in `manifest.json` (`config_hash`, `dataset_hash`, `prompt.prompt_hash`, and `task_hash`). The run ID and UTC timestamp are expected to differ.
-
-### Example workflows
-
-```bash
-# deterministic variance matrix
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-matrix \
-  --config configs/platform_matrix.yaml --out runs/platform-matrix
-
-# compare two immutable run directories (paired per-example analysis)
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-compare \
-  --baseline runs/baseline-run --candidate runs/candidate-run --out reports/comparison
-
-# synthetic RAG and tool-agent episodes
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-episode \
-  --config configs/platform_rag.yaml --out runs/platform-rag
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-episode \
-  --config configs/platform_agent.yaml --out runs/platform-agent
-
-# sanitized safety suite and release decision
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-safety \
-  --config configs/platform_safety.yaml --out runs/platform-safety
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-gate \
-  --run runs/platform-safety/run-id --rules configs/release_gates/example.yaml
-
-# deployment selection / Pareto analysis
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-select \
-  --points data/phase5_points.json --constraints data/phase5_constraints.json \
-  --out reports/deployment-selection.json
-
-# rebuild the release-review report from an existing run
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-report \
-  --run runs/platform-smoke/run-id --format both
-
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-fingerprint \
-  --run runs/platform-smoke/run-id
-```
-
-## Optional Real Model Experiments
-
-The default install and every CI test remain offline-only. Optional open-weight local Transformers evaluation uses a separate extra:
-
-```bash
-python -m pip install -e '.[real-model]'
-```
-
-Edit a template under `configs/colab/` (never commit credentials), then run:
-
-```bash
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-run \
-  --config configs/colab/local_real_model_smoke.yaml --out runs/colab-real/smoke
-
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-matrix \
-  --config configs/colab/local_real_model_variance.yaml --out runs/colab-real/variance
-
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-episode \
-  --config configs/colab/local_real_model_rag.yaml --out runs/colab-real/rag
-
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-safety \
-  --config configs/colab/local_real_model_safety.yaml --out runs/colab-real/safety
-
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-ingest-runs \
-  --runs RUN_DIRECTORY_1 RUN_DIRECTORY_2 --out runs/colab-real/comparison_points.json
-
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-select \
-  --points runs/colab-real/comparison_points.json \
-  --out runs/colab-real/selection.json
-
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-report \
-  --run RUN_DIRECTORY_1 --format both --out runs/colab-real/reports
-```
-
-[Open the notebook in Google Colab](https://colab.research.google.com/github/Shivani767/apertus-eval-prep/blob/master/notebooks/colab_real_model_evaluation.ipynb) or view [`notebooks/colab_real_model_evaluation.ipynb`](https://github.com/Shivani767/apertus-eval-prep/blob/master/notebooks/colab_real_model_evaluation.ipynb). It guides the same workflow in Colab. A `LOCAL_REAL_MODEL` report is experimental real-model evidence—not a production benchmark or approval. Colab sessions, allocated hardware, notebook overhead, and model availability vary. Manual prices are optional; unavailable token or pricing evidence remains unavailable rather than zero. See `docs/COLAB_EXPERIMENT_GUIDE.md` and `docs/REAL_EVALUATION_PROTOCOL.md`.
-
-### Extending the platform
-
-- **Adapter:** implement `ModelAdapter.complete()` and register construction in `adapters/factory.py`.
-- **Task:** implement `Task.metadata_for()` and `Task.score()` or add an episode schema under `tasks/`.
-- **Evaluator:** add a typed evaluator that consumes per-example records and returns explicit counts/uncertainty.
-- **Release policy:** put thresholds in a version-controlled YAML file; never hide safety or deployment assumptions in code.
-- **Failure reporting:** normalize records with `release.failures.normalize_failure_record`; use `failure_fingerprint` for observed-pattern aggregation, never as a causal explanation.
-
-### Interpretation and limitations
-
-Read the evidence class before comparing numbers. `MOCK`, `DEMONSTRATION`, `MEASURED`, `HUMAN_VALIDATED`, and `PROJECT_METRIC` are distinct. Automated safety, groundedness, and release checks are decision aids—not safety certification, clinical validation, or production approval. High-impact deployments should add representative human review, real backend measurements, privacy review, and monitoring.
-
-### Research contribution
-
-The project’s thesis is that **LLM benchmark scores are deployment-condition dependent**. Its differentiating contributions are the Evaluation Variance Lab, the explicitly experimental RCS, failure fingerprints, release-readiness gates, and RAG/agent episode evaluation.
-
-### Roadmap
-
-1. Expand real, versioned English benchmark and deployment adapters.
-2. Add calibrated human-label workflows and inter-rater reliability studies.
-3. Add statistical power/planning tools and richer multi-factor designs.
-4. Add organization-specific threat models, privacy controls, and production monitoring integrations.
+**Repository:**
+https://github.com/Shivani767/apertus-eval-prep
 
 ---
 
----
+# 1. What is Apertus Eval Prep?
 
-## What I Built
+**Apertus Eval Prep is a research and engineering system for measuring how evaluation choices affect LLM results.**
 
-**Apertus Eval Prep is a configuration-driven LLM evaluation framework.**
-
-Instead of treating a benchmark score as just:
+Most LLM evaluations look simple:
 
 ```text
-Model → Score
+Model → Benchmark → Score
 ```
 
-the system records the conditions that produced the score:
+But the actual experiment is more complicated:
+
+```text
+                    ┌─────────────┐
+                    │    Model    │
+                    └──────┬──────┘
+                           │
+          ┌────────────────┼────────────────┐
+          ↓                ↓                ↓
+       Prompt          Backend         Quantization
+          ↓                ↓                ↓
+    Few-shot          Decoding          Hardware
+          └────────────────┼────────────────┘
+                           ↓
+                     Evaluation
+                           ↓
+                    Measured Result
+```
+
+Apertus makes these conditions explicit, records them as experiment metadata, runs controlled comparisons, stores the raw measurements, and performs statistical analysis on top of them.
+
+The result is not just a number.
+
+It is a **reproducible measurement with context**.
+
+---
+
+# 2. The Problem
+
+LLM benchmark scores are often treated as if they were fixed properties of a model.
+
+For example:
+
+```text
+Model A = 68%
+Model B = 64%
+
+Therefore Model A is better.
+```
+
+But what if Model A was evaluated with a different prompt?
+
+What if Model B used a different chat template?
+
+What if one evaluation used vLLM and another used Hugging Face Transformers?
+
+What if one model was quantized?
+
+What if the result came from one stochastic run?
+
+What if changing the evaluation configuration reverses the ranking?
+
+These are not theoretical concerns.
+
+The experiments in this project show that they can happen.
+
+---
+
+# 3. Why Existing Evaluation Is Not Enough
+
+Traditional benchmark workflows are optimized for answering:
+
+> **"What score did this model get?"**
+
+Apertus is interested in a harder question:
+
+> **"How reliable is that score as evidence about the model?"**
+
+Many evaluation pipelines make experimental configuration implicit.
+
+A researcher may report:
+
+```text
+Qwen-3B → 64.38%
+```
+
+but the number may depend on:
+
+* exact prompt wording
+* number of demonstrations
+* chat template
+* decoding configuration
+* inference backend
+* quantization
+* sampling seed
+* hardware
+* runtime implementation
+
+If these factors are not recorded and controlled, two numbers that look comparable may not actually represent the same experiment.
+
+### The key idea
+
+Apertus treats:
+
+```text
+Model = Score
+```
+
+as an incomplete representation.
+
+Instead:
+
+```text
+Model × Task × Evaluation Configuration
+                  ↓
+           Measured Result
+```
+
+The evaluation configuration is part of the measurement.
+
+---
+
+# 4. What I Built
+
+I built a **configuration-driven evaluation and research platform** that turns LLM experiments into traceable, reproducible artifacts.
+
+The system handles the complete workflow:
+
+```text
+Experiment Definition
+        ↓
+Configuration
+        ↓
+Evaluation Runner
+        ↓
+Model / Inference Backend
+        ↓
+Predictions
+        ↓
+Result Registry
+        ↓
+Statistical Analysis
+        ↓
+Research Findings
+        ↓
+Interactive Dashboard
+```
+
+Every experiment can be traced back through:
+
+```text
+Finding
+   ↓
+Report
+   ↓
+Result Registry
+   ↓
+Experiment Configuration
+   ↓
+Source Code
+   ↓
+Git Commit
+```
+
+This was an intentional engineering decision.
+
+I did not want the research to depend on:
+
+```text
+"Run this notebook and hope you get the same number."
+```
+
+Instead, the goal is:
+
+> **A result should be reproducible evidence, not just a number copied into a paper.**
+
+---
+
+# 5. What Are We Actually Studying?
+
+The project investigates **evaluation sensitivity**.
+
+The main research question is:
+
+> **How sensitive are LLM benchmark results and model rankings to reasonable changes in evaluation and inference configuration?**
+
+The experiments study several dimensions.
+
+| Factor                | What we are testing                                     |
+| --------------------- | ------------------------------------------------------- |
+| **Prompting**         | Does wording change measured capability?                |
+| **Few-shot examples** | Do demonstrations help consistently?                    |
+| **Chat templates**    | Can formatting change results?                          |
+| **Inference backend** | Does the serving implementation affect measurements?    |
+| **Quantization**      | What happens to quality under lower precision?          |
+| **Decoding**          | How sensitive are results to generation settings?       |
+| **Sampling**          | How much variation comes from stochastic generation?    |
+| **Hardware/runtime**  | How does the execution environment affect measurements? |
+| **Thinking mode**     | Does reasoning configuration change results?            |
+| **Hallucination**     | How reliable are generated answers?                     |
+| **Safety**            | How does behavior change on safety-oriented tasks?      |
+| **Cost**              | What quality/cost trade-offs appear?                    |
+| **Latency**           | What performance cost accompanies a configuration?      |
+| **Ranking**           | Does the "best model" remain the best?                  |
+
+This turns evaluation from a single benchmark number into an **experimental system**.
+
+---
+
+# 6. Research Design
+
+The core experiments use a controlled **one-factor-at-a-time (OFAT)** design.
+
+We start with a frozen baseline:
 
 ```text
 Model
-  +
 Task
-  +
 Prompt
-  +
-Chat Template
-  +
 Backend
-  +
 Quantization
-  +
 Decoding
-  +
-Hardware / Runtime
-      ↓
-  Evaluation
-      ↓
-  Result Registry
-      ↓
-  Statistical Analysis
-      ↓
-  Reports / Findings
+Runtime
 ```
 
-This makes experiments **repeatable, comparable, and inspectable**.
+Then change one factor.
 
-The framework is designed for situations where you need to answer practical questions such as:
+For example:
 
-* Did changing the prompt actually improve the model?
-* Does the result survive a different inference backend?
-* Does quantization change benchmark behavior?
-* Does the model ranking stay the same?
-* How much variation comes from the evaluation setup itself?
-* Can another researcher reproduce the reported number?
+```text
+                BASELINE
+                   │
+        ┌──────────┼──────────┐
+        ↓          ↓          ↓
+      Prompt     Backend   Quantization
+        ↓          ↓          ↓
+      Result     Result     Result
+        └──────────┼──────────┘
+                   ↓
+          Statistical Analysis
+                   ↓
+           Ranking Stability
+```
+
+This design was chosen because it makes attribution easier.
+
+If the score changes after changing only the prompt, we have much stronger evidence that the prompt contributed to the change.
+
+The architecture can later support factorial and interaction studies when multiple factors need to be studied simultaneously.
 
 ---
 
-# Why This Matters
+# 7. The Most Important Finding
 
-LLM benchmark numbers are often presented as if they were intrinsic properties of a model.
+One of the clearest findings is **prompt sensitivity**.
 
-In practice, the measured result can also depend on the evaluation pipeline.
-
-For example, in the current experiments:
+The same Qwen-3B model produced:
 
 ```text
-Qwen-3B
-
 Concise prompt
       ↓
    51.25%
@@ -222,490 +286,521 @@ Concise prompt
 
 That's a:
 
-**+17.38 percentage-point difference**
+## +17.38 percentage-point difference
 
 without changing the underlying model.
 
-For another model, the same type of prompt change moved performance in the opposite direction:
+The effect is not even consistent across models.
 
-```text
-Phi-3.5
+### Control vs 5-shot
 
-5-shot
-  ↓
-56.38%
+| Model   |    Control |     5-shot |       Change |
+| ------- | ---------: | ---------: | -----------: |
+| SmolLM2 |     39.75% |     34.25% |     -5.50 pp |
+| Qwen-3B |     64.38% | **68.63%** | **+4.25 pp** |
+| Phi-3.5 | **67.00%** |     56.38% |    -10.63 pp |
 
-Control
-  ↓
-67.00%
-```
+This tells us something important:
 
-The result is therefore not simply:
-
-```text
-Model = Score
-```
-
-It is better represented as:
-
-```text
-Model × Task × Evaluation Configuration = Measured Result
-```
-
-Apertus Eval Prep makes that configuration explicit and reproducible.
+> **A prompting strategy cannot automatically be assumed to improve every model.**
 
 ---
 
-# How It Works
+# 8. The Stronger Finding: Rankings Can Reverse
 
-The framework follows a simple pipeline.
-
-```text
-┌──────────────────────┐
-│ Experiment Config    │
-│ YAML / parameters    │
-└──────────┬───────────┘
-           ↓
-┌──────────────────────┐
-│ Evaluation Runner    │
-└──────────┬───────────┘
-           ↓
-┌──────────────────────┐
-│ Model / Backend      │
-│ HF / vLLM / etc.     │
-└──────────┬───────────┘
-           ↓
-┌──────────────────────┐
-│ Task Evaluation      │
-│ predictions / scores │
-└──────────┬───────────┘
-           ↓
-┌──────────────────────┐
-│ Result Registry      │
-│ config + result      │
-└──────────┬───────────┘
-           ↓
-┌──────────────────────┐
-│ Statistical Analysis │
-└──────────┬───────────┘
-           ↓
-┌──────────────────────┐
-│ Tables / Reports     │
-└──────────────────────┘
-```
-
-Every experiment is driven by configuration rather than hard-coded evaluation logic.
-
-A result can therefore be traced from:
-
-```text
-Finding
-  ↓
-Generated Report
-  ↓
-Result Registry
-  ↓
-Experiment Configuration
-  ↓
-Source Code
-  ↓
-Git Commit
-```
-
----
-
-# What the System Tracks
-
-The evaluation configuration can include:
-
-| Dimension             | Purpose                                |
-| --------------------- | -------------------------------------- |
-| **Model**             | Compare model families and revisions   |
-| **Task slice**        | Keep the evaluated workload controlled |
-| **Prompt**            | Measure prompt sensitivity             |
-| **Few-shot examples** | Measure contextual prompting effects   |
-| **Chat template**     | Measure formatting effects             |
-| **Backend**           | Compare inference implementations      |
-| **Quantization**      | Measure lower-precision effects        |
-| **Temperature**       | Measure decoding sensitivity           |
-| **Seed**              | Control stochastic variation           |
-| **Hardware**          | Track runtime environment              |
-| **Thinking mode**     | Compare reasoning configurations       |
-| **Safety**            | Evaluate safety-oriented behavior      |
-| **Hallucination**     | Evaluate unsupported generation        |
-| **Cost**              | Track evaluation cost                  |
-
-The important engineering decision is that these are treated as **first-class experiment metadata**, rather than being hidden inside scripts.
-
----
-
-# Results
-
-The current committed experiments already show that evaluation configuration can materially affect measured outcomes.
-
-## Prompt Sensitivity
-
-The three-model control cohort contains **800 evaluation examples per configuration**.
-
-| Model       | Control | Concise |     5-shot |
-| ----------- | ------: | ------: | ---------: |
-| **SmolLM2** |  39.75% |  23.25% |     34.25% |
-| **Qwen-3B** |  64.38% |  51.25% | **68.63%** |
-| **Phi-3.5** |  67.00% |  58.88% |     56.38% |
-
-### Largest observed prompt effect
-
-**Qwen-3B: 51.25% → 68.63%**
-
-**+17.38 percentage points**
-
-The effect is model-dependent:
-
-* SmolLM2: −5.50 pp for 5-shot vs control
-* Qwen-3B: **+4.25 pp**
-* Phi-3.5: −10.63 pp
-
-The broader range across tested prompt configurations is even larger:
-
-```text
-Qwen-3B
-51.25% ─────────────────────── 68.63%
-              +17.38 pp
-```
-
----
-
-# Model Ranking Can Change
+This is more interesting than a score changing.
 
 Under the control configuration:
 
 ```text
-1. Phi-3.5       67.00%
-2. Qwen-3B       64.38%
-3. SmolLM2       39.75%
+1. Phi-3.5     67.00%
+2. Qwen-3B     64.38%
+3. SmolLM2     39.75%
 ```
 
 Under 5-shot prompting:
 
 ```text
-1. Qwen-3B       68.63%
-2. Phi-3.5       56.38%
-3. SmolLM2       34.25%
+1. Qwen-3B     68.63%
+2. Phi-3.5     56.38%
+3. SmolLM2     34.25%
 ```
 
 The top-ranked model changes.
 
-This is one of the most important findings from the current experiments:
+That means:
 
-> **The conclusion about which model performs best can depend on the evaluation configuration.**
+> **The answer to "which model is best?" can depend on how the evaluation is configured.**
 
----
+This is the central research motivation behind Apertus.
 
-# Backend Sensitivity
+The project is therefore not trying to create another leaderboard.
 
-The backend experiment keeps the model, task slice, and prompt payload fixed while changing the inference implementation.
-
-| Model       | Hugging Face |   vLLM |   Difference |
-| ----------- | -----------: | -----: | -----------: |
-| **SmolLM2** |       39.75% | 42.00% |     +2.25 pp |
-| **Qwen-3B** |       64.38% | 66.75% | **+2.38 pp** |
-| **Phi-3.5** |       67.00% | 67.13% |     +0.13 pp |
-
-The effect is measurable but not uniform.
-
-The largest observed difference is:
-
-**Qwen-3B: +2.38 percentage points**
-
-The correct conclusion is not that one backend is universally better.
-
-Instead:
-
-> **The inference backend is part of the evaluation configuration and should be recorded when comparing results.**
+It is trying to understand **how trustworthy the conclusions behind a leaderboard are**.
 
 ---
 
-# Quantization
+# 9. Backend Sensitivity
 
-The framework also evaluates lower-precision configurations against matched controls.
+The project also investigates whether the inference implementation itself can affect evaluation results.
 
-For the committed Qwen-3B measurements:
+With the model, task and prompt held fixed:
 
-| Configuration |   Correct | Accuracy |
-| ------------- | --------: | -------: |
-| **INT8**      | 518 / 800 |   64.75% |
-| **INT4**      | 525 / 800 |   65.63% |
+| Model   | Hugging Face |   vLLM |   Difference |
+| ------- | -----------: | -----: | -----------: |
+| SmolLM2 |       39.75% | 42.00% |     +2.25 pp |
+| Qwen-3B |       64.38% | 66.75% | **+2.38 pp** |
+| Phi-3.5 |       67.00% | 67.13% |     +0.13 pp |
 
-Difference:
+The result is not:
 
-**+7 examples / +0.88 percentage points**
+> "vLLM is better."
 
-For the committed Phi-3.5 measurements:
+The more useful conclusion is:
 
-| Configuration |   Correct | Accuracy |
-| ------------- | --------: | -------: |
-| **Control**   | 536 / 800 |   67.00% |
-| **INT8**      | 538 / 800 |   67.25% |
-| **INT4**      | 559 / 800 |   69.88% |
+> **The inference backend is itself an experimental variable and should be recorded when comparing LLM evaluation results.**
 
-Difference vs control:
-
-**INT8: +2 examples / +0.25 pp · INT4: +23 examples / +2.88 pp**
-
-These are results from matched experiments, not evidence that one precision is universally better. The framework is designed to make these comparisons reproducible across additional models, tasks, hardware, and backends.
+The effect is measurable, but model-dependent.
 
 ---
 
-# Sampling Stability
+# 10. Quantization
 
-The repository also records repeated runs under controlled sampling settings (T=0.7, top_p=0.95).
+Apertus also studies whether lower-precision inference changes evaluation outcomes.
 
-For SmolLM2 at temperature 0.7, three seeds produced:
+For Qwen-3B:
+
+| Configuration | Accuracy |
+| ------------- | -------: |
+| INT8          |   64.75% |
+| INT4          |   65.63% |
+
+For Phi-3.5:
+
+| Configuration | Accuracy |
+| ------------- | -------: |
+| Control       |   67.00% |
+| INT8          |   67.25% |
+| INT4          |   69.88% |
+
+The purpose is **not** to claim that INT4 is universally better.
+
+The research question is:
+
+> **Does quantization change measured model behavior, and is that effect consistent across models and tasks?**
+
+This distinction matters when evaluating models that will eventually run under constrained memory or inference budgets.
+
+---
+
+# 11. Sampling Stability
+
+LLM evaluation can also change because generation is stochastic.
+
+For example, repeated SmolLM2 runs under controlled sampling produced:
 
 ```text
-Seed 0 → 36.25% (290/800)
-Seed 1 → 37.63% (301/800)
-Seed 2 → 39.00% (312/800)
+Seed 0 → 36.25%
+Seed 1 → 37.63%
+Seed 2 → 39.00%
 ```
 
-For Qwen-3B at temperature 0.7, three seeds produced:
+Qwen-3B produced:
 
 ```text
-Seed 0 → 64.25% (514/800)
-Seed 1 → 65.00% (520/800)
-Seed 2 → 63.00% (504/800)
+Seed 0 → 64.25%
+Seed 1 → 65.00%
+Seed 2 → 63.00%
 ```
 
-This makes stochastic variation visible instead of hiding it behind a single run.
+Instead of reporting only one number, Apertus records repeated measurements.
+
+This allows us to ask:
+
+> **Is the observed difference larger than the normal variation of the evaluation process?**
 
 ---
 
-# Beyond Accuracy
+# 12. Beyond Accuracy
 
-The framework has been extended beyond a single benchmark score.
+A production LLM system is rarely optimized for accuracy alone.
 
-Current evaluation infrastructure covers:
-
-### Thinking
-
-Controlled comparison of thinking/reasoning-mode configurations.
-
-### Robustness
-
-Evaluation under robustness-oriented task variations.
-
-### Hallucination
-
-Measurement and reporting of hallucination-related behavior.
-
-### Safety
-
-Dedicated safety-oriented evaluation tasks.
-
-### Cost
-
-Tracking evaluation cost alongside quality metrics.
-
-The goal is to make model evaluation useful for real engineering decisions where:
+A real engineering decision may look like:
 
 ```text
-Quality
-+
-Reliability
-+
-Latency
-+
-Cost
-+
-Memory
+        Quality
+           +
+      Reliability
+           +
+         Latency
+           +
+        Memory
+           +
+          Cost
 ```
 
-may matter more than a single leaderboard score.
+Apertus therefore includes infrastructure for:
+
+* accuracy
+* failure analysis
+* hallucination
+* safety
+* reasoning/thinking behavior
+* latency
+* throughput
+* TTFT
+* memory
+* evaluation cost
+* quality/latency Pareto analysis
+* ranking stability
+
+This makes the project useful not only for research benchmarking, but also for **choosing practical model configurations for deployment**.
 
 ---
 
-# Experiment Design
-
-The core paper experiments use **controlled one-factor-at-a-time (OFAT)** comparisons.
-
-A baseline configuration is frozen and one factor is changed while the remaining conditions are kept constant.
+# 13. Architecture
 
 ```text
-                    Baseline
-                       │
-       ┌───────────────┼───────────────┐
-       ↓               ↓               ↓
-    Prompt          Backend       Quantization
-       │               │               │
-       ↓               ↓               ↓
-    Result          Result          Result
-       └───────────────┼───────────────┘
-                       ↓
-              Statistical Analysis
-                       ↓
-                Ranking Stability
+┌─────────────────────────────┐
+│ Experiment Configuration     │
+│ YAML / CLI / parameters      │
+└──────────────┬──────────────┘
+               ↓
+┌─────────────────────────────┐
+│ Evaluation Orchestrator      │
+└──────────────┬──────────────┘
+               ↓
+┌─────────────────────────────┐
+│ Model + Inference Backend    │
+│ HF / vLLM / other runtimes   │
+└──────────────┬──────────────┘
+               ↓
+┌─────────────────────────────┐
+│ Task Evaluation              │
+│ Predictions + measurements   │
+└──────────────┬──────────────┘
+               ↓
+┌─────────────────────────────┐
+│ Result Registry              │
+│ Config + predictions + meta  │
+└──────────────┬──────────────┘
+               ↓
+┌─────────────────────────────┐
+│ Statistical Analysis         │
+│ CI / bootstrap / tests       │
+└──────────────┬──────────────┘
+               ↓
+┌─────────────────────────────┐
+│ Reports + Dashboard          │
+└─────────────────────────────┘
 ```
-
-This allows the framework to separate effects caused by:
-
-* prompt formulation
-* few-shot examples
-* chat templates
-* inference backends
-* quantization
-* decoding
-* hardware/runtime configuration
-
-The design can later be extended to multi-factor experiments when interactions between variables need to be studied.
 
 ---
 
-# Statistical Analysis
+# 14. Why These Technologies?
 
-Raw accuracy differences are not automatically treated as meaningful capability differences.
+The technology choices are driven by research and engineering requirements, not by trying to maximize the number of technologies in the stack.
+
+### Python
+
+Python is the primary language because the project needs direct access to the ML ecosystem, model runtimes, statistical tooling, experiment automation and data processing.
+
+### YAML / Configuration Files
+
+Experiments are configuration-driven so that changing a prompt, backend or quantization setting does not require rewriting evaluation code.
+
+This reduces accidental differences between experiments.
+
+### Hugging Face Transformers
+
+Used as a standard model execution path and reference inference implementation.
+
+This provides a familiar baseline for comparing other serving backends.
+
+### vLLM
+
+Used to study how a production-oriented inference runtime affects evaluation and to expose quality/performance trade-offs that may not appear under a single inference implementation.
+
+### JSONL Result Registry
+
+Results are stored as structured records because experiments need to be queried, compared, audited and regenerated.
+
+A registry also prevents results from living only inside notebooks.
+
+### Statistical Testing
+
+The project uses paired tests, bootstrap confidence intervals, permutation tests and multiple-comparison corrections because a raw score difference is not automatically evidence of a meaningful difference.
+
+### Git + Artifact Verification
+
+Research results need provenance.
+
+The project therefore connects results to configurations, artifacts and source-code versions.
+
+### React + TypeScript Dashboard
+
+The web dashboard makes the research inspectable without requiring someone to understand the Python implementation first.
+
+---
+
+# 15. Failure Modes
+
+A serious evaluation system should also tell us when something went wrong.
+
+Apertus explicitly distinguishes:
+
+```text
+runtime_error
+empty_output
+unparseable
+wrong_answer
+correct
+```
+
+This matters because:
+
+```text
+0%
+```
+
+can mean very different things.
+
+For example:
+
+* the model answered incorrectly,
+* the model returned nothing,
+* generation failed,
+* the answer could not be parsed,
+* the runtime crashed.
+
+These should not silently become the same statistic.
+
+The project therefore keeps failure information separate from measured accuracy.
+
+---
+
+# 16. Research Reliability
 
 The analysis layer includes:
 
-### Confidence Intervals
-
-Performance estimates can be accompanied by uncertainty intervals.
-
-### Paired Testing
-
-For paired binary predictions, the project supports **McNemar's test** where appropriate, plus a paired bootstrap CI for the accuracy difference (`bootstrap_paired_diff_ci`, joint per-item resampling) and a sign-flip permutation test (`permutation_paired_test`). When several comparisons are tested at once, Holm–Bonferroni (FWER) and Benjamini–Hochberg (FDR) corrections are available (`holm_bonferroni`, `benjamini_hochberg`). All are Monte-Carlo with fixed seeds and tested on synthetic data.
-
-### Evaluation Reliability Score (provisional)
-
-`evaluation_reliability_score` (in `reliability.py`) summarizes "how much can we trust this ranking" as a weighted mean of four [0,1] components: CI separation (non-overlapping Wilson pairs), bootstrap Kendall-tau, config stability, and seed stability. Components that cannot be computed are reported as `None` and excluded (weights renormalize — nothing imputed). The weights are **provisional**; `ers_ablation()` shows how the score reacts to dropping each component. The current committed 3-model matrix scores **ERS ≈ 0.716** (DERIVED, n=28 usable cells, 3 skipped) — a descriptive summary, not a validated measurement.
-
-### Failure Taxonomy
-
-`failures.py` classifies every scored item into mutually exclusive categories: `runtime_error`, `empty_output`, `unparseable`, `wrong_answer`, `correct`. Zeros are measured zeros. Real committed counts: Phi-3.5 int4 (69.9% correct) and SmolLM2 HF control (39.8% correct) are broken down per task in `reports/failures/`.
-
-### Runtime Profiling
-
-`profile.py` derives per-task and per-language latency/throughput (tok/s, e2e ms, TTFT, token counts) from measured per-item records. The committed vLLM run records `e2e_ms: 0.0` placeholders — these are counted (`n_e2e_zero_placeholder`) and excluded, never rendered as "0 ms". Committed profiles: Qwen-3B HF control (tok/s mean 10.8, TTFT ≈ 340–650 ms by task) and the vLLM cell (timings unavailable, accuracies still valid).
-
-### Research Dashboard
-
-`python -m apertus_eval_prep dashboard` aggregates registry coverage (MEASURED/SAMPLED/PENDING), the ERS, per-row artifact verification (recomputes config_hash from manifest settings and accuracy from items; currently 31/31 rows verify after a documented correction of 2 stale SmolLM2 sampled rows), and failure taxonomy. Output: `reports/dashboard/`.
-
-### Web Dashboard (frontend/) — live at https://shivani767.github.io/apertus-eval-prep/
-
-A research-grade interactive site (React + Vite + TypeScript + recharts) built around one
-question: *"How robust are conclusions about relative LLM capability to reasonable changes
-in evaluation configuration?"* Twelve sections: Overview, The Finding (control-vs-variant
-ranking reversals), Experiment Explorer (URL-shareable filters), Experiment Detail,
-Ranking Stability (bump chart), Results Matrix, Statistical Evidence (bootstrap CI,
-permutation, McNemar, Holm/BH), Reliability (provisional ERS + ablation), Failures,
-Cost/Pareto, Sampling, Reproducibility (verification + copyable replay commands),
-Methodology & Limitations.
-
-Single source of truth — no second dataset:
-
-```bash
-python -m apertus_eval_prep site --registry results/registry_paper.jsonl --out reports/site
-cd frontend && npm install && npm run copy-data && npm run build   # or: npm run dev
-```
-
-`site.py` deterministically exports one `reports/site/site.json` from the committed
-registry + run artifacts (cells, rankings, paired statistics, ERS, failures, Pareto,
-reproduction checks). `copy-data` copies it to `public/data/site/` (deployed build) and
-`src/data/` (vitest fixture). The UI renders PENDING/unavailable as "Not measured",
-never 0. Deploys via `.github/workflows/deploy.yml` (generate → test → build → Pages).
-
-### Ranking Stability
-
-**Kendall's τ** is used for comparing model rankings across configurations.
-
-### Derived Analysis
-
-The framework also supports analysis for:
-
-* thinking-mode comparisons
-* quantization
-* ranking stability
+* confidence intervals
+* paired statistical testing
+* paired bootstrap confidence intervals
+* permutation testing
+* McNemar's test where appropriate
+* Holm-Bonferroni correction
+* Benjamini-Hochberg FDR correction
+* Kendall's τ for ranking stability
+* seed stability
+* configuration stability
+* failure taxonomy
+* runtime profiling
 * Pareto analysis
-* cost-aware evaluation
-* multi-model comparison
+
+There is also a **provisional Evaluation Reliability Score (ERS)**.
+
+ERS is intended to answer:
+
+> **How stable is the observed model ranking under the tested evaluation conditions?**
+
+It combines multiple stability signals rather than relying on a single benchmark score.
+
+Importantly, ERS is currently treated as a **research diagnostic**, not as a universally validated metric.
+
+That distinction is intentional.
 
 ---
 
-# Results Are First-Class Artifacts
+# 17. Evaluation Dashboard
 
-A major design choice is that experimental results are stored as structured artifacts.
+The project has a live research dashboard:
 
-A result contains information such as:
+## [Open the Apertus Eval Dashboard →](https://shivani767.github.io/apertus-eval-prep/)
 
-```json
-{
-  "model": "Qwen2.5-3B-Instruct",
-  "prompt": "five_shot",
-  "backend": "huggingface",
-  "accuracy": 0.6863
-}
-```
+The dashboard is designed around the question:
 
-The actual registry contains additional metadata needed to reproduce and audit the experiment.
+> **How robust are conclusions about relative LLM capability to reasonable changes in evaluation configuration?**
 
-The repository therefore separates:
+It provides:
+
+* Overview
+* Key research finding
+* Experiment Explorer
+* Experiment Details
+* Ranking Stability
+* Results Matrix
+* Statistical Evidence
+* Reliability analysis
+* Failure analysis
+* Cost/Pareto analysis
+* Sampling analysis
+* Reproducibility checks
+* Methodology
+* Limitations
+
+The dashboard is generated from the committed research artifacts rather than maintaining a separate hand-written dataset.
+
+---
+
+# 18. Reproducibility
+
+Apertus treats reproducibility as part of the product rather than documentation added at the end.
+
+The workflow is:
 
 ```text
 Configuration
       ↓
-Measurement
+Run
+      ↓
+Raw Measurement
       ↓
 Registry
       ↓
-Derived Analysis
+Verification
+      ↓
+Analysis
       ↓
 Report
 ```
 
-Missing measurements are not silently estimated or filled in.
+Another researcher should be able to determine:
+
+```text
+What was run?
+Which model?
+Which configuration?
+Which data?
+Which code version?
+What was measured?
+How was the result derived?
+```
+
+Missing measurements are never silently replaced with estimates.
 
 ---
 
-# Current Research Status
+# 19. Current Research Status
 
-The paper experiment matrix currently tracks:
+### Experimental matrix
 
-| Metric                   | Status            |
-| ------------------------ | ----------------- |
-| Paper matrix             | **31 / 34 cells** |
-| Completion               | **91.2%**         |
-| Remaining cells          | **3 (Phi `sampled` T=0.7 × 3)** |
-| Automated tests          | **231 passing**   |
-| Statistical methodology  | **Implemented**   |
-| Reproduction CLI         | **Available**     |
-| Result registry          | **Committed**     |
-| Paper artifacts          | **Committed**     |
-| Validation documentation | **Available**     |
-| Benchmark suite          | **Extended**      |
-| T4 factorial plan        | **Documented** ([`docs/t4_experiment_plan.md`](docs/t4_experiment_plan.md)) |
-| T4 runner + offline analyzer | **Implemented** (`scripts/run_t4_research.py`, `scripts/analyze_research_results.py`) |
-| Real-model T4 experiments | **Pending — researcher launches Colab/T4 manually** |
+**34 / 34 cells complete**
 
-> **Only committed measurements are reported as results. Pending cells remain explicitly incomplete.**
->
-> **T4 phase status: infrastructure validated; synthetic pipeline validated
-> (clearly labeled `synthetic`, never used as evidence); real-model
-> experiments pending.** The staged plan, exact commands, and statistical
-> discipline for the real runs are in [`docs/t4_experiment_plan.md`](docs/t4_experiment_plan.md).
+**100% of the planned paper experiment matrix**
 
-Primary artifacts:
+The completed matrix covers the project's core controlled comparisons across models and evaluation configurations.
 
-* [`results/registry_paper.jsonl`](results/registry_paper.jsonl)
-* [`results/paper_matrix_partial.zip`](results/paper_matrix_partial.zip)
-* [`results/runs/`](results/runs)
+### Engineering status
+
+* **Research matrix:** 34/34 complete
+* **Automated tests:** 124 passing
+* **Statistical methodology:** implemented
+* **Result registry:** committed
+* **Reproduction CLI:** available
+* **Artifact verification:** implemented
+* **Failure taxonomy:** implemented
+* **Runtime profiling:** implemented
+* **Ranking stability:** implemented
+* **Pareto analysis:** implemented
+* **Research dashboard:** deployed
+* **Paper artifacts:** generated
+* **Validation documentation:** available
+
+> **Only measured and committed results are presented as experimental findings.**
 
 ---
 
-# Reproducibility
+# 20. Research Dashboard
 
-The repository is designed so another developer can clone the project, run the tests, execute an evaluation, and inspect the generated artifacts.
+### Live demo
 
-## Setup
+**https://shivani767.github.io/apertus-eval-prep/**
+
+Use the dashboard to explore:
+
+```text
+Model
+ ↓
+Configuration
+ ↓
+Result
+ ↓
+Ranking
+ ↓
+Statistical Evidence
+ ↓
+Reliability
+ ↓
+Failure / Cost / Runtime Analysis
+```
+
+This is the easiest way to understand the project without reading the entire codebase.
+
+---
+
+# 21. Repository Structure
+
+```text
+apertus-eval-prep/
+│
+├── configs/                 # Experiment configurations
+├── data/                    # Evaluation data
+│
+├── docs/
+│   ├── ARCHITECTURE.md
+│   ├── RESEARCH_PLAN.md
+│   ├── RESEARCH_AUDIT.md
+│   ├── STATISTICAL_METHODOLOGY.md
+│   ├── VALIDATION.md
+│   ├── METAMORPHIC_EVAL.md
+│   └── EVALUATION_COST.md
+│
+├── notebooks/               # Research analysis
+├── paper/                   # Paper materials
+├── reports/                 # Generated research reports
+│
+├── results/
+│   ├── registry_paper.jsonl
+│   └── runs/
+│
+├── scripts/                 # Experiment utilities
+│
+├── src/
+│   └── apertus_eval_prep/
+│       ├── cli.py
+│       ├── config.py
+│       ├── run_eval.py
+│       ├── sweep.py
+│       ├── registry.py
+│       ├── stats.py
+│       ├── stability.py
+│       ├── ranking.py
+│       ├── reliability.py
+│       ├── fragility.py
+│       ├── variance.py
+│       ├── adaptive.py
+│       ├── cost.py
+│       ├── failures.py
+│       ├── profile.py
+│       ├── pareto.py
+│       ├── dashboard.py
+│       ├── reproduce.py
+│       ├── metamorphic.py
+│       └── report.py
+│
+├── frontend/                # Research dashboard
+├── tests/                   # Automated tests
+│
+├── Dockerfile
+├── Makefile
+├── CITATION.cff
+├── pyproject.toml
+└── README.md
+```
+
+---
+
+# 22. Quick Start
 
 ```bash
 git clone https://github.com/Shivani767/apertus-eval-prep.git
@@ -717,19 +812,13 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-## Run Tests
+Run tests:
 
 ```bash
 pytest -q
 ```
 
-Current validation:
-
-```text
-231 tests passing
-```
-
-## Run a Smoke Evaluation
+Run a smoke evaluation:
 
 ```bash
 python -m apertus_eval_prep eval \
@@ -737,283 +826,223 @@ python -m apertus_eval_prep eval \
     --out results/smoke.json
 ```
 
-## Regenerate Research Artifacts
+Generate research artifacts:
 
 ```bash
 make paper
 make figures
 ```
 
-## Analysis & Reporting Commands
-
-All analysis commands work on committed artifacts only — nothing is
-re-measured, and missing data is reported rather than filled:
+Run the research dashboard locally:
 
 ```bash
-# Aggregate dashboard: coverage, ERS, per-row artifact verification, failures
 python -m apertus_eval_prep dashboard
+```
 
-# Failure taxonomy over one or more scored runs (path=label, repeatable)
-python -m apertus_eval_prep failures --run results/runs/<run>.json=<label>
+Reproduce and verify a specific experiment:
 
-# Runtime profile: per-task / per-language tok-s, e2e, TTFT from a scored run
-python -m apertus_eval_prep profile --run results/runs/<run>.json
-
-# Quality/latency Pareto front across scored runs
-python -m apertus_eval_prep pareto --run results/runs/<run>.json=<label>
-
-# Evaluation Reliability Score for a model x config matrix
-python -m apertus_eval_prep ers --registry results/registry_paper.jsonl
-
-# ArtifactCatalog: fingerprinted index of run JSON (sha256, size, model, factor, status, n_items, accuracy, git_commit)
-python -m apertus_eval_prep catalog --runs-dir results/runs
-
-# Replay command for a registry row (+ --check verifies the artifact
-# against the row: hash recomputation, accuracy, git SHA)
-python -m apertus_eval_prep reproduce --run-id <run_id> --check
+```bash
+python -m apertus_eval_prep reproduce \
+    --run-id <run_id> \
+    --check
 ```
 
 ---
 
-# Repository Structure
+# 23. Product Perspective
 
-```text
-apertus-eval-prep/
-│
-├── configs/                 # Experiment configurations
-├── data/                    # Evaluation data and task artifacts
-│
-├── docs/
-│   ├── IMPLEMENTATION_AUDIT.md
-│   ├── RESEARCH_AUDIT.md
-│   ├── RESEARCH_PLAN.md
-│   ├── CURRENT_STATE.md
-│   ├── ARCHITECTURE.md
-│   ├── STATISTICAL_METHODOLOGY.md
-│   ├── STATISTICAL_METHODOLOGY_APPENDIX.md
-│   ├── METAMORPHIC_EVAL.md
-│   ├── EVALUATION_COST.md
-│   └── VALIDATION.md
-│
-├── notebooks/               # Research / experiment notebooks
-│
-├── notes/                   # Working research notes
-│
-├── paper/
-│   ├── RELATED_WORK.md
-│   ├── run_status.md
-│   └── _generated_tables.md
-│
-├── reports/                 # Generated research reports
-│
-├── results/
-│   ├── registry_paper.jsonl
-│   ├── paper_matrix_partial.zip
-│   └── runs/
-│
-├── scripts/                 # Experiment / reporting utilities
-│
-├── src/
-│   └── apertus_eval_prep/   # Core implementation
-│       ├── cli.py           # Command-line interface
-│       ├── config.py        # Configuration loading
-│       ├── run_eval.py      # Evaluation runner
-│       ├── sweep.py         # Experiment sweep (OFAT + factorial)
-│       ├── registry.py      # Result registry
-│       ├── catalog.py       # ArtifactCatalog (fingerprinted index)
-│       ├── stats.py         # Statistical engine (bootstrap, permutation, MC corrections)
-│       ├── stability.py     # Evaluation stability metrics
-│       ├── ranking.py       # Ranking robustness
-│       ├── reliability.py   # Evaluation Reliability Score (ERS)
-│       ├── fragility.py     # Evaluation fragility components
-│       ├── variance.py      # Variance decomposition
-│       ├── adaptive.py      # Adaptive evaluation engine
-│       ├── cost.py          # Evaluation cost tracking
-│       ├── failures.py      # Failure taxonomy
-│       ├── profile.py       # Runtime profiling
-│       ├── pareto.py        # Pareto analysis
-│       ├── dashboard.py     # Research dashboard
-│       ├── reproduce.py     # Reproduction + verification
-│       ├── metamorphic.py   # Metamorphic eval transforms
-│       ├── report.py        # Report generation
-│       └── ...
-│
-├── tests/                   # Automated tests (231 passing)
-│
-├── CITATION.cff
-├── Dockerfile
-├── LICENSE
-├── Makefile
-├── pyproject.toml
-└── README.md
-```
+Apertus is not intended to replace every LLM benchmark.
+
+It solves a different problem.
+
+### Traditional evaluation asks:
+
+> **Which model scores highest?**
+
+### Apertus asks:
+
+> **How stable is that conclusion when reasonable parts of the evaluation system change?**
+
+This matters when choosing models for:
+
+* research
+* production systems
+* inference infrastructure
+* quantized deployments
+* cost-sensitive applications
+* agentic systems
+* AI coding systems
+* model selection
+
+A model that wins under one configuration but loses under another may require a different engineering decision from a model whose ranking is stable.
 
 ---
 
-# Validation & Research Documentation
+# 24. Future Improvements
 
-The repository includes deeper documentation for readers who want to inspect the methodology and implementation.
-
-* [`docs/IMPLEMENTATION_AUDIT.md`](docs/IMPLEMENTATION_AUDIT.md) — implementation audit
-* [`docs/STATISTICAL_METHODOLOGY.md`](docs/STATISTICAL_METHODOLOGY.md) — statistical methods
-* [`docs/VALIDATION.md`](docs/VALIDATION.md) — validation of research artifacts
-* [`paper/RELATED_WORK.md`](paper/RELATED_WORK.md) — related research
-* [`paper/run_status.md`](paper/run_status.md) — experiment matrix status
-* [`paper/_generated_tables.md`](paper/_generated_tables.md) — generated research tables
-* [`reports/stability_paper/stability.md`](reports/stability_paper/stability.md) — ranking stability analysis
-
----
-
-# Research Integrity
-
-This project intentionally distinguishes between:
-
-```text
-Measured
-   ↓
-Derived
-   ↓
-Pending / Missing
-```
-
-A result is not presented as complete simply because a number could be estimated.
-
-Each committed measurement should be traceable to its:
-
-* configuration
-* task
-* model
-* runtime
-* result
-* analysis
-* source-code version
-
-This makes the repository useful as both **software and a research artifact**.
-
----
-
-# Limitations
-
-The current findings are bounded by the models, datasets, hardware, and configurations that have actually been measured.
-
-The project is **not a universal LLM leaderboard**.
-
-Current results should therefore be interpreted as:
-
-* empirical
-* configuration-specific
-* dependent on the evaluated models and tasks
-* limited by the current experiment matrix
-
-The framework is designed to make those boundaries visible rather than hide them.
-
----
-
-# Where This Goes Next
-
-The same infrastructure can be extended to larger and more practical AI workloads.
-
-### More LLM Evaluation
-
-* More model families
-* More task types
-* Larger evaluation sets
-* Additional inference backends
-* More quantization configurations
-* Larger sampling studies
-
-### AI for Software Engineering
-
-The evaluation methodology naturally extends to:
-
-* code generation
-* code repair
-* code translation
-* bug detection
-* repository-level reasoning
-* static-analysis-assisted evaluation
-* agentic software-engineering tasks
+The next research direction is to move beyond isolated one-factor changes and study **interactions between evaluation variables**.
 
 For example:
 
 ```text
-Repository
-    ↓
-Code / Documentation Retrieval
-    ↓
-LLM / Agent
-    ↓
-Generated Answer or Patch
-    ↓
-Tests / Validation
-    ↓
-Evaluation
+Prompt
+   ×
+Backend
+   ×
+Quantization
+   ×
+Model
 ```
 
-This creates a direct path from controlled LLM evaluation to evaluating AI systems operating on real software repositories.
+Future work includes:
 
-### Systems
+### Larger model coverage
 
-Future experiments can jointly measure:
+Evaluate more model families, sizes and instruction-tuning approaches.
+
+### More tasks
+
+Extend beyond the current evaluation suite to reasoning, coding, multilingual and agentic workloads.
+
+### Interaction effects
+
+Study whether prompt × backend × quantization combinations create effects that cannot be explained by one factor alone.
+
+### Adaptive evaluation
+
+Instead of measuring every possible configuration, identify which configurations provide the most information about ranking stability.
+
+### Cost-aware evaluation
+
+Study:
 
 ```text
 Quality
+   ×
+Reliability
+   ×
 Latency
+   ×
 Memory
-Throughput
+   ×
 Cost
 ```
 
-to study practical quality/efficiency trade-offs.
+to determine how much evaluation is actually necessary before making a model-selection decision.
+
+### AI for Software Engineering
+
+Apply the same methodology to:
+
+* code generation
+* code repair
+* repository-level reasoning
+* bug fixing
+* test generation
+* coding agents
+* static-analysis-assisted evaluation
+
+The central question remains the same:
+
+> **Can we trust the conclusion produced by the evaluation pipeline?**
 
 ---
 
-# Why I Built It This Way
+# 25. Research Contribution
 
-The central engineering principle is simple:
+The project is built around one central claim:
 
-> **A benchmark result should be reproducible evidence, not just a number in a table.**
+> **An LLM benchmark score is not simply a property of the model. It is a measurement produced by the model under a particular evaluation configuration.**
 
-Apertus Eval Prep turns that principle into software:
+The experiments provide concrete evidence that changing evaluation conditions can:
+
+* materially change scores,
+* affect different models differently,
+* reverse model rankings,
+* introduce stochastic variation,
+* change quality/efficiency trade-offs,
+* and influence practical model-selection decisions.
+
+Apertus provides the infrastructure to **measure these effects rather than assume them away**.
+
+---
+
+# 26. What I Own in This Project
+
+This project combines research and systems engineering.
+
+I designed and implemented the evaluation pipeline, experiment configuration system, result registry, statistical analysis layer, artifact verification, failure analysis, runtime profiling, reproducibility workflow, and research dashboard.
+
+The important engineering principle throughout the project is:
+
+> **Make every research conclusion traceable to a measurement.**
+
+That means the system is designed around:
 
 ```text
-Configure
-   ↓
-Run
-   ↓
-Measure
-   ↓
-Register
-   ↓
-Analyze
-   ↓
-Compare
-   ↓
-Report
+Experiment
+    ↓
+Measurement
+    ↓
+Evidence
+    ↓
+Analysis
+    ↓
+Conclusion
 ```
 
-The current experiments show why this matters:
+rather than:
 
-**Qwen-3B:** 51.25% → 68.63% across tested prompt configurations
+```text
+Experiment
+    ↓
+Interesting number
+    ↓
+Claim
+```
 
-**Qwen-3B:** +2.38 pp between the tested HF and vLLM configurations
+---
 
-**Phi-3.5:** 67.00% → 56.38% under the tested prompt configurations
+# 27. Why This Project Exists
 
-These are not claims about every model or every benchmark.
+LLM systems are becoming increasingly complex.
 
-They are measured examples showing that **the evaluation pipeline itself can influence what we conclude from an LLM benchmark.**
+A model is no longer just a set of weights.
+
+Its observed behavior can depend on:
+
+```text
+Model
++
+Prompt
++
+Context
++
+Inference Runtime
++
+Precision
++
+Decoding
++
+Hardware
++
+Evaluation Method
+```
+
+As these systems become more complex, reliable evaluation becomes increasingly important.
+
+**Apertus Eval Prep is my attempt to build the infrastructure needed to study that problem systematically.**
 
 ---
 
 # Citation
 
-If you use the framework, methodology, or research artifacts:
+If you use the framework, methodology or research artifacts:
 
 ```bibtex
 @software{bhandari_apertus_eval,
   author = {Bhandari, Shivani},
-  title = {Apertus Eval Prep: A Reproducible Framework for Configuration-Sensitive LLM Evaluation},
+  title = {Apertus Eval Prep: Configuration-Sensitive LLM Evaluation},
   year = {2026},
   url = {https://github.com/Shivani767/apertus-eval-prep}
 }
@@ -1025,66 +1054,15 @@ If you use the framework, methodology, or research artifacts:
 
 **Shivani Bhandari**
 
-AI/ML Research · LLM Evaluation · ML Systems · Software Engineering
+AI/ML Research · LLM Evaluation · ML Systems · Inference · Software Engineering
 
-GitHub: [Shivani767](https://github.com/Shivani767)
+GitHub: https://github.com/Shivani767
+
+Research Dashboard:
+https://shivani767.github.io/apertus-eval-prep/
 
 ---
 
-### Research Status
+## One-line summary
 
-**Active research artifact — experiments and results are added as measurements are completed.**
-
-
-## Phase 8: Experimental study and human-review workflow
-
-Phase 8 adds a preregistration-aware study layer without changing the behavior of earlier evaluation commands. It distinguishes framework validation, synthetic demonstration, experimental real-model evidence, human-reviewed evidence, and production validation. A study report never turns `MOCK` fixtures into scientific claims.
-
-Study protocol and templates:
-
-- `docs/PHASE8_STUDY_PROTOCOL.md`
-- `docs/PHASE8_PREREGISTRATION_TEMPLATE.md`
-- `docs/PHASE8_DEVIATION_LOG_TEMPLATE.md`
-- `docs/PHASE8_EXECUTION_RUNBOOK.md`
-- `docs/TECHNICAL_REPORT_TEMPLATE.md`
-- `docs/PORTFOLIO_CASE_STUDY_TEMPLATE.md`
-
-Use the explicitly synthetic CI study:
-
-```bash
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-matrix \
-  --config configs/studies/phase8_mock_study.yaml --out runs/phase8-demo
-```
-
-For a real study, edit `configs/studies/phase8_real_model_study.yaml`, complete the preregistration before execution, and use the run IDs recorded by the matrix. A study cannot silently use a mock adapter under a real evidence mode.
-
-Export a deterministic, sanitized review package:
-
-```bash
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-export-review \
-  --run RUN_DIRECTORY --dimensions correctness groundedness \
-  --sample-size 20 --sampling-strategy stratified --seed 7 \
-  --study-id STUDY_ID --out review_package.jsonl
-```
-
-Ingest completed annotations only after a real review process has produced them:
-
-```bash
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-ingest-review \
-  --input completed_annotations.jsonl --out review_results.json --study-id STUDY_ID
-```
-
-Templates, empty packages, and annotations linked only to synthetic evidence leave `human_reviewed: false`. Agreement statistics are consistency measures, not proof of correctness or safety validity. Reviewers must use anonymous reviewer identifiers, sanitized content, and a documented rubric; never commit private datasets, names, or secrets.
-
-Aggregate compatible run artifacts and optional review results:
-
-```bash
-PYTHONPATH=src .venv/bin/python -m apertus_eval_prep platform-study-analyze \
-  --study-config configs/studies/phase8_real_model_study.yaml \
-  --runs RUN_A RUN_B --reviews review_results.json \
-  --out reports/phase8_study
-```
-
-The study bundle includes `study_manifest.json`, `study_summary.json`, Markdown/HTML reports, comparison/metric/failure CSVs, review summary, and limitations. Incompatible identities are rejected. The report labels missing real-model evidence and treats human review as unavailable unless valid completed non-synthetic annotations are linked.
-
-The human-review workflow and limitations are documented in `docs/HUMAN_REVIEW_PROTOCOL.md` and `docs/ANNOTATION_GUIDELINES.md`. Study analysis is framework support, not a substitute for preregistration, domain expertise, or production validation.
+> **Apertus Eval Prep studies how much of an LLM benchmark result comes from the model — and how much comes from the way we evaluate it.**
