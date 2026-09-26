@@ -10,6 +10,11 @@ in three places: the header, the configuration cell, and the Drive mirror/export
 (so parallel Colab sessions on different models cannot overwrite each other). Generated
 notebooks are reproducible: running this script twice changes nothing.
 
+This script owns notebook *code*, not runtime state. A notebook that Colab has executed
+and saved back (stored outputs or execution counts present) is compared cell by cell and
+left untouched, so a finished run is never overwritten by a regeneration. Use `--force`
+to discard that state deliberately.
+
 Add a model by appending one `ModelNotebook` entry to MODELS and re-running.
 """
 from __future__ import annotations
@@ -125,6 +130,61 @@ MODELS: tuple[ModelNotebook, ...] = (
         role="Optional India-context diagnostic slice only, never the English primary comparison.",
         status="gated: accept the licence and set HF_TOKEN in the Colab environment",
     ),
+    ModelNotebook(
+        slug="qwen2.5-3b",
+        hf_name="Qwen2.5-3B",
+        model_id="Qwen/Qwen2.5-3B",
+        revision="main",
+        title="Qwen2.5 3B (base)",
+        family_glob="Qwen",
+        description="The pretrained twin of the baseline: same weights and tokenizer, no instruction tuning.",
+        params="3B",
+        fp16_weights="~6.2 GB",
+        license="Apache-2.0",
+        role="Controlled instruct-versus-base contrast for H1/H4; isolates post-training from every other factor.",
+        status="control condition (no instruction tuning)",
+    ),
+    ModelNotebook(
+        slug="sarvam-1",
+        hf_name="sarvam-1",
+        model_id="sarvamai/sarvam-1",
+        revision="main",
+        title="Sarvam 1",
+        family_glob="sarvam",
+        description="Indic-focused 2.5B model on a Llama architecture, trained on 11 Indian languages plus English.",
+        params="2.5B",
+        fp16_weights="~5.0 GB",
+        license="custom (read the model card LICENSE.md)",
+        role="India-context diagnostic: an Indic-native model instead of an English model on Indian prompts.",
+        status="verify the model-card licence before publishing results",
+    ),
+    ModelNotebook(
+        slug="smollm3-3b",
+        hf_name="SmolLM3-3B",
+        model_id="HuggingFaceTB/SmolLM3-3B",
+        revision="main",
+        title="SmolLM3 3B",
+        family_glob="SmolLM",
+        description="Multilingual instruction-tuned model with a 64k context window and no remote-code requirement.",
+        params="3B",
+        fp16_weights="~6.1 GB",
+        license="Apache-2.0",
+        role="Current-generation open anchor; re-tests whether a larger model scores better under this protocol.",
+    ),
+    ModelNotebook(
+        slug="llama-3.2-3b-instruct",
+        hf_name="Llama-3.2-3B-Instruct",
+        model_id="meta-llama/Llama-3.2-3B-Instruct",
+        revision="main",
+        title="Llama 3.2 3B Instruct",
+        family_glob="Llama",
+        description="Instruction-tuned 3.2B Llama model with a different tokenizer and pretraining lineage.",
+        params="3.2B",
+        fp16_weights="~6.5 GB",
+        license="Llama 3.2 Community Licence",
+        role="Adds the Llama family to the primary comparison.",
+        status="gated: accept the Meta licence, then set HF_TOKEN in the Colab environment",
+    ),
 )
 
 
@@ -227,27 +287,54 @@ def serialise(notebook: dict[str, Any]) -> str:
     return json.dumps(notebook, indent=1, ensure_ascii=False) + "\n"
 
 
+def cell_sources(notebook: dict[str, Any]) -> list[tuple[str, str]]:
+    """(cell_type, source) pairs: the parts this script owns, ignoring Colab state."""
+    return [(cell["cell_type"], "".join(cell["source"])) for cell in notebook["cells"]]
+
+
+def has_stored_outputs(notebook: dict[str, Any]) -> bool:
+    """True when the notebook carries Colab runtime state (outputs or execution counts)."""
+    return any(cell.get("outputs") or cell.get("execution_count") for cell in notebook["cells"])
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--check", action="store_true", help="Verify notebooks are up to date instead of writing.")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Rewrite notebooks even when they carry Colab runtime state (discards stored outputs).",
+    )
     args = parser.parse_args()
 
     template = json.loads(TEMPLATE.read_text(encoding="utf-8"))
     stale: list[str] = []
     for model in MODELS:
-        notebook = render_notebook(template, model)
-        code_cells = compile_check(notebook, model.notebook_name)
-        text = serialise(notebook)
+        generated = render_notebook(template, model)
+        code_cells = compile_check(generated, model.notebook_name)
         target = NOTEBOOK_DIR / model.notebook_name
-        existing = target.read_text(encoding="utf-8") if target.exists() else None
-        if existing == text:
-            print("up to date %s (%d code cells)" % (model.notebook_name, code_cells))
+        if not target.exists():
+            stale.append(model.notebook_name)
+            if not args.check:
+                target.write_text(serialise(generated), encoding="utf-8")
+                print("created %s (%d code cells)" % (model.notebook_name, code_cells))
+            continue
+        existing = json.loads(target.read_text(encoding="utf-8"))
+        if cell_sources(existing) == cell_sources(generated):
+            state = "executed in Colab, sources match" if has_stored_outputs(existing) else "up to date"
+            print("%s %s (%d code cells)" % (state, model.notebook_name, code_cells))
+            continue
+        if has_stored_outputs(existing) and not args.force:
+            print(
+                "%s carries Colab runtime state and its cells differ from the template; left untouched "
+                "(use --force to overwrite)" % model.notebook_name
+            )
             continue
         stale.append(model.notebook_name)
         if args.check:
             continue
-        target.write_text(text, encoding="utf-8")
-        print("wrote %s (%d cells, %d code cells)" % (target.relative_to(ROOT), len(notebook["cells"]), code_cells))
+        target.write_text(serialise(generated), encoding="utf-8")
+        print("wrote %s (%d code cells)" % (model.notebook_name, code_cells))
     if args.check and stale:
         print("out of date (re-run without --check): %s" % ", ".join(stale))
         return 1
