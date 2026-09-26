@@ -18,14 +18,14 @@
 
 | Run | Model/revision | Evidence | Config hash | Quality | 95% CI |
 |---|---|---|---|---:|---|
-| `20260926T151520286459Z-sarvam-application-local-variance-baseli-8f500dc7` | `google/gemma-2-2b-it` / `main` | `LOCAL_REAL_MODEL` | `ba20283c3ee4f28a` | unavailable | [unavailable, unavailable] |
-| `20260926T151546442104Z-sarvam-application-local-variance-backen-cc1b4f86` | `google/gemma-2-2b-it` / `main` | `LOCAL_REAL_MODEL` | `43a58048a68e1d4b` | unavailable | [unavailable, unavailable] |
-| `20260926T151605306880Z-sarvam-application-local-variance-backen-1ad481ad` | `google/gemma-2-2b-it` / `main` | `LOCAL_REAL_MODEL` | `878c1700d084b9f1` | unavailable | [unavailable, unavailable] |
+| `20260926T175602446851Z-sarvam-application-local-variance-baseli-e2813aec` | `google/gemma-2-2b-it` / `main` | `LOCAL_REAL_MODEL` | `ba20283c3ee4f28a` | unavailable | [unavailable, unavailable] |
+| `20260926T175629144798Z-sarvam-application-local-variance-backen-8fa48b92` | `google/gemma-2-2b-it` / `main` | `LOCAL_REAL_MODEL` | `43a58048a68e1d4b` | unavailable | [unavailable, unavailable] |
+| `20260926T175648617423Z-sarvam-application-local-variance-backen-e41fdb82` | `google/gemma-2-2b-it` / `main` | `LOCAL_REAL_MODEL` | `878c1700d084b9f1` | unavailable | [unavailable, unavailable] |
 
 ## Comparisons
 
-- `20260926T151520286459Z-sarvam-application-local-variance-baseli-8f500dc7` → `20260926T151546442104Z-sarvam-application-local-variance-backen-cc1b4f86`: delta `unavailable`, 95% CI `[unavailable, unavailable]`, effect `unavailable`, status **INCONCLUSIVE**, practically meaningful: `False`.
-- `20260926T151520286459Z-sarvam-application-local-variance-baseli-8f500dc7` → `20260926T151605306880Z-sarvam-application-local-variance-backen-1ad481ad`: delta `unavailable`, 95% CI `[unavailable, unavailable]`, effect `unavailable`, status **INCONCLUSIVE**, practically meaningful: `False`.
+- `20260926T175602446851Z-sarvam-application-local-variance-baseli-e2813aec` → `20260926T175629144798Z-sarvam-application-local-variance-backen-8fa48b92`: delta `unavailable`, 95% CI `[unavailable, unavailable]`, effect `unavailable`, status **INCONCLUSIVE**, practically meaningful: `False`.
+- `20260926T175602446851Z-sarvam-application-local-variance-baseli-e2813aec` → `20260926T175648617423Z-sarvam-application-local-variance-backen-e41fdb82`: delta `unavailable`, 95% CI `[unavailable, unavailable]`, effect `unavailable`, status **INCONCLUSIVE**, practically meaningful: `False`.
 
 ## Experimental Robust Capability Score
 
@@ -37,9 +37,9 @@
 
 ## Safety, RAG/agent, and deployment
 
-- `20260926T151520286459Z-sarvam-application-local-variance-baseli-8f500dc7`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `unavailable`, cost/success `unavailable`, gate `INCONCLUSIVE`.
-- `20260926T151546442104Z-sarvam-application-local-variance-backen-cc1b4f86`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `unavailable`, cost/success `unavailable`, gate `INCONCLUSIVE`.
-- `20260926T151605306880Z-sarvam-application-local-variance-backen-1ad481ad`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `unavailable`, cost/success `unavailable`, gate `INCONCLUSIVE`.
+- `20260926T175602446851Z-sarvam-application-local-variance-baseli-e2813aec`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `unavailable`, cost/success `unavailable`, gate `INCONCLUSIVE`.
+- `20260926T175629144798Z-sarvam-application-local-variance-backen-8fa48b92`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `unavailable`, cost/success `unavailable`, gate `INCONCLUSIVE`.
+- `20260926T175648617423Z-sarvam-application-local-variance-backen-e41fdb82`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `unavailable`, cost/success `unavailable`, gate `INCONCLUSIVE`.
 
 ## Pareto frontier
 
@@ -49,9 +49,9 @@
 
 ## Failure fingerprints
 
-- `20260926T151520286459Z-sarvam-application-local-variance-baseli-8f500dc7`: failures `38`, rate `1.0000`, priority `P0`.
-- `20260926T151546442104Z-sarvam-application-local-variance-backen-cc1b4f86`: failures `38`, rate `1.0000`, priority `P0`.
-- `20260926T151605306880Z-sarvam-application-local-variance-backen-1ad481ad`: failures `38`, rate `1.0000`, priority `P0`.
+- `20260926T175602446851Z-sarvam-application-local-variance-baseli-e2813aec`: failures `38`, rate `1.0000`, priority `P0`.
+- `20260926T175629144798Z-sarvam-application-local-variance-backen-8fa48b92`: failures `38`, rate `1.0000`, priority `P0`.
+- `20260926T175648617423Z-sarvam-application-local-variance-backen-e41fdb82`: failures `38`, rate `1.0000`, priority `P0`.
 
 ## Human review
 
@@ -60,15 +60,15 @@
 
 ## Missing evidence / inconclusive results
 
-- 20260926T151520286459Z-sarvam-application-local-variance-baseli-8f500dc7: safety suite unavailable
-- 20260926T151520286459Z-sarvam-application-local-variance-baseli-8f500dc7: RAG/agent suite unavailable
-- 20260926T151520286459Z-sarvam-application-local-variance-baseli-8f500dc7: cost per successful task unavailable
-- 20260926T151546442104Z-sarvam-application-local-variance-backen-cc1b4f86: safety suite unavailable
-- 20260926T151546442104Z-sarvam-application-local-variance-backen-cc1b4f86: RAG/agent suite unavailable
-- 20260926T151546442104Z-sarvam-application-local-variance-backen-cc1b4f86: cost per successful task unavailable
-- 20260926T151605306880Z-sarvam-application-local-variance-backen-1ad481ad: safety suite unavailable
-- 20260926T151605306880Z-sarvam-application-local-variance-backen-1ad481ad: RAG/agent suite unavailable
-- 20260926T151605306880Z-sarvam-application-local-variance-backen-1ad481ad: cost per successful task unavailable
+- 20260926T175602446851Z-sarvam-application-local-variance-baseli-e2813aec: safety suite unavailable
+- 20260926T175602446851Z-sarvam-application-local-variance-baseli-e2813aec: RAG/agent suite unavailable
+- 20260926T175602446851Z-sarvam-application-local-variance-baseli-e2813aec: cost per successful task unavailable
+- 20260926T175629144798Z-sarvam-application-local-variance-backen-8fa48b92: safety suite unavailable
+- 20260926T175629144798Z-sarvam-application-local-variance-backen-8fa48b92: RAG/agent suite unavailable
+- 20260926T175629144798Z-sarvam-application-local-variance-backen-8fa48b92: cost per successful task unavailable
+- 20260926T175648617423Z-sarvam-application-local-variance-backen-e41fdb82: safety suite unavailable
+- 20260926T175648617423Z-sarvam-application-local-variance-backen-e41fdb82: RAG/agent suite unavailable
+- 20260926T175648617423Z-sarvam-application-local-variance-backen-e41fdb82: cost per successful task unavailable
 
 ## Limitations
 

@@ -1,0 +1,123 @@
+run_name: sarvam-application-local-variance-baseline
+experiment_id: sarvam_application_real_eval_v1
+parent_experiment_id: sarvam_application_real_eval_v1
+tags: []
+dimensions:
+  language: null
+  locale: null
+  domain: null
+  risk_category: null
+  deployment_environment: null
+adapter:
+  kind: local_transformers
+  name: local-real-model-variance
+  model_id: google/gemma-2-2b-it
+  revision: main
+  params:
+    tokenizer_id: google/gemma-2-2b-it
+    tokenizer_revision: main
+    device: cuda
+    dtype: float16
+    quantization: none
+    trust_remote_code: false
+    max_new_tokens: 128
+    temperature: 0.0
+    top_p: 1.0
+    do_sample: false
+    timeout_s: 600
+prompt:
+  prompt_id: sarvam-core
+  version: v1
+  system_prompt: null
+  fewshot_path: null
+  template: base
+task:
+  kind: static_qa
+  path: data/eval_set.jsonl
+  tasks:
+  - arc_easy
+  - gsm8k
+  - hallucination
+  - robustness
+  - safety_bias
+  - template_canary
+  limit: 38
+  split: null
+  episode_ids: []
+  perturbations: []
+decoding:
+  seed: 11
+  temperature: 0.0
+  top_p: 1.0
+  max_new_tokens: 128
+  stop: []
+runtime:
+  device: cuda
+  precision: float16
+  quantization: none
+  batch_size: 1
+  timeout_s: 600.0
+evaluators:
+  quality: true
+  groundedness: true
+  safety: false
+  tool_use: false
+  cost_latency: true
+  judge_reliability: false
+  judge_mode: rules
+  groundedness_overlap_threshold: 0.35
+  safety_cases_path: null
+  safety_taxonomy_path: null
+  safety_category_weights: {}
+  safety_severity_weights: {}
+metrics:
+  n_boot: 200
+  alpha: 0.05
+  seed: 11
+  robust_capability_lambda: 1.0
+  practical_effect_threshold: 0.02
+  min_sample_size: 20
+reporting:
+  output_dir: runs/phase8_real_colab/local_variance
+  markdown: true
+  html: true
+  include_raw_outputs: true
+  pii_redaction: true
+  max_excerpt_chars: 400
+  log_level: info
+release_gates:
+  path: null
+  strict: false
+cost:
+  input_per_million: null
+  output_per_million: null
+  currency: USD
+  source: manual_config
+  effective_date: null
+  estimate_label: DERIVED_ESTIMATE
+evidence:
+  schema_version: '1.0'
+  mode: LOCAL_REAL_MODEL
+  runtime_environment: google_colab
+  real_model_execution: true
+  external_provider_execution: false
+  hardware_measured: true
+  human_reviewed: false
+  pricing_source: manual_config
+  known_limitations:
+  - Experimental environment; not production infrastructure
+  - Latency is client-side wall-clock measurement
+baseline_run: null
+conditions:
+  backend: local_transformers
+  dataset: data/eval_set.jsonl
+  model_revision: main
+  precision: float16
+  prompt_template: base
+  quantization: none
+  seed: 11
+  split: null
+  task: static_qa
+  temperature: 0.0
+  top_p: 1.0
+evidence_class: MEASURED

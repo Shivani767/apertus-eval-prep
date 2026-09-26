@@ -6,25 +6,37 @@ or silently dropped. Nothing here is cited: these are recorded attempts, not res
 
 ## `gemma-2-2b-it/` - attempted 2026-09-26, 0 of 257 examples scored
 
-- **Status:** infrastructure failure, not a model-quality result. Every real run has
-  `n_scored = 0` and the only scored run is the mock smoke; the six-cell variance matrix
-  has 38 failures per cell.
-- **Recorded cause:** every example carries
-  `adapter_model_load_error: local model/tokenizer could not be loaded`, category
-  `timeout_or_infrastructure_failure`. The weights were never loaded, so nothing about the
-  model's answers was measured.
-- **Why:** the session ran a notebook checkout from code commit `ee11d9b`, which predates
-  the `## 0. Authenticate for gated models` cell (`b52fc09`). Without that cell the Colab
-  `HF_TOKEN` secret is never copied into the environment, so the `platform-*` subprocess
-  that downloads the gated weights had no token and the Hub returned 401.
-- **Not a Gemma problem:** the same token/secret path works for ungated models, and the
-  preflight in the current notebook reports the access problem before any run starts.
-- **Re-run:** open `notebooks/real_model_gemma-2-2b-it.ipynb` from GitHub master, confirm
-  the section 0 cell exists, run it so it prints `model access OK: google/gemma-2-2b-it`,
-  then curate the new export as usual. A fresh summary will show whether the runs scored.
+Third and last attempt, from code commit `0cafa9e`, so the artifacts name the cause:
 
-Load errors now name their underlying cause, so the next attempt of this kind records the
-Hub 401 in the artifacts instead of a generic message.
+- **Status:** infrastructure failure, not a model-quality result. Every real run has
+  `n_scored = 0`; the only scored run is the mock smoke, and the six-cell variance matrix has
+  38 failures per cell. Nothing about Gemma's answers was measured.
+- **Recorded cause:** every example carries
+  `adapter_model_load_error: local model/tokenizer could not be loaded (OSError: You are
+  trying to access a gated repo ... 401 Client Error. (Request ID: Root=1-6ab8073a-...))`.
+  The Hub refused every weight download: no credential this session could use.
+- **Why the preflight passed anyway**, which is the part worth keeping:
+  1. `model_info` is not an access check. A gated repository publishes its metadata to
+     anonymous callers, so the notebook printed `model access OK` and only the *file*
+     downloads failed.
+  2. An ambient token was accepted without validation, so a revoked or expired token was
+     reported as "a token is already available" and the Colab secret was never read.
+- **Fixed on master** by `apertus_eval_prep.hub_auth`: every candidate token is validated
+  against `whoami` (an authenticated endpoint), the Colab secret is preferred over a cached
+  token so a rotated value takes effect, the validated token is published to the
+  subprocess that downloads the weights, and the preflight now fetches `config.json`, i.e.
+  the download that was failing. Covered by `tests/test_hub_auth.py`; all ten notebooks
+  delegate to it, enforced by `tests/test_notebook_hub_auth.py`.
+- **Re-run:** open `notebooks/real_model_gemma-2-2b-it.ipynb` from GitHub master, restart
+  the runtime, and run all cells. Section 0 now stops the session with the licence
+  instructions and the underlying Hub error instead of letting 257 examples fail; once it
+  prints `model access OK: google/gemma-2-2b-it (gated (auto), token from colab secret,
+  revision <sha>)`, the steps will load.
+- **Notebook state:** this notebook was regenerated from the template, so its stored
+  outputs from the failed attempt are gone. Nothing was lost: the artifacts of that attempt
+  are the ones preserved in this directory. The two notebooks whose runs *succeeded*
+  (`real_model_qwen2.5-1.5b-instruct`, `real_model_smollm2-1.7b-instruct`) were deliberately
+  left untouched, so their session records still exist.
 
 ## `llama-3.2-3b-instruct/` - attempted 2026-09-26, 0 of 257 examples scored
 
