@@ -1,0 +1,11 @@
+{
+  "path": "/content/apertus-eval-prep/data/platform_smoke.jsonl",
+  "hash": "34c6f7ab5f18a5b9",
+  "id": "34c6f7ab5f18a5b9",
+  "hash_algorithm": "sha256-16",
+  "n_examples": 4,
+  "tasks": [
+    "platform_qa"
+  ],
+  "split": null
+}

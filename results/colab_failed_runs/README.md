@@ -40,19 +40,24 @@ Third and last attempt, from code commit `0cafa9e`, so the artifacts name the ca
 
 ## `llama-3.2-3b-instruct/` - attempted 2026-09-26, 0 of 257 examples scored
 
-- **Status:** infrastructure failure. Every real run has `n_scored = 0` and 38 failures per
-  variance cell; the responses are `[ADAPTER_FAILURE]` with
-  `adapter_model_load_error: local model/tokenizer could not be loaded`. Nothing about the
-  model's answers was measured.
-- **Unlike the Gemma attempt, this run used a current notebook**: code commit `be36970`,
-  which already contains the `## 0. Authenticate for gated models` cell, and the run
-  recorded the pinned revision `0cb88a4f764b7a12671c53f0838cd831a0843b95`. So the failure is
-  not a stale checkout.
-- **The underlying cause is not in the artifacts**, because `be36970` predates the adapter
-  fix that puts it there. Run the tokenizer/model load in a single cell to see the real
-  error; the most likely candidates are a token whose repository scope excludes
-  `meta-llama/Llama-3.2-3B-Instruct` (fine-grained tokens can be limited per repository),
-  or the pinned revision not being reachable with the granted access.
-- **Re-run:** after the load succeeds in that one cell, the platform steps will too, and the
-  next export will be a measured run. This is the first run that would record a pinned
-  revision, so its summary should carry no unpinned-revision warning.
+Second attempt, from code commit `5c6ec05`, with the pinned revision
+`0cb88a4f764b7a12671c53f0838cd831a0843b95` recorded in every manifest.
+
+- **Status:** infrastructure failure, not a model-quality result. Every real run has
+  `n_scored = 0`; the only scored run is the mock smoke. Nothing about Llama's answers was
+  measured.
+- **Recorded cause:** every example carries
+  `adapter_model_load_error: local model/tokenizer could not be loaded (OSError: You are
+  trying to access a gated repo ... https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct.
+  401 Client Error. (Request ID: Root=1-6ab80926-...))`. `401` is the Hub saying the
+  credentials were absent or rejected, as distinct from `403`, which would mean valid
+  credentials without the granted access. So this is a token problem, not a licence
+  problem, and not a Llama problem.
+- **Why the preflight still did not catch it:** this session ran `5c6ec05`, which predates
+  the `hub_auth` fix, so it used the notebook's own unvalidated helper. The fix that now
+  names the rejected source and probes the download is `9d2e275`; a notebook opened from
+  master after that commit stops at section 0 with a named cause instead of running 257
+  failing examples.
+- **Re-run:** open `notebooks/real_model_llama-3.2-3b-instruct.ipynb` fresh from GitHub
+  master, restart the runtime, and run all cells. Section 0 will either authenticate and
+  print the revision to pin, or name the token source it rejected.

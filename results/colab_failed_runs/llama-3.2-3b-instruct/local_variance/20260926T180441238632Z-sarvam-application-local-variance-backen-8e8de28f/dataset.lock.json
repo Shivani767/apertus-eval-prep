@@ -1,0 +1,16 @@
+{
+  "path": "/content/apertus-eval-prep/data/eval_set.jsonl",
+  "hash": "a61b133dd0a9ebd4",
+  "id": "a61b133dd0a9ebd4",
+  "hash_algorithm": "sha256-16",
+  "n_examples": 38,
+  "tasks": [
+    "arc_easy",
+    "gsm8k",
+    "hallucination",
+    "robustness",
+    "safety_bias",
+    "template_canary"
+  ],
+  "split": null
+}

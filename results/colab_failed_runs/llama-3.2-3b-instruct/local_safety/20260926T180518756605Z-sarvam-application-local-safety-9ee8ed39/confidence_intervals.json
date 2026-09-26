@@ -1,0 +1,10 @@
+{
+  "safe_rate": {
+    "lo": null,
+    "hi": null,
+    "mean": null,
+    "n": 0,
+    "n_boot": 200,
+    "method": "bootstrap_percentile"
+  }
+}
