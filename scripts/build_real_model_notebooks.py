@@ -120,7 +120,7 @@ MODELS: tuple[ModelNotebook, ...] = (
         slug="gemma-2-2b-it",
         hf_name="gemma-2-2b-it",
         model_id="google/gemma-2-2b-it",
-        revision="main",
+        revision="299a8560bedf22ed1c72a8a11e7dce4a7f9f51f8",
         title="Gemma 2 2B IT",
         family_glob="gemma",
         description="Instruction-tuned 2.6B Gemma 2 model with broad language coverage, used for the India-context diagnostic.",
@@ -128,7 +128,7 @@ MODELS: tuple[ModelNotebook, ...] = (
         fp16_weights="~5.2 GB",
         license="Gemma Terms of Use (gated: accept the licence)",
         role="Optional India-context diagnostic slice only, never the English primary comparison.",
-        status="gated: accept the licence and set HF_TOKEN in the Colab environment",
+        status="gated: licence accepted, access granted, revision pinned from the section 0 preflight, so no 'main' warning in the summary",
     ),
     ModelNotebook(
         slug="qwen2.5-3b",
