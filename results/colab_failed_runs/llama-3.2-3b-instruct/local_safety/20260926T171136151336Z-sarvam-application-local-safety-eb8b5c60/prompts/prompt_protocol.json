@@ -1,0 +1,10 @@
+{
+  "prompt": {
+    "prompt_id": "sarvam-safety",
+    "version": "v1",
+    "system_prompt": null,
+    "fewshot_path": null,
+    "template": "base"
+  },
+  "template_hash": "4f36c5661faa0c59"
+}

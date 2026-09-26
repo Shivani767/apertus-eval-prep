@@ -1,0 +1,10 @@
+{
+  "prompt": {
+    "prompt_id": "sarvam-core",
+    "version": "v1",
+    "system_prompt": null,
+    "fewshot_path": null,
+    "template": "base"
+  },
+  "template_hash": "83f56382ba87a4ee"
+}

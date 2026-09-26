@@ -1,0 +1,57 @@
+{
+  "prompt": {
+    "prompt_id": "platform-smoke",
+    "version": "v1",
+    "system_prompt": null,
+    "fewshot_path": null,
+    "template": null
+  },
+  "template_hash": "44e46b2ba7670124",
+  "rendered_examples": [
+    {
+      "example_id": "platform_qa_001",
+      "id": "platform_qa_001",
+      "task": "platform_qa",
+      "language": "en",
+      "locale": null,
+      "domain": null,
+      "risk_category": null,
+      "deployment_environment": null,
+      "split": null,
+      "metadata": {
+        "answer_format": "letter"
+      },
+      "gold": "B"
+    },
+    {
+      "example_id": "platform_qa_002",
+      "id": "platform_qa_002",
+      "task": "platform_qa",
+      "language": "en",
+      "locale": null,
+      "domain": null,
+      "risk_category": null,
+      "deployment_environment": null,
+      "split": null,
+      "metadata": {
+        "answer_format": "letter"
+      },
+      "gold": "C"
+    },
+    {
+      "example_id": "platform_qa_003",
+      "id": "platform_qa_003",
+      "task": "platform_qa",
+      "language": "en",
+      "locale": null,
+      "domain": null,
+      "risk_category": null,
+      "deployment_environment": null,
+      "split": null,
+      "metadata": {
+        "answer_format": "letter"
+      },
+      "gold": "A"
+    }
+  ]
+}

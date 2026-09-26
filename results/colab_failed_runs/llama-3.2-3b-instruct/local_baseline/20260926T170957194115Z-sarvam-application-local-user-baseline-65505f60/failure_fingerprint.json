@@ -1,0 +1,231 @@
+{
+  "schema_version": "1.0",
+  "n_failures": 4,
+  "n_total": 4,
+  "failure_rate": 1.0,
+  "by_category": {
+    "infrastructure_error": 4
+  },
+  "by_taxonomy_category": {
+    "timeout_or_infrastructure_failure": 4
+  },
+  "by_failure_type": {
+    "infrastructure_error": 4
+  },
+  "by_severity": {
+    "medium": 4
+  },
+  "dominant_failure_modes": [
+    [
+      "infrastructure_error",
+      4
+    ]
+  ],
+  "top_failure_modes": [
+    [
+      "infrastructure_error",
+      4
+    ]
+  ],
+  "safety_critical_failures": 0,
+  "stable_failures": [],
+  "configuration_sensitive_examples": [
+    "arc_easy_001",
+    "arc_easy_002",
+    "arc_easy_003",
+    "arc_easy_004"
+  ],
+  "condition_sensitive_failures": [
+    "arc_easy_001",
+    "arc_easy_002",
+    "arc_easy_003",
+    "arc_easy_004"
+  ],
+  "investigation_priorities": [
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+4",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T170957194115Z-sarvam-application-local-user-baseline-65505f60:arc_easy_001"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+4",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T170957194115Z-sarvam-application-local-user-baseline-65505f60:arc_easy_002"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+4",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T170957194115Z-sarvam-application-local-user-baseline-65505f60:arc_easy_003"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+4",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T170957194115Z-sarvam-application-local-user-baseline-65505f60:arc_easy_004"
+    }
+  ],
+  "representative_sanitized_examples": [
+    {
+      "failure_id": "20260926T170957194115Z-sarvam-application-local-user-baseline-65505f60:arc_easy_001",
+      "example_id": "arc_easy_001",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Which of these is a living organism?\nA) Granite\nB) Oak tree\nC) Cloud\nD) Table salt\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T170957194115Z-sarvam-application-local-user-baseline-65505f60:arc_easy_002",
+      "example_id": "arc_easy_002",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "What is the primary function of the human heart?\nA) Digest food\nB) Filter blood of urea\nC) Pump blood through the body\nD) Produce hormones for growth\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T170957194115Z-sarvam-application-local-user-baseline-65505f60:arc_easy_003",
+      "example_id": "arc_easy_003",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Water boils at 100 degrees Celsius at standard atmospheric pressure. What state does it become?\nA) Gas (steam)\nB) Solid (ice)\nC) Plasma\nD) It remains liquid\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T170957194115Z-sarvam-application-local-user-baseline-65505f60:arc_easy_004",
+      "example_id": "arc_easy_004",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Which force pulls objects toward the centre of the Earth?\nA) Magnetism\nB) Friction\nC) Tension\nD) Gravity\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device"
+      ],
+      "tool_trace_reference": null
+    }
+  ],
+  "baseline_comparison": {
+    "status": "UNAVAILABLE",
+    "reasons": [
+      "no baseline failure fingerprint was supplied"
+    ],
+    "category_deltas": null
+  },
+  "recommended_investigation_priority": "stability",
+  "top_investigation_priority": "P0",
+  "priority_rules": {
+    "severity": "critical=4, high=3, medium=2, low=1; missing defaults to medium",
+    "baseline_delta": "+15 score when candidate failure count exceeds baseline",
+    "safety": "+20 for high/critical severity or safety taxonomy category",
+    "failure_rate": "+10 when observed failure rate is at least 0.20",
+    "condition_sensitivity": "+5 when a condition-sensitive label is present",
+    "causality": "observed pattern only; no causal claim"
+  },
+  "conditions": {},
+  "limitations": [
+    "Failure categories and priorities are observed patterns, not causal conclusions.",
+    "Baseline deltas require aligned comparison evidence.",
+    "Representative excerpts are sanitized and truncated."
+  ]
+}

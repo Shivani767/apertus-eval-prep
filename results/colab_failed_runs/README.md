@@ -25,3 +25,22 @@ or silently dropped. Nothing here is cited: these are recorded attempts, not res
 
 Load errors now name their underlying cause, so the next attempt of this kind records the
 Hub 401 in the artifacts instead of a generic message.
+
+## `llama-3.2-3b-instruct/` - attempted 2026-09-26, 0 of 257 examples scored
+
+- **Status:** infrastructure failure. Every real run has `n_scored = 0` and 38 failures per
+  variance cell; the responses are `[ADAPTER_FAILURE]` with
+  `adapter_model_load_error: local model/tokenizer could not be loaded`. Nothing about the
+  model's answers was measured.
+- **Unlike the Gemma attempt, this run used a current notebook**: code commit `be36970`,
+  which already contains the `## 0. Authenticate for gated models` cell, and the run
+  recorded the pinned revision `0cb88a4f764b7a12671c53f0838cd831a0843b95`. So the failure is
+  not a stale checkout.
+- **The underlying cause is not in the artifacts**, because `be36970` predates the adapter
+  fix that puts it there. Run the tokenizer/model load in a single cell to see the real
+  error; the most likely candidates are a token whose repository scope excludes
+  `meta-llama/Llama-3.2-3B-Instruct` (fine-grained tokens can be limited per repository),
+  or the pinned revision not being reachable with the granted access.
+- **Re-run:** after the load succeeds in that one cell, the platform steps will too, and the
+  next export will be a measured run. This is the first run that would record a pinned
+  revision, so its summary should carry no unpinned-revision warning.

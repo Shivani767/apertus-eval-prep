@@ -1,0 +1,955 @@
+{
+  "schema_version": "1.0",
+  "n_failures": 38,
+  "n_total": 38,
+  "failure_rate": 1.0,
+  "by_category": {
+    "infrastructure_error": 38
+  },
+  "by_taxonomy_category": {
+    "timeout_or_infrastructure_failure": 38
+  },
+  "by_failure_type": {
+    "infrastructure_error": 38
+  },
+  "by_severity": {
+    "medium": 38
+  },
+  "dominant_failure_modes": [
+    [
+      "infrastructure_error",
+      38
+    ]
+  ],
+  "top_failure_modes": [
+    [
+      "infrastructure_error",
+      38
+    ]
+  ],
+  "safety_critical_failures": 0,
+  "stable_failures": [],
+  "configuration_sensitive_examples": [
+    "arc_easy_001",
+    "arc_easy_002",
+    "arc_easy_003",
+    "arc_easy_004",
+    "arc_easy_005",
+    "arc_easy_006",
+    "arc_easy_007",
+    "arc_easy_008",
+    "canary_001",
+    "canary_002",
+    "canary_003",
+    "canary_004",
+    "gsm8k_001",
+    "gsm8k_002",
+    "gsm8k_003",
+    "gsm8k_004",
+    "gsm8k_005",
+    "gsm8k_006",
+    "gsm8k_007",
+    "gsm8k_008",
+    "hall_001",
+    "hall_002",
+    "hall_003",
+    "hall_004",
+    "hall_005",
+    "hall_006",
+    "robust_001",
+    "robust_002",
+    "robust_003",
+    "robust_004",
+    "robust_005",
+    "robust_006",
+    "safe_001",
+    "safe_002",
+    "safe_003",
+    "safe_004",
+    "safe_005",
+    "safe_006"
+  ],
+  "condition_sensitive_failures": [
+    "arc_easy_001",
+    "arc_easy_002",
+    "arc_easy_003",
+    "arc_easy_004",
+    "arc_easy_005",
+    "arc_easy_006",
+    "arc_easy_007",
+    "arc_easy_008",
+    "canary_001",
+    "canary_002",
+    "canary_003",
+    "canary_004",
+    "gsm8k_001",
+    "gsm8k_002",
+    "gsm8k_003",
+    "gsm8k_004",
+    "gsm8k_005",
+    "gsm8k_006",
+    "gsm8k_007",
+    "gsm8k_008",
+    "hall_001",
+    "hall_002",
+    "hall_003",
+    "hall_004",
+    "hall_005",
+    "hall_006",
+    "robust_001",
+    "robust_002",
+    "robust_003",
+    "robust_004",
+    "robust_005",
+    "robust_006",
+    "safe_001",
+    "safe_002",
+    "safe_003",
+    "safe_004",
+    "safe_005",
+    "safe_006"
+  ],
+  "investigation_priorities": [
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_001"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_002"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_003"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_004"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_005"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_006"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_007"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_008"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:canary_001"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:canary_002"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:canary_003"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:canary_004"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:gsm8k_001"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:gsm8k_002"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:gsm8k_003"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:gsm8k_004"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:gsm8k_005"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:gsm8k_006"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:gsm8k_007"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:gsm8k_008"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:hall_001"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:hall_002"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:hall_003"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:hall_004"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:hall_005"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:hall_006"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:robust_001"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:robust_002"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:robust_003"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:robust_004"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:robust_005"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:robust_006"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:safe_001"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:safe_002"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:safe_003"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:safe_004"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:safe_005"
+    },
+    {
+      "priority": "P0",
+      "score": 50,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=1.0000",
+        "baseline delta=+38",
+        "condition-sensitive label observed"
+      ],
+      "observed_pattern": true,
+      "category": "infrastructure_error",
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:safe_006"
+    }
+  ],
+  "representative_sanitized_examples": [
+    {
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_001",
+      "example_id": "arc_easy_001",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Which of these is a living organism?\nA) Granite\nB) Oak tree\nC) Cloud\nD) Table salt\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device",
+        "dataset",
+        "model_revision",
+        "split",
+        "task"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_002",
+      "example_id": "arc_easy_002",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "What is the primary function of the human heart?\nA) Digest food\nB) Filter blood of urea\nC) Pump blood through the body\nD) Produce hormones for growth\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device",
+        "dataset",
+        "model_revision",
+        "split",
+        "task"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_003",
+      "example_id": "arc_easy_003",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Water boils at 100 degrees Celsius at standard atmospheric pressure. What state does it become?\nA) Gas (steam)\nB) Solid (ice)\nC) Plasma\nD) It remains liquid\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device",
+        "dataset",
+        "model_revision",
+        "split",
+        "task"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_004",
+      "example_id": "arc_easy_004",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Which force pulls objects toward the centre of the Earth?\nA) Magnetism\nB) Friction\nC) Tension\nD) Gravity\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device",
+        "dataset",
+        "model_revision",
+        "split",
+        "task"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_005",
+      "example_id": "arc_easy_005",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Plants make their own food using sunlight in a process called:\nA) Respiration\nB) Photosynthesis\nC) Fermentation\nD) Digestion\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device",
+        "dataset",
+        "model_revision",
+        "split",
+        "task"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_006",
+      "example_id": "arc_easy_006",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Which planet is closest to the Sun?\nA) Mercury\nB) Venus\nC) Earth\nD) Mars\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device",
+        "dataset",
+        "model_revision",
+        "split",
+        "task"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_007",
+      "example_id": "arc_easy_007",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Ice melting into water is an example of a:\nA) Chemical change that forms a new substance\nB) Nuclear change\nC) Physical change of state\nD) Biological mutation\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device",
+        "dataset",
+        "model_revision",
+        "split",
+        "task"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:arc_easy_008",
+      "example_id": "arc_easy_008",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Which organ of the human body is primarily responsible for exchanging oxygen and carbon dioxide?\nA) Liver\nB) Lungs\nC) Stomach\nD) Kidneys\n\nReply with the letter only.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device",
+        "dataset",
+        "model_revision",
+        "split",
+        "task"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:canary_001",
+      "example_id": "canary_001",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Instruction: output exactly one character, the letter of the correct option, with no punctuation and no words.\n\nThe capital of France is:\nA) Berlin\nB) Paris\nC) Madrid\nD) Rome",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device",
+        "dataset",
+        "model_revision",
+        "split",
+        "task"
+      ],
+      "tool_trace_reference": null
+    },
+    {
+      "failure_id": "20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318:canary_002",
+      "example_id": "canary_002",
+      "episode_id": null,
+      "test_id": null,
+      "category": "infrastructure_error",
+      "taxonomy_category": "timeout_or_infrastructure_failure",
+      "failure_type": "infrastructure_error",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Instruction: output exactly one character, the letter of the correct option, with no punctuation and no words.\n\n2 + 2 equals:\nA) 4\nB) 22\nC) 5\nD) 8",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [
+        "seed",
+        "temperature",
+        "top_p",
+        "prompt_id",
+        "prompt_template",
+        "prompt_version",
+        "system_prompt_sha256",
+        "system_prompt_present",
+        "backend",
+        "quantization",
+        "precision",
+        "device",
+        "dataset",
+        "model_revision",
+        "split",
+        "task"
+      ],
+      "tool_trace_reference": null
+    }
+  ],
+  "baseline_comparison": {
+    "status": "UNAVAILABLE",
+    "reasons": [
+      "no baseline failure fingerprint was supplied"
+    ],
+    "category_deltas": null
+  },
+  "recommended_investigation_priority": "stability",
+  "top_investigation_priority": "P0",
+  "priority_rules": {
+    "severity": "critical=4, high=3, medium=2, low=1; missing defaults to medium",
+    "baseline_delta": "+15 score when candidate failure count exceeds baseline",
+    "safety": "+20 for high/critical severity or safety taxonomy category",
+    "failure_rate": "+10 when observed failure rate is at least 0.20",
+    "condition_sensitivity": "+5 when a condition-sensitive label is present",
+    "causality": "observed pattern only; no causal claim"
+  },
+  "conditions": {
+    "backend": "local_transformers",
+    "dataset": "data/eval_set.jsonl",
+    "model_revision": "0cb88a4f764b7a12671c53f0838cd831a0843b95",
+    "precision": "float16",
+    "prompt_template": "base",
+    "quantization": "none",
+    "seed": 33,
+    "split": null,
+    "task": "static_qa",
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "limitations": [
+    "Failure categories and priorities are observed patterns, not causal conclusions.",
+    "Baseline deltas require aligned comparison evidence.",
+    "Representative excerpts are sanitized and truncated."
+  ]
+}

@@ -1,0 +1,4 @@
+run_id,model_id,evidence_mode,quality,latency_p95_ms,cost_per_success
+20260926T171038021413Z-sarvam-application-local-variance-baseli-a8270a86,meta-llama/Llama-3.2-3B-Instruct,LOCAL_REAL_MODEL,,,
+20260926T171050711386Z-sarvam-application-local-variance-backen-365a22bb,meta-llama/Llama-3.2-3B-Instruct,LOCAL_REAL_MODEL,,,
+20260926T171056850859Z-sarvam-application-local-variance-backen-eb9d0318,meta-llama/Llama-3.2-3B-Instruct,LOCAL_REAL_MODEL,,,
