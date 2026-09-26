@@ -18,14 +18,14 @@
 
 | Run | Model/revision | Evidence | Config hash | Quality | 95% CI |
 |---|---|---|---|---:|---|
-| `20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264` | `Qwen/Qwen2.5-3B-Instruct` / `main` | `LOCAL_REAL_MODEL` | `3895d1804914d5cd` | 0.4737 | [0.3158, 0.6316] |
-| `20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33` | `Qwen/Qwen2.5-3B-Instruct` / `main` | `LOCAL_REAL_MODEL` | `72eb4148726bd17b` | 0.4737 | [0.3158, 0.6316] |
-| `20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d` | `Qwen/Qwen2.5-3B-Instruct` / `main` | `LOCAL_REAL_MODEL` | `3591df72ccaefee7` | 0.4737 | [0.3158, 0.6316] |
+| `20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff` | `Qwen/Qwen2.5-3B-Instruct` / `main` | `LOCAL_REAL_MODEL` | `3895d1804914d5cd` | 0.4737 | [0.3158, 0.6316] |
+| `20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef` | `Qwen/Qwen2.5-3B-Instruct` / `main` | `LOCAL_REAL_MODEL` | `72eb4148726bd17b` | 0.4737 | [0.3158, 0.6316] |
+| `20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1` | `Qwen/Qwen2.5-3B-Instruct` / `main` | `LOCAL_REAL_MODEL` | `3591df72ccaefee7` | 0.4737 | [0.3158, 0.6316] |
 
 ## Comparisons
 
-- `20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264` → `20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33`: delta `0.0000`, 95% CI `[0.0000, 0.0000]`, effect `unavailable`, status **NO_MEANINGFUL_CHANGE**, practically meaningful: `False`.
-- `20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264` → `20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d`: delta `0.0000`, 95% CI `[0.0000, 0.0000]`, effect `unavailable`, status **NO_MEANINGFUL_CHANGE**, practically meaningful: `False`.
+- `20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff` → `20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef`: delta `0.0000`, 95% CI `[0.0000, 0.0000]`, effect `unavailable`, status **NO_MEANINGFUL_CHANGE**, practically meaningful: `False`.
+- `20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff` → `20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1`: delta `0.0000`, 95% CI `[0.0000, 0.0000]`, effect `unavailable`, status **NO_MEANINGFUL_CHANGE**, practically meaningful: `False`.
 
 ## Experimental Robust Capability Score
 
@@ -37,9 +37,9 @@
 
 ## Safety, RAG/agent, and deployment
 
-- `20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `8071.3290`, cost/success `unavailable`, gate `INCONCLUSIVE`.
-- `20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `7411.6402`, cost/success `unavailable`, gate `INCONCLUSIVE`.
-- `20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `7495.4181`, cost/success `unavailable`, gate `INCONCLUSIVE`.
+- `20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `7252.3346`, cost/success `unavailable`, gate `INCONCLUSIVE`.
+- `20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `13219.9806`, cost/success `unavailable`, gate `INCONCLUSIVE`.
+- `20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `8022.0697`, cost/success `unavailable`, gate `INCONCLUSIVE`.
 
 ## Pareto frontier
 
@@ -49,9 +49,9 @@
 
 ## Failure fingerprints
 
-- `20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264`: failures `20`, rate `0.5263`, priority `P0`.
-- `20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33`: failures `20`, rate `0.5263`, priority `P0`.
-- `20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d`: failures `20`, rate `0.5263`, priority `P0`.
+- `20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff`: failures `20`, rate `0.5263`, priority `P0`.
+- `20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef`: failures `20`, rate `0.5263`, priority `P0`.
+- `20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1`: failures `20`, rate `0.5263`, priority `P0`.
 
 ## Human review
 
@@ -60,15 +60,15 @@
 
 ## Missing evidence / inconclusive results
 
-- 20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264: safety suite unavailable
-- 20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264: RAG/agent suite unavailable
-- 20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264: cost per successful task unavailable
-- 20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33: safety suite unavailable
-- 20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33: RAG/agent suite unavailable
-- 20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33: cost per successful task unavailable
-- 20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d: safety suite unavailable
-- 20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d: RAG/agent suite unavailable
-- 20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d: cost per successful task unavailable
+- 20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff: safety suite unavailable
+- 20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff: RAG/agent suite unavailable
+- 20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff: cost per successful task unavailable
+- 20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef: safety suite unavailable
+- 20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef: RAG/agent suite unavailable
+- 20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef: cost per successful task unavailable
+- 20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1: safety suite unavailable
+- 20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1: RAG/agent suite unavailable
+- 20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1: cost per successful task unavailable
 
 ## Limitations
 

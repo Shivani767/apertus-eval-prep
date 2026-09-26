@@ -1,0 +1,227 @@
+{
+  "artifact_format_version": "1.0.0",
+  "run_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1",
+  "run_name": "sarvam-application-local-variance-backend-local_transformers_dataset-data/eval_set.jsonl_model_revision-main_precision-float16_prompt_template-base_quantization-none_seed-33_split-null_task-static_qa_temperature-0.0_top_p-1.0",
+  "experiment_id": "sarvam_application_real_eval_v1",
+  "parent_experiment_id": "sarvam_application_real_eval_v1",
+  "utc": "2026-09-26T13:23:03Z",
+  "entrypoint": "apertus-eval-prep platform-matrix",
+  "command": "apertus-eval-prep platform-matrix",
+  "entrypoint_command": "apertus-eval-prep platform-matrix",
+  "tags": [],
+  "config_hash": "3591df72ccaefee7",
+  "resolved_config_hash": "3591df72ccaefee7",
+  "dataset_id": "a61b133dd0a9ebd4",
+  "dataset_hash": "a61b133dd0a9ebd4",
+  "task_id": "1cbe691ef9439a6f",
+  "task_kind": "static_qa",
+  "task_hash": "1cbe691ef9439a6f",
+  "task": {
+    "id": "1cbe691ef9439a6f",
+    "kind": "static_qa",
+    "path": "data/eval_set.jsonl",
+    "tasks": [
+      "arc_easy",
+      "gsm8k",
+      "hallucination",
+      "robustness",
+      "safety_bias",
+      "template_canary"
+    ],
+    "split": null,
+    "limit": 38,
+    "hash": "1cbe691ef9439a6f"
+  },
+  "prompt": {
+    "prompt_id": "sarvam-core",
+    "version": "v1",
+    "prompt_hash": "83f56382ba87a4ee",
+    "template_hash": "83f56382ba87a4ee",
+    "fewshot_path": null,
+    "system_prompt_present": false
+  },
+  "dataset": {
+    "path": "/content/apertus-eval-prep/data/eval_set.jsonl",
+    "hash": "a61b133dd0a9ebd4",
+    "id": "a61b133dd0a9ebd4",
+    "hash_algorithm": "sha256-16",
+    "n_examples": 38,
+    "tasks": [
+      "arc_easy",
+      "gsm8k",
+      "hallucination",
+      "robustness",
+      "safety_bias",
+      "template_canary"
+    ],
+    "split": null
+  },
+  "model_id": "Qwen/Qwen2.5-3B-Instruct",
+  "model_revision": "main",
+  "model": {
+    "model_id": "Qwen/Qwen2.5-3B-Instruct",
+    "model_revision": "main",
+    "tokenizer_id": "Qwen/Qwen2.5-3B-Instruct",
+    "tokenizer_revision": "main",
+    "adapter_kind": "local_transformers",
+    "adapter_name": "local-real-model-variance"
+  },
+  "backend": {
+    "device": "cuda",
+    "precision": "float16",
+    "quantization": "none",
+    "batch_size": 1
+  },
+  "decoding": {
+    "seed": 33,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_new_tokens": 128,
+    "stop": []
+  },
+  "seed": 33,
+  "random_seed": 33,
+  "dimensions": {
+    "language": null,
+    "locale": null,
+    "domain": null,
+    "risk_category": null,
+    "deployment_environment": null
+  },
+  "conditions": {
+    "backend": "local_transformers",
+    "dataset": "data/eval_set.jsonl",
+    "model_revision": "main",
+    "precision": "float16",
+    "prompt_template": "base",
+    "quantization": "none",
+    "seed": 33,
+    "split": null,
+    "task": "static_qa",
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "evidence_class": "MEASURED",
+  "evidence_mode": "LOCAL_REAL_MODEL",
+  "evidence": {
+    "schema_version": "1.0",
+    "mode": "LOCAL_REAL_MODEL",
+    "runtime_environment": "google_colab",
+    "real_model_execution": true,
+    "external_provider_execution": false,
+    "hardware_measured": true,
+    "human_reviewed": false,
+    "pricing_source": "manual_config",
+    "known_limitations": [
+      "Experimental environment; not production infrastructure",
+      "Latency is client-side wall-clock measurement"
+    ]
+  },
+  "cost": {
+    "input_per_million": null,
+    "output_per_million": null,
+    "currency": "USD",
+    "source": "manual_config",
+    "effective_date": null,
+    "estimate_label": "DERIVED_ESTIMATE"
+  },
+  "metric_definition_version": "1.0",
+  "runtime_profile": {
+    "schema_version": "1.0",
+    "runtime_environment": "google_colab",
+    "os": {
+      "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+      "system": "Linux",
+      "release": "6.6.122+",
+      "machine": "x86_64",
+      "processor": "x86_64",
+      "cpu_count": 2
+    },
+    "python": {
+      "version": "3.13.15",
+      "implementation": "CPython",
+      "executable": "/usr/bin/python3"
+    },
+    "torch_version": "2.11.0+cu128",
+    "cuda_version": "12.8",
+    "gpu_name": "Tesla T4",
+    "gpu_count": 1,
+    "gpu_memory": 14.56,
+    "gpu_memory_unit": "GiB",
+    "cpu_count": 2,
+    "device_selection": "cuda",
+    "precision": "float16",
+    "quantization": "none",
+    "hardware_measured": true,
+    "hardware_measurement_status": "measured",
+    "latency_method": "client_side_wall_clock",
+    "model_generation_latency": null,
+    "end_to_end_workflow_latency": null
+  },
+  "git_commit": "ab1473ecad6f7d1be6e1f7b82ee5fec414155664",
+  "git_dirty": false,
+  "git": {
+    "available": true,
+    "commit": "ab1473ecad6f7d1be6e1f7b82ee5fec414155664",
+    "branch": "master",
+    "dirty": false,
+    "dirty_files": 0
+  },
+  "environment": {
+    "python": {
+      "version": "3.13.15",
+      "implementation": "CPython",
+      "executable": "/usr/bin/python3"
+    },
+    "platform": {
+      "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+      "system": "Linux",
+      "release": "6.6.122+",
+      "machine": "x86_64",
+      "processor": "x86_64",
+      "cpu_count": 2
+    },
+    "platform_string": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "hardware": {
+      "cpu_count": 2,
+      "accelerator": "cuda",
+      "ram_gb": 12.67,
+      "torch": "2.11.0+cu128",
+      "accelerator_name": "Tesla T4",
+      "accelerator_count": 1
+    },
+    "packages": {
+      "apertus-eval-prep": "0.5.0",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.16.1",
+      "vllm": null,
+      "pyyaml": "6.0.3",
+      "pytest": "8.4.2"
+    }
+  },
+  "extra": {
+    "adapter": {
+      "kind": "local_transformers",
+      "name": "local-real-model-variance",
+      "model_id": "Qwen/Qwen2.5-3B-Instruct",
+      "revision": "main",
+      "capabilities": {
+        "supports_tools": false,
+        "supports_system_prompt": true,
+        "supports_seed": true,
+        "reports_usage": true,
+        "deterministic": false,
+        "runs_locally": true
+      },
+      "evidence_class": "MEASURED",
+      "device": "cuda",
+      "dtype": "float16",
+      "quantization": "none",
+      "tokenizer_id": "Qwen/Qwen2.5-3B-Instruct",
+      "tokenizer_revision": "main",
+      "trust_remote_code": false,
+      "runtime_profile": null
+    },
+    "runner": "static_qa"
+  }
+}

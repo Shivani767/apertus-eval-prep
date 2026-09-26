@@ -1,4 +1,4 @@
 run_id,model_id,evidence_mode,quality,latency_p95_ms,cost_per_success
-20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264,Qwen/Qwen2.5-3B-Instruct,LOCAL_REAL_MODEL,0.47368421052631576,8071.3289678999645,
-20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33,Qwen/Qwen2.5-3B-Instruct,LOCAL_REAL_MODEL,0.47368421052631576,7411.640180949956,
-20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d,Qwen/Qwen2.5-3B-Instruct,LOCAL_REAL_MODEL,0.47368421052631576,7495.418137099989,
+20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff,Qwen/Qwen2.5-3B-Instruct,LOCAL_REAL_MODEL,0.47368421052631576,7252.334643549954,
+20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef,Qwen/Qwen2.5-3B-Instruct,LOCAL_REAL_MODEL,0.47368421052631576,13219.980580049933,
+20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1,Qwen/Qwen2.5-3B-Instruct,LOCAL_REAL_MODEL,0.47368421052631576,8022.069707350052,

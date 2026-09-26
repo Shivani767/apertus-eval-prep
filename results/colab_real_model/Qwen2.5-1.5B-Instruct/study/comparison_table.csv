@@ -1,0 +1,4 @@
+run_id,model_id,evidence_mode,quality,latency_p95_ms,cost_per_success
+20260926T125457034355Z-sarvam-application-local-variance-baseli-5dc7dbf3,Qwen/Qwen2.5-1.5B-Instruct,LOCAL_REAL_MODEL,0.07894736842105263,5990.651446400031,
+20260926T125723102727Z-sarvam-application-local-variance-backen-16a89773,Qwen/Qwen2.5-1.5B-Instruct,LOCAL_REAL_MODEL,0.07894736842105263,9721.104945149991,
+20260926T130002884423Z-sarvam-application-local-variance-backen-d5344af7,Qwen/Qwen2.5-1.5B-Instruct,LOCAL_REAL_MODEL,0.07894736842105263,6152.036268399985,

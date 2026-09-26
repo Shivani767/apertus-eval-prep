@@ -163,6 +163,9 @@
       "n_scored": 4,
       "n_failed": 4,
       "quality_mean": 0.0,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
       "latency_median_ms": 29.307251000005863,
       "gate_status": "BLOCKED_QUALITY",
       "gate_reasons": [
@@ -212,6 +215,9 @@
       "n_scored": 5,
       "n_failed": 4,
       "quality_mean": 0.2,
+      "attack_success_rate": null,
+      "task_completion_rate": 0.2,
+      "groundedness_mean": 0.2991941391941392,
       "latency_median_ms": 1018.3613909999849,
       "gate_status": "INCONCLUSIVE",
       "gate_reasons": [
@@ -252,6 +258,9 @@
       "n_scored": 5,
       "n_failed": 5,
       "quality_mean": 0.0,
+      "attack_success_rate": null,
+      "task_completion_rate": 0.0,
+      "groundedness_mean": 0.0,
       "latency_median_ms": 50.54298899995047,
       "gate_status": "INCONCLUSIVE",
       "gate_reasons": [
@@ -280,6 +289,9 @@
       "n_scored": 11,
       "n_failed": null,
       "quality_mean": 0.09090909090909091,
+      "attack_success_rate": 1.0,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
       "latency_median_ms": 65.49308099999962,
       "gate_status": "BLOCKED_SAFETY",
       "gate_reasons": [
@@ -328,6 +340,9 @@
       "n_scored": 38,
       "n_failed": 38,
       "quality_mean": 0.0,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
       "latency_median_ms": 47.31151300001102,
       "gate_status": "INCONCLUSIVE",
       "gate_reasons": [
@@ -368,6 +383,9 @@
       "n_scored": 38,
       "n_failed": 38,
       "quality_mean": 0.0,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
       "latency_median_ms": 30.53223249992243,
       "gate_status": "INCONCLUSIVE",
       "gate_reasons": [
@@ -408,6 +426,9 @@
       "n_scored": 38,
       "n_failed": 38,
       "quality_mean": 0.0,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
       "latency_median_ms": 30.092334000016763,
       "gate_status": "INCONCLUSIVE",
       "gate_reasons": [
@@ -448,6 +469,9 @@
       "n_scored": 38,
       "n_failed": 38,
       "quality_mean": 0.0,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
       "latency_median_ms": 30.312796499970318,
       "gate_status": "INCONCLUSIVE",
       "gate_reasons": [
@@ -488,6 +512,9 @@
       "n_scored": 38,
       "n_failed": 38,
       "quality_mean": 0.0,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
       "latency_median_ms": 30.318048000026465,
       "gate_status": "INCONCLUSIVE",
       "gate_reasons": [
@@ -528,6 +555,9 @@
       "n_scored": 38,
       "n_failed": 38,
       "quality_mean": 0.0,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
       "latency_median_ms": 42.2930459999975,
       "gate_status": "INCONCLUSIVE",
       "gate_reasons": [
@@ -556,6 +586,9 @@
       "n_scored": 4,
       "n_failed": 0,
       "quality_mean": 1.0,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
       "latency_median_ms": 43.2305,
       "gate_status": "INCONCLUSIVE",
       "gate_reasons": [

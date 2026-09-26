@@ -1,0 +1,298 @@
+{
+  "schema_version": "1.0",
+  "n_total": 38,
+  "n_scored": 38,
+  "n_failed": 38,
+  "n_runtime_failed": 0,
+  "n_error": 0,
+  "n_timeout": 0,
+  "n_successful": 0,
+  "quality": {
+    "count": 38,
+    "n_total": 38,
+    "n_scored": 38,
+    "n_failed": 38,
+    "mean": 0.0,
+    "median": 0.0,
+    "std": 0.0,
+    "variance": 0.0,
+    "standard_error": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "p25": 0.0,
+    "p75": 0.0,
+    "p95": 0.0,
+    "accuracy": 0.0,
+    "evidence_class": "MEASURED",
+    "missing_or_invalid": 0
+  },
+  "confidence_intervals": {
+    "quality_mean": {
+      "lo": 0.0,
+      "hi": 0.0,
+      "mean": 0.0,
+      "n": 38,
+      "n_boot": 200,
+      "seed": 11,
+      "method": "bootstrap_percentile",
+      "alpha": 0.05
+    }
+  },
+  "latency": {
+    "count": 38,
+    "n_total": 38,
+    "n_scored": 38,
+    "n_failed": 0,
+    "mean": 5165.285377789467,
+    "median": 4879.596043999982,
+    "std": 5878.562587734601,
+    "variance": 34557498.09791293,
+    "standard_error": 953.62877718844,
+    "min": 351.42706899978293,
+    "max": 39605.08061100017,
+    "p25": 3492.4069375001636,
+    "p75": 5262.242187249967,
+    "p95": 5687.798709849881,
+    "accuracy": 5165.285377789467,
+    "evidence_class": "MEASURED",
+    "missing_or_invalid": 0,
+    "mean_ms": 5165.285377789467,
+    "p50_ms": 4879.596043999982,
+    "p95_ms": 5687.798709849881,
+    "throughput": 20.07837297078315
+  },
+  "usage": {
+    "input_tokens": 1630,
+    "output_tokens": 3941
+  },
+  "backend": "local_transformers",
+  "device": "cuda",
+  "precision": "float16",
+  "quantization": "none",
+  "evidence_class": "MEASURED",
+  "evidence": {
+    "schema_version": "1.0",
+    "mode": "LOCAL_REAL_MODEL",
+    "runtime_environment": "google_colab",
+    "real_model_execution": true,
+    "external_provider_execution": false,
+    "hardware_measured": true,
+    "human_reviewed": false,
+    "pricing_source": "manual_config",
+    "known_limitations": [
+      "Experimental environment; not production infrastructure",
+      "Latency is client-side wall-clock measurement"
+    ]
+  },
+  "evidence_mode": "LOCAL_REAL_MODEL",
+  "synthetic_or_mock": false,
+  "model_id": "microsoft/Phi-3.5-mini-instruct",
+  "model_revision": "main",
+  "tokenizer_id": "microsoft/Phi-3.5-mini-instruct",
+  "tokenizer_revision": "main",
+  "runtime_profile": {
+    "schema_version": "1.0",
+    "runtime_environment": "google_colab",
+    "os": {
+      "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+      "system": "Linux",
+      "release": "6.6.122+",
+      "machine": "x86_64",
+      "processor": "x86_64",
+      "cpu_count": 2
+    },
+    "python": {
+      "version": "3.13.15",
+      "implementation": "CPython",
+      "executable": "/usr/bin/python3"
+    },
+    "torch_version": "2.11.0+cu128",
+    "cuda_version": "12.8",
+    "gpu_name": "Tesla T4",
+    "gpu_count": 1,
+    "gpu_memory": 14.56,
+    "gpu_memory_unit": "GiB",
+    "cpu_count": 2,
+    "device_selection": "cuda",
+    "precision": "float16",
+    "quantization": "none",
+    "hardware_measured": true,
+    "hardware_measurement_status": "measured",
+    "latency_method": "client_side_wall_clock",
+    "model_generation_latency": null,
+    "end_to_end_workflow_latency": null
+  },
+  "known_limitations": [
+    "Experimental environment; not production infrastructure",
+    "Latency is client-side wall-clock measurement"
+  ],
+  "cost_config": {
+    "input_per_million": null,
+    "output_per_million": null,
+    "currency": "USD",
+    "source": "manual_config",
+    "effective_date": null,
+    "estimate_label": "DERIVED_ESTIMATE"
+  },
+  "release_gate": {
+    "status": "INCONCLUSIVE",
+    "reasons": [
+      "no release-gate policy evaluated"
+    ]
+  },
+  "deployment": {
+    "quality": 0.0,
+    "quality_score": 0.0,
+    "task_score": 0.0,
+    "n_scored": 38,
+    "n_total": 38,
+    "n_successful": 0,
+    "robustness_score": null,
+    "robustness": null,
+    "safety": null,
+    "safety_score": null,
+    "attack_success_rate": null,
+    "safety_score_method": null,
+    "groundedness": null,
+    "groundedness_score": null,
+    "agent_success": null,
+    "agent_success_rate": null,
+    "agent_reliability": 0.0,
+    "reliability": 0.0,
+    "latency_mean_ms": 5165.285377789467,
+    "latency_p50_ms": 4879.596043999982,
+    "latency_p95_ms": 5687.798709849881,
+    "throughput": 20.07837297078315,
+    "variance": 0.0,
+    "input_tokens": 1630,
+    "output_tokens": 3941,
+    "tokens_in": 1630,
+    "tokens_out": 3941,
+    "cost": {
+      "value": null,
+      "currency": "USD",
+      "quality": "UNAVAILABLE",
+      "source": "manual configuration",
+      "reason": "configured token price missing",
+      "components": {
+        "input": null,
+        "output": null
+      },
+      "missing": [
+        "input",
+        "output"
+      ]
+    },
+    "cost_value": null,
+    "cost_per_success": null,
+    "cost_per_success_status": "UNAVAILABLE",
+    "cost_status": "UNAVAILABLE",
+    "backend": "local_transformers",
+    "device": "cuda",
+    "model_id": "microsoft/Phi-3.5-mini-instruct",
+    "model_revision": "main",
+    "tokenizer_id": "microsoft/Phi-3.5-mini-instruct",
+    "tokenizer_revision": "main",
+    "precision": "float16",
+    "quantization": "none",
+    "memory_measurement": null,
+    "runtime_profile": {
+      "schema_version": "1.0",
+      "runtime_environment": "google_colab",
+      "os": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "release": "6.6.122+",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "cpu_count": 2
+      },
+      "python": {
+        "version": "3.13.15",
+        "implementation": "CPython",
+        "executable": "/usr/bin/python3"
+      },
+      "torch_version": "2.11.0+cu128",
+      "cuda_version": "12.8",
+      "gpu_name": "Tesla T4",
+      "gpu_count": 1,
+      "gpu_memory": 14.56,
+      "gpu_memory_unit": "GiB",
+      "cpu_count": 2,
+      "device_selection": "cuda",
+      "precision": "float16",
+      "quantization": "none",
+      "hardware_measured": true,
+      "hardware_measurement_status": "measured",
+      "latency_method": "client_side_wall_clock",
+      "model_generation_latency": null,
+      "end_to_end_workflow_latency": null
+    },
+    "hardware_profile": {
+      "schema_version": "1.0",
+      "runtime_environment": "google_colab",
+      "os": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "release": "6.6.122+",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "cpu_count": 2
+      },
+      "python": {
+        "version": "3.13.15",
+        "implementation": "CPython",
+        "executable": "/usr/bin/python3"
+      },
+      "torch_version": "2.11.0+cu128",
+      "cuda_version": "12.8",
+      "gpu_name": "Tesla T4",
+      "gpu_count": 1,
+      "gpu_memory": 14.56,
+      "gpu_memory_unit": "GiB",
+      "cpu_count": 2,
+      "device_selection": "cuda",
+      "precision": "float16",
+      "quantization": "none",
+      "hardware_measured": true,
+      "hardware_measurement_status": "measured",
+      "latency_method": "client_side_wall_clock",
+      "model_generation_latency": null,
+      "end_to_end_workflow_latency": null
+    },
+    "error_rate": 0.0,
+    "timeout_rate": 0.0,
+    "failure_rate": 1.0,
+    "run_failures": 38,
+    "runtime_failures": 0,
+    "evidence_class": "MEASURED",
+    "evidence_mode": "LOCAL_REAL_MODEL",
+    "evidence": {
+      "schema_version": "1.0",
+      "mode": "LOCAL_REAL_MODEL",
+      "runtime_environment": "google_colab",
+      "real_model_execution": true,
+      "external_provider_execution": false,
+      "hardware_measured": true,
+      "human_reviewed": false,
+      "pricing_source": "manual_config",
+      "known_limitations": [
+        "Experimental environment; not production infrastructure",
+        "Latency is client-side wall-clock measurement"
+      ]
+    },
+    "cost_config": {
+      "input_per_million": null,
+      "output_per_million": null,
+      "currency": "USD",
+      "source": "manual_config",
+      "effective_date": null,
+      "estimate_label": "DERIVED_ESTIMATE"
+    },
+    "known_limitations": [
+      "Experimental environment; not production infrastructure",
+      "Latency is client-side wall-clock measurement"
+    ],
+    "deployment": {}
+  }
+}

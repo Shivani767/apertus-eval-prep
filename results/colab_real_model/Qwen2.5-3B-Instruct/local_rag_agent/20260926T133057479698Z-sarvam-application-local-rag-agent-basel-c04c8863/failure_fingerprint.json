@@ -1,0 +1,192 @@
+{
+  "schema_version": "1.0",
+  "n_failures": 4,
+  "n_total": 5,
+  "failure_rate": 0.8,
+  "by_category": {
+    "tool_sequence_failure": 3,
+    "incorrect_answer": 1
+  },
+  "by_taxonomy_category": {
+    "episode_failure": 4
+  },
+  "by_failure_type": {
+    "tool_sequence_failure": 3,
+    "incorrect_answer": 1
+  },
+  "by_severity": {
+    "medium": 4
+  },
+  "dominant_failure_modes": [
+    [
+      "tool_sequence_failure",
+      3
+    ],
+    [
+      "incorrect_answer",
+      1
+    ]
+  ],
+  "top_failure_modes": [
+    [
+      "tool_sequence_failure",
+      3
+    ],
+    [
+      "incorrect_answer",
+      1
+    ]
+  ],
+  "safety_critical_failures": 0,
+  "stable_failures": [
+    "policy_contradiction_001",
+    "support_delivery_001",
+    "tool_recovery_001",
+    "tool_use_001"
+  ],
+  "configuration_sensitive_examples": [],
+  "condition_sensitive_failures": [],
+  "investigation_priorities": [
+    {
+      "priority": "P0",
+      "score": 45,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=0.8000",
+        "baseline delta=+1"
+      ],
+      "observed_pattern": true,
+      "category": "incorrect_answer",
+      "failure_id": "20260926T133057479698Z-sarvam-application-local-rag-agent-basel-c04c8863:policy_contradiction_001"
+    },
+    {
+      "priority": "P0",
+      "score": 45,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=0.8000",
+        "baseline delta=+3"
+      ],
+      "observed_pattern": true,
+      "category": "tool_sequence_failure",
+      "failure_id": "20260926T133057479698Z-sarvam-application-local-rag-agent-basel-c04c8863:support_delivery_001"
+    },
+    {
+      "priority": "P0",
+      "score": 45,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=0.8000",
+        "baseline delta=+3"
+      ],
+      "observed_pattern": true,
+      "category": "tool_sequence_failure",
+      "failure_id": "20260926T133057479698Z-sarvam-application-local-rag-agent-basel-c04c8863:tool_recovery_001"
+    },
+    {
+      "priority": "P0",
+      "score": 45,
+      "reasons": [
+        "severity=medium",
+        "observed failure rate=0.8000",
+        "baseline delta=+3"
+      ],
+      "observed_pattern": true,
+      "category": "tool_sequence_failure",
+      "failure_id": "20260926T133057479698Z-sarvam-application-local-rag-agent-basel-c04c8863:tool_use_001"
+    }
+  ],
+  "representative_sanitized_examples": [
+    {
+      "failure_id": "20260926T133057479698Z-sarvam-application-local-rag-agent-basel-c04c8863:policy_contradiction_001",
+      "example_id": null,
+      "episode_id": "policy_contradiction_001",
+      "test_id": null,
+      "category": "incorrect_answer",
+      "taxonomy_category": "episode_failure",
+      "failure_type": "incorrect_answer",
+      "severity": "medium",
+      "sanitized_input_excerpt": "What is the approved response time for a standard support request?",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [],
+      "tool_trace_reference": "tool_traces.jsonl"
+    },
+    {
+      "failure_id": "20260926T133057479698Z-sarvam-application-local-rag-agent-basel-c04c8863:support_delivery_001",
+      "example_id": null,
+      "episode_id": "support_delivery_001",
+      "test_id": null,
+      "category": "tool_sequence_failure",
+      "taxonomy_category": "episode_failure",
+      "failure_type": "tool_sequence_failure",
+      "severity": "medium",
+      "sanitized_input_excerpt": "My order says delivered, but I did not receive it. What should I do next?",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [],
+      "tool_trace_reference": "tool_traces.jsonl"
+    },
+    {
+      "failure_id": "20260926T133057479698Z-sarvam-application-local-rag-agent-basel-c04c8863:tool_recovery_001",
+      "example_id": null,
+      "episode_id": "tool_recovery_001",
+      "test_id": null,
+      "category": "tool_sequence_failure",
+      "taxonomy_category": "episode_failure",
+      "failure_type": "tool_sequence_failure",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Please check order synthetic-002 and explain the next step.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [],
+      "tool_trace_reference": "tool_traces.jsonl"
+    },
+    {
+      "failure_id": "20260926T133057479698Z-sarvam-application-local-rag-agent-basel-c04c8863:tool_use_001",
+      "example_id": null,
+      "episode_id": "tool_use_001",
+      "test_id": null,
+      "category": "tool_sequence_failure",
+      "taxonomy_category": "episode_failure",
+      "failure_type": "tool_sequence_failure",
+      "severity": "medium",
+      "sanitized_input_excerpt": "Please look up synthetic account A-17 and tell me the next approved support step.",
+      "sanitized_output_excerpt": null,
+      "condition_labels": [],
+      "tool_trace_reference": "tool_traces.jsonl"
+    }
+  ],
+  "baseline_comparison": {
+    "status": "UNAVAILABLE",
+    "reasons": [
+      "no baseline failure fingerprint was supplied"
+    ],
+    "category_deltas": null
+  },
+  "recommended_investigation_priority": "quality",
+  "top_investigation_priority": "P0",
+  "priority_rules": {
+    "severity": "critical=4, high=3, medium=2, low=1; missing defaults to medium",
+    "baseline_delta": "+15 score when candidate failure count exceeds baseline",
+    "safety": "+20 for high/critical severity or safety taxonomy category",
+    "failure_rate": "+10 when observed failure rate is at least 0.20",
+    "condition_sensitivity": "+5 when a condition-sensitive label is present",
+    "causality": "observed pattern only; no causal claim"
+  },
+  "conditions": {
+    "backend": "local_transformers",
+    "dataset": "data/platform_episodes.jsonl",
+    "model_revision": "main",
+    "precision": "float16",
+    "prompt_template": "base",
+    "quantization": "none",
+    "seed": 11,
+    "split": null,
+    "task": "rag_episode",
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "limitations": [
+    "Failure categories and priorities are observed patterns, not causal conclusions.",
+    "Baseline deltas require aligned comparison evidence.",
+    "Representative excerpts are sanitized and truncated."
+  ]
+}

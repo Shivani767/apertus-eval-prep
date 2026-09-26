@@ -1,0 +1,4 @@
+run_id,model_id,evidence_mode,quality,latency_p95_ms,cost_per_success
+20260926T132300829331Z-sarvam-application-local-variance-baseli-a399cf0a,sarvamai/sarvam-1,LOCAL_REAL_MODEL,0.0,5892.462808250065,
+20260926T132652652365Z-sarvam-application-local-variance-backen-c70801f7,sarvamai/sarvam-1,LOCAL_REAL_MODEL,0.0,5825.967100449998,
+20260926T133031521337Z-sarvam-application-local-variance-backen-2a7a98ac,sarvamai/sarvam-1,LOCAL_REAL_MODEL,0.0,5835.264648650161,

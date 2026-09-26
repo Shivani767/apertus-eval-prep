@@ -188,11 +188,11 @@
     "evidence_mode": "LOCAL_REAL_MODEL",
     "config_hash": "2bfeb51881b69a00",
     "run_ids": [
-      "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
-      "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33",
-      "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d"
+      "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
+      "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef",
+      "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1"
     ],
-    "generated_at": "2026-09-26T12:17:38.924772+00:00"
+    "generated_at": "2026-09-26T13:36:20.117622+00:00"
   },
   "compatibility": {
     "compatible": true,
@@ -214,8 +214,8 @@
   "synthetic_or_mock": false,
   "rows": [
     {
-      "run_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
-      "run_directory": "runs/phase8_real_colab/local_variance/20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
+      "run_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
+      "run_directory": "runs/phase8_real_colab/local_variance/20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
       "label": "Qwen/Qwen2.5-3B-Instruct@main",
       "evidence_mode": "LOCAL_REAL_MODEL",
       "model_id": "Qwen/Qwen2.5-3B-Instruct",
@@ -273,10 +273,10 @@
         "agent_success_rate": null,
         "agent_reliability": 0.47368421052631576,
         "reliability": 0.47368421052631576,
-        "latency_mean_ms": 3352.128008763163,
-        "latency_p50_ms": 241.42703300003632,
-        "latency_p95_ms": 8071.3289678999645,
-        "throughput": 12.0818775100845,
+        "latency_mean_ms": 3286.282971078953,
+        "latency_p50_ms": 225.27273049996666,
+        "latency_p95_ms": 7252.334643549954,
+        "throughput": 12.323953949316493,
         "variance": 0.24930747922437674,
         "input_tokens": 1365,
         "output_tokens": 1539,
@@ -426,10 +426,10 @@
           "agent_success_rate": null,
           "agent_reliability": 0.47368421052631576,
           "reliability": 0.47368421052631576,
-          "latency_mean_ms": 3352.128008763163,
-          "latency_p50_ms": 241.42703300003632,
-          "latency_p95_ms": 8071.3289678999645,
-          "throughput": 12.0818775100845,
+          "latency_mean_ms": 3286.282971078953,
+          "latency_p50_ms": 225.27273049996666,
+          "latency_p95_ms": 7252.334643549954,
+          "throughput": 12.323953949316493,
           "variance": 0.24930747922437674,
           "input_tokens": 1365,
           "output_tokens": 1539,
@@ -562,9 +562,9 @@
           ],
           "deployment": {}
         },
-        "run_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
+        "run_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
         "study_id": "sarvam_application_real_eval_v1",
-        "run_directory": "runs/phase8_real_colab/local_variance/20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
+        "run_directory": "runs/phase8_real_colab/local_variance/20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
         "label": "Qwen/Qwen2.5-3B-Instruct@main",
         "configuration_id": "3895d1804914d5cd",
         "config_hash": "3895d1804914d5cd",
@@ -703,7 +703,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:arc_easy_003"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:arc_easy_003"
           },
           {
             "priority": "P0",
@@ -716,7 +716,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:canary_002"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:canary_002"
           },
           {
             "priority": "P0",
@@ -729,7 +729,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:canary_004"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:canary_004"
           },
           {
             "priority": "P0",
@@ -742,7 +742,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_001"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_001"
           },
           {
             "priority": "P0",
@@ -755,7 +755,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_002"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_002"
           },
           {
             "priority": "P0",
@@ -768,7 +768,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_003"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_003"
           },
           {
             "priority": "P0",
@@ -781,7 +781,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_004"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_004"
           },
           {
             "priority": "P0",
@@ -794,7 +794,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_005"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_005"
           },
           {
             "priority": "P0",
@@ -807,7 +807,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_006"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_006"
           },
           {
             "priority": "P0",
@@ -820,7 +820,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_007"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_007"
           },
           {
             "priority": "P0",
@@ -833,7 +833,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_008"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_008"
           },
           {
             "priority": "P0",
@@ -846,7 +846,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:hall_005"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:hall_005"
           },
           {
             "priority": "P0",
@@ -859,7 +859,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:robust_001"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:robust_001"
           },
           {
             "priority": "P0",
@@ -872,7 +872,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:robust_003"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:robust_003"
           },
           {
             "priority": "P0",
@@ -885,7 +885,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:robust_004"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:robust_004"
           },
           {
             "priority": "P0",
@@ -898,7 +898,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:robust_005"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:robust_005"
           },
           {
             "priority": "P0",
@@ -911,7 +911,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:robust_006"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:robust_006"
           },
           {
             "priority": "P0",
@@ -924,7 +924,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:safe_001"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:safe_001"
           },
           {
             "priority": "P0",
@@ -937,7 +937,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:safe_002"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:safe_002"
           },
           {
             "priority": "P0",
@@ -950,12 +950,12 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:safe_003"
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:safe_003"
           }
         ],
         "representative_sanitized_examples": [
           {
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:arc_easy_003",
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:arc_easy_003",
             "example_id": "arc_easy_003",
             "episode_id": null,
             "test_id": null,
@@ -986,7 +986,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:canary_002",
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:canary_002",
             "example_id": "canary_002",
             "episode_id": null,
             "test_id": null,
@@ -1017,7 +1017,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:canary_004",
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:canary_004",
             "example_id": "canary_004",
             "episode_id": null,
             "test_id": null,
@@ -1048,7 +1048,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_001",
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_001",
             "example_id": "gsm8k_001",
             "episode_id": null,
             "test_id": null,
@@ -1079,7 +1079,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_002",
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_002",
             "example_id": "gsm8k_002",
             "episode_id": null,
             "test_id": null,
@@ -1110,7 +1110,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_003",
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_003",
             "example_id": "gsm8k_003",
             "episode_id": null,
             "test_id": null,
@@ -1141,7 +1141,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_004",
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_004",
             "example_id": "gsm8k_004",
             "episode_id": null,
             "test_id": null,
@@ -1172,7 +1172,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_005",
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_005",
             "example_id": "gsm8k_005",
             "episode_id": null,
             "test_id": null,
@@ -1203,7 +1203,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_006",
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_006",
             "example_id": "gsm8k_006",
             "episode_id": null,
             "test_id": null,
@@ -1234,7 +1234,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264:gsm8k_007",
+            "failure_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff:gsm8k_007",
             "example_id": "gsm8k_007",
             "episode_id": null,
             "test_id": null,
@@ -1304,8 +1304,8 @@
       "human_reviewed": false
     },
     {
-      "run_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33",
-      "run_directory": "runs/phase8_real_colab/local_variance/20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33",
+      "run_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef",
+      "run_directory": "runs/phase8_real_colab/local_variance/20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef",
       "label": "Qwen/Qwen2.5-3B-Instruct@main",
       "evidence_mode": "LOCAL_REAL_MODEL",
       "model_id": "Qwen/Qwen2.5-3B-Instruct",
@@ -1363,10 +1363,10 @@
         "agent_success_rate": null,
         "agent_reliability": 0.47368421052631576,
         "reliability": 0.47368421052631576,
-        "latency_mean_ms": 3037.00288171053,
-        "latency_p50_ms": 240.9556709999947,
-        "latency_p95_ms": 7411.640180949956,
-        "throughput": 13.33551582841739,
+        "latency_mean_ms": 3644.691360552632,
+        "latency_p50_ms": 225.56982900005096,
+        "latency_p95_ms": 13219.980580049933,
+        "throughput": 11.112052021288058,
         "variance": 0.24930747922437674,
         "input_tokens": 1365,
         "output_tokens": 1539,
@@ -1516,10 +1516,10 @@
           "agent_success_rate": null,
           "agent_reliability": 0.47368421052631576,
           "reliability": 0.47368421052631576,
-          "latency_mean_ms": 3037.00288171053,
-          "latency_p50_ms": 240.9556709999947,
-          "latency_p95_ms": 7411.640180949956,
-          "throughput": 13.33551582841739,
+          "latency_mean_ms": 3644.691360552632,
+          "latency_p50_ms": 225.56982900005096,
+          "latency_p95_ms": 13219.980580049933,
+          "throughput": 11.112052021288058,
           "variance": 0.24930747922437674,
           "input_tokens": 1365,
           "output_tokens": 1539,
@@ -1652,9 +1652,9 @@
           ],
           "deployment": {}
         },
-        "run_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33",
+        "run_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef",
         "study_id": "sarvam_application_real_eval_v1",
-        "run_directory": "runs/phase8_real_colab/local_variance/20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33",
+        "run_directory": "runs/phase8_real_colab/local_variance/20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef",
         "label": "Qwen/Qwen2.5-3B-Instruct@main",
         "configuration_id": "72eb4148726bd17b",
         "config_hash": "72eb4148726bd17b",
@@ -1793,7 +1793,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:arc_easy_003"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:arc_easy_003"
           },
           {
             "priority": "P0",
@@ -1806,7 +1806,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:canary_002"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:canary_002"
           },
           {
             "priority": "P0",
@@ -1819,7 +1819,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:canary_004"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:canary_004"
           },
           {
             "priority": "P0",
@@ -1832,7 +1832,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_001"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_001"
           },
           {
             "priority": "P0",
@@ -1845,7 +1845,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_002"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_002"
           },
           {
             "priority": "P0",
@@ -1858,7 +1858,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_003"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_003"
           },
           {
             "priority": "P0",
@@ -1871,7 +1871,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_004"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_004"
           },
           {
             "priority": "P0",
@@ -1884,7 +1884,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_005"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_005"
           },
           {
             "priority": "P0",
@@ -1897,7 +1897,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_006"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_006"
           },
           {
             "priority": "P0",
@@ -1910,7 +1910,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_007"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_007"
           },
           {
             "priority": "P0",
@@ -1923,7 +1923,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_008"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_008"
           },
           {
             "priority": "P0",
@@ -1936,7 +1936,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:hall_005"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:hall_005"
           },
           {
             "priority": "P0",
@@ -1949,7 +1949,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:robust_001"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:robust_001"
           },
           {
             "priority": "P0",
@@ -1962,7 +1962,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:robust_003"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:robust_003"
           },
           {
             "priority": "P0",
@@ -1975,7 +1975,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:robust_004"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:robust_004"
           },
           {
             "priority": "P0",
@@ -1988,7 +1988,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:robust_005"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:robust_005"
           },
           {
             "priority": "P0",
@@ -2001,7 +2001,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:robust_006"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:robust_006"
           },
           {
             "priority": "P0",
@@ -2014,7 +2014,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:safe_001"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:safe_001"
           },
           {
             "priority": "P0",
@@ -2027,7 +2027,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:safe_002"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:safe_002"
           },
           {
             "priority": "P0",
@@ -2040,12 +2040,12 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:safe_003"
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:safe_003"
           }
         ],
         "representative_sanitized_examples": [
           {
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:arc_easy_003",
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:arc_easy_003",
             "example_id": "arc_easy_003",
             "episode_id": null,
             "test_id": null,
@@ -2076,7 +2076,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:canary_002",
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:canary_002",
             "example_id": "canary_002",
             "episode_id": null,
             "test_id": null,
@@ -2107,7 +2107,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:canary_004",
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:canary_004",
             "example_id": "canary_004",
             "episode_id": null,
             "test_id": null,
@@ -2138,7 +2138,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_001",
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_001",
             "example_id": "gsm8k_001",
             "episode_id": null,
             "test_id": null,
@@ -2169,7 +2169,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_002",
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_002",
             "example_id": "gsm8k_002",
             "episode_id": null,
             "test_id": null,
@@ -2200,7 +2200,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_003",
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_003",
             "example_id": "gsm8k_003",
             "episode_id": null,
             "test_id": null,
@@ -2231,7 +2231,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_004",
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_004",
             "example_id": "gsm8k_004",
             "episode_id": null,
             "test_id": null,
@@ -2262,7 +2262,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_005",
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_005",
             "example_id": "gsm8k_005",
             "episode_id": null,
             "test_id": null,
@@ -2293,7 +2293,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_006",
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_006",
             "example_id": "gsm8k_006",
             "episode_id": null,
             "test_id": null,
@@ -2324,7 +2324,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33:gsm8k_007",
+            "failure_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef:gsm8k_007",
             "example_id": "gsm8k_007",
             "episode_id": null,
             "test_id": null,
@@ -2394,8 +2394,8 @@
       "human_reviewed": false
     },
     {
-      "run_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d",
-      "run_directory": "runs/phase8_real_colab/local_variance/20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d",
+      "run_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1",
+      "run_directory": "runs/phase8_real_colab/local_variance/20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1",
       "label": "Qwen/Qwen2.5-3B-Instruct@main",
       "evidence_mode": "LOCAL_REAL_MODEL",
       "model_id": "Qwen/Qwen2.5-3B-Instruct",
@@ -2453,10 +2453,10 @@
         "agent_success_rate": null,
         "agent_reliability": 0.47368421052631576,
         "reliability": 0.47368421052631576,
-        "latency_mean_ms": 3000.1544833421276,
-        "latency_p50_ms": 222.70872800004327,
-        "latency_p95_ms": 7495.418137099989,
-        "throughput": 13.499304860756236,
+        "latency_mean_ms": 3195.9509400000065,
+        "latency_p50_ms": 248.09717499999806,
+        "latency_p95_ms": 8022.069707350052,
+        "throughput": 12.672284637761027,
         "variance": 0.24930747922437674,
         "input_tokens": 1365,
         "output_tokens": 1539,
@@ -2606,10 +2606,10 @@
           "agent_success_rate": null,
           "agent_reliability": 0.47368421052631576,
           "reliability": 0.47368421052631576,
-          "latency_mean_ms": 3000.1544833421276,
-          "latency_p50_ms": 222.70872800004327,
-          "latency_p95_ms": 7495.418137099989,
-          "throughput": 13.499304860756236,
+          "latency_mean_ms": 3195.9509400000065,
+          "latency_p50_ms": 248.09717499999806,
+          "latency_p95_ms": 8022.069707350052,
+          "throughput": 12.672284637761027,
           "variance": 0.24930747922437674,
           "input_tokens": 1365,
           "output_tokens": 1539,
@@ -2742,9 +2742,9 @@
           ],
           "deployment": {}
         },
-        "run_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d",
+        "run_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1",
         "study_id": "sarvam_application_real_eval_v1",
-        "run_directory": "runs/phase8_real_colab/local_variance/20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d",
+        "run_directory": "runs/phase8_real_colab/local_variance/20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1",
         "label": "Qwen/Qwen2.5-3B-Instruct@main",
         "configuration_id": "3591df72ccaefee7",
         "config_hash": "3591df72ccaefee7",
@@ -2883,7 +2883,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:arc_easy_003"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:arc_easy_003"
           },
           {
             "priority": "P0",
@@ -2896,7 +2896,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:canary_002"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:canary_002"
           },
           {
             "priority": "P0",
@@ -2909,7 +2909,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:canary_004"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:canary_004"
           },
           {
             "priority": "P0",
@@ -2922,7 +2922,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_001"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_001"
           },
           {
             "priority": "P0",
@@ -2935,7 +2935,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_002"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_002"
           },
           {
             "priority": "P0",
@@ -2948,7 +2948,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_003"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_003"
           },
           {
             "priority": "P0",
@@ -2961,7 +2961,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_004"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_004"
           },
           {
             "priority": "P0",
@@ -2974,7 +2974,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_005"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_005"
           },
           {
             "priority": "P0",
@@ -2987,7 +2987,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_006"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_006"
           },
           {
             "priority": "P0",
@@ -3000,7 +3000,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_007"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_007"
           },
           {
             "priority": "P0",
@@ -3013,7 +3013,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_008"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_008"
           },
           {
             "priority": "P0",
@@ -3026,7 +3026,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:hall_005"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:hall_005"
           },
           {
             "priority": "P0",
@@ -3039,7 +3039,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:robust_001"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:robust_001"
           },
           {
             "priority": "P0",
@@ -3052,7 +3052,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:robust_003"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:robust_003"
           },
           {
             "priority": "P0",
@@ -3065,7 +3065,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:robust_004"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:robust_004"
           },
           {
             "priority": "P0",
@@ -3078,7 +3078,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:robust_005"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:robust_005"
           },
           {
             "priority": "P0",
@@ -3091,7 +3091,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:robust_006"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:robust_006"
           },
           {
             "priority": "P0",
@@ -3104,7 +3104,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:safe_001"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:safe_001"
           },
           {
             "priority": "P0",
@@ -3117,7 +3117,7 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:safe_002"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:safe_002"
           },
           {
             "priority": "P0",
@@ -3130,12 +3130,12 @@
             ],
             "observed_pattern": true,
             "category": "incorrect_answer",
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:safe_003"
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:safe_003"
           }
         ],
         "representative_sanitized_examples": [
           {
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:arc_easy_003",
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:arc_easy_003",
             "example_id": "arc_easy_003",
             "episode_id": null,
             "test_id": null,
@@ -3166,7 +3166,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:canary_002",
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:canary_002",
             "example_id": "canary_002",
             "episode_id": null,
             "test_id": null,
@@ -3197,7 +3197,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:canary_004",
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:canary_004",
             "example_id": "canary_004",
             "episode_id": null,
             "test_id": null,
@@ -3228,7 +3228,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_001",
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_001",
             "example_id": "gsm8k_001",
             "episode_id": null,
             "test_id": null,
@@ -3259,7 +3259,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_002",
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_002",
             "example_id": "gsm8k_002",
             "episode_id": null,
             "test_id": null,
@@ -3290,7 +3290,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_003",
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_003",
             "example_id": "gsm8k_003",
             "episode_id": null,
             "test_id": null,
@@ -3321,7 +3321,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_004",
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_004",
             "example_id": "gsm8k_004",
             "episode_id": null,
             "test_id": null,
@@ -3352,7 +3352,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_005",
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_005",
             "example_id": "gsm8k_005",
             "episode_id": null,
             "test_id": null,
@@ -3383,7 +3383,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_006",
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_006",
             "example_id": "gsm8k_006",
             "episode_id": null,
             "test_id": null,
@@ -3414,7 +3414,7 @@
             "tool_trace_reference": null
           },
           {
-            "failure_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d:gsm8k_007",
+            "failure_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1:gsm8k_007",
             "example_id": "gsm8k_007",
             "episode_id": null,
             "test_id": null,
@@ -3486,8 +3486,8 @@
   ],
   "comparisons": [
     {
-      "baseline_run": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
-      "candidate_run": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33",
+      "baseline_run": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
+      "candidate_run": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef",
       "quality_delta": 0.0,
       "status": "NO_MEANINGFUL_CHANGE",
       "ci_low": 0.0,
@@ -3497,8 +3497,8 @@
       "practically_meaningful": false
     },
     {
-      "baseline_run": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
-      "candidate_run": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d",
+      "baseline_run": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
+      "candidate_run": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1",
       "quality_delta": 0.0,
       "status": "NO_MEANINGFUL_CHANGE",
       "ci_low": 0.0,
@@ -3551,10 +3551,10 @@
         "agent_success_rate": null,
         "agent_reliability": 0.47368421052631576,
         "reliability": 0.47368421052631576,
-        "latency_mean_ms": 3352.128008763163,
-        "latency_p50_ms": 241.42703300003632,
-        "latency_p95_ms": 8071.3289678999645,
-        "throughput": 12.0818775100845,
+        "latency_mean_ms": 3286.282971078953,
+        "latency_p50_ms": 225.27273049996666,
+        "latency_p95_ms": 7252.334643549954,
+        "throughput": 12.323953949316493,
         "variance": 0.24930747922437674,
         "input_tokens": 1365,
         "output_tokens": 1539,
@@ -3690,10 +3690,10 @@
           "agent_success_rate": null,
           "agent_reliability": 0.47368421052631576,
           "reliability": 0.47368421052631576,
-          "latency_mean_ms": 3352.128008763163,
-          "latency_p50_ms": 241.42703300003632,
-          "latency_p95_ms": 8071.3289678999645,
-          "throughput": 12.0818775100845,
+          "latency_mean_ms": 3286.282971078953,
+          "latency_p50_ms": 225.27273049996666,
+          "latency_p95_ms": 7252.334643549954,
+          "throughput": 12.323953949316493,
           "variance": 0.24930747922437674,
           "input_tokens": 1365,
           "output_tokens": 1539,
@@ -3826,9 +3826,9 @@
           ],
           "deployment": {}
         },
-        "run_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
+        "run_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
         "study_id": "sarvam_application_real_eval_v1",
-        "run_directory": "runs/phase8_real_colab/local_variance/20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
+        "run_directory": "runs/phase8_real_colab/local_variance/20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
         "label": "Qwen/Qwen2.5-3B-Instruct@main",
         "configuration_id": "3895d1804914d5cd",
         "config_hash": "3895d1804914d5cd",
@@ -3891,10 +3891,10 @@
         "agent_success_rate": null,
         "agent_reliability": 0.47368421052631576,
         "reliability": 0.47368421052631576,
-        "latency_mean_ms": 3037.00288171053,
-        "latency_p50_ms": 240.9556709999947,
-        "latency_p95_ms": 7411.640180949956,
-        "throughput": 13.33551582841739,
+        "latency_mean_ms": 3644.691360552632,
+        "latency_p50_ms": 225.56982900005096,
+        "latency_p95_ms": 13219.980580049933,
+        "throughput": 11.112052021288058,
         "variance": 0.24930747922437674,
         "input_tokens": 1365,
         "output_tokens": 1539,
@@ -4030,10 +4030,10 @@
           "agent_success_rate": null,
           "agent_reliability": 0.47368421052631576,
           "reliability": 0.47368421052631576,
-          "latency_mean_ms": 3037.00288171053,
-          "latency_p50_ms": 240.9556709999947,
-          "latency_p95_ms": 7411.640180949956,
-          "throughput": 13.33551582841739,
+          "latency_mean_ms": 3644.691360552632,
+          "latency_p50_ms": 225.56982900005096,
+          "latency_p95_ms": 13219.980580049933,
+          "throughput": 11.112052021288058,
           "variance": 0.24930747922437674,
           "input_tokens": 1365,
           "output_tokens": 1539,
@@ -4166,9 +4166,9 @@
           ],
           "deployment": {}
         },
-        "run_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33",
+        "run_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef",
         "study_id": "sarvam_application_real_eval_v1",
-        "run_directory": "runs/phase8_real_colab/local_variance/20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33",
+        "run_directory": "runs/phase8_real_colab/local_variance/20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef",
         "label": "Qwen/Qwen2.5-3B-Instruct@main",
         "configuration_id": "72eb4148726bd17b",
         "config_hash": "72eb4148726bd17b",
@@ -4231,10 +4231,10 @@
         "agent_success_rate": null,
         "agent_reliability": 0.47368421052631576,
         "reliability": 0.47368421052631576,
-        "latency_mean_ms": 3000.1544833421276,
-        "latency_p50_ms": 222.70872800004327,
-        "latency_p95_ms": 7495.418137099989,
-        "throughput": 13.499304860756236,
+        "latency_mean_ms": 3195.9509400000065,
+        "latency_p50_ms": 248.09717499999806,
+        "latency_p95_ms": 8022.069707350052,
+        "throughput": 12.672284637761027,
         "variance": 0.24930747922437674,
         "input_tokens": 1365,
         "output_tokens": 1539,
@@ -4370,10 +4370,10 @@
           "agent_success_rate": null,
           "agent_reliability": 0.47368421052631576,
           "reliability": 0.47368421052631576,
-          "latency_mean_ms": 3000.1544833421276,
-          "latency_p50_ms": 222.70872800004327,
-          "latency_p95_ms": 7495.418137099989,
-          "throughput": 13.499304860756236,
+          "latency_mean_ms": 3195.9509400000065,
+          "latency_p50_ms": 248.09717499999806,
+          "latency_p95_ms": 8022.069707350052,
+          "throughput": 12.672284637761027,
           "variance": 0.24930747922437674,
           "input_tokens": 1365,
           "output_tokens": 1539,
@@ -4506,9 +4506,9 @@
           ],
           "deployment": {}
         },
-        "run_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d",
+        "run_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1",
         "study_id": "sarvam_application_real_eval_v1",
-        "run_directory": "runs/phase8_real_colab/local_variance/20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d",
+        "run_directory": "runs/phase8_real_colab/local_variance/20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1",
         "label": "Qwen/Qwen2.5-3B-Instruct@main",
         "configuration_id": "3591df72ccaefee7",
         "config_hash": "3591df72ccaefee7",
@@ -4576,10 +4576,10 @@
           "agent_success_rate": null,
           "agent_reliability": 0.47368421052631576,
           "reliability": 0.47368421052631576,
-          "latency_mean_ms": 3352.128008763163,
-          "latency_p50_ms": 241.42703300003632,
-          "latency_p95_ms": 8071.3289678999645,
-          "throughput": 12.0818775100845,
+          "latency_mean_ms": 3286.282971078953,
+          "latency_p50_ms": 225.27273049996666,
+          "latency_p95_ms": 7252.334643549954,
+          "throughput": 12.323953949316493,
           "variance": 0.24930747922437674,
           "input_tokens": 1365,
           "output_tokens": 1539,
@@ -4715,10 +4715,10 @@
             "agent_success_rate": null,
             "agent_reliability": 0.47368421052631576,
             "reliability": 0.47368421052631576,
-            "latency_mean_ms": 3352.128008763163,
-            "latency_p50_ms": 241.42703300003632,
-            "latency_p95_ms": 8071.3289678999645,
-            "throughput": 12.0818775100845,
+            "latency_mean_ms": 3286.282971078953,
+            "latency_p50_ms": 225.27273049996666,
+            "latency_p95_ms": 7252.334643549954,
+            "throughput": 12.323953949316493,
             "variance": 0.24930747922437674,
             "input_tokens": 1365,
             "output_tokens": 1539,
@@ -4851,9 +4851,9 @@
             ],
             "deployment": {}
           },
-          "run_id": "20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
+          "run_id": "20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
           "study_id": "sarvam_application_real_eval_v1",
-          "run_directory": "runs/phase8_real_colab/local_variance/20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264",
+          "run_directory": "runs/phase8_real_colab/local_variance/20260926T131836550716Z-sarvam-application-local-variance-baseli-6bf9e8ff",
           "label": "Qwen/Qwen2.5-3B-Instruct@main",
           "configuration_id": "3895d1804914d5cd",
           "config_hash": "3895d1804914d5cd",
@@ -4924,10 +4924,10 @@
           "agent_success_rate": null,
           "agent_reliability": 0.47368421052631576,
           "reliability": 0.47368421052631576,
-          "latency_mean_ms": 3037.00288171053,
-          "latency_p50_ms": 240.9556709999947,
-          "latency_p95_ms": 7411.640180949956,
-          "throughput": 13.33551582841739,
+          "latency_mean_ms": 3644.691360552632,
+          "latency_p50_ms": 225.56982900005096,
+          "latency_p95_ms": 13219.980580049933,
+          "throughput": 11.112052021288058,
           "variance": 0.24930747922437674,
           "input_tokens": 1365,
           "output_tokens": 1539,
@@ -5063,10 +5063,10 @@
             "agent_success_rate": null,
             "agent_reliability": 0.47368421052631576,
             "reliability": 0.47368421052631576,
-            "latency_mean_ms": 3037.00288171053,
-            "latency_p50_ms": 240.9556709999947,
-            "latency_p95_ms": 7411.640180949956,
-            "throughput": 13.33551582841739,
+            "latency_mean_ms": 3644.691360552632,
+            "latency_p50_ms": 225.56982900005096,
+            "latency_p95_ms": 13219.980580049933,
+            "throughput": 11.112052021288058,
             "variance": 0.24930747922437674,
             "input_tokens": 1365,
             "output_tokens": 1539,
@@ -5199,9 +5199,9 @@
             ],
             "deployment": {}
           },
-          "run_id": "20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33",
+          "run_id": "20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef",
           "study_id": "sarvam_application_real_eval_v1",
-          "run_directory": "runs/phase8_real_colab/local_variance/20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33",
+          "run_directory": "runs/phase8_real_colab/local_variance/20260926T132044255178Z-sarvam-application-local-variance-backen-1f3012ef",
           "label": "Qwen/Qwen2.5-3B-Instruct@main",
           "configuration_id": "72eb4148726bd17b",
           "config_hash": "72eb4148726bd17b",
@@ -5272,10 +5272,10 @@
           "agent_success_rate": null,
           "agent_reliability": 0.47368421052631576,
           "reliability": 0.47368421052631576,
-          "latency_mean_ms": 3000.1544833421276,
-          "latency_p50_ms": 222.70872800004327,
-          "latency_p95_ms": 7495.418137099989,
-          "throughput": 13.499304860756236,
+          "latency_mean_ms": 3195.9509400000065,
+          "latency_p50_ms": 248.09717499999806,
+          "latency_p95_ms": 8022.069707350052,
+          "throughput": 12.672284637761027,
           "variance": 0.24930747922437674,
           "input_tokens": 1365,
           "output_tokens": 1539,
@@ -5411,10 +5411,10 @@
             "agent_success_rate": null,
             "agent_reliability": 0.47368421052631576,
             "reliability": 0.47368421052631576,
-            "latency_mean_ms": 3000.1544833421276,
-            "latency_p50_ms": 222.70872800004327,
-            "latency_p95_ms": 7495.418137099989,
-            "throughput": 13.499304860756236,
+            "latency_mean_ms": 3195.9509400000065,
+            "latency_p50_ms": 248.09717499999806,
+            "latency_p95_ms": 8022.069707350052,
+            "throughput": 12.672284637761027,
             "variance": 0.24930747922437674,
             "input_tokens": 1365,
             "output_tokens": 1539,
@@ -5547,9 +5547,9 @@
             ],
             "deployment": {}
           },
-          "run_id": "20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d",
+          "run_id": "20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1",
           "study_id": "sarvam_application_real_eval_v1",
-          "run_directory": "runs/phase8_real_colab/local_variance/20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d",
+          "run_directory": "runs/phase8_real_colab/local_variance/20260926T132303074687Z-sarvam-application-local-variance-backen-00f7aaa1",
           "label": "Qwen/Qwen2.5-3B-Instruct@main",
           "configuration_id": "3591df72ccaefee7",
           "config_hash": "3591df72ccaefee7",

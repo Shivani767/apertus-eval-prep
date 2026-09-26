@@ -1,0 +1,759 @@
+{
+  "experiment_id": "sarvam_application_real_eval_v1",
+  "cells": [
+    {
+      "cell_id": "baseline",
+      "conditions": {
+        "backend": "local_transformers",
+        "dataset": "data/platform_episodes.jsonl",
+        "model_revision": "main",
+        "precision": "float16",
+        "prompt_template": "base",
+        "quantization": "none",
+        "seed": 11,
+        "split": null,
+        "task": "rag_episode",
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "is_baseline": true,
+      "status": "ok",
+      "run_id": "20260926T133717612991Z-sarvam-application-local-rag-agent-basel-1cec2c9d",
+      "directory": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/20260926T133717612991Z-sarvam-application-local-rag-agent-basel-1cec2c9d",
+      "mean_quality": 0.4,
+      "n_scored": 5,
+      "n_total": 5,
+      "n_failed": 3,
+      "config_hash": "d56c4b2ab1df7cbc",
+      "parent_experiment_id": "sarvam_application_real_eval_v1",
+      "resolved_config_path": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/20260926T133717612991Z-sarvam-application-local-rag-agent-basel-1cec2c9d/config.resolved.yaml",
+      "evidence_class": "MEASURED",
+      "confidence_interval": {
+        "lo": 0.0,
+        "hi": 0.8,
+        "mean": 0.4,
+        "n": 5,
+        "n_boot": 200,
+        "seed": 21,
+        "method": "bootstrap_percentile",
+        "alpha": 0.05
+      },
+      "error": null,
+      "example_scores": {
+        "None": 0.0
+      },
+      "example_correct": {
+        "None": false
+      }
+    },
+    {
+      "cell_id": "backend-local_transformers_dataset-data/platform_episodes.jsonl_model_revision-main_precision-float16_prompt_template-base_quantization-none_seed-11_split-null_task-agent_episode_temperature-0.0_top_p-1.0",
+      "conditions": {
+        "backend": "local_transformers",
+        "dataset": "data/platform_episodes.jsonl",
+        "model_revision": "main",
+        "precision": "float16",
+        "prompt_template": "base",
+        "quantization": "none",
+        "seed": 11,
+        "split": null,
+        "task": "agent_episode",
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "is_baseline": false,
+      "status": "ok",
+      "run_id": "20260926T133832676624Z-sarvam-application-local-rag-agent-backe-f325ddf4",
+      "directory": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/20260926T133832676624Z-sarvam-application-local-rag-agent-backe-f325ddf4",
+      "mean_quality": 0.0,
+      "n_scored": 5,
+      "n_total": 5,
+      "n_failed": 5,
+      "config_hash": "adb8b9f5adb1074d",
+      "parent_experiment_id": "sarvam_application_real_eval_v1",
+      "resolved_config_path": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/20260926T133832676624Z-sarvam-application-local-rag-agent-backe-f325ddf4/config.resolved.yaml",
+      "evidence_class": "MEASURED",
+      "confidence_interval": {
+        "lo": 0.0,
+        "hi": 0.0,
+        "mean": 0.0,
+        "n": 5,
+        "n_boot": 200,
+        "seed": 21,
+        "method": "bootstrap_percentile",
+        "alpha": 0.05
+      },
+      "error": null,
+      "example_scores": {
+        "None": 0.0
+      },
+      "example_correct": {
+        "None": false
+      }
+    }
+  ],
+  "report": {
+    "experiment_summary": {
+      "n_cells": 2,
+      "n_ok": 2,
+      "n_error": 0,
+      "n_evaluated": 2,
+      "n_examples": 2
+    },
+    "quality_summary": {
+      "count": 2,
+      "n_total": 2,
+      "n_scored": 2,
+      "n_failed": 0,
+      "mean": 0.2,
+      "median": 0.2,
+      "std": 0.2,
+      "variance": 0.04000000000000001,
+      "standard_error": 0.1414213562373095,
+      "min": 0.0,
+      "max": 0.4,
+      "p25": 0.1,
+      "p75": 0.30000000000000004,
+      "p95": 0.38,
+      "accuracy": 0.2,
+      "evidence_class": "MEASURED",
+      "missing_or_invalid": 0,
+      "confidence_interval": {
+        "lo": 0.0,
+        "hi": 0.4,
+        "mean": 0.2,
+        "n": 2,
+        "n_boot": 200,
+        "seed": 21,
+        "method": "bootstrap_percentile",
+        "alpha": 0.05
+      }
+    },
+    "factor_metrics": {
+      "factors": [
+        {
+          "factor": "backend",
+          "levels": {
+            "local_transformers": {
+              "count": 2,
+              "n_total": 2,
+              "n_scored": 2,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 2,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        },
+        {
+          "factor": "dataset",
+          "levels": {
+            "data/platform_episodes.jsonl": {
+              "count": 2,
+              "n_total": 2,
+              "n_scored": 2,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 2,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        },
+        {
+          "factor": "model_revision",
+          "levels": {
+            "main": {
+              "count": 2,
+              "n_total": 2,
+              "n_scored": 2,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 2,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        },
+        {
+          "factor": "precision",
+          "levels": {
+            "float16": {
+              "count": 2,
+              "n_total": 2,
+              "n_scored": 2,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 2,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        },
+        {
+          "factor": "prompt_template",
+          "levels": {
+            "base": {
+              "count": 2,
+              "n_total": 2,
+              "n_scored": 2,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 2,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        },
+        {
+          "factor": "quantization",
+          "levels": {
+            "none": {
+              "count": 2,
+              "n_total": 2,
+              "n_scored": 2,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 2,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        },
+        {
+          "factor": "seed",
+          "levels": {
+            "11": {
+              "count": 2,
+              "n_total": 2,
+              "n_scored": 2,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 2,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        },
+        {
+          "factor": "split",
+          "levels": {
+            "None": {
+              "count": 2,
+              "n_total": 2,
+              "n_scored": 2,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 2,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        },
+        {
+          "factor": "task",
+          "levels": {
+            "agent_episode": {
+              "count": 1,
+              "n_total": 1,
+              "n_scored": 1,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 1,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            },
+            "rag_episode": {
+              "count": 1,
+              "n_total": 1,
+              "n_scored": 1,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 1,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        },
+        {
+          "factor": "temperature",
+          "levels": {
+            "0.0": {
+              "count": 2,
+              "n_total": 2,
+              "n_scored": 2,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 2,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        },
+        {
+          "factor": "top_p",
+          "levels": {
+            "1.0": {
+              "count": 2,
+              "n_total": 2,
+              "n_scored": 2,
+              "n_failed": 0,
+              "mean": 0.0,
+              "median": 0.0,
+              "std": 0.0,
+              "variance": 0.0,
+              "standard_error": 0.0,
+              "min": 0.0,
+              "max": 0.0,
+              "p25": 0.0,
+              "p75": 0.0,
+              "p95": 0.0,
+              "accuracy": 0.0,
+              "evidence_class": "MEASURED",
+              "missing_or_invalid": 0,
+              "confidence_interval": {
+                "lo": 0.0,
+                "hi": 0.0,
+                "mean": 0.0,
+                "n": 2,
+                "n_boot": 200,
+                "seed": 21,
+                "method": "bootstrap_percentile",
+                "alpha": 0.05
+              }
+            }
+          },
+          "n": 2,
+          "mean_spread": 0.0,
+          "unstable": false
+        }
+      ],
+      "most_unstable_factor": "backend",
+      "unstable_conditions": [],
+      "stable_success": 0,
+      "stable_failure": 1,
+      "stable_success_examples": [],
+      "stable_failure_examples": [
+        "None"
+      ],
+      "condition_sensitive": [],
+      "sensitive_failures": [],
+      "representative_sensitive_failures": []
+    },
+    "confidence_intervals": {
+      "cell_quality_mean": {
+        "lo": 0.0,
+        "hi": 0.4,
+        "mean": 0.2,
+        "n": 2,
+        "n_boot": 200,
+        "seed": 21,
+        "method": "bootstrap_percentile",
+        "alpha": 0.05
+      },
+      "per_cell": {
+        "baseline": {
+          "lo": 0.0,
+          "hi": 0.8,
+          "mean": 0.4,
+          "n": 5,
+          "n_boot": 200,
+          "seed": 21,
+          "method": "bootstrap_percentile",
+          "alpha": 0.05
+        },
+        "backend-local_transformers_dataset-data/platform_episodes.jsonl_model_revision-main_precision-float16_prompt_template-base_quantization-none_seed-11_split-null_task-agent_episode_temperature-0.0_top_p-1.0": {
+          "lo": 0.0,
+          "hi": 0.0,
+          "mean": 0.0,
+          "n": 5,
+          "n_boot": 200,
+          "seed": 21,
+          "method": "bootstrap_percentile",
+          "alpha": 0.05
+        }
+      }
+    },
+    "robust_capability_score": {
+      "score": 0.16,
+      "mean_quality": 0.2,
+      "configuration_variance": 0.04000000000000001,
+      "lambda": 1.0,
+      "n": 2,
+      "n_conditions": 2,
+      "experimental": true,
+      "formula": "RCS = mean_quality - lambda * configuration_variance",
+      "limitations": [
+        "project-defined experimental score; not a standard universal metric"
+      ]
+    },
+    "baseline_cell": "baseline",
+    "candidate_cell": "backend-local_transformers_dataset-data/platform_episodes.jsonl_model_revision-main_precision-float16_prompt_template-base_quantization-none_seed-11_split-null_task-agent_episode_temperature-0.0_top_p-1.0",
+    "baseline_vs_first_candidate": {
+      "baseline_mean": 0.0,
+      "candidate_mean": 0.0,
+      "delta": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "effect_size": null,
+      "effect_size_name": "paired_cohen_dz",
+      "effect_size_valid": false,
+      "n_paired": 1,
+      "n_dropped": 0,
+      "n_invalid_baseline": 0,
+      "n_invalid_candidate": 0,
+      "n_boot": 200,
+      "seed": 21,
+      "method": "paired_bootstrap",
+      "status": "INCONCLUSIVE",
+      "limitations": [
+        "CI is bootstrap uncertainty, not a proof of practical importance"
+      ]
+    },
+    "unstable_conditions": [],
+    "representative_sensitive_failures": [],
+    "cells": [
+      {
+        "cell_id": "baseline",
+        "conditions": {
+          "backend": "local_transformers",
+          "dataset": "data/platform_episodes.jsonl",
+          "model_revision": "main",
+          "precision": "float16",
+          "prompt_template": "base",
+          "quantization": "none",
+          "seed": 11,
+          "split": null,
+          "task": "rag_episode",
+          "temperature": 0.0,
+          "top_p": 1.0
+        },
+        "is_baseline": true,
+        "status": "ok",
+        "run_id": "20260926T133717612991Z-sarvam-application-local-rag-agent-basel-1cec2c9d",
+        "directory": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/20260926T133717612991Z-sarvam-application-local-rag-agent-basel-1cec2c9d",
+        "mean_quality": 0.4,
+        "n_scored": 5,
+        "n_total": 5,
+        "n_failed": 3,
+        "config_hash": "d56c4b2ab1df7cbc",
+        "parent_experiment_id": "sarvam_application_real_eval_v1",
+        "resolved_config_path": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/20260926T133717612991Z-sarvam-application-local-rag-agent-basel-1cec2c9d/config.resolved.yaml",
+        "evidence_class": "MEASURED",
+        "confidence_interval": {
+          "lo": 0.0,
+          "hi": 0.8,
+          "mean": 0.4,
+          "n": 5,
+          "n_boot": 200,
+          "seed": 21,
+          "method": "bootstrap_percentile",
+          "alpha": 0.05
+        },
+        "error": null,
+        "example_scores": {
+          "None": 0.0
+        },
+        "example_correct": {
+          "None": false
+        }
+      },
+      {
+        "cell_id": "backend-local_transformers_dataset-data/platform_episodes.jsonl_model_revision-main_precision-float16_prompt_template-base_quantization-none_seed-11_split-null_task-agent_episode_temperature-0.0_top_p-1.0",
+        "conditions": {
+          "backend": "local_transformers",
+          "dataset": "data/platform_episodes.jsonl",
+          "model_revision": "main",
+          "precision": "float16",
+          "prompt_template": "base",
+          "quantization": "none",
+          "seed": 11,
+          "split": null,
+          "task": "agent_episode",
+          "temperature": 0.0,
+          "top_p": 1.0
+        },
+        "is_baseline": false,
+        "status": "ok",
+        "run_id": "20260926T133832676624Z-sarvam-application-local-rag-agent-backe-f325ddf4",
+        "directory": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/20260926T133832676624Z-sarvam-application-local-rag-agent-backe-f325ddf4",
+        "mean_quality": 0.0,
+        "n_scored": 5,
+        "n_total": 5,
+        "n_failed": 5,
+        "config_hash": "adb8b9f5adb1074d",
+        "parent_experiment_id": "sarvam_application_real_eval_v1",
+        "resolved_config_path": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/20260926T133832676624Z-sarvam-application-local-rag-agent-backe-f325ddf4/config.resolved.yaml",
+        "evidence_class": "MEASURED",
+        "confidence_interval": {
+          "lo": 0.0,
+          "hi": 0.0,
+          "mean": 0.0,
+          "n": 5,
+          "n_boot": 200,
+          "seed": 21,
+          "method": "bootstrap_percentile",
+          "alpha": 0.05
+        },
+        "error": null,
+        "example_scores": {
+          "None": 0.0
+        },
+        "example_correct": {
+          "None": false
+        }
+      }
+    ],
+    "parent_experiment_id": "sarvam_application_real_eval_v1",
+    "reproduction_command": "apertus-eval-prep platform-matrix --config runs/phase8_real_colab/configs/local_rag_agent.yaml",
+    "limitations": [
+      "Synthetic/mock cells are evidence of platform behavior, not model quality",
+      "RCS is an experimental project-defined score, not a universal benchmark metric",
+      "Small or incomplete matrices should be interpreted as inconclusive"
+    ],
+    "config_path": "runs/phase8_real_colab/configs/local_rag_agent.yaml",
+    "report_path": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/sarvam_application_real_eval_v1.experiment.json",
+    "markdown_path": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/sarvam_application_real_eval_v1.experiment.md",
+    "html_path": "/content/apertus-eval-prep/runs/phase8_real_colab/local_rag_agent/sarvam_application_real_eval_v1.experiment.html"
+  }
+}

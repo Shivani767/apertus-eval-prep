@@ -84,6 +84,17 @@ It rewrites every `report.md`/`report.html`, the safety report, the
 `<experiment>.experiment.{md,html}` files and the study bundle from the stored
 artifacts, so all models render in the same style.
 
+After curating a second model, build the cross-model table (this also checks that the
+core evaluation identity is identical across models):
+
+```bash
+python3 scripts/compare_real_model_results.py results/colab_real_model
+```
+
+It writes `results/colab_real_model/comparison.md` and `comparison.json`, and a test fails
+if those files are stale, hand-edited, or if the curated models disagree on their
+dataset, task or metric identity.
+
 ## Recommended order
 
 1. Run `configs/platform_smoke.yaml`; this is synthetic `MOCK` framework validation.

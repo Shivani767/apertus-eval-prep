@@ -1,0 +1,4 @@
+run_id,model_id,evidence_mode,quality,latency_p95_ms,cost_per_success
+20260926T131715918748Z-sarvam-application-local-variance-baseli-dbed98ff,microsoft/Phi-3.5-mini-instruct,LOCAL_REAL_MODEL,0.0,5688.209096150035,
+20260926T132047108421Z-sarvam-application-local-variance-backen-441d8119,microsoft/Phi-3.5-mini-instruct,LOCAL_REAL_MODEL,0.0,5756.404918900045,
+20260926T132403236096Z-sarvam-application-local-variance-backen-2ca5fca7,microsoft/Phi-3.5-mini-instruct,LOCAL_REAL_MODEL,0.0,5752.051548350005,
