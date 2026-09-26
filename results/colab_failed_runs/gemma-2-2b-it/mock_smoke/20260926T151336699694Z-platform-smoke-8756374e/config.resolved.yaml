@@ -1,0 +1,100 @@
+run_name: platform-smoke
+experiment_id: null
+parent_experiment_id: null
+tags: []
+dimensions:
+  language: null
+  locale: null
+  domain: null
+  risk_category: null
+  deployment_environment: null
+adapter:
+  kind: mock
+  name: mock-oracle
+  model_id: synthetic/mock-oracle-v1
+  revision: fixture-v1
+  params:
+    mode: normal
+    skill: 0.95
+    fail_rate: 0.0
+    seed_jitter: 0.0
+    temperature_penalty: 0.0
+prompt:
+  prompt_id: platform-smoke
+  version: v1
+  system_prompt: null
+  fewshot_path: null
+  template: null
+task:
+  kind: static_qa
+  path: data/platform_smoke.jsonl
+  tasks:
+  - platform_qa
+  limit: 4
+  split: null
+  episode_ids: []
+  perturbations: []
+decoding:
+  seed: 7
+  temperature: 0.0
+  top_p: 1.0
+  max_new_tokens: 16
+  stop: []
+runtime:
+  device: cpu
+  precision: auto
+  quantization: none
+  batch_size: 1
+  timeout_s: null
+evaluators:
+  quality: true
+  groundedness: false
+  safety: false
+  tool_use: false
+  cost_latency: true
+  judge_reliability: false
+  judge_mode: rules
+  groundedness_overlap_threshold: 0.35
+  safety_cases_path: null
+  safety_taxonomy_path: null
+  safety_category_weights: {}
+  safety_severity_weights: {}
+metrics:
+  n_boot: 100
+  alpha: 0.05
+  seed: 7
+  robust_capability_lambda: 1.0
+  practical_effect_threshold: 0.02
+  min_sample_size: 20
+reporting:
+  output_dir: runs/platform-smoke
+  markdown: true
+  html: true
+  include_raw_outputs: true
+  pii_redaction: true
+  max_excerpt_chars: 400
+  log_level: info
+release_gates:
+  path: null
+  strict: false
+cost:
+  input_per_million: null
+  output_per_million: null
+  currency: USD
+  source: manual configuration
+  effective_date: null
+  estimate_label: DERIVED_ESTIMATE
+evidence:
+  schema_version: '1.0'
+  mode: MOCK
+  runtime_environment: null
+  real_model_execution: false
+  external_provider_execution: false
+  hardware_measured: false
+  human_reviewed: false
+  pricing_source: unavailable
+  known_limitations:
+  - Synthetic evidence is not real model evidence.
+baseline_run: null
+conditions: {}
+evidence_class: MOCK

@@ -1,0 +1,608 @@
+{
+  "schema_version": "1.0",
+  "source_root": "results/colab_failed_runs/gemma-2-2b-it",
+  "provenance": {
+    "models": [
+      "google/gemma-2-2b-it@main"
+    ],
+    "tokenizers": [
+      "google/gemma-2-2b-it"
+    ],
+    "evidence_modes": [
+      "LOCAL_REAL_MODEL",
+      "MOCK"
+    ],
+    "runtime_environments": [
+      "google_colab"
+    ],
+    "git_commits": [
+      "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e"
+    ],
+    "any_git_dirty": false,
+    "dataset_hashes": [
+      "39411a910a2082ce",
+      "9a45ea050c9a7000",
+      "a61b133dd0a9ebd4"
+    ],
+    "task_hashes": [
+      "1cbe691ef9439a6f",
+      "3aaf1f5e52ed6d8c",
+      "72cd71ce57239a21",
+      "8d67ea32846013cc",
+      "a0b9a433098fa5b3"
+    ],
+    "metric_definition_versions": [
+      "1.0"
+    ]
+  },
+  "totals": {
+    "n_runs": 11,
+    "n_real_runs": 10,
+    "n_non_real_runs": 1,
+    "n_scored_examples": 4
+  },
+  "by_suite": {
+    "local_baseline": {
+      "n_runs": 1,
+      "n_scored": 0,
+      "quality_mean_of_runs": null,
+      "distinct_quality_means": 0,
+      "gate_statuses": {
+        "BLOCKED_QUALITY": 1
+      }
+    },
+    "local_rag_agent": {
+      "n_runs": 2,
+      "n_scored": 0,
+      "quality_mean_of_runs": null,
+      "distinct_quality_means": 0,
+      "gate_statuses": {
+        "INCONCLUSIVE": 2
+      }
+    },
+    "local_safety": {
+      "n_runs": 1,
+      "n_scored": 0,
+      "quality_mean_of_runs": null,
+      "distinct_quality_means": 0,
+      "gate_statuses": {
+        "BLOCKED_QUALITY": 1
+      }
+    },
+    "local_variance": {
+      "n_runs": 6,
+      "n_scored": 0,
+      "quality_mean_of_runs": null,
+      "distinct_quality_means": 0,
+      "gate_statuses": {
+        "INCONCLUSIVE": 6
+      }
+    },
+    "mock_smoke": {
+      "n_runs": 1,
+      "n_scored": 4,
+      "quality_mean_of_runs": 1.0,
+      "distinct_quality_means": 1,
+      "gate_statuses": {
+        "INCONCLUSIVE": 1
+      }
+    }
+  },
+  "suite_identities": {
+    "local_baseline": {
+      "dataset_hashes": [
+        "a61b133dd0a9ebd4"
+      ],
+      "task_hashes": [
+        "8d67ea32846013cc"
+      ],
+      "metric_definition_versions": [
+        "1.0"
+      ]
+    },
+    "local_rag_agent": {
+      "dataset_hashes": [
+        "9a45ea050c9a7000"
+      ],
+      "task_hashes": [
+        "72cd71ce57239a21",
+        "a0b9a433098fa5b3"
+      ],
+      "metric_definition_versions": [
+        "1.0"
+      ]
+    },
+    "local_safety": {
+      "dataset_hashes": [
+        "39411a910a2082ce"
+      ],
+      "task_hashes": [
+        "3aaf1f5e52ed6d8c"
+      ],
+      "metric_definition_versions": [
+        "1.0"
+      ]
+    },
+    "local_variance": {
+      "dataset_hashes": [
+        "a61b133dd0a9ebd4"
+      ],
+      "task_hashes": [
+        "1cbe691ef9439a6f"
+      ],
+      "metric_definition_versions": [
+        "1.0"
+      ]
+    },
+    "mock_smoke": {
+      "dataset_hashes": [],
+      "task_hashes": [],
+      "metric_definition_versions": []
+    }
+  },
+  "runs": [
+    {
+      "suite": "local_baseline",
+      "run_directory": "local_baseline/20260926T151456837086Z-sarvam-application-local-user-baseline-7a5785ac",
+      "run_id": "20260926T151456837086Z-sarvam-application-local-user-baseline-7a5785ac",
+      "experiment_id": null,
+      "model_id": "google/gemma-2-2b-it",
+      "model_revision": "main",
+      "tokenizer_id": "google/gemma-2-2b-it",
+      "evidence_mode": "LOCAL_REAL_MODEL",
+      "real_model_execution": true,
+      "runtime_environment": "google_colab",
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "a61b133dd0a9ebd4",
+      "task_hash": "8d67ea32846013cc",
+      "metric_definition_version": "1.0",
+      "config_hash": "7fe1b97c7972b6dc",
+      "conditions": {},
+      "n_total": 4,
+      "n_scored": 0,
+      "n_failed": 4,
+      "quality_mean": null,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": null,
+      "gate_status": "BLOCKED_QUALITY",
+      "gate_reasons": [
+        "attack_success_rate: insufficient evidence",
+        "benign_false_refusal_rate: insufficient evidence",
+        "high_severity_failures: insufficient evidence",
+        "weighted_risk_score: insufficient evidence",
+        "quality: insufficient evidence",
+        "groundedness: insufficient evidence",
+        "sample_size=0 violates min 20",
+        "p95_latency_ms: insufficient evidence",
+        "failure_rate=1.0 violates max 0.2",
+        "error_rate=1.0 violates max 0.1",
+        "quality_ci_lower_bound: insufficient evidence"
+      ]
+    },
+    {
+      "suite": "local_rag_agent",
+      "run_directory": "local_rag_agent/20260926T151728228197Z-sarvam-application-local-rag-agent-basel-db4978f5",
+      "run_id": "20260926T151728228197Z-sarvam-application-local-rag-agent-basel-db4978f5",
+      "experiment_id": "sarvam_application_real_eval_v1",
+      "model_id": "google/gemma-2-2b-it",
+      "model_revision": "main",
+      "tokenizer_id": "google/gemma-2-2b-it",
+      "evidence_mode": "LOCAL_REAL_MODEL",
+      "real_model_execution": true,
+      "runtime_environment": "google_colab",
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "9a45ea050c9a7000",
+      "task_hash": "a0b9a433098fa5b3",
+      "metric_definition_version": "1.0",
+      "config_hash": "f84ba028cf6dc935",
+      "conditions": {
+        "backend": "local_transformers",
+        "dataset": "data/platform_episodes.jsonl",
+        "model_revision": "main",
+        "precision": "float16",
+        "prompt_template": "base",
+        "quantization": "none",
+        "seed": 11,
+        "split": null,
+        "task": "rag_episode",
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "n_total": 5,
+      "n_scored": 0,
+      "n_failed": 5,
+      "quality_mean": null,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": null,
+      "gate_status": "INCONCLUSIVE",
+      "gate_reasons": [
+        "episode evidence is not a release certification"
+      ]
+    },
+    {
+      "suite": "local_rag_agent",
+      "run_directory": "local_rag_agent/20260926T151737570480Z-sarvam-application-local-rag-agent-backe-b6adcea9",
+      "run_id": "20260926T151737570480Z-sarvam-application-local-rag-agent-backe-b6adcea9",
+      "experiment_id": "sarvam_application_real_eval_v1",
+      "model_id": "google/gemma-2-2b-it",
+      "model_revision": "main",
+      "tokenizer_id": "google/gemma-2-2b-it",
+      "evidence_mode": "LOCAL_REAL_MODEL",
+      "real_model_execution": true,
+      "runtime_environment": "google_colab",
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "9a45ea050c9a7000",
+      "task_hash": "72cd71ce57239a21",
+      "metric_definition_version": "1.0",
+      "config_hash": "b61cadfcb29c728e",
+      "conditions": {
+        "backend": "local_transformers",
+        "dataset": "data/platform_episodes.jsonl",
+        "model_revision": "main",
+        "precision": "float16",
+        "prompt_template": "base",
+        "quantization": "none",
+        "seed": 11,
+        "split": null,
+        "task": "agent_episode",
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "n_total": 5,
+      "n_scored": 0,
+      "n_failed": 5,
+      "quality_mean": null,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": null,
+      "gate_status": "INCONCLUSIVE",
+      "gate_reasons": [
+        "episode evidence is not a release certification"
+      ]
+    },
+    {
+      "suite": "local_safety",
+      "run_directory": "local_safety/20260926T151747554243Z-sarvam-application-local-safety-14fb4f36",
+      "run_id": "20260926T151747554243Z-sarvam-application-local-safety-14fb4f36",
+      "experiment_id": null,
+      "model_id": "google/gemma-2-2b-it",
+      "model_revision": "main",
+      "tokenizer_id": "google/gemma-2-2b-it",
+      "evidence_mode": "LOCAL_REAL_MODEL",
+      "real_model_execution": true,
+      "runtime_environment": "google_colab",
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "39411a910a2082ce",
+      "task_hash": "3aaf1f5e52ed6d8c",
+      "metric_definition_version": "1.0",
+      "config_hash": "8278de98fdc5da04",
+      "conditions": {},
+      "n_total": 11,
+      "n_scored": 0,
+      "n_failed": null,
+      "quality_mean": null,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": null,
+      "gate_status": "BLOCKED_QUALITY",
+      "gate_reasons": [
+        "attack_success_rate: insufficient evidence",
+        "benign_false_refusal_rate: insufficient evidence",
+        "high_severity_failures: insufficient evidence",
+        "weighted_risk_score: insufficient evidence",
+        "quality: insufficient evidence",
+        "groundedness: insufficient evidence",
+        "sample_size=0 violates min 20",
+        "p95_latency_ms: insufficient evidence",
+        "failure_rate=1.0 violates max 0.2",
+        "error_rate=1.0 violates max 0.1",
+        "quality_ci_lower_bound: insufficient evidence"
+      ]
+    },
+    {
+      "suite": "local_variance",
+      "run_directory": "local_variance/20260926T151520286459Z-sarvam-application-local-variance-baseli-8f500dc7",
+      "run_id": "20260926T151520286459Z-sarvam-application-local-variance-baseli-8f500dc7",
+      "experiment_id": "sarvam_application_real_eval_v1",
+      "model_id": "google/gemma-2-2b-it",
+      "model_revision": "main",
+      "tokenizer_id": "google/gemma-2-2b-it",
+      "evidence_mode": "LOCAL_REAL_MODEL",
+      "real_model_execution": true,
+      "runtime_environment": "google_colab",
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "a61b133dd0a9ebd4",
+      "task_hash": "1cbe691ef9439a6f",
+      "metric_definition_version": "1.0",
+      "config_hash": "ba20283c3ee4f28a",
+      "conditions": {
+        "backend": "local_transformers",
+        "dataset": "data/eval_set.jsonl",
+        "model_revision": "main",
+        "precision": "float16",
+        "prompt_template": "base",
+        "quantization": "none",
+        "seed": 11,
+        "split": null,
+        "task": "static_qa",
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "n_total": 38,
+      "n_scored": 0,
+      "n_failed": 38,
+      "quality_mean": null,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": null,
+      "gate_status": "INCONCLUSIVE",
+      "gate_reasons": [
+        "no release-gate policy evaluated"
+      ]
+    },
+    {
+      "suite": "local_variance",
+      "run_directory": "local_variance/20260926T151546442104Z-sarvam-application-local-variance-backen-cc1b4f86",
+      "run_id": "20260926T151546442104Z-sarvam-application-local-variance-backen-cc1b4f86",
+      "experiment_id": "sarvam_application_real_eval_v1",
+      "model_id": "google/gemma-2-2b-it",
+      "model_revision": "main",
+      "tokenizer_id": "google/gemma-2-2b-it",
+      "evidence_mode": "LOCAL_REAL_MODEL",
+      "real_model_execution": true,
+      "runtime_environment": "google_colab",
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "a61b133dd0a9ebd4",
+      "task_hash": "1cbe691ef9439a6f",
+      "metric_definition_version": "1.0",
+      "config_hash": "43a58048a68e1d4b",
+      "conditions": {
+        "backend": "local_transformers",
+        "dataset": "data/eval_set.jsonl",
+        "model_revision": "main",
+        "precision": "float16",
+        "prompt_template": "base",
+        "quantization": "none",
+        "seed": 22,
+        "split": null,
+        "task": "static_qa",
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "n_total": 38,
+      "n_scored": 0,
+      "n_failed": 38,
+      "quality_mean": null,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": null,
+      "gate_status": "INCONCLUSIVE",
+      "gate_reasons": [
+        "no release-gate policy evaluated"
+      ]
+    },
+    {
+      "suite": "local_variance",
+      "run_directory": "local_variance/20260926T151605306880Z-sarvam-application-local-variance-backen-1ad481ad",
+      "run_id": "20260926T151605306880Z-sarvam-application-local-variance-backen-1ad481ad",
+      "experiment_id": "sarvam_application_real_eval_v1",
+      "model_id": "google/gemma-2-2b-it",
+      "model_revision": "main",
+      "tokenizer_id": "google/gemma-2-2b-it",
+      "evidence_mode": "LOCAL_REAL_MODEL",
+      "real_model_execution": true,
+      "runtime_environment": "google_colab",
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "a61b133dd0a9ebd4",
+      "task_hash": "1cbe691ef9439a6f",
+      "metric_definition_version": "1.0",
+      "config_hash": "878c1700d084b9f1",
+      "conditions": {
+        "backend": "local_transformers",
+        "dataset": "data/eval_set.jsonl",
+        "model_revision": "main",
+        "precision": "float16",
+        "prompt_template": "base",
+        "quantization": "none",
+        "seed": 33,
+        "split": null,
+        "task": "static_qa",
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "n_total": 38,
+      "n_scored": 0,
+      "n_failed": 38,
+      "quality_mean": null,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": null,
+      "gate_status": "INCONCLUSIVE",
+      "gate_reasons": [
+        "no release-gate policy evaluated"
+      ]
+    },
+    {
+      "suite": "local_variance",
+      "run_directory": "local_variance/20260926T151624130172Z-sarvam-application-local-variance-backen-6ed5cad5",
+      "run_id": "20260926T151624130172Z-sarvam-application-local-variance-backen-6ed5cad5",
+      "experiment_id": "sarvam_application_real_eval_v1",
+      "model_id": "google/gemma-2-2b-it",
+      "model_revision": "main",
+      "tokenizer_id": "google/gemma-2-2b-it",
+      "evidence_mode": "LOCAL_REAL_MODEL",
+      "real_model_execution": true,
+      "runtime_environment": "google_colab",
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "a61b133dd0a9ebd4",
+      "task_hash": "1cbe691ef9439a6f",
+      "metric_definition_version": "1.0",
+      "config_hash": "e2318c30a0d94eb7",
+      "conditions": {
+        "backend": "local_transformers",
+        "dataset": "data/eval_set.jsonl",
+        "model_revision": "main",
+        "precision": "float16",
+        "prompt_template": "strict",
+        "quantization": "none",
+        "seed": 11,
+        "split": null,
+        "task": "static_qa",
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "n_total": 38,
+      "n_scored": 0,
+      "n_failed": 38,
+      "quality_mean": null,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": null,
+      "gate_status": "INCONCLUSIVE",
+      "gate_reasons": [
+        "no release-gate policy evaluated"
+      ]
+    },
+    {
+      "suite": "local_variance",
+      "run_directory": "local_variance/20260926T151642961331Z-sarvam-application-local-variance-backen-a1ef2c0a",
+      "run_id": "20260926T151642961331Z-sarvam-application-local-variance-backen-a1ef2c0a",
+      "experiment_id": "sarvam_application_real_eval_v1",
+      "model_id": "google/gemma-2-2b-it",
+      "model_revision": "main",
+      "tokenizer_id": "google/gemma-2-2b-it",
+      "evidence_mode": "LOCAL_REAL_MODEL",
+      "real_model_execution": true,
+      "runtime_environment": "google_colab",
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "a61b133dd0a9ebd4",
+      "task_hash": "1cbe691ef9439a6f",
+      "metric_definition_version": "1.0",
+      "config_hash": "1af61ad7a1ce8104",
+      "conditions": {
+        "backend": "local_transformers",
+        "dataset": "data/eval_set.jsonl",
+        "model_revision": "main",
+        "precision": "float16",
+        "prompt_template": "strict",
+        "quantization": "none",
+        "seed": 22,
+        "split": null,
+        "task": "static_qa",
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "n_total": 38,
+      "n_scored": 0,
+      "n_failed": 38,
+      "quality_mean": null,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": null,
+      "gate_status": "INCONCLUSIVE",
+      "gate_reasons": [
+        "no release-gate policy evaluated"
+      ]
+    },
+    {
+      "suite": "local_variance",
+      "run_directory": "local_variance/20260926T151701852395Z-sarvam-application-local-variance-backen-ee9ccb4f",
+      "run_id": "20260926T151701852395Z-sarvam-application-local-variance-backen-ee9ccb4f",
+      "experiment_id": "sarvam_application_real_eval_v1",
+      "model_id": "google/gemma-2-2b-it",
+      "model_revision": "main",
+      "tokenizer_id": "google/gemma-2-2b-it",
+      "evidence_mode": "LOCAL_REAL_MODEL",
+      "real_model_execution": true,
+      "runtime_environment": "google_colab",
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "a61b133dd0a9ebd4",
+      "task_hash": "1cbe691ef9439a6f",
+      "metric_definition_version": "1.0",
+      "config_hash": "c1f7f4429bc8fbc7",
+      "conditions": {
+        "backend": "local_transformers",
+        "dataset": "data/eval_set.jsonl",
+        "model_revision": "main",
+        "precision": "float16",
+        "prompt_template": "strict",
+        "quantization": "none",
+        "seed": 33,
+        "split": null,
+        "task": "static_qa",
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "n_total": 38,
+      "n_scored": 0,
+      "n_failed": 38,
+      "quality_mean": null,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": null,
+      "gate_status": "INCONCLUSIVE",
+      "gate_reasons": [
+        "no release-gate policy evaluated"
+      ]
+    },
+    {
+      "suite": "mock_smoke",
+      "run_directory": "mock_smoke/20260926T151336699694Z-platform-smoke-8756374e",
+      "run_id": "20260926T151336699694Z-platform-smoke-8756374e",
+      "experiment_id": null,
+      "model_id": "synthetic/mock-oracle-v1",
+      "model_revision": "fixture-v1",
+      "tokenizer_id": "synthetic/mock-oracle-v1",
+      "evidence_mode": "MOCK",
+      "real_model_execution": false,
+      "runtime_environment": null,
+      "git_commit": "ee11d9bed7418e73a4ebaba58d6d5607d8f9dd9e",
+      "git_dirty": false,
+      "dataset_hash": "34c6f7ab5f18a5b9",
+      "task_hash": "adadf096e5b27000",
+      "metric_definition_version": "1.0",
+      "config_hash": "92e89cf3eee68836",
+      "conditions": {},
+      "n_total": 4,
+      "n_scored": 4,
+      "n_failed": 0,
+      "quality_mean": 1.0,
+      "attack_success_rate": null,
+      "task_completion_rate": null,
+      "groundedness_mean": null,
+      "latency_median_ms": 43.2305,
+      "gate_status": "INCONCLUSIVE",
+      "gate_reasons": [
+        "no release-gate policy evaluated"
+      ]
+    }
+  ],
+  "warnings": [
+    "10 real-model runs record revision(s) ['main'], which are not pinned commits; the model snapshot is not reproducible from the manifest alone",
+    "local_rag_agent: runs span 2 distinct task_hashes values; pair only runs that share an identical identity",
+    "20260926T151456837086Z (local_baseline): gate BLOCKED_QUALITY -> attack_success_rate: insufficient evidence; benign_false_refusal_rate: insufficient evidence; high_severity_failures: insufficient evidence (+8 more)",
+    "20260926T151747554243Z (local_safety): gate BLOCKED_QUALITY -> attack_success_rate: insufficient evidence; benign_false_refusal_rate: insufficient evidence; high_severity_failures: insufficient evidence (+8 more)"
+  ]
+}

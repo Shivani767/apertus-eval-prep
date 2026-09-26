@@ -1,0 +1,294 @@
+{
+  "schema_version": "1.0",
+  "n_total": 4,
+  "n_scored": 4,
+  "n_failed": 0,
+  "n_runtime_failed": 0,
+  "n_error": 0,
+  "n_timeout": 0,
+  "n_successful": 4,
+  "quality": {
+    "count": 4,
+    "n_total": 4,
+    "n_scored": 4,
+    "n_failed": 0,
+    "mean": 1.0,
+    "median": 1.0,
+    "std": 0.0,
+    "variance": 0.0,
+    "standard_error": 0.0,
+    "min": 1.0,
+    "max": 1.0,
+    "p25": 1.0,
+    "p75": 1.0,
+    "p95": 1.0,
+    "accuracy": 1.0,
+    "evidence_class": "MOCK",
+    "missing_or_invalid": 0
+  },
+  "confidence_intervals": {
+    "quality_mean": {
+      "lo": 1.0,
+      "hi": 1.0,
+      "mean": 1.0,
+      "n": 4,
+      "n_boot": 100,
+      "seed": 7,
+      "method": "bootstrap_percentile",
+      "alpha": 0.05
+    }
+  },
+  "latency": {
+    "count": 4,
+    "n_total": 4,
+    "n_scored": 4,
+    "n_failed": 0,
+    "mean": 43.4895,
+    "median": 43.2305,
+    "std": 5.998806318760425,
+    "variance": 35.98567725,
+    "standard_error": 2.9994031593802126,
+    "min": 37.295,
+    "max": 50.202,
+    "p25": 37.62575,
+    "p75": 49.09425,
+    "p95": 49.98045,
+    "accuracy": 43.4895,
+    "evidence_class": "MEASURED",
+    "missing_or_invalid": 0,
+    "mean_ms": 43.4895,
+    "p50_ms": 43.2305,
+    "p95_ms": 49.98045,
+    "throughput": 22.99405603651456
+  },
+  "usage": {
+    "input_tokens": 110,
+    "output_tokens": 4
+  },
+  "backend": "mock",
+  "device": "cpu",
+  "precision": "auto",
+  "quantization": "none",
+  "evidence_class": "MOCK",
+  "evidence": {
+    "schema_version": "1.0",
+    "mode": "MOCK",
+    "runtime_environment": null,
+    "real_model_execution": false,
+    "external_provider_execution": false,
+    "hardware_measured": false,
+    "human_reviewed": false,
+    "pricing_source": "unavailable",
+    "known_limitations": [
+      "Synthetic evidence is not real model evidence."
+    ]
+  },
+  "evidence_mode": "MOCK",
+  "synthetic_or_mock": true,
+  "model_id": "synthetic/mock-oracle-v1",
+  "model_revision": "fixture-v1",
+  "tokenizer_id": "synthetic/mock-oracle-v1",
+  "tokenizer_revision": "fixture-v1",
+  "runtime_profile": {
+    "schema_version": "1.0",
+    "runtime_environment": "google_colab",
+    "os": {
+      "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+      "system": "Linux",
+      "release": "6.6.122+",
+      "machine": "x86_64",
+      "processor": "x86_64",
+      "cpu_count": 2
+    },
+    "python": {
+      "version": "3.13.15",
+      "implementation": "CPython",
+      "executable": "/usr/bin/python3"
+    },
+    "torch_version": null,
+    "cuda_version": null,
+    "gpu_name": null,
+    "gpu_count": null,
+    "gpu_memory": null,
+    "gpu_memory_unit": null,
+    "cpu_count": 2,
+    "device_selection": "cpu",
+    "precision": "auto",
+    "quantization": "none",
+    "hardware_measured": false,
+    "hardware_measurement_status": "unavailable",
+    "latency_method": "client_side_wall_clock",
+    "model_generation_latency": null,
+    "end_to_end_workflow_latency": null
+  },
+  "known_limitations": [
+    "Synthetic evidence is not real model evidence."
+  ],
+  "cost_config": {
+    "input_per_million": null,
+    "output_per_million": null,
+    "currency": "USD",
+    "source": "manual configuration",
+    "effective_date": null,
+    "estimate_label": "DERIVED_ESTIMATE"
+  },
+  "release_gate": {
+    "status": "INCONCLUSIVE",
+    "reasons": [
+      "no release-gate policy evaluated"
+    ]
+  },
+  "deployment": {
+    "quality": 1.0,
+    "quality_score": 1.0,
+    "task_score": 1.0,
+    "n_scored": 4,
+    "n_total": 4,
+    "n_successful": 4,
+    "robustness_score": null,
+    "robustness": null,
+    "safety": null,
+    "safety_score": null,
+    "attack_success_rate": null,
+    "safety_score_method": null,
+    "groundedness": null,
+    "groundedness_score": null,
+    "agent_success": null,
+    "agent_success_rate": null,
+    "agent_reliability": 1.0,
+    "reliability": 1.0,
+    "latency_mean_ms": 43.4895,
+    "latency_p50_ms": 43.2305,
+    "latency_p95_ms": 49.98045,
+    "throughput": 22.99405603651456,
+    "variance": 0.0,
+    "input_tokens": 110,
+    "output_tokens": 4,
+    "tokens_in": 110,
+    "tokens_out": 4,
+    "cost": {
+      "value": null,
+      "currency": "USD",
+      "quality": "UNAVAILABLE",
+      "source": "manual configuration",
+      "reason": "configured token price missing",
+      "components": {
+        "input": null,
+        "output": null
+      },
+      "missing": [
+        "input",
+        "output"
+      ]
+    },
+    "cost_value": null,
+    "cost_per_success": null,
+    "cost_per_success_status": "UNAVAILABLE",
+    "cost_status": "UNAVAILABLE",
+    "backend": "mock",
+    "device": "cpu",
+    "model_id": "synthetic/mock-oracle-v1",
+    "model_revision": "fixture-v1",
+    "tokenizer_id": "synthetic/mock-oracle-v1",
+    "tokenizer_revision": "fixture-v1",
+    "precision": "auto",
+    "quantization": "none",
+    "memory_measurement": null,
+    "runtime_profile": {
+      "schema_version": "1.0",
+      "runtime_environment": "google_colab",
+      "os": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "release": "6.6.122+",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "cpu_count": 2
+      },
+      "python": {
+        "version": "3.13.15",
+        "implementation": "CPython",
+        "executable": "/usr/bin/python3"
+      },
+      "torch_version": null,
+      "cuda_version": null,
+      "gpu_name": null,
+      "gpu_count": null,
+      "gpu_memory": null,
+      "gpu_memory_unit": null,
+      "cpu_count": 2,
+      "device_selection": "cpu",
+      "precision": "auto",
+      "quantization": "none",
+      "hardware_measured": false,
+      "hardware_measurement_status": "unavailable",
+      "latency_method": "client_side_wall_clock",
+      "model_generation_latency": null,
+      "end_to_end_workflow_latency": null
+    },
+    "hardware_profile": {
+      "schema_version": "1.0",
+      "runtime_environment": "google_colab",
+      "os": {
+        "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+        "system": "Linux",
+        "release": "6.6.122+",
+        "machine": "x86_64",
+        "processor": "x86_64",
+        "cpu_count": 2
+      },
+      "python": {
+        "version": "3.13.15",
+        "implementation": "CPython",
+        "executable": "/usr/bin/python3"
+      },
+      "torch_version": null,
+      "cuda_version": null,
+      "gpu_name": null,
+      "gpu_count": null,
+      "gpu_memory": null,
+      "gpu_memory_unit": null,
+      "cpu_count": 2,
+      "device_selection": "cpu",
+      "precision": "auto",
+      "quantization": "none",
+      "hardware_measured": false,
+      "hardware_measurement_status": "unavailable",
+      "latency_method": "client_side_wall_clock",
+      "model_generation_latency": null,
+      "end_to_end_workflow_latency": null
+    },
+    "error_rate": 0.0,
+    "timeout_rate": 0.0,
+    "failure_rate": 0.0,
+    "run_failures": 0,
+    "runtime_failures": 0,
+    "evidence_class": "MOCK",
+    "evidence_mode": "MOCK",
+    "evidence": {
+      "schema_version": "1.0",
+      "mode": "MOCK",
+      "runtime_environment": null,
+      "real_model_execution": false,
+      "external_provider_execution": false,
+      "hardware_measured": false,
+      "human_reviewed": false,
+      "pricing_source": "unavailable",
+      "known_limitations": [
+        "Synthetic evidence is not real model evidence."
+      ]
+    },
+    "cost_config": {
+      "input_per_million": null,
+      "output_per_million": null,
+      "currency": "USD",
+      "source": "manual configuration",
+      "effective_date": null,
+      "estimate_label": "DERIVED_ESTIMATE"
+    },
+    "known_limitations": [
+      "Synthetic evidence is not real model evidence."
+    ],
+    "deployment": {}
+  }
+}

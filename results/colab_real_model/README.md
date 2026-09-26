@@ -21,6 +21,11 @@ and revision are the intended difference; a test enforces that identity check.
 The `Qwen2.5-3B-Instruct` directory holds the later of two sessions (runs from 13:15Z on
 code commit `ab1473e`); the earlier session (12:00Z on `ca96334`) stays in the git history.
 
+Recorded attempts that produced no usable measurement are kept apart in
+[results/colab_failed_runs](../colab_failed_runs) rather than in this table; the Gemma 2
+2B session there failed on every example because its notebook predated the authentication
+cell, so the gated weights never loaded.
+
 ## How to read the core means
 
 Four of the six models score exactly `0.0000` on the 38-item core suite. That is a
