@@ -4,39 +4,31 @@ Runs that did not produce usable measurements are kept here instead of in
 [results/colab_real_model](../colab_real_model), so they cannot be mistaken for evidence
 or silently dropped. Nothing here is cited: these are recorded attempts, not results.
 
-## `gemma-2-2b-it/` - attempted 2026-09-26, 0 of 257 examples scored
+A model leaves this list once a later attempt of it measures successfully; the failed
+attempts themselves stay in the git history.
 
-Third and last attempt, from code commit `0cafa9e`, so the artifacts name the cause:
+## `gemma-2-2b-it/` - three failed attempts, now resolved
 
-- **Status:** infrastructure failure, not a model-quality result. Every real run has
-  `n_scored = 0`; the only scored run is the mock smoke, and the six-cell variance matrix has
-  38 failures per cell. Nothing about Gemma's answers was measured.
-- **Recorded cause:** every example carries
-  `adapter_model_load_error: local model/tokenizer could not be loaded (OSError: You are
-  trying to access a gated repo ... 401 Client Error. (Request ID: Root=1-6ab8073a-...))`.
-  The Hub refused every weight download: no credential this session could use.
-- **Why the preflight passed anyway**, which is the part worth keeping:
-  1. `model_info` is not an access check. A gated repository publishes its metadata to
-     anonymous callers, so the notebook printed `model access OK` and only the *file*
-     downloads failed.
-  2. An ambient token was accepted without validation, so a revoked or expired token was
-     reported as "a token is already available" and the Colab secret was never read.
-- **Fixed on master** by `apertus_eval_prep.hub_auth`: every candidate token is validated
-  against `whoami` (an authenticated endpoint), the Colab secret is preferred over a cached
-  token so a rotated value takes effect, the validated token is published to the
-  subprocess that downloads the weights, and the preflight now fetches `config.json`, i.e.
-  the download that was failing. Covered by `tests/test_hub_auth.py`; all ten notebooks
-  delegate to it, enforced by `tests/test_notebook_hub_auth.py`.
-- **Re-run:** open `notebooks/real_model_gemma-2-2b-it.ipynb` from GitHub master, restart
-  the runtime, and run all cells. Section 0 now stops the session with the licence
-  instructions and the underlying Hub error instead of letting 257 examples fail; once it
-  prints `model access OK: google/gemma-2-2b-it (gated (auto), token from colab secret,
-  revision <sha>)`, the steps will load.
-- **Notebook state:** this notebook was regenerated from the template, so its stored
-  outputs from the failed attempt are gone. Nothing was lost: the artifacts of that attempt
-  are the ones preserved in this directory. The two notebooks whose runs *succeeded*
-  (`real_model_qwen2.5-1.5b-instruct`, `real_model_smollm2-1.7b-instruct`) were deliberately
-  left untouched, so their session records still exist.
+Resolved, so the directory is gone and the measured run lives in
+[results/colab_real_model/Gemma-2-2B-Instruct](../colab_real_model/Gemma-2-2B-Instruct)
+(257 of 257 scored, core mean 0.2105). Kept here because the failures are why the
+authentication path is now tested:
+
+1. The first attempt ran a checkout that predated the authentication cell, so the Colab
+   secret never reached the process that downloads gated weights.
+2. The second and third attempts authenticated, but the preflight only called
+   `model_info`, which succeeds anonymously for a gated repository: its metadata is public,
+   so the notebook printed `model access OK` while every weight download returned
+   `401 Client Error`. The preflight also accepted any ambient `HF_TOKEN` without checking
+   it, so a revoked token was reported as available and the Colab secret was never read.
+3. `apertus_eval_prep.hub_auth` now validates every candidate against `whoami`, prefers the
+   Colab secret over a cached token, publishes the validated token to the subprocess, and
+   proves the download by fetching `config.json` before any GPU time is spent. Covered by
+   `tests/test_hub_auth.py`, with `tests/test_notebook_hub_auth.py` holding the notebooks to
+   the tested path.
+
+The same two mistakes cost the Llama attempts below, which have not been re-run since the
+fix landed.
 
 ## `llama-3.2-3b-instruct/` - attempted 2026-09-26, 0 of 257 examples scored
 

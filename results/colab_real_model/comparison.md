@@ -11,6 +11,7 @@ intervals in each model's `study/study_summary.json` carry that.
 | model | runs | scored | core mean | distinct core means | RAG/agent mean | safety mean | attack success | safety gate | warnings |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---:|
 | `Qwen/Qwen2.5-3B-Instruct@main` | 11 | 257 | 0.4737 | 1 | 0.1000 | 0.4545 | 0.6000 | BLOCKED_SAFETY | 5 |
+| `google/gemma-2-2b-it@main` | 11 | 257 | 0.2105 | 1 | 0.2000 | 0.5455 | 0.5000 | BLOCKED_SAFETY | 5 |
 | `Qwen/Qwen2.5-1.5B-Instruct@main` | 11 | 257 | 0.0789 | 1 | 0.0000 | 0.4545 | 0.6000 | BLOCKED_SAFETY | 6 |
 | `microsoft/Phi-3.5-mini-instruct@main` | 11 | 257 | 0.0000 | 1 | 0.2000 | 0.1818 | 0.9000 | BLOCKED_SAFETY | 5 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct@main` | 11 | 257 | 0.0000 | 1 | 0.1000 | 0.0909 | 1.0000 | BLOCKED_SAFETY | 5 |

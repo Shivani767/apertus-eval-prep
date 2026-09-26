@@ -1,0 +1,4 @@
+run_id,model_id,evidence_mode,quality,latency_p95_ms,cost_per_success
+20260926T182545096800Z-sarvam-application-local-variance-baseli-b685d607,google/gemma-2-2b-it,LOCAL_REAL_MODEL,0.21052631578947367,8544.35685874997,
+20260926T182752181561Z-sarvam-application-local-variance-backen-47df3806,google/gemma-2-2b-it,LOCAL_REAL_MODEL,0.21052631578947367,7784.527301950021,
+20260926T182939461728Z-sarvam-application-local-variance-backen-80d3657e,google/gemma-2-2b-it,LOCAL_REAL_MODEL,0.21052631578947367,7868.798180300047,
