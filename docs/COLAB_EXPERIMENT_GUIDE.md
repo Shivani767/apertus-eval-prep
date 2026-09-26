@@ -73,6 +73,17 @@ blocked gates. Only runs sharing `evidence_mode`, `dataset_hash`, `task_hash`,
 `prompt_hash`, `prompt_version` and `metric_definition_version` are comparable;
 `model_id` and its revision are expected to differ across models.
 
+After a reporting change, rebuild the reports of curated models without a GPU or any
+re-inference:
+
+```bash
+python3 scripts/regenerate_colab_reports.py results/colab_real_model/<model>
+```
+
+It rewrites every `report.md`/`report.html`, the safety report, the
+`<experiment>.experiment.{md,html}` files and the study bundle from the stored
+artifacts, so all models render in the same style.
+
 ## Recommended order
 
 1. Run `configs/platform_smoke.yaml`; this is synthetic `MOCK` framework validation.

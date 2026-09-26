@@ -91,8 +91,75 @@ def render_experiment_markdown(result: Mapping[str, Any]) -> str:
 
 
 def render_experiment_html(result: Mapping[str, Any]) -> str:
-    text = render_experiment_markdown(result)
-    return "<!doctype html><html><head><meta charset='utf-8'><title>Experiment matrix</title></head><body><pre>" + html.escape(text) + "</pre></body></html>\n"
+    """Render the matrix report as real HTML rather than escaped Markdown."""
+    from apertus_eval_prep.reporting import htmlkit as h
+
+    report = result.get("report") or {}
+    summary = report.get("experiment_summary") or {}
+    comparison = report.get("baseline_vs_first_candidate") or {}
+    quality = report.get("quality_summary") or {}
+    factors = (report.get("factor_metrics") or {}).get("factors") or []
+    intervals = report.get("confidence_intervals") or {}
+    rcs = report.get("robust_capability_score") or {}
+
+    body = [
+        h.cards([
+            ("Cells successful", summary.get("n_ok")),
+            ("Cells planned", summary.get("n_cells")),
+            ("Evaluated examples", summary.get("n_examples")),
+            ("Errors", summary.get("n_error")),
+        ]),
+        h.section("Provenance", h.key_values([
+            ("Experiment", result.get("experiment_id")),
+            ("Parent experiment", report.get("parent_experiment_id", result.get("experiment_id"))),
+        ])),
+        h.section("Baseline and first candidate", h.key_values([
+            ("Baseline cell", report.get("baseline_cell")),
+            ("Candidate cell", report.get("candidate_cell")),
+            ("Status", comparison.get("status", "INCONCLUSIVE")),
+            ("Delta (candidate - baseline)", comparison.get("delta")),
+            ("95% bootstrap CI", _ci({"lo": comparison.get("ci_low"), "hi": comparison.get("ci_high")})),
+            ("Aligned examples", comparison.get("n_paired")),
+            ("Effect size", comparison.get("effect_size")),
+        ])),
+        h.section("Quality summary", h.key_values([
+            ("Count", quality.get("count")),
+            ("Mean quality", quality.get("mean")),
+            ("Standard deviation", quality.get("std")),
+            ("Standard error", quality.get("standard_error")),
+            ("95% CI", _ci(quality.get("confidence_interval"))),
+        ])),
+        h.section("Factor breakdown", h.table(
+            ["Factor", "Level", "Mean", "n", "95% CI", "Unstable"],
+            [
+                [factor.get("factor"), level, level_summary.get("mean"),
+                 level_summary.get("n_scored"), _ci(level_summary.get("confidence_interval")),
+                 bool(factor.get("unstable"))]
+                for factor in factors
+                for level, level_summary in (factor.get("levels") or {}).items()
+            ],
+        )),
+        h.section("Confidence intervals", h.key_values([
+            ("Across-cell mean CI", _ci(intervals.get("cell_quality_mean"))),
+        ])),
+        h.section("Experimental robust capability score", h.key_values([
+            ("Mean quality", rcs.get("mean_quality")),
+            ("Configuration variance", rcs.get("configuration_variance")),
+            ("Lambda", rcs.get("lambda")),
+            ("RCS", rcs.get("score")),
+            ("Experimental score", bool(rcs.get("experimental", True))),
+        ])),
+        h.section("Unstable conditions", h.bullets(report.get("unstable_conditions") or [])),
+        h.section("Representative sensitive failures", h.bullets([
+            f"{item.get('example_id')}: {', '.join(item.get('classifications') or [item.get('classification', 'condition_sensitive')])}"
+            for item in (report.get("representative_sensitive_failures") or [])
+        ])),
+        h.section("Reproduction", h.pre_block(report.get("reproduction_command", "unavailable"))),
+        h.section("Limitations", h.bullets(list(report.get("limitations") or []) + [
+            "Synthetic/mock cells validate platform behavior only; they are not real model benchmark results."
+        ])),
+    ]
+    return h.page("Experiment matrix report", "".join(body))
 
 
 __all__ = ["render_experiment_markdown", "render_experiment_html"]

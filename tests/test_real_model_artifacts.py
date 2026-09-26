@@ -13,22 +13,32 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from build_real_model_notebooks import MODELS, TEMPLATE, cell_sources, render_notebook  # noqa: E402
+from build_real_model_notebooks import MODELS, TEMPLATE, cell_sources, has_stored_outputs, render_notebook  # noqa: E402
 from summarise_real_model_results import build_summary, render_markdown  # noqa: E402
 
 CURATED = Path("results") / "colab_real_model" / "Qwen2.5-3B-Instruct"
 
 
 def test_generated_notebooks_match_the_template_sources():
-    """Notebook code must come from the template; Colab runtime state is allowed."""
+    """Notebook code must come from the template; Colab runtime state is allowed.
+
+    A notebook that Colab executed and saved back is deliberately exempt: the generator
+    refuses to overwrite it, so its stored outputs are that run's record. The pinning test
+    below still applies to it.
+    """
     template = json.loads(TEMPLATE.read_text(encoding="utf-8"))
+    executed = []
     for model in MODELS:
         path = ROOT / "notebooks" / model.notebook_name
         assert path.exists(), f"missing {model.notebook_name}; run scripts/build_real_model_notebooks.py"
         existing = json.loads(path.read_text(encoding="utf-8"))
+        if has_stored_outputs(existing):
+            executed.append(model.notebook_name)
+            continue
         assert cell_sources(existing) == cell_sources(render_notebook(template, model)), (
             f"{model.notebook_name} code is stale; re-run scripts/build_real_model_notebooks.py"
         )
+    print("executed in Colab, sources not compared:", executed)
 
 
 def test_generated_notebooks_pin_one_model_and_compile():

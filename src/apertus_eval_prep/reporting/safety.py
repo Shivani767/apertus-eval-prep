@@ -1,7 +1,6 @@
 """Redacted Markdown/HTML reports for safety evaluation runs."""
 from __future__ import annotations
 
-import html
 from typing import Any, Mapping
 
 from apertus_eval_prep.core.evidence import evidence_from_manifest
@@ -101,9 +100,103 @@ def render_safety_markdown(payload: Mapping[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _breakdown_rows(breakdown: Mapping[str, Any] | None) -> list[list[Any]]:
+    """Rows for a category/severity breakdown table."""
+    if not breakdown:
+        return [["none", 0, 0, 0, None, None]]
+    return [
+        [name, values.get("n", 0), values.get("passed", 0), values.get("failed", 0),
+         values.get("pass_rate"), values.get("weighted_risk")]
+        for name, values in sorted(breakdown.items())
+    ]
+
+
 def render_safety_html(payload: Mapping[str, Any]) -> str:
-    text = render_safety_markdown(payload)
-    return "<!doctype html><html><head><meta charset='utf-8'><title>Safety Evaluation Report</title></head><body><pre>" + html.escape(text) + "</pre></body></html>\n"
+    """Render the safety report as real HTML rather than escaped Markdown."""
+    from apertus_eval_prep.reporting import htmlkit as h
+
+    manifest = payload.get("manifest") or {}
+    metrics = payload.get("metrics") or {}
+    safety = metrics.get("safety") or {}
+    gate = metrics.get("release_gate") or {}
+    comparison = metrics.get("baseline_comparison") or {}
+    mode = str(evidence_from_manifest(manifest).get("mode") or "UNKNOWN")
+    synthetic = mode in {"MOCK", "SYNTHETIC"}
+
+    body = [
+        h.cards([
+            ("Release gate", gate.get("status", "INCONCLUSIVE")),
+            ("Cases", safety.get("n_cases")),
+            ("Evaluated", safety.get("n_evaluated")),
+            ("Skipped", safety.get("n_skipped")),
+            ("Human review required", safety.get("human_review_required_count")),
+            ("Attack success rate", safety.get("attack_success_rate")),
+            ("Safe refusal rate", safety.get("safe_refusal_rate")),
+            ("Weighted risk score", safety.get("weighted_risk_score")),
+        ]),
+        h.section("Overall status", h.key_values([
+            ("Evidence mode", mode),
+            ("Release-gate status", gate.get("status", "INCONCLUSIVE")),
+            ("Cases", safety.get("n_cases")),
+            ("Evaluated", safety.get("n_evaluated")),
+            ("Skipped", safety.get("n_skipped")),
+        ]) + h.paragraph(RELEASE_GATE_DISCLAIMER)),
+        h.section("Metrics", h.table(["Metric", "Value"], [
+            [name, safety.get(name)] for name in (
+                "category_pass_rate", "attack_success_rate", "safe_refusal_rate",
+                "benign_false_refusal_rate", "safe_alternative_quality",
+                "high_severity_failures", "weighted_risk_score",
+            )
+        ])),
+        h.section("Category breakdown", h.table(
+            ["Group", "n", "Passed", "Failed", "Pass rate", "Weighted risk"],
+            _breakdown_rows(safety.get("category_breakdown") or safety.get("by_category")),
+        )),
+        h.section("Severity breakdown", h.table(
+            ["Group", "n", "Passed", "Failed", "Pass rate", "Weighted risk"],
+            _breakdown_rows(safety.get("severity_breakdown") or safety.get("by_severity")),
+        )),
+        h.section("Visible risk components", h.table(
+            ["Test", "Category", "Severity", "Component"],
+            [[item.get("test_id"), item.get("category"), item.get("severity"), item.get("component")]
+             for item in (safety.get("weighted_failures") or [])],
+        )),
+    ]
+    if comparison:
+        paired = comparison.get("paired") or {}
+        body.append(h.section("Baseline comparison", h.key_values([
+            ("Baseline directory", comparison.get("baseline_directory")),
+            ("Aligned cases", comparison.get("n_aligned")),
+            ("Status", comparison.get("status", "INCONCLUSIVE")),
+            ("Safe-rate delta", comparison.get("safe_rate_delta")),
+            ("Attack-success-rate delta", comparison.get("attack_success_rate_delta")),
+            ("Weighted-risk delta", comparison.get("weighted_risk_score_delta")),
+            ("Bootstrap interval", [paired.get("ci_low"), paired.get("ci_high")]),
+        ])))
+    else:
+        body.append(h.section(
+            "Baseline comparison",
+            h.paragraph("No baseline run was configured; comparison is unavailable rather than assumed safe."),
+        ))
+    failures = list(payload.get("failures") or [])
+    body += [
+        h.section("Sanitized failed cases", h.table(
+            ["Test", "Category", "Severity", "Sanitized input excerpt"],
+            [[item.get("test_id"), item.get("category"), item.get("severity"),
+              item.get("sanitized_input_excerpt", "not retained")] for item in failures[:20]],
+        ) if failures else h.paragraph("No evaluated failures were recorded.")),
+        h.section("Limitations", h.bullets([
+            "Lexical safe-response and safe-alternative checks are screening heuristics, not human safety judgments.",
+            "The public fixtures are abstract and sanitized; they do not estimate real-world attack prevalence.",
+            "High-impact releases require controlled adversarial testing, privacy/security review, human review, monitoring, and incident response.",
+            "Release gates are engineering policy aids, not certification or production approval.",
+        ])),
+        h.section("Reproduction", h.pre_block(
+            manifest.get("entrypoint_command", "apertus-eval-prep platform-safety --config <config>")
+        )),
+    ]
+    badge = "SYNTHETIC FIXTURES — NOT SAFETY CERTIFICATION" if synthetic else "EXPERIMENTAL SAFETY EVIDENCE — NOT PRODUCTION APPROVAL"
+    return h.page("Safety Evaluation Report", "".join(body), badge=badge)
 
 
 __all__ = ["render_safety_markdown", "render_safety_html"]

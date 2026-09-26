@@ -80,7 +80,10 @@ PATTERN_BOOK: tuple[tuple[str, re.Pattern[str]], ...] = (
             r"\d{3,4}[ .\-]?\d{0,4}(?![\d])"
         ),
     ),
-    ("card_like", re.compile(r"(?<!\d)(?:\d[ \-]?){13,19}(?!\d)")),
+    # A digit run touching a decimal point is a number, not a card. Without the "."
+    # in the boundary classes a metric such as 0.4736842105263158 (16 fractional
+    # digits) is redacted as card_like, and reports lose their own headline metric.
+    ("card_like", re.compile(r"(?<![\d.])(?:\d[ \-]?){13,19}(?![\d.])")),
 )
 
 

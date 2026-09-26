@@ -1,0 +1,4 @@
+run_id,model_id,evidence_mode,quality,latency_p95_ms,cost_per_success
+20260926T124648119020Z-sarvam-application-local-variance-baseli-fb5c014f,HuggingFaceTB/SmolLM2-1.7B-Instruct,LOCAL_REAL_MODEL,0.0,2453.5345761499902,
+20260926T124721896487Z-sarvam-application-local-variance-backen-4bc87d65,HuggingFaceTB/SmolLM2-1.7B-Instruct,LOCAL_REAL_MODEL,0.0,1328.7551435000087,
+20260926T124734097204Z-sarvam-application-local-variance-backen-17676650,HuggingFaceTB/SmolLM2-1.7B-Instruct,LOCAL_REAL_MODEL,0.0,1276.4498560499158,

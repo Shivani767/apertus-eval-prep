@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "study_id": "sarvam_application_real_eval_v1",
+  "study_title": "Phase 8 study",
+  "research_question": "How do real LLM configurations differ in English task quality, robustness across valid inference conditions, RAG/agent reliability, sanitized safety behavior, latency, cost estimates, and failure profiles?",
+  "hypothesis_ids": [
+    "H1",
+    "H2",
+    "H3",
+    "H4"
+  ],
+  "planned_sample_counts": {
+    "core": 38,
+    "rag": 5,
+    "agent": 5,
+    "safety": 11,
+    "review": 30
+  },
+  "protocol_path": "docs/PHASE8_STUDY_PROTOCOL.md",
+  "preregistration_path": "docs/studies/SARVAM_APPLICATION_REAL_STUDY_PREREGISTRATION.md",
+  "deviation_log_path": "docs/PHASE8_DEVIATION_LOG_TEMPLATE.md",
+  "evidence_mode": "LOCAL_REAL_MODEL",
+  "config_hash": "ef40cb0dc5fdc1b7",
+  "run_ids": [
+    "20260926T124648119020Z-sarvam-application-local-variance-baseli-fb5c014f",
+    "20260926T124721896487Z-sarvam-application-local-variance-backen-4bc87d65",
+    "20260926T124734097204Z-sarvam-application-local-variance-backen-17676650"
+  ],
+  "generated_at": "2026-09-26T12:49:54.053201+00:00"
+}

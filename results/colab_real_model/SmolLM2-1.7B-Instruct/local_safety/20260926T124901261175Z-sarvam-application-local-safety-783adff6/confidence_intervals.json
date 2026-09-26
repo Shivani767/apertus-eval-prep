@@ -1,0 +1,12 @@
+{
+  "safe_rate": {
+    "lo": 0.0,
+    "hi": 0.2727272727272727,
+    "mean": 0.09090909090909091,
+    "n": 11,
+    "n_boot": 200,
+    "seed": 41,
+    "method": "bootstrap_percentile",
+    "alpha": 0.05
+  }
+}

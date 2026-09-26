@@ -106,8 +106,123 @@ def render_study_markdown(summary: Mapping[str, Any]) -> str:
 
 
 def render_study_html(summary: Mapping[str, Any]) -> str:
-    text = render_study_markdown(summary)
-    return "<!doctype html><html lang='en'><head><meta charset='utf-8'><title>Phase 8 study report</title><style>body{font:15px system-ui,sans-serif;max-width:1200px;margin:2rem auto;padding:0 1rem}pre{white-space:pre-wrap;background:#f3f5f7;padding:1rem}</style></head><body><pre>" + html.escape(text) + "</pre></body></html>\n"
+    """Render the study report as real HTML rather than escaped Markdown."""
+    from apertus_eval_prep.reporting import htmlkit as h
+
+    study = summary.get("study") or {}
+    rows = list(summary.get("rows") or [])
+    rcs = summary.get("robust_capability_score") or {}
+    review = summary.get("review") or {}
+    pareto = (summary.get("pareto") or {}).get("pareto") or {}
+
+    unavailable: list[str] = []
+    for row in rows:
+        if not row.get("safety"):
+            unavailable.append(f"{row.get('run_id')}: safety suite unavailable")
+        if not row.get("system"):
+            unavailable.append(f"{row.get('run_id')}: RAG/agent suite unavailable")
+        if (row.get("deployment") or {}).get("cost_per_success") is None:
+            unavailable.append(f"{row.get('run_id')}: cost per successful task unavailable")
+
+    body = [
+        h.cards([
+            ("Runs", len(rows)),
+            ("Evidence modes", ", ".join(summary.get("evidence_modes") or []) or None),
+            ("Real-model evidence", bool(summary.get("real_model_evidence_available"))),
+            ("Deviations", (summary.get("deviations") or {}).get("status", "NOT_ASSESSED")),
+            ("RCS (experimental)", rcs.get("score")),
+        ]),
+        h.section("Study design and provenance", h.key_values([
+            ("Study", study.get("study_id")),
+            ("Title", study.get("study_title")),
+            ("Research question", study.get("research_question")),
+            ("Hypotheses", ", ".join(study.get("hypothesis_ids") or []) or None),
+            ("Planned samples", study.get("planned_sample_counts")),
+            ("Protocol", study.get("protocol_path")),
+            ("Preregistration", study.get("preregistration_path")),
+        ])),
+        h.section("Runs and configurations", h.table(
+            ["Run", "Model", "Revision", "Evidence", "Config hash", "Quality", "95% CI"],
+            [
+                [
+                    row.get("run_id"),
+                    row.get("model_id"),
+                    row.get("model_revision"),
+                    row.get("evidence_mode"),
+                    row.get("config_hash"),
+                    (row.get("quality") or {}).get("mean"),
+                    _ci((row.get("confidence_intervals") or {}).get("quality_mean")),
+                ]
+                for row in rows
+            ],
+        )),
+        h.section("Comparisons", h.table(
+            ["Baseline run", "Candidate run", "Delta", "95% CI", "Effect size", "Status", "Practically meaningful"],
+            [
+                [
+                    comparison.get("baseline_run"),
+                    comparison.get("candidate_run"),
+                    comparison.get("quality_delta"),
+                    _ci({"lo": comparison.get("ci_low"), "hi": comparison.get("ci_high")}),
+                    comparison.get("effect_size"),
+                    comparison.get("status"),
+                    bool(comparison.get("practically_meaningful")),
+                ]
+                for comparison in (summary.get("comparisons") or [])
+            ],
+        )),
+        h.section("Experimental robust capability score", h.key_values([
+            ("Mean quality", rcs.get("mean_quality")),
+            ("Configuration variance", rcs.get("configuration_variance")),
+            ("Lambda", rcs.get("lambda")),
+            ("RCS", rcs.get("score")),
+            ("Experimental score", bool(rcs.get("experimental", True))),
+        ])),
+        h.section("Safety, RAG/agent and deployment", h.table(
+            ["Run", "Attack success", "Groundedness", "Agent success", "Latency p95 (ms)", "Cost/success", "Gate"],
+            [
+                [
+                    row.get("run_id"),
+                    (row.get("safety") or {}).get("attack_success_rate"),
+                    (row.get("system") or {}).get("groundedness_mean"),
+                    (row.get("system") or {}).get("task_completion_rate"),
+                    (row.get("deployment") or {}).get("latency_p95_ms"),
+                    (row.get("deployment") or {}).get("cost_per_success"),
+                    (row.get("release_gate") or {}).get("status", "INCONCLUSIVE"),
+                ]
+                for row in rows
+            ],
+        )),
+        h.section("Failure fingerprints", h.table(
+            ["Run", "Failures", "Rate", "Top priority"],
+            [
+                [
+                    row.get("run_id"),
+                    (row.get("failure_fingerprint") or {}).get("n_failures"),
+                    (row.get("failure_fingerprint") or {}).get("failure_rate"),
+                    (row.get("failure_fingerprint") or {}).get("top_investigation_priority"),
+                ]
+                for row in rows
+            ],
+        )),
+        h.section("Pareto frontier", h.key_values([
+            ("Pareto-optimal", len(pareto.get("frontier", []))),
+            ("Dominated", len(pareto.get("dominated", []))),
+            ("Excluded or inconclusive", len(pareto.get("excluded", []))),
+        ])),
+        h.section("Human review", h.key_values([
+            ("Status", review.get("status", "NOT_PROVIDED")),
+            ("Human reviewed", bool(review.get("human_reviewed"))),
+            ("Annotations", review.get("n_annotations")),
+        ])),
+        h.section("Missing evidence and inconclusive results", h.bullets(unavailable)),
+        h.section("Limitations", h.bullets(summary.get("limitations") or [])),
+        h.section("Reproducibility", h.paragraph(
+            "Underlying run IDs, config hashes, dataset hashes, prompt hashes and artifact paths are "
+            "preserved in study_summary.json and comparison_table.csv."
+        )),
+    ]
+    return h.page("Phase 8 study report", "".join(body))
 
 
 def _csv_safe(value: Any) -> Any:

@@ -7,6 +7,10 @@ repository.
 | model | runs | summary |
 |---|---|---|
 | `Qwen/Qwen2.5-3B-Instruct` | 11 (10 real-model + 1 mock smoke) | [summary.md](Qwen2.5-3B-Instruct/summary.md) |
+| `HuggingFaceTB/SmolLM2-1.7B-Instruct` | 11 (10 real-model + 1 mock smoke) | [summary.md](SmolLM2-1.7B-Instruct/summary.md) |
+
+Both runs share the same dataset, task, prompt and metric identities, so their quality
+means are directly comparable; the model id and revision are the intended difference.
 
 ## Layout (per model)
 
@@ -46,4 +50,6 @@ Two derived files are added on top:
    zip.
 3. Extract the zip into `results/colab_real_model/<HF model name>/`.
 4. `python3 scripts/summarise_real_model_results.py results/colab_real_model/<HF model name>`
-5. Commit the run tree plus the generated `summary.json` and `summary.md`.
+5. Rebuild the reports so every model shares one style (rendering only, no re-inference):
+   `python3 scripts/regenerate_colab_reports.py results/colab_real_model/<HF model name>`
+6. Commit the run tree plus the generated `summary.json` and `summary.md`.
