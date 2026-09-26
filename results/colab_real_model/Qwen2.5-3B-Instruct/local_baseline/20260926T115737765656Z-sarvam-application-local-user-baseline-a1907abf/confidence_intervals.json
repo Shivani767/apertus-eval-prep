@@ -1,0 +1,12 @@
+{
+  "quality_mean": {
+    "lo": 0.25,
+    "hi": 1.0,
+    "mean": 0.75,
+    "n": 4,
+    "n_boot": 80,
+    "seed": 11,
+    "method": "bootstrap_percentile",
+    "alpha": 0.05
+  }
+}

@@ -1,0 +1,146 @@
+study:
+  study_id: sarvam_application_real_eval_v1
+  title: Real LLM Reliability and Deployment Study
+  primary_language: en
+  optional_diagnostic_language_scope: India-context and code-mixed exploratory slice
+  research_question: How do real LLM configurations differ in English task quality,
+    robustness across valid inference conditions, RAG/agent reliability, sanitized
+    safety behavior, latency, cost estimates, and failure profiles?
+  hypothesis_ids:
+  - H1
+  - H2
+  - H3
+  - H4
+  planned_sample_counts:
+    core: 38
+    rag: 5
+    agent: 5
+    safety: 11
+    review: 30
+  protocol: docs/PHASE8_STUDY_PROTOCOL.md
+  protocol_path: docs/PHASE8_STUDY_PROTOCOL.md
+  preregistration: docs/studies/SARVAM_APPLICATION_REAL_STUDY_PREREGISTRATION.md
+  preregistration_path: docs/studies/SARVAM_APPLICATION_REAL_STUDY_PREREGISTRATION.md
+  deviation_log: docs/PHASE8_DEVIATION_LOG_TEMPLATE.md
+  deviation_log_path: docs/PHASE8_DEVIATION_LOG_TEMPLATE.md
+  evidence_mode: LOCAL_REAL_MODEL
+  investigator: REPLACE_WITH_INVESTIGATOR
+  evidence_policy:
+    require_real_model_for_primary_results: true
+    allow_mock_only_for_smoke_validation: true
+    reject_mixed_mock_and_real_comparison: true
+  limitations:
+  - Results apply only to the recorded models, versions, tasks, prompts, and runtime.
+  - Colab/local latency is experimental and not production-serving latency.
+  - Release-gate results are engineering policy aids, not production approval.
+  - Exploratory India-context prompts are not a comprehensive multilingual benchmark.
+  suites:
+    core: data/eval_set.jsonl
+    rag: data/platform_episodes.jsonl
+    safety: data/platform_phase4_safety.jsonl
+  matrix:
+    models:
+    - Qwen/Qwen2.5-3B-Instruct
+    prompt_templates:
+    - base
+    - strict
+    seeds:
+    - 11
+    - 22
+    - 33
+    dtype:
+    - float16
+    quantization:
+    - none
+    decoding:
+      temperature:
+      - 0.0
+      top_p:
+      - 1.0
+  human_review:
+    dimensions:
+    - correctness
+    - groundedness
+    - safe_behavior
+    - instruction_following
+    - tool_use_correctness
+    sample_size: 30
+    strategy: stratified
+    seed: 7
+  release_gates:
+    path: configs/studies/phase8_sarvam_application_study/study_release_gates.yaml
+base:
+  adapter:
+    kind: local_transformers
+    name: local-real-model
+    model_id: YOUR_MODEL_ID
+    revision: OPTIONAL_PINNED_REVISION
+    params:
+      tokenizer_id: YOUR_MODEL_ID
+      tokenizer_revision: OPTIONAL_PINNED_REVISION
+      trust_remote_code: false
+  task:
+    kind: static_qa
+    path: data/eval_set.jsonl
+    tasks:
+    - arc_easy
+    - gsm8k
+    - hallucination
+    - robustness
+    - safety_bias
+    - template_canary
+    limit: 38
+  prompt:
+    prompt_id: sarvam-core
+    version: v1
+    template: base
+  decoding:
+    seed: 11
+    temperature: 0.0
+    top_p: 1.0
+    max_new_tokens: 256
+  runtime:
+    device: auto
+    precision: auto
+    quantization: none
+  metrics:
+    n_boot: 400
+    alpha: 0.05
+    seed: 11
+    practical_effect_threshold: 0.02
+    min_sample_size: 20
+  cost:
+    input_per_million: null
+    output_per_million: null
+    currency: USD
+    source: manual_config
+    effective_date: null
+    estimate_label: DERIVED_ESTIMATE
+  evidence:
+    mode: LOCAL_REAL_MODEL
+    runtime_environment: google_colab_or_local
+    real_model_execution: true
+    external_provider_execution: false
+    hardware_measured: true
+    human_reviewed: false
+    pricing_source: manual_config
+    known_limitations:
+    - Experimental environment; not production infrastructure
+    - Latency is client-side wall-clock measurement
+    - Results apply only to the recorded model revision and configuration
+  reporting:
+    output_dir: runs/sarvam-application-study
+    markdown: true
+    html: true
+    include_raw_outputs: true
+    pii_redaction: true
+  release_gates:
+    path: configs/studies/phase8_sarvam_application_study/study_release_gates.yaml
+allow_mock: false
+max_runs: 6
+comparison:
+  practical_effect_threshold: 0.02
+  min_sample_size: 20
+  n_boot: 400
+  seed: 11
+  robust_capability_lambda: 1.0

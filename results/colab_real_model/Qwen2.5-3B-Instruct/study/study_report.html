@@ -1,0 +1,82 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><title>Phase 8 study report</title><style>body{font:15px system-ui,sans-serif;max-width:1200px;margin:2rem auto;padding:0 1rem}pre{white-space:pre-wrap;background:#f3f5f7;padding:1rem}</style></head><body><pre># Phase 8 Experimental Study Report
+
+- Study: `sarvam_application_real_eval_v1`
+- Title: Phase 8 study
+- Evidence: `LOCAL_REAL_MODEL`
+&gt; Experimental real-model evidence; not production approval.
+
+## Study design and provenance
+
+- Research question: How do real LLM configurations differ in English task quality, robustness across valid inference conditions, RAG/agent reliability, sanitized safety behavior, latency, cost estimates, and failure profiles?
+- Hypotheses: `H1, H2, H3, H4`
+- Planned samples: `{&#x27;core&#x27;: 38, &#x27;rag&#x27;: 5, &#x27;agent&#x27;: 5, &#x27;safety&#x27;: 11, &#x27;review&#x27;: 30}`
+- Protocol: `docs/PHASE8_STUDY_PROTOCOL.md`
+- Preregistration: `docs/studies/SARVAM_APPLICATION_REAL_STUDY_PREREGISTRATION.md`
+- Deviations: `NOT_ASSESSED`
+
+## Model/configuration summary
+
+| Run | Model/revision | Evidence | Config hash | Quality | 95% CI |
+|---|---|---|---|---:|---|
+| `20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264` | `Qwen/Qwen2.5-3B-Instruct` / `main` | `LOCAL_REAL_MODEL` | `3895d1804914d5cd` | 0.4737 | [0.3158, 0.6316] |
+| `20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33` | `Qwen/Qwen2.5-3B-Instruct` / `main` | `LOCAL_REAL_MODEL` | `72eb4148726bd17b` | 0.4737 | [0.3158, 0.6316] |
+| `20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d` | `Qwen/Qwen2.5-3B-Instruct` / `main` | `LOCAL_REAL_MODEL` | `3591df72ccaefee7` | 0.4737 | [0.3158, 0.6316] |
+
+## Comparisons
+
+- `20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264` → `20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33`: delta `0.0000`, 95% CI `[0.0000, 0.0000]`, effect `unavailable`, status **NO_MEANINGFUL_CHANGE**, practically meaningful: `False`.
+- `20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264` → `20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d`: delta `0.0000`, 95% CI `[0.0000, 0.0000]`, effect `unavailable`, status **NO_MEANINGFUL_CHANGE**, practically meaningful: `False`.
+
+## Experimental Robust Capability Score
+
+- Mean quality: `0.4737`
+- Configuration variance: `0.0000`
+- Lambda: `1.0000`
+- RCS: `0.4737`
+- Experimental: `True`
+
+## Safety, RAG/agent, and deployment
+
+- `20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `8071.3290`, cost/success `unavailable`, gate `INCONCLUSIVE`.
+- `20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `7411.6402`, cost/success `unavailable`, gate `INCONCLUSIVE`.
+- `20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d`: attack success `unavailable`, groundedness `unavailable`, agent success `unavailable`, latency p95 `7495.4181`, cost/success `unavailable`, gate `INCONCLUSIVE`.
+
+## Pareto frontier
+
+- Pareto-optimal: `0`
+- Dominated: `0`
+- Excluded/inconclusive: `3`
+
+## Failure fingerprints
+
+- `20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264`: failures `20`, rate `0.5263`, priority `P0`.
+- `20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33`: failures `20`, rate `0.5263`, priority `P0`.
+- `20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d`: failures `20`, rate `0.5263`, priority `P0`.
+
+## Human review
+
+- Status: `NOT_PROVIDED`
+- Human reviewed: `False`
+
+## Missing evidence / inconclusive results
+
+- 20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264: safety suite unavailable
+- 20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264: RAG/agent suite unavailable
+- 20260926T120019838455Z-sarvam-application-local-variance-baseli-3e30c264: cost per successful task unavailable
+- 20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33: safety suite unavailable
+- 20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33: RAG/agent suite unavailable
+- 20260926T120229640758Z-sarvam-application-local-variance-backen-06a21c33: cost per successful task unavailable
+- 20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d: safety suite unavailable
+- 20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d: RAG/agent suite unavailable
+- 20260926T120425272652Z-sarvam-application-local-variance-backen-0e7e336d: cost per successful task unavailable
+
+## Limitations
+
+- No causal conclusions are drawn from observed configuration differences.
+- RCS is experimental and is not a standard universal metric.
+- Human-review agreement measures consistency, not correctness or safety validity.
+
+## Reproducibility
+
+Underlying run IDs, config hashes, dataset hashes, prompt hashes, and artifact paths are preserved in `study_summary.json` and `comparison_table.csv`.
+</pre></body></html>

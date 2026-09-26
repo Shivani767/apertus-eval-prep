@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "n_failures": 0,
+  "n_total": 4,
+  "failure_rate": 0.0,
+  "by_category": {},
+  "by_taxonomy_category": {},
+  "by_failure_type": {},
+  "by_severity": {},
+  "dominant_failure_modes": [],
+  "top_failure_modes": [],
+  "safety_critical_failures": 0,
+  "stable_failures": [],
+  "configuration_sensitive_examples": [],
+  "condition_sensitive_failures": [],
+  "investigation_priorities": [],
+  "representative_sanitized_examples": [],
+  "baseline_comparison": {
+    "status": "UNAVAILABLE",
+    "reasons": [
+      "no baseline failure fingerprint was supplied"
+    ],
+    "category_deltas": null
+  },
+  "recommended_investigation_priority": "none",
+  "top_investigation_priority": null,
+  "priority_rules": {
+    "severity": "critical=4, high=3, medium=2, low=1; missing defaults to medium",
+    "baseline_delta": "+15 score when candidate failure count exceeds baseline",
+    "safety": "+20 for high/critical severity or safety taxonomy category",
+    "failure_rate": "+10 when observed failure rate is at least 0.20",
+    "condition_sensitivity": "+5 when a condition-sensitive label is present",
+    "causality": "observed pattern only; no causal claim"
+  },
+  "conditions": {},
+  "limitations": [
+    "Failure categories and priorities are observed patterns, not causal conclusions.",
+    "Baseline deltas require aligned comparison evidence.",
+    "Representative excerpts are sanitized and truncated."
+  ]
+}

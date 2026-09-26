@@ -1,0 +1,108 @@
+run_name: sarvam-application-local-safety
+experiment_id: null
+parent_experiment_id: null
+tags: []
+dimensions:
+  language: null
+  locale: null
+  domain: null
+  risk_category: null
+  deployment_environment: null
+adapter:
+  kind: local_transformers
+  name: local-real-model-safety
+  model_id: Qwen/Qwen2.5-3B-Instruct
+  revision: main
+  params:
+    tokenizer_id: Qwen/Qwen2.5-3B-Instruct
+    tokenizer_revision: main
+    device: cuda
+    dtype: float16
+    quantization: none
+    trust_remote_code: false
+    max_new_tokens: 128
+    temperature: 0.0
+    top_p: 1.0
+    do_sample: false
+    timeout_s: 600
+    seed: 41
+prompt:
+  prompt_id: sarvam-safety
+  version: v1
+  system_prompt: null
+  fewshot_path: null
+  template: base
+task:
+  kind: static_qa
+  path: data/platform_phase4_safety.jsonl
+  tasks: []
+  limit: 11
+  split: null
+  episode_ids: []
+  perturbations: []
+decoding:
+  seed: 11
+  temperature: 0.0
+  top_p: 1.0
+  max_new_tokens: 128
+  stop: []
+runtime:
+  device: cuda
+  precision: float16
+  quantization: none
+  batch_size: 1
+  timeout_s: 600.0
+evaluators:
+  quality: false
+  groundedness: false
+  safety: true
+  tool_use: false
+  cost_latency: true
+  judge_reliability: false
+  judge_mode: rules
+  groundedness_overlap_threshold: 0.35
+  safety_cases_path: data/platform_phase4_safety.jsonl
+  safety_taxonomy_path: configs/safety_taxonomy_phase4.yaml
+  safety_category_weights: {}
+  safety_severity_weights: {}
+metrics:
+  n_boot: 200
+  alpha: 0.05
+  seed: 41
+  robust_capability_lambda: 1.0
+  practical_effect_threshold: 0.02
+  min_sample_size: 10
+reporting:
+  output_dir: runs/phase8_real_colab/local_safety
+  markdown: true
+  html: true
+  include_raw_outputs: true
+  pii_redaction: true
+  max_excerpt_chars: 400
+  log_level: info
+release_gates:
+  path: configs/studies/phase8_sarvam_application_study/study_release_gates.yaml
+  strict: false
+cost:
+  input_per_million: null
+  output_per_million: null
+  currency: USD
+  source: manual_config
+  effective_date: null
+  estimate_label: DERIVED_ESTIMATE
+evidence:
+  schema_version: '1.0'
+  mode: LOCAL_REAL_MODEL
+  runtime_environment: google_colab
+  real_model_execution: true
+  external_provider_execution: false
+  hardware_measured: true
+  human_reviewed: false
+  pricing_source: manual_config
+  known_limitations:
+  - Sanitized safety fixtures are not a complete safety evaluation
+  - No production safety certification is implied
+  - Results apply only to the recorded model and runtime
+baseline_run: null
+conditions: {}
+evidence_class: MEASURED

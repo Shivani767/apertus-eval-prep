@@ -17,6 +17,7 @@ The repository currently includes the downloaded paper-result archives and the r
 - [results/paper_matrix_partial.zip](paper_matrix_partial.zip): downloaded archive containing the paper-run outputs
 - [results/registry_paper.jsonl](registry_paper.jsonl): committed registry for the paper-matrix experiments
 - [results/runs](runs): per-run JSON outputs corresponding to individual model × factor × level cells
+- [results/colab_real_model](colab_real_model): curated Colab real-model evidence, one directory per model, each with a generated `summary.md`/`summary.json` (see its README)
 - [results/compare_backend.md](compare_backend.md): backend delta comparison for the template-fixed vLLM case
 - [results/smoke.json](smoke.json): smoke-run validation artifact
 

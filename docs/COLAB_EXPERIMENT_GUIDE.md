@@ -41,6 +41,38 @@ Replace `YOUR_MODEL_ID` and, where applicable, `OPTIONAL_PINNED_REVISION`. `trus
 
 `notebooks/colab_real_model_evaluation.ipynb` provides a short setup, configuration, workflow, ingestion, selection, and export sequence.
 
+## Per-model notebooks (one model per Colab session)
+
+The reviewed notebook above is the shared template. Each model gets its own notebook,
+generated from it so the workflow cannot drift between models:
+
+```bash
+python3 scripts/build_real_model_notebooks.py          # writes notebooks/real_model_<slug>.ipynb
+python3 scripts/build_real_model_notebooks.py --check  # fails if a notebook is stale
+```
+
+The registry in `scripts/build_real_model_notebooks.py` records each model's id,
+description, parameters, fp16 footprint, licence and role. Generation pins the model in
+the notebook header, the configuration cell, the Drive mirror
+(`MyDrive/apertus_runs/phase8_real_colab/<model>`) and the export file name
+(`apertus_phase8_real_colab_<model>_export.zip`). Because those paths are model-specific,
+several models can run in parallel in different Colab accounts without overwriting each
+other's artifacts. Add a model by appending one `ModelNotebook` entry and re-running.
+
+Curate a finished run into the repository and summarise it:
+
+```bash
+python3 scripts/summarise_real_model_results.py results/colab_real_model/<model>
+```
+
+`results/colab_real_model/<model>/summary.md` and `summary.json` are generated (never
+hand-edited: a test regenerates them and compares) and record provenance — model
+revision, git commit, dataset/task hashes — plus warnings for an unpinned revision,
+identities that differ inside one suite, zero observed configuration variance, and
+blocked gates. Only runs sharing `evidence_mode`, `dataset_hash`, `task_hash`,
+`prompt_hash`, `prompt_version` and `metric_definition_version` are comparable;
+`model_id` and its revision are expected to differ across models.
+
 ## Recommended order
 
 1. Run `configs/platform_smoke.yaml`; this is synthetic `MOCK` framework validation.
