@@ -175,15 +175,15 @@ MODELS: tuple[ModelNotebook, ...] = (
         slug="llama-3.2-3b-instruct",
         hf_name="Llama-3.2-3B-Instruct",
         model_id="meta-llama/Llama-3.2-3B-Instruct",
-        revision="main",
+        revision="0cb88a4f764b7a12671c53f0838cd831a0843b95",
         title="Llama 3.2 3B Instruct",
         family_glob="Llama",
         description="Instruction-tuned 3.2B Llama model with a different tokenizer and pretraining lineage.",
         params="3.2B",
         fp16_weights="~6.5 GB",
         license="Llama 3.2 Community Licence",
-        role="Adds the Llama family to the primary comparison.",
-        status="gated: accept the Meta licence, then set HF_TOKEN in the Colab environment",
+        role="Adds the Llama family to the primary comparison; the only run so far pinned to a commit sha.",
+        status="gated: licence accepted and access granted; revision pinned, so no 'main' warning in the summary",
     ),
 )
 
