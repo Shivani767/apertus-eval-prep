@@ -27,6 +27,10 @@ hf_cache/
 *.secret
 secrets/
 .local-secrets/
+# Credential files that get pasted locally; tests/test_no_secrets_committed.py is the real guard.
+*.token
+token.txt
+hf_token*
 
 # Environment and local secrets
 .env
