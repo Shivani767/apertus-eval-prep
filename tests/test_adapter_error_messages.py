@@ -26,11 +26,14 @@ def test_credentials_in_the_cause_are_redacted():
 
     ``redact_text_for_artifact`` uses the artifact policy (credential, credential
     assignment, URL credentials), so a token disappears from the error while a plain
-    email address is kept, exactly as it is kept in every other artifact.
+    email address is kept, exactly as it is kept in every other artifact. The token is
+    assembled at runtime so that ``tests/test_no_secrets_committed.py`` does not flag
+    this file for a literal that only looks like a credential.
     """
-    leaky = OSError("hf_abcdefghij0123456789ABCDEFGHIJ0123 failed for person@example.com")
+    fake_token = "hf_" + "abcdefghij0123456789" + "ABCDEFGHIJ0123"
+    leaky = OSError(f"{fake_token} failed for person@example.com")
     detail = load_error_detail(leaky)
-    assert "hf_abcdefghij0123456789ABCDEFGHIJ0123" not in detail
+    assert fake_token not in detail
     assert "[REDACTED:credential]" in detail
     assert "person@example.com" in detail  # artifact policy is credential-only, by design
 
