@@ -1,0 +1,117 @@
+experiment:
+  name: sarvam-application-local-rag-agent
+  id: sarvam_application_real_eval_v1
+  base:
+    name: sarvam-application-local-rag-agent
+    adapter:
+      kind: local_transformers
+      name: local-real-model-episodes
+      model_id: HuggingFaceTB/SmolLM3-3B
+      revision: main
+      params:
+        tokenizer_id: HuggingFaceTB/SmolLM3-3B
+        tokenizer_revision: main
+        device: cuda
+        dtype: float16
+        quantization: none
+        trust_remote_code: false
+        max_new_tokens: 128
+        temperature: 0.0
+        top_p: 1.0
+        do_sample: false
+        timeout_s: 600
+    task:
+      kind: rag_episode
+      path: data/platform_episodes.jsonl
+      limit: 15
+    prompt:
+      prompt_id: sarvam-core
+      version: v1
+      template: base
+    decoding:
+      seed: 11
+      temperature: 0.0
+      top_p: 1.0
+      max_new_tokens: 128
+    runtime:
+      device: cuda
+      precision: float16
+      quantization: none
+      timeout_s: 600
+    evaluators:
+      quality: true
+      groundedness: true
+      safety: false
+      tool_use: true
+      cost_latency: true
+    metrics:
+      n_boot: 200
+      alpha: 0.05
+      seed: 21
+      practical_effect_threshold: 0.02
+      min_sample_size: 10
+    cost:
+      input_per_million: null
+      output_per_million: null
+      currency: USD
+      source: manual_config
+      effective_date: null
+      estimate_label: DERIVED_ESTIMATE
+    evidence:
+      mode: LOCAL_REAL_MODEL
+      runtime_environment: google_colab
+      real_model_execution: true
+      external_provider_execution: false
+      hardware_measured: true
+      human_reviewed: false
+      pricing_source: manual_config
+      known_limitations:
+      - Experimental environment; not production infrastructure
+      - Episode results depend on the declared tool/context contract
+    reporting:
+      output_dir: runs/phase8_real_colab/local_rag_agent
+      markdown: true
+      html: true
+  baseline:
+    task: rag_episode
+    seed: 11
+    temperature: 0.0
+    top_p: 1.0
+    prompt_template: base
+    model_revision: main
+    backend: local_transformers
+    precision: float16
+    quantization: none
+    dataset: data/platform_episodes.jsonl
+    split: null
+  factors:
+    task:
+    - rag_episode
+    - agent_episode
+    seed:
+    - 11
+    temperature:
+    - 0.0
+    top_p:
+    - 1.0
+    prompt_template:
+    - base
+    model_revision:
+    - main
+    backend:
+    - local_transformers
+    precision:
+    - float16
+    quantization:
+    - none
+    dataset:
+    - data/platform_episodes.jsonl
+    split:
+    - null
+  max_runs: 2
+  comparison:
+    practical_effect_threshold: 0.02
+    min_sample_size: 10
+    n_boot: 200
+    seed: 21
+    robust_capability_lambda: 1.0

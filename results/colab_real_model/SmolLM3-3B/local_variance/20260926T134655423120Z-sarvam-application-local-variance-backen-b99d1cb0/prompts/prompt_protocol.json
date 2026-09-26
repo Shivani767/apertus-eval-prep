@@ -1,0 +1,51 @@
+{
+  "prompt": {
+    "prompt_id": "sarvam-core",
+    "version": "v1",
+    "system_prompt": null,
+    "fewshot_path": null,
+    "template": "strict"
+  },
+  "template_hash": "527f7af98c81777b",
+  "rendered_examples": [
+    {
+      "example_id": "arc_easy_001",
+      "id": "arc_easy_001",
+      "task": "arc_easy",
+      "language": "en",
+      "locale": null,
+      "domain": null,
+      "risk_category": null,
+      "deployment_environment": null,
+      "split": null,
+      "metadata": {},
+      "gold": "B"
+    },
+    {
+      "example_id": "arc_easy_002",
+      "id": "arc_easy_002",
+      "task": "arc_easy",
+      "language": "en",
+      "locale": null,
+      "domain": null,
+      "risk_category": null,
+      "deployment_environment": null,
+      "split": null,
+      "metadata": {},
+      "gold": "C"
+    },
+    {
+      "example_id": "arc_easy_003",
+      "id": "arc_easy_003",
+      "task": "arc_easy",
+      "language": "en",
+      "locale": null,
+      "domain": null,
+      "risk_category": null,
+      "deployment_environment": null,
+      "split": null,
+      "metadata": {},
+      "gold": "A"
+    }
+  ]
+}

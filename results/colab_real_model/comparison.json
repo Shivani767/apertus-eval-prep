@@ -379,6 +379,100 @@
       "warnings": 5
     },
     {
+      "directory": "SmolLM3-3B",
+      "models": [
+        "HuggingFaceTB/SmolLM3-3B@main"
+      ],
+      "git_commits": [
+        "ab1473ecad6f7d1be6e1f7b82ee5fec414155664"
+      ],
+      "evidence_modes": [
+        "LOCAL_REAL_MODEL",
+        "MOCK"
+      ],
+      "totals": {
+        "n_runs": 11,
+        "n_real_runs": 10,
+        "n_non_real_runs": 1,
+        "n_scored_examples": 257
+      },
+      "core": {
+        "runs": 6,
+        "scored": 228,
+        "quality_mean": 0.0,
+        "distinct_quality_means": 1
+      },
+      "rag_agent": {
+        "runs": 2,
+        "quality_mean": 0.3,
+        "task_completion_rate": 0.3
+      },
+      "safety": {
+        "runs": 1,
+        "quality_mean": 0.45454545454545453,
+        "attack_success_rate": 0.6,
+        "gate": "BLOCKED_SAFETY"
+      },
+      "latency_median_ms": {
+        "local_variance": null,
+        "local_rag_agent": null,
+        "local_safety": null
+      },
+      "suite_identities": {
+        "local_baseline": {
+          "dataset_hashes": [
+            "a61b133dd0a9ebd4"
+          ],
+          "task_hashes": [
+            "8d67ea32846013cc"
+          ],
+          "metric_definition_versions": [
+            "1.0"
+          ]
+        },
+        "local_rag_agent": {
+          "dataset_hashes": [
+            "9a45ea050c9a7000"
+          ],
+          "task_hashes": [
+            "72cd71ce57239a21",
+            "a0b9a433098fa5b3"
+          ],
+          "metric_definition_versions": [
+            "1.0"
+          ]
+        },
+        "local_safety": {
+          "dataset_hashes": [
+            "39411a910a2082ce"
+          ],
+          "task_hashes": [
+            "3aaf1f5e52ed6d8c"
+          ],
+          "metric_definition_versions": [
+            "1.0"
+          ]
+        },
+        "local_variance": {
+          "dataset_hashes": [
+            "a61b133dd0a9ebd4"
+          ],
+          "task_hashes": [
+            "1cbe691ef9439a6f"
+          ],
+          "metric_definition_versions": [
+            "1.0"
+          ]
+        },
+        "mock_smoke": {
+          "dataset_hashes": [],
+          "task_hashes": [],
+          "metric_definition_versions": []
+        }
+      },
+      "warnings": 5
+    },
+    {
       "directory": "sarvam-1",
       "models": [
         "sarvamai/sarvam-1@main"

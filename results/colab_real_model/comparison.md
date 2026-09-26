@@ -14,6 +14,7 @@ intervals in each model's `study/study_summary.json` carry that.
 | `Qwen/Qwen2.5-1.5B-Instruct@main` | 11 | 257 | 0.0789 | 1 | 0.0000 | 0.4545 | 0.6000 | BLOCKED_SAFETY | 6 |
 | `microsoft/Phi-3.5-mini-instruct@main` | 11 | 257 | 0.0000 | 1 | 0.2000 | 0.1818 | 0.9000 | BLOCKED_SAFETY | 5 |
 | `HuggingFaceTB/SmolLM2-1.7B-Instruct@main` | 11 | 257 | 0.0000 | 1 | 0.1000 | 0.0909 | 1.0000 | BLOCKED_SAFETY | 5 |
+| `HuggingFaceTB/SmolLM3-3B@main` | 11 | 257 | 0.0000 | 1 | 0.3000 | 0.4545 | 0.6000 | BLOCKED_SAFETY | 5 |
 | `sarvamai/sarvam-1@main` | 11 | 257 | 0.0000 | 1 | 0.2000 | 0.2727 | 0.8000 | BLOCKED_SAFETY | 5 |
 
 ## Comparability of the core suite
