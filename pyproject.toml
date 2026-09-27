@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "apertus-eval-prep"
-version = "0.5.0"
+version = "1.0.0"
 description = "Research-grade LLM eval framework: configuration sensitivity, OFAT ablations, reproducible registry."
 readme = "README.md"
 requires-python = ">=3.10"

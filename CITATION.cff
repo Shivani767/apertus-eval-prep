@@ -1,19 +1,34 @@
 cff-version: 1.2.0
-title: "apertus-eval-prep: evaluation configuration as part of the measurement"
-message: If you use this harness or the committed run JSON, please cite it.
+title: "apertus-eval-prep: reproducible LLM evaluation and release-readiness platform"
+message: >-
+  If you use this framework or the committed run artifacts, please cite the
+  software. Note that the numbers in results/ are condition-specific and carry an
+  evidence mode; they are not model rankings, safety certification, or production
+  approval. See docs/METHODOLOGY.md#evidence-and-claim-boundaries.
 type: software
 authors:
   - family-names: Bhandari
     given-names: Shivani
 repository-code: https://github.com/Shivani767/apertus-eval-prep
 license: Apache-2.0
-doi: 10.5281/zenodo.TODO
-# Replace zenodo.TODO after a real deposit. Do not cite this DOI until then.
-abstract: >
-  Frozen-prompt generative exact-match harness that treats chat template,
-  decoding backend, prompt, seed, and quantization as named OFAT factors.
-  Committed findings (replayable JSON): omitting or mismatching the chat
-  template moves a 28-item canary 71.4% → 53.6% → 42.9%; HF generate vs vLLM
-  differs by 7.1 points on multilingual items; on SmolLM2-1.7B (n=800) a
-  concise prompt drops accuracy 39.8% → 23.2% (Wilson CIs disjoint),
-  concentrated on GSM8K/MGSM.
+keywords:
+  - llm-evaluation
+  - reproducibility
+  - release-readiness
+  - evaluation-variance
+  - rag-evaluation
+  - agent-evaluation
+  - safety-evaluation
+# No `doi` field: no archival deposit exists yet. Add one only after a real
+# deposit (for example Zenodo) has been created, and verify it resolves before
+# publishing a release. A placeholder DOI is a broken promise to citers.
+abstract: >-
+  A reproducible LLM evaluation and release-readiness platform that measures
+  capability, variance, RAG and agent reliability, safety risk, latency, cost, and
+  failure patterns under declared experimental conditions. It writes immutable
+  run artifacts with pinned identity and machine-checked evidence modes, refuses to
+  compare or aggregate runs whose dataset, task, prompt, or metric identity
+  differs, and renders reports that preserve missing evidence as unavailable rather
+  than zero. It supports offline deterministic CI, optional real open-weight model
+  experiments, and human-review workflows. It does not certify model safety or
+  production readiness.

@@ -9,18 +9,21 @@ dist/
 build/
 .pytest_cache/
 .ipynb_checkpoints/
-.ipynb_checkpoints/
 .DS_Store
+Thumbs.db
 hf_cache/
 .cache/
 *.pt
 *.bin
 *.safetensors
 
-# Measured runs live in results/ and are part of the public artefact.
+# Measured curated runs under results/colab_real_model/ are part of the public
+# artifact and are intentionally tracked. Local scratch runs are not.
+runs/
 
+# NOTE: .env.example is intentionally NOT ignored; it documents variable NAMES only.
+.env
 *.env
-*.env.*
 .env.*
 !/.env.example
 .python-version
@@ -31,17 +34,18 @@ secrets/
 *.token
 token.txt
 hf_token*
+id_rsa*
+id_ed25519*
+*.pem
+*.key
 
 # Environment and local secrets
-.env
-*.env
 notes/
 
 # Local duplicate checkout — not part of the public tree.
 apertus-eval-prep/
 
 # Generated platform reports and local comparison output
-runs/
 configs/studies/phase8_sarvam_application_study/local_user_config.yaml
 reports/platform-*/
 reports/generated/
@@ -53,12 +57,18 @@ reports/**/comparison.md
 .mypy_cache/
 .ruff_cache/
 .pytype/
+.pyre/
 .coverage
+.coverage.*
+coverage.xml
 htmlcov/
+.tox/
+.nox/
 
 # Frontend build artifacts / deps (regenerable via npm install && vite build)
 frontend/node_modules/
 frontend/dist/
+frontend/.vite/
 # NOTE: frontend/src/data/ holds the committed vitest fixture (site.json copy);
 # it must stay tracked so `tsc -b` and CI pass on a fresh clone.
 
