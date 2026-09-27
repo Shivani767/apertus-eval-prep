@@ -22,6 +22,29 @@ fitting, so the curve is leakage-free by construction.
 `None` (never zero). `Qwen/Qwen2.5-7B-Instruct` is excluded: a single cell gives it no
 within-model spread, so it cannot join a models × configurations matrix.
 
+### Reconciling the counts
+
+Three counts appear in this project and confusing them would look like a contradiction.
+They are three different things:
+
+| number | what it counts | value |
+|---|---|---:|
+| committed configurations (the paper's figure) | registry rows, i.e. model × configuration **cells** | 31 |
+| configuration space | distinct `(factor, level)` grid points | 11 |
+| measured cells entering this analysis | 3 models × 11 grid points − 3 missing | 30 |
+
+31 = 11 + 11 + 8 (SmolLM2, Qwen-3B, Phi-3.5) + 1 (the excluded 7B model). The 3 missing
+cells are Phi-3.5 under temperature-0.7 sampling, which the paper already reports as
+incomplete.
+
+**Two definitions of "configuration" exist in this repository and they answer different
+questions.** `heldout` uses the factor-level grid above (11 points). The paper pipeline,
+`scripts/analyze_research_results.py`, keys on the compound four-factor identity
+`p={prompt}|b={backend}|q={quantization}|s={seed}`, which collapses those 11 points into
+8 distinct evaluation settings. Both are legitimate; they are not interchangeable. This
+document analyses the factor-level grid, because that is the one the "31 cells" figure
+decomposes into.
+
 | configuration | SmolLM2-1.7B | Qwen2.5-3B | Phi-3.5-mini | winner |
 |---|---:|---:|---:|---|
 | `control=control` | 0.3975 | 0.6438 | 0.6700 | Phi-3.5-mini |
@@ -78,6 +101,24 @@ The methodological consequence is the point:
 
 Reliability measured on the aggregate is therefore not evidence that a ranking is safe. The
 per-configuration view is required, and it is cheap: a count, not a fit.
+
+## Cross-check: the paper pipeline agrees, on a different configuration definition
+
+`scripts/analyze_research_results.py` groups the same registry by the compound four-factor
+identity, giving 8 shared configurations instead of 11, and computes its own
+`ranking_stability` block. On that independent grouping:
+
+| pair | shared configs | minority win fraction | mean ranking reversal |
+|---|---:|---:|---|
+| SmolLM2-1.7B vs Qwen2.5-3B | 8 | 0.000 | false |
+| SmolLM2-1.7B vs Phi-3.5-mini | 8 | 0.000 | false |
+| **Qwen2.5-3B vs Phi-3.5-mini** | 8 | **0.125** (1 in 8) | false |
+
+The minority win fraction is 1 in 8, agreeing with the 1 in 7 decidable configurations found
+above, and `mean_ranking_reversal` is false — precisely the split this document reports: the
+mean ranking holds, and one reproducible configuration does not. Two different definitions of
+"configuration" reach the same conclusion, so the finding does not depend on the grouping
+choice.
 
 ## What this does and does not establish
 

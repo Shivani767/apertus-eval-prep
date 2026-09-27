@@ -286,6 +286,12 @@ def cmd_heldout(args: argparse.Namespace) -> int:
     are used for evaluation and never for fitting, so the curve is leakage-free
     by construction. Nothing here is a new measurement: every number is DERIVED
     from already-committed registry rows, and missing cells stay None.
+
+    A "configuration" here is one ``(factor, factor_level)`` grid point, which is
+    the grouping the paper's "31 committed configurations" cell count decomposes
+    into. ``scripts/analyze_research_results.py`` instead keys on the compound
+    four-factor identity, giving a different (also correct) configuration space;
+    the two are not interchangeable, so results from them should not be mixed.
     """
     import json as _json
 
