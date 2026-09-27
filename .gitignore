@@ -51,6 +51,11 @@ reports/platform-*/
 reports/generated/
 reports/**/comparison.json
 reports/**/comparison.md
+# Regenerable research-analysis output (scripts/analyze_research_results.py,
+# and `make analyze`). Nothing cites these files; rerun the script to recreate
+# them. reports/heldout/ IS tracked, because the held-out result is cited.
+reports/t4_analysis/
+reports/t4_analysis_real/
 *.log
 
 # Local test and type caches
