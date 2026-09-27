@@ -84,6 +84,16 @@ export function Footer({ site }: { site: SiteData }) {
       <a href="https://github.com/Shivani767/apertus-eval-prep">github.com/Shivani767/apertus-eval-prep</a>{" "}
       · data export <code>{site.generated_utc}</code> from <code>{site.registry}</code> · commit{" "}
       <code>{site.reproducibility.git_commit?.slice(0, 8) ?? "unknown"}</code>
+      <br />
+      <span className="note">
+        Experimental research evidence under declared conditions. Not a production benchmark,
+        not a safety certification, and not production approval. No human-validation claim is
+        made. Read{" "}
+        <a href="https://github.com/Shivani767/apertus-eval-prep/blob/master/docs/METHODOLOGY.md#evidence-and-claim-boundaries">
+          Evidence and Claim Boundaries
+        </a>{" "}
+        before quoting any figure.
+      </span>
     </footer>
   )
 }
