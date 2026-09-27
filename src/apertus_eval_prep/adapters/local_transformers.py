@@ -85,6 +85,17 @@ class LocalTransformersAdapter(ModelAdapter):
         self._torch = None
         self._profile: dict[str, Any] | None = None
         self._loaded_device: str | None = None
+        # Whether the tokenizer's chat template wraps the prompt. An instruct
+        # model served raw text answers like a base model: it continues the
+        # passage instead of replying, which silently depresses letter-only
+        # scores. Default False so existing configs keep their exact behaviour,
+        # but describe() warns when a template exists and was not applied.
+        apply_chat_template = self.params.get("apply_chat_template", False)
+        if not isinstance(apply_chat_template, bool):
+            raise AdapterResponseError(
+                "local apply_chat_template must be a boolean", adapter=name
+            )
+        self.apply_chat_template = apply_chat_template
 
     def _load(self) -> None:
         if self._model is not None:
@@ -157,13 +168,52 @@ class LocalTransformersAdapter(ModelAdapter):
         except (TypeError, AttributeError):
             return 0
 
+    def _tokenizer_has_chat_template(self) -> bool:
+        """True when the loaded tokenizer ships a chat template we could apply."""
+        tokenizer = self._tokenizer
+        if tokenizer is None:
+            return False
+        getter = getattr(tokenizer, "chat_template", None)
+        return bool(getter) and str(getter).strip() != ""
+
+    def _build_prompt(self, request: CompletionRequest) -> str:
+        """Return the exact text handed to the tokenizer for one request.
+
+        With ``apply_chat_template`` the system and user turns are wrapped in the
+        tokenizer's own chat format with an assistant generation prompt appended,
+        which is how an instruct model is meant to be served. Without it the raw
+        text is concatenated, which is legitimate for a base model and a silent
+        measurement bug for an instruct one — so the choice is recorded in the
+        manifest either way.
+        """
+        if not self.apply_chat_template:
+            if request.system_prompt:
+                return f"{request.system_prompt.strip()}\n\n{request.prompt}"
+            return request.prompt
+        messages: list[dict[str, str]] = []
+        if request.system_prompt:
+            messages.append({"role": "system", "content": request.system_prompt})
+        messages.append({"role": "user", "content": request.prompt})
+        try:
+            return self._tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True
+            )
+        except Exception as exc:
+            # A missing or malformed template must not silently fall back to raw
+            # text: that is exactly the failure this option exists to prevent.
+            raise AdapterGenerationError(
+                "local chat template could not be applied to the request "
+                f"({load_error_detail(exc)}); set apply_chat_template: false to "
+                "serve this model without a chat template",
+                adapter=self.name,
+            ) from exc
+
     def complete(self, request: CompletionRequest) -> AdapterResponse:
         started = time.perf_counter()
         self._load()
         assert self._torch is not None and self._tokenizer is not None and self._model is not None
         try:
-            prompt = f"{request.system_prompt}\n\n{request.prompt}" if request.system_prompt else request.prompt
-            inputs = self._tokenizer(prompt, return_tensors="pt")
+            inputs = self._tokenizer(self._build_prompt(request), return_tensors="pt")
             try:
                 device = next(self._model.parameters()).device
             except (StopIteration, AttributeError):
@@ -218,8 +268,21 @@ class LocalTransformersAdapter(ModelAdapter):
             "tokenizer_id": self.params.get("tokenizer_id", self.model_id),
             "tokenizer_revision": self.params.get("tokenizer_revision", self.revision),
             "trust_remote_code": bool(self.params.get("trust_remote_code", False)),
+            "apply_chat_template": self.apply_chat_template,
             "runtime_profile": self._profile,
         })
+        # The prompt protocol is part of the claim, so it belongs in the manifest
+        # next to the model and the revision. A warning rather than a silent
+        # correction: serving an instruct model without its chat template is a
+        # legitimate choice for some setups, and a run should record what was
+        # done rather than have the harness decide for it.
+        if not self.apply_chat_template and self._tokenizer_has_chat_template():
+            payload["warnings"] = [
+                *payload.get("warnings", []),
+                "the tokenizer ships a chat template but apply_chat_template is false, "
+                "so this model was served raw text; an instruct model behaves like a "
+                "base model and format-sensitive scores are depressed",
+            ]
         return payload
 
 

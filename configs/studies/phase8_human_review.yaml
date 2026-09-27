@@ -20,5 +20,5 @@ study:
   annotation_guidelines: docs/ANNOTATION_GUIDELINES.md
 allow_mock: false
 base:
-  adapter: {kind: local_transformers, model_id: YOUR_MODEL_ID, revision: OPTIONAL_PINNED_REVISION}
+  adapter: {kind: local_transformers, model_id: YOUR_MODEL_ID, revision: OPTIONAL_PINNED_REVISION, params: {apply_chat_template: true}}
   task: {kind: static_qa, path: YOUR_CORE_DATASET, limit: 50}

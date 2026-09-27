@@ -16,6 +16,7 @@ experiment:
         dtype: auto
         quantization: none
         trust_remote_code: false
+        apply_chat_template: true
         max_new_tokens: 64
         temperature: 0.0
         top_p: 1.0

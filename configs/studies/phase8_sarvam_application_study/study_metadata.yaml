@@ -50,7 +50,7 @@ base:
     name: local-real-model
     model_id: YOUR_MODEL_ID
     revision: OPTIONAL_PINNED_REVISION
-    params: {tokenizer_id: YOUR_MODEL_ID, tokenizer_revision: OPTIONAL_PINNED_REVISION, trust_remote_code: false}
+    params: {tokenizer_id: YOUR_MODEL_ID, tokenizer_revision: OPTIONAL_PINNED_REVISION, trust_remote_code: false, apply_chat_template: true}
   task: {kind: static_qa, path: data/eval_set.jsonl, tasks: [arc_easy, gsm8k, hallucination, robustness, safety_bias, template_canary], limit: 38}
   prompt: {prompt_id: sarvam-core, version: v1, template: base}
   decoding: {seed: 11, temperature: 0.0, top_p: 1.0, max_new_tokens: 256}

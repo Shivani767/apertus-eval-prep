@@ -1,5 +1,11 @@
 # Edit MODEL_ID, MODEL_REVISION, DEVICE, DTYPE, QUANTIZATION, and optional prices.
 # This template intentionally contains no credentials or provider endpoint.
+#
+# apply_chat_template wraps the request in the tokenizer's own chat format.
+# Leave it true for instruction-tuned models. Serving one raw text makes it
+# continue the passage instead of replying, which is what drove four of the
+# seven curated models to 0.0000 on a letter-only task. Set it false only for a
+# genuine base model, which has no chat template.
 name: colab-local-real-model-smoke
 adapter:
   kind: local_transformers
@@ -13,6 +19,7 @@ adapter:
     dtype: auto
     quantization: none
     trust_remote_code: false
+    apply_chat_template: true
     max_new_tokens: 16
     temperature: 0.0
     top_p: 1.0

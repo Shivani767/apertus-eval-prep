@@ -61,6 +61,38 @@ Changing the protocol (a chat-template variant, or a documented answer-extractio
 changes `metric_definition_version` and requires re-running every model, so it is a
 protocol decision to record in the deviation log rather than a reporting fix.
 
+## Prompt protocol, and what a re-run will change
+
+The `0.0000` scores above are a prompt-protocol artefact. The `local_transformers` adapter
+built the model input as `"{system}\n\n{user}"` and handed it to the tokenizer raw, so an
+instruction-tuned model was served like a base model: it continued the passage instead of
+replying, and the answer never appeared where the extractor looks. The raw text is preserved
+verbatim in each `raw_outputs.jsonl` (for example Gemma's `\n**A**\n**B**\n**C**\n**D**\n`),
+which is how the artefact is identifiable rather than merely suspected.
+
+`apply_chat_template` now exists on the adapter and wraps the request in the tokenizer's own
+chat format. Every real-model config in `configs/` sets it to `true`, and the choice is
+recorded in each run manifest next to the model and revision, because the prompt protocol is
+part of the claim. The default stays `false` so existing configurations keep their exact
+behaviour, and a run served raw text against a tokenizer that *has* a template records a
+warning rather than being silently corrected.
+
+**Consequences for these numbers, stated plainly:**
+
+- The models currently at `0.0000` are not expected to be at `0.0000` after a re-run. Their
+  committed scores measure the old protocol and should be read as such.
+- Re-running is a **protocol change**, not a re-measurement of the same thing. The prompt
+  version and template hash will differ, so these runs are not comparable to their
+  replacements and must be replaced, not merged.
+- Until the cohort is re-run, the honest summary is: the comparison below is internally
+  consistent (same protocol, same identity, so the models are comparable to each other), and
+  its absolute values understate every model.
+
+The fix is in `src/apertus_eval_prep/adapters/local_transformers.py` and is covered by
+`tests/test_chat_template.py` and `tests/test_chat_template_e2e.py`, which pin the raw
+default, the templated path, the manifest field, the warning, and the refusal to fall back
+to raw text when a template fails to apply.
+
 ## Layout (per model)
 
 `<Model>/` is the notebook's exported run tree, unchanged: `local_baseline/`,

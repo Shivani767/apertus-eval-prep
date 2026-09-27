@@ -24,7 +24,7 @@ base:
     kind: local_transformers
     model_id: YOUR_MODEL_ID
     revision: OPTIONAL_PINNED_REVISION
-    params: {tokenizer_id: YOUR_TOKENIZER_ID, tokenizer_revision: OPTIONAL_PINNED_REVISION}
+    params: {tokenizer_id: YOUR_TOKENIZER_ID, tokenizer_revision: OPTIONAL_PINNED_REVISION, apply_chat_template: true}
   task: {kind: static_qa, path: YOUR_CORE_DATASET, limit: 50}
   prompt: {prompt_id: YOUR_PROMPT_ID, version: v1, template: base}
   decoding: {seed: 1, temperature: 0.0, top_p: 1.0, max_new_tokens: 256}
