@@ -61,6 +61,7 @@ python -m apertus_eval_prep <command> ...     # equivalent, no install required
 | [`paper`](#legacy-harness) | Regenerate `paper/stability.md` | no |
 | [`ci-width`](#legacy-harness) | Wilson CI width vs n | no |
 | [`benchmark-report`](#legacy-harness) | Multi-model benchmark report | no |
+| [`heldout`](#heldout) | Held-out configuration generalization: predict unrun configurations from run ones | no |
 
 
 ## Typed platform commands
@@ -186,6 +187,38 @@ python -m apertus_eval_prep platform-ingest-runs --runs runs/smoke/<run_id> --ou
 ### platform-select
 
 ```
+
+## Held-out configuration generalization
+
+### heldout
+
+```
+apertus-eval-prep heldout --registry REGISTRY --out OUT [--budgets BUDGETS]
+                   [--n-boot N_BOOT] [--seed SEED]
+```
+
+| Option | Meaning |
+|---|---|
+| `--registry` | Committed registry JSONL (default `results/registry_paper.jsonl`). |
+| `--out` | Output directory for `heldout.json` and `heldout.md`. |
+| `--budgets` | Comma-separated run counts to fit on, or `auto` (default). Each must satisfy `1 <= b < n_configs`. |
+| `--n-boot` | Bootstrap resamples for the pairwise CIs (default 300). |
+| `--seed` | Base seed; each budget derives its own, so budgets never share a shuffle. |
+
+For each budget *b* the estimator is fit on *b* configurations and evaluated on the rest.
+The estimator never sees a held-out configuration, so the curve is leakage-free by
+construction. Output is **DERIVED**, not a new measurement, and missing cells stay `None`.
+
+```bash
+python -m apertus_eval_prep heldout --registry results/registry_paper.jsonl --out reports/heldout
+```
+
+The command refuses a budget that leaves nothing to predict, and refuses a registry with
+fewer than two models carrying at least two measured cells, rather than returning a
+flattering number. Alongside the budget curve it emits a `rank_instability` block, because
+an aggregate metric can look perfect while a reproducible minority of configurations
+overturns the ranking — see [`HELDOUT_GENERALIZATION.md`](HELDOUT_GENERALIZATION.md) for
+the result and what it does and does not establish.
 
 ## Legacy harness
 

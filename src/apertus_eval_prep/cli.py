@@ -232,6 +232,203 @@ def cmd_ci_width(args: argparse.Namespace) -> int:
     return 0
 
 
+def _registry_score_matrix(rows) -> dict:
+    """Build the models x configs accuracy matrix from committed registry rows.
+
+    Shared by ``ers`` and ``heldout`` so both analyses see identical cell
+    semantics: only ``status == "ok"`` rows carrying a non-empty aggregate
+    contribute; a model needs at least two measured cells to have any
+    within-model protocol spread; and a missing (model, config) cell stays
+    ``None`` — never zero, so an unmeasured cell cannot masquerade as a
+    failing one.
+    """
+    cells: dict[str, dict[str, float]] = {}
+    n_per_cell: int | None = None
+    mixed_n: list[dict] = []
+    for r in rows:
+        if r.get("status") != "ok" or not r.get("overall"):
+            continue
+        n = int(r["overall"].get("n", 0) or 0)
+        if n_per_cell is None:
+            n_per_cell = n
+        elif n != n_per_cell:
+            mixed_n.append({"run_id": r.get("run_id"), "n": n, "expected": n_per_cell})
+        cells.setdefault(r["model_id"], {})[
+            f"{r['factor']}={r['factor_level']}"
+        ] = float(r["overall"]["accuracy"])
+    configs = sorted({c for m in cells.values() for c in m})
+    matrix: list[list[float | None]] = []
+    names: list[str] = []
+    for model, cfgs in cells.items():
+        if len(cfgs) < 2:
+            continue
+        names.append(model)
+        matrix.append([cfgs.get(c) for c in configs])
+    return {
+        "matrix": matrix,
+        "models": names,
+        "configs": configs,
+        "n_per_cell": n_per_cell,
+        "excluded_models_lt2_cells": sorted(set(cells) - set(names)),
+        "n_missing_cells": sum(1 for row in matrix for v in row if v is None),
+        "mixed_n_warnings": mixed_n,
+    }
+
+
+def cmd_heldout(args: argparse.Namespace) -> int:
+    """Held-out configuration generalization from a committed registry.
+
+    Answers the budget question: given a matrix where ``b`` configurations have
+    been run, how well can we predict the score and the ranking of the
+    configurations we have NOT run?
+
+    The estimator is fit on train configurations ONLY; held-out configurations
+    are used for evaluation and never for fitting, so the curve is leakage-free
+    by construction. Nothing here is a new measurement: every number is DERIVED
+    from already-committed registry rows, and missing cells stay None.
+    """
+    import json as _json
+
+    from apertus_eval_prep.heldout import rank_instability_report, run_heldout_experiments
+    from apertus_eval_prep.registry import load_registry
+
+    rows = load_registry(Path(args.registry))
+    built = _registry_score_matrix(rows)
+    matrix, names, configs = built["matrix"], built["models"], built["configs"]
+    n_c = len(configs)
+
+    for w in built["mixed_n_warnings"]:
+        print(f"warning: mixed n (expected {w['expected']}, got {w['n']}); "
+              f"comparability not guaranteed; run={w['run_id']}")
+    if len(names) < 2:
+        print("error: need at least 2 models with >= 2 measured cells; "
+              f"found {len(names)} from {args.registry}", file=sys.stderr)
+        return 1
+    if n_c < 3:
+        print(f"error: need at least 3 configurations to hold any out "
+              f"(found {n_c}); a split needs a train and a non-empty holdout",
+              file=sys.stderr)
+        return 1
+
+    if args.budgets == "auto":
+        lo, hi = 2, n_c - 1
+        step = max(1, (hi - lo) // 8)
+        budgets = sorted({b for b in range(lo, hi + 1, step)} | {hi})
+    else:
+        budgets = sorted({int(b) for b in args.budgets.split(",") if b.strip()})
+    invalid = [b for b in budgets if b < 1 or b >= n_c]
+    if invalid:
+        print(f"error: budgets must satisfy 1 <= b < {n_c} (configurations "
+              f"available); rejected {invalid}", file=sys.stderr)
+        return 1
+
+    sweep = run_heldout_experiments(
+        matrix, configs, budgets, seed=args.seed, n_boot=args.n_boot
+    )
+    # JSON turns integer dict keys into strings, so the per-budget results are
+    # emitted as a list carrying its own `budget` field. A consumer can then
+    # index by budget without knowing the serialisation quirk.
+    budget_rows = [
+        {"budget": b, **sweep["budgets"][b]} for b in sorted(sweep["budgets"])
+    ]
+    out = {
+        "registry": str(args.registry),
+        "models": names,
+        "configs": configs,
+        "n_configs": n_c,
+        "n_models": len(names),
+        "n_per_cell": built["n_per_cell"],
+        "n_missing_cells": built["n_missing_cells"],
+        "excluded_models_lt2_cells": built["excluded_models_lt2_cells"],
+        "budgets": budget_rows,
+        "rank_instability": rank_instability_report(matrix, configs, names),
+        "n_boot": args.n_boot,
+        "base_seed": args.seed,
+        "provenance": "DERIVED from committed registry rows; no new measurement",
+        "reading_guide": (
+            "For each budget b: fit on b configurations, predict the b rest. "
+            "score_prediction_error_mae is mean |train mean - holdout mean| per "
+            "model; pairwise_decision_accuracy is how often the model that won on "
+            "train also won on holdout; ranking_recovery compares the train "
+            "ranking to the holdout ranking. Rising error or falling accuracy "
+            "means the matrix is too small to predict its own remainder."
+        ),
+    }
+
+    out_dir = Path(args.out)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "heldout.json").write_text(_json.dumps(out, indent=2) + "\n", encoding="utf-8")
+
+    md = [
+        "# Held-out configuration generalization (DERIVED)",
+        "",
+        f"Source registry: `{args.registry}`. "
+        f"{len(names)} models x {n_c} configurations "
+        f"({built['n_missing_cells']} missing cell(s), left None).",
+        "",
+        "No new measurement: every value is derived from committed registry rows. "
+        "For each budget the estimator is fit on the train configurations only; "
+        "held-out configurations are used for evaluation and never for fitting.",
+        "",
+        "| runs spent | held out | score error (MAE) | rank recovery (kendall) | "
+        "decision acc | decidable pairs |",
+        "|---:|---:|---:|---:|---:|---:|",
+    ]
+    for r in budget_rows:
+        rr = r.get("ranking_recovery", {}) or {}
+
+        def cell(v, digits=4):
+            return "n/a" if v is None else f"{v:.{digits}f}"
+
+        md.append(
+            f"| {r['budget']} | {r['split']['n_heldout']} | "
+            f"{cell(r.get('score_prediction_error_mae'))} | "
+            f"{cell(rr.get('kendall_tau'), 3)} | "
+            f"{cell(r.get('pairwise_decision_accuracy'), 3)} | "
+            f"{r.get('n_decidable_pairs')} |"
+        )
+    md += [
+        "",
+        "score error (MAE): mean |train mean - holdout mean| accuracy, per model. "
+        "rank recovery: Kendall tau between the train ranking and the holdout "
+        "ranking. decision acc: how often the train winner is also the holdout "
+        "winner, over pairs where both sides decide.",
+        "",
+        "Reading: a plateau near 0 error and 1.0 accuracy means the matrix already "
+        "predicts its own remainder; values far from those are the honest cost of "
+        "an under-sampled configuration space.",
+        "",
+        "## Rank instability across configurations",
+        "",
+        "| model A | model B | A wins | B wins | reversible | B wins only on |",
+        "|---|---|---:|---:|---|---|",
+    ]
+    for p in out["rank_instability"]["pairs"]:
+        if p["n_decidable"] == 0:
+            continue
+        flip = "yes" if p["reversible"] else "no"
+        md.append(
+            f"| {p['a']} | {p['b']} | {p['a_wins']} | {p['b_wins']} | {flip} | "
+            f"{', '.join(p['b_wins_on']) or '—'} |"
+        )
+    md += [
+        "",
+        "A high decision accuracy above does NOT mean the ranking is safe. A "
+        "reproducible minority of configurations can overturn an ordering without "
+        "moving the majority vote, so the minority column is the one to read: those "
+        "configuration keys are where a stable-looking ranking fails.",
+    ]
+    (out_dir / "heldout.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+
+    print(_json.dumps({
+        "models": names,
+        "n_configs": n_c,
+        "budgets": [r["budget"] for r in budget_rows],
+        "paths": {"json": str(out_dir / "heldout.json"), "md": str(out_dir / "heldout.md")},
+    }, indent=2, default=str))
+    return 0
+
+
 def cmd_ers(args: argparse.Namespace) -> int:
     """Evaluation Reliability Score (DERIVED) from a committed registry.
 
@@ -246,30 +443,12 @@ def cmd_ers(args: argparse.Namespace) -> int:
 
     root = repo_root()
     rows = load_registry(Path(args.registry))
-    # NOTE: registry rows carry only the cross-task aggregate (overall);
-    # per-task matrices need the run blobs and are out of scope here.
-    cells: dict[str, dict[str, float]] = {}
-    n_per_cell: int | None = None
-    for r in rows:
-        if r.get("status") != "ok" or not r.get("overall"):
-            continue
-        n = int(r["overall"].get("n", 0) or 0)
-        if n_per_cell is None:
-            n_per_cell = n
-        elif n != n_per_cell:
-            print(f"warning: mixed n ({n_per_cell} vs {n}); using first, "
-                  f"skip? run={r.get('run_id')}")
-        cells.setdefault(r["model_id"], {})[
-            f"{r['factor']}={r['factor_level']}"
-        ] = float(r["overall"]["accuracy"])
-
-    configs = sorted({c for m in cells.values() for c in m})
-    matrix, names = [], []
-    for model, cfgs in cells.items():
-        if len(cfgs) < 2:
-            continue
-        names.append(model)
-        matrix.append([cfgs.get(c) for c in configs])
+    built = _registry_score_matrix(rows)
+    matrix, names, configs = built["matrix"], built["models"], built["configs"]
+    n_per_cell = built["n_per_cell"]
+    for w in built["mixed_n_warnings"]:
+        print(f"warning: mixed n (expected {w['expected']}, got {w['n']}); "
+              f"comparability not guaranteed; run={w['run_id']}")
     reports = {}
     if len(names) >= 2 and n_per_cell:
         out = evaluation_reliability_score(
@@ -278,8 +457,8 @@ def cmd_ers(args: argparse.Namespace) -> int:
         out["n_per_cell"] = n_per_cell
         out["models"] = names
         out["n_configs_used"] = len(configs)
-        out["n_missing_cells"] = sum(1 for row in matrix for v in row if v is None)
-        out["excluded_models_lt2_cells"] = sorted(set(cells) - set(names))
+        out["n_missing_cells"] = built["n_missing_cells"]
+        out["excluded_models_lt2_cells"] = built["excluded_models_lt2_cells"]
         out["registry"] = str(args.registry)
         out["provenance"] = "DERIVED from measured registry rows; not a new measurement"
         reports["all_cells"] = out
@@ -781,6 +960,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="Cross-check the artifact against the registry and report deviations.",
     )
     p_repro.set_defaults(func=cmd_reproduce)
+
+    p_heldout = sub.add_parser(
+        "heldout",
+        help="Held-out configuration generalization: predict unrun configs from run ones.",
+    )
+    p_heldout.add_argument("--registry", default="results/registry_paper.jsonl")
+    p_heldout.add_argument("--out", default="reports/heldout")
+    p_heldout.add_argument(
+        "--budgets",
+        default="auto",
+        help="Comma-separated run counts to fit on, or 'auto' (default). "
+             "Each must satisfy 1 <= b < number of configurations.",
+    )
+    p_heldout.add_argument("--n-boot", dest="n_boot", type=int, default=300)
+    p_heldout.add_argument("--seed", type=int, default=0)
+    p_heldout.set_defaults(func=cmd_heldout)
 
     p_ers = sub.add_parser(
         "ers",

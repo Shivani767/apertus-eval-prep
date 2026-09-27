@@ -359,6 +359,73 @@ def heldout_reliability_experiment(
     }
 
 
+def rank_instability_report(
+    score_matrix: Sequence[Sequence[float | None]],
+    config_keys: Sequence[str],
+    model_labels: Sequence[str] | None = None,
+) -> dict[str, Any]:
+    """Per-pair win counts across configurations, and which configurations flip.
+
+    A budget curve can report perfect aggregate decision accuracy while a single,
+    perfectly reproducible configuration overturns the ranking, because a minority
+    flip does not move the majority vote. This report exposes the minority: for
+    every pair, how many configurations each side wins, and the configuration keys
+    on which the minority side wins.
+
+    Ties and unmeasured cells are excluded from the counts and reported separately;
+    they are never scored as wins for anyone.
+    """
+    n_m = len(score_matrix)
+    if n_m < 2:
+        return {"pairs": [], "note": "need at least two models"}
+    keys = list(config_keys)
+    labels = list(model_labels) if model_labels else [f"model_{i}" for i in range(n_m)]
+    pairs: list[dict[str, Any]] = []
+    for a in range(n_m):
+        for b in range(a + 1, n_m):
+            a_wins: list[str] = []
+            b_wins: list[str] = []
+            ties: list[str] = []
+            unmeasured: list[str] = []
+            for ci, key in enumerate(keys):
+                va, vb = score_matrix[a][ci], score_matrix[b][ci]
+                if va is None or vb is None:
+                    unmeasured.append(key)
+                elif va > vb:
+                    a_wins.append(key)
+                elif vb > va:
+                    b_wins.append(key)
+                else:
+                    ties.append(key)
+            total = len(a_wins) + len(b_wins)
+            if total == 0:
+                reversible = None
+            else:
+                reversible = 0 < min(len(a_wins), len(b_wins))
+            pairs.append({
+                "a": labels[a],
+                "b": labels[b],
+                "a_wins": len(a_wins),
+                "b_wins": len(b_wins),
+                "n_decidable": total,
+                "reversible": reversible,
+                # The minority side's configurations are the interesting ones:
+                # they are where a stable-looking ranking is overturned.
+                "b_wins_on": b_wins,
+                "ties": ties,
+                "unmeasured": unmeasured,
+            })
+    return {
+        "pairs": pairs,
+        "n_reversible": sum(1 for p in pairs if p["reversible"]),
+        "note": (
+            "A pair is reversible when both sides win at least one decidable "
+            "configuration. Aggregate reliability can stay high while a "
+            "reproducible minority of configurations flips the ranking."
+        ),
+    }
+
+
 def run_heldout_experiments(
     matrix, config_keys, budgets, *, seed=0, n_boot=300
 ) -> dict[str, Any]:
