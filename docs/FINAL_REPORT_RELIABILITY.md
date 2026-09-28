@@ -194,7 +194,8 @@ This implementation **does not** prove:
 - Any causal attribution. Every reversal cause is an association carrying a
   design-quality label.
 - That agent regression gates generalise beyond the evaluated scenarios. The
-  artifacts do **not** check that both runs used the same scenario set.
+  comparison now **verifies** that both runs share a dataset signature and
+  refuses to emit any delta when they do not.
 - Any language ranking or code-switching finding — no items have been run in
   Hindi or Hinglish.
 - Leave-one-model-out generalization: 4 models is a low-power probe, and the
