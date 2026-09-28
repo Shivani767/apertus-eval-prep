@@ -1,0 +1,23 @@
+# Scenario taxonomy for agent reliability.
+#
+# `applies` is declared per scenario on purpose: an agent with no long-context
+# path marks long_context as not applicable instead of carrying a permanent
+# untested gap. Not-applicable scenarios are EXCLUDED from the coverage
+# denominators, not counted as failures.
+#
+# Coverage is not quality. `execution_coverage` and `success_rate_of_executed`
+# are reported separately so a suite that runs everything and fails most of it
+# cannot look like a well-covered, reliable agent.
+scenarios:
+  - {scenario_id: sc_happy_basic,        scenario_class: happy_path,          applies: true}
+  - {scenario_id: sc_ambiguous_request,  scenario_class: ambiguous_request,   applies: true}
+  - {scenario_id: sc_missing_info,       scenario_class: missing_information, applies: true}
+  - {scenario_id: sc_tool_failure,       scenario_class: tool_failure,        applies: true}
+  - {scenario_id: sc_malformed_output,   scenario_class: malformed_tool_output, applies: true}
+  - {scenario_id: sc_conflicting_info,   scenario_class: conflicting_information, applies: true}
+  - {scenario_id: sc_repeated_request,   scenario_class: repeated_request,    applies: true}
+  - {scenario_id: sc_adversarial_input,  scenario_class: adversarial_input,   applies: true}
+  - {scenario_id: sc_policy_boundary,    scenario_class: policy_boundary,     applies: true}
+  - {scenario_id: sc_recovery_after_err, scenario_class: recovery,            applies: true}
+  - {scenario_id: sc_long_context,       scenario_class: long_context,        applies: false,
+     notes: "This agent has no long-context path today."}

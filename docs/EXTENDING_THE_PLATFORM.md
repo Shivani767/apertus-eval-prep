@@ -38,3 +38,13 @@ Stability analyses in this platform are **derived** from already-committed measu
 - Keep the policy in data, not code, and attach an evidence record with `normalize_evidence` so the tier is never inferred upward.
 
 A new analysis should ship with: a module, a CLI subcommand following the `heldout` / `ers` naming, deterministic fixtures, tests covering the same-decision, reversal, invalid-input, missing-metric, evidence-tier and artifact-determinism cases, and a doc section stating what it does not claim.
+
+## Add an agent metric or scenario
+
+Agent reliability lives in `agent_reliability.py`; episode execution is unchanged. See `docs/AGENT_EVALUATION.md`. Conventions:
+
+- A metric absent from a run is `None` or `not_comparable`, never `0`. An absent metric must not be able to satisfy a regression gate.
+- Every metric declares its direction. Anything where "up" is worse -- latency, tokens, unsafe actions -- belongs in `LOWER_IS_BETTER`, or a regression will be scored as an improvement.
+- Scenario classes are validated against `SCENARIO_CLASSES` and `applies` is mandatory, so a non-applicable class is excluded from the denominators rather than reading as a coverage gap.
+- Coverage counts stay split: declared, executed and succeeded answer different questions and must not be collapsed into one number.
+- Gate verdicts are `PASS` / `FAIL` / `INCONCLUSIVE`, and the artifact says `result_type: "policy gate result"`. Never emit approval language.

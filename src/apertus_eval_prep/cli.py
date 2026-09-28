@@ -645,6 +645,98 @@ def cmd_interactions(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_agent_regression(args: argparse.Namespace) -> int:
+    """Compare two finished agent runs and apply a declared regression policy.
+
+    Both inputs are already-committed run directories. The verdict is a *policy
+    gate result*: it reports whether the candidate met a declared comparison
+    policy, and a metric missing from either run is INCONCLUSIVE rather than
+    allowed to pass.
+    """
+    import json as _json
+
+    from apertus_eval_prep.agent_reliability import compare_agent_runs, evaluate_regression_policy
+    from apertus_eval_prep.utils.serialization import read_json, write_json
+
+    def _system(path: str) -> dict:
+        candidate_path = Path(path) / "metrics.json"
+        target = candidate_path if candidate_path.exists() else Path(path)
+        if not target.exists():
+            raise ValueError(f"{path}: no run directory or metrics.json found")
+        payload = read_json(target)
+        if not isinstance(payload, dict):
+            raise ValueError(f"{target}: expected a metrics object")
+        return dict(payload.get("system") or {})
+
+    comparison = compare_agent_runs(
+        _system(args.baseline), _system(args.candidate),
+        baseline_id=str(args.baseline), candidate_id=str(args.candidate),
+    )
+    result: dict = {"comparison": comparison, "gate": None}
+    if args.policy:
+        spec = _read_structured(args.policy)
+        result["gate"] = evaluate_regression_policy(
+            comparison, spec.get("regression_policy", spec),
+            evidence={"mode": args.evidence_mode},
+        )
+    else:
+        result["gate_note"] = "no --policy given; this is a comparison, not a gate result"
+
+    if args.out:
+        write_json(args.out, result)
+    gate = result.get("gate") or {}
+    print(_json.dumps({
+        "regressions": comparison["regressions"],
+        "improvements": comparison["improvements"],
+        "not_comparable": comparison["not_comparable"],
+        "gate_result_type": gate.get("result_type"),
+        "gate_status": gate.get("status"),
+        "out": args.out,
+    }, indent=2, default=str))
+    return 0
+
+
+def _read_records(path: str, key: str) -> list:
+    """Read a list of records from a JSON/YAML file in either accepted shape.
+
+    A bare list is used directly; a mapping is unwrapped from ``key``. Commands
+    accepting both shapes need this because ``_read_structured`` normalises a
+    bare list into a decision-stability envelope, which would otherwise be
+    iterated key-by-key.
+    """
+    from apertus_eval_prep.utils.serialization import read_json, read_yaml
+
+    if str(path).endswith((".yaml", ".yml")):
+        payload = read_yaml(path)
+    else:
+        payload = read_json(path)
+    if isinstance(payload, list):
+        return payload
+    if isinstance(payload, dict) and isinstance(payload.get(key), list):
+        return list(payload[key])
+    raise ValueError(f"{path}: expected a list of records or a '{key}' list")
+
+
+def cmd_scenario_coverage(args: argparse.Namespace) -> int:
+    """Report scenario coverage with declaration, execution and success apart."""
+    import json as _json
+
+    from apertus_eval_prep.agent_reliability import scenario_coverage
+    from apertus_eval_prep.utils.serialization import write_json
+
+    scenarios = _read_records(args.scenarios, "scenarios")
+    outcomes: list = _read_records(args.outcomes, "outcomes") if args.outcomes else []
+    result = scenario_coverage(scenarios, outcomes)
+    if args.out:
+        write_json(args.out, result)
+    print(_json.dumps({"summary": {key: result.get(key) for key in (
+        "declared_scenarios", "not_applicable_scenarios", "executed_scenarios",
+        "succeeded_scenarios", "failed_scenarios", "untested_scenarios",
+        "count_coverage", "execution_coverage", "success_rate_of_executed",
+    )}, "out": args.out}, indent=2, default=str))
+    return 0
+
+
 def cmd_pareto(args: argparse.Namespace) -> int:
     """Pareto frontier (quality vs cost) across scored run files.
 
@@ -1209,6 +1301,38 @@ def build_parser() -> argparse.ArgumentParser:
         help="Evidence tier for the input. Declared explicitly; never inferred upward.",
     )
     p_interactions.set_defaults(func=cmd_interactions)
+
+    p_agent_regression = sub.add_parser(
+        "agent-regression",
+        help="Compare two agent runs and apply a declared regression policy.",
+    )
+    p_agent_regression.add_argument("--baseline", required=True, help="Baseline run directory.")
+    p_agent_regression.add_argument("--candidate", required=True, help="Candidate run directory.")
+    p_agent_regression.add_argument("--policy", help="YAML/JSON regression_policy file.")
+    p_agent_regression.add_argument(
+        "--out", default="reports/agent_regression/agent_regression.json"
+    )
+    p_agent_regression.add_argument(
+        "--evidence-mode", dest="evidence_mode", default="UNKNOWN", choices=EVIDENCE_MODES,
+        help="Evidence tier for the input runs. Declared explicitly; never inferred upward.",
+    )
+    p_agent_regression.set_defaults(func=cmd_agent_regression)
+
+    p_scenario_coverage = sub.add_parser(
+        "scenario-coverage",
+        help="Scenario taxonomy coverage: declared, executed and succeeded separately.",
+    )
+    p_scenario_coverage.add_argument(
+        "--scenarios", required=True,
+        help="YAML/JSON with a 'scenarios' list of {scenario_id, scenario_class, applies}.",
+    )
+    p_scenario_coverage.add_argument(
+        "--outcomes", help="Optional YAML/JSON list of {scenario_id, executed, succeeded}."
+    )
+    p_scenario_coverage.add_argument(
+        "--out", default="reports/scenario_coverage/scenario_coverage.json"
+    )
+    p_scenario_coverage.set_defaults(func=cmd_scenario_coverage)
 
     p_pareto = sub.add_parser(
         "pareto",
