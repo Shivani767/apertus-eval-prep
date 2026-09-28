@@ -135,6 +135,8 @@ is declared. The platform makes the configuration part of the claim.
 | **Metamorphic relations** | Declared expected relation vs observed relation per transformation, with per-model/family/language breakdowns | `metamorphic.relation_report` (library) | derived diagnostic |
 
 > Every row marked *derived diagnostic* or *policy gate result* is a statement about **how measurements behave**, not about how good a model is. See [`docs/DECISION_STABILITY.md`](docs/DECISION_STABILITY.md), [`docs/RANKING_STABILITY.md`](docs/RANKING_STABILITY.md), [`docs/FACTORIAL_EXPERIMENTS.md`](docs/FACTORIAL_EXPERIMENTS.md), [`docs/AGENT_EVALUATION.md`](docs/AGENT_EVALUATION.md) and [`docs/EXTENDING_THE_PLATFORM.md`](docs/EXTENDING_THE_PLATFORM.md).
+>
+> A consolidated summary of the reliability work — what changed, new metrics, what it does **not** prove, and the next proposed real-model experiment — is in [`docs/FINAL_REPORT_RELIABILITY.md`](docs/FINAL_REPORT_RELIABILITY.md).
 
 ## Architecture
 
