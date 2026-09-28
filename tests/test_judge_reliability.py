@@ -19,6 +19,11 @@ from apertus_eval_prep.judge import (
     judge_reliability_analysis,
     validate_judge_records,
 )
+from apertus_eval_prep.deployment_decision import (
+    DECISION_OBJECTIVES,
+    DeploymentPolicyError,
+    analyse_deployment_decision,
+)
 from apertus_eval_prep.heldout import (
     leave_one_model_out_experiment,
     partition_matrix,
@@ -408,5 +413,84 @@ class TestMultilingualTrack:
         first = language_sensitivity_report(self._rows(), evidence={"mode": "MOCK"})
         second = language_sensitivity_report(self._rows(), evidence={"mode": "MOCK"})
         assert first["evidence"]["mode"] == "MOCK"
+        assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
+
+
+class TestDeploymentDecision:
+    """Memory is a capacity ceiling, and an unmeasured one is not 0 GB.
+
+    The tempting failure is to treat a missing memory reading as zero, which
+    makes an unmeasured option pass every memory budget and look optimal. Here
+    the best-quality, lowest-latency option has NO memory figure; it must be
+    excluded, not selected, and the decision labelled partial.
+    """
+
+    POINTS = [
+        {"label": "accurate_but_40gb", "quality": 0.90,
+         "latency_p95_ms": 800, "cost": 0.02, "memory_gb": 40},
+        {"label": "lean", "quality": 0.75,
+         "latency_p95_ms": 300, "cost": 0.01, "memory_gb": 8},
+        {"label": "best_but_unmeasured", "quality": 0.95,
+         "latency_p95_ms": 250, "cost": 0.01},
+    ]
+    CONSTRAINTS = {"quality": 0.70, "max_latency_p95_ms": 1000, "max_memory_gb": 24}
+
+    def test_four_objectives_including_memory(self):
+        assert DECISION_OBJECTIVES["memory_gb"] == "min"
+        assert set(DECISION_OBJECTIVES) == {
+            "quality", "latency_p95_ms", "cost", "memory_gb"}
+
+    def test_unmeasured_memory_is_excluded_not_treated_as_zero(self):
+        result = analyse_deployment_decision(self.POINTS, constraints=self.CONSTRAINTS)
+        excluded = [e["label"] for e in result["excluded_for_unmeasured_objectives"]]
+        assert excluded == ["best_but_unmeasured"]
+        # The option with the best quality and lowest latency is NOT selected.
+        assert result["decision"] != "best_but_unmeasured"
+        assert result["decision"] == "lean"
+
+    def test_decision_is_labelled_partial_when_a_decisive_objective_is_unmeasured(self):
+        result = analyse_deployment_decision(self.POINTS, constraints=self.CONSTRAINTS)
+        assert result["decision_completeness"] == "partial"
+        assert result["unmeasured_decisive_objectives"] == ["memory_gb"]
+
+    def test_complete_decision_when_everything_is_measured(self):
+        result = analyse_deployment_decision(self.POINTS[:2], constraints=self.CONSTRAINTS)
+        assert result["decision_completeness"] == "complete"
+        assert result["n_incomplete"] == 0
+
+    def test_memory_budget_rejects_an_option_that_exceeds_it(self):
+        result = analyse_deployment_decision(self.POINTS, constraints=self.CONSTRAINTS)
+        rejected = {r["label"]: r["reasons"] for r in result["rejections"]}
+        assert "memory_gb" in rejected["accurate_but_40gb"][0]
+        assert "maximum 24" in rejected["accurate_but_40gb"][0]
+
+    def test_objective_coverage_is_reported_per_objective(self):
+        result = analyse_deployment_decision(self.POINTS)
+        assert result["objective_coverage"]["memory_gb"]["unmeasured"] == 1
+        assert result["objective_coverage"]["quality"]["unmeasured"] == 0
+
+    def test_aliases_are_honoured(self):
+        points = [{"label": "aliased", "quality": 0.8, "p95_ms": 300,
+                   "cost_value": 0.01, "peak_memory_gb": 8}]
+        result = analyse_deployment_decision(points)
+        assert result["n_complete"] == 1
+
+    def test_no_constraints_reports_no_selection(self):
+        result = analyse_deployment_decision(self.POINTS)
+        assert result["selection_status"] == "NO_CONSTRAINTS"
+        assert result["decision"] is None
+
+    def test_invalid_objective_direction_is_rejected(self):
+        with pytest.raises(DeploymentPolicyError, match="expected min or max"):
+            analyse_deployment_decision(self.POINTS, objectives={"quality": "higher"})
+
+    def test_disclaimer_denies_approval_and_capacity_guarantee(self):
+        result = analyse_deployment_decision(self.POINTS)
+        assert "not a production approval" in result["disclaimer"]
+        assert "capacity guarantee" in result["disclaimer"]
+
+    def test_report_is_deterministic_and_json_safe(self):
+        first = analyse_deployment_decision(self.POINTS, constraints=self.CONSTRAINTS)
+        second = analyse_deployment_decision(self.POINTS, constraints=self.CONSTRAINTS)
         assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
 
