@@ -126,6 +126,15 @@ is declared. The platform makes the configuration part of the claim.
 | Offline CI | Deterministic mock suite, no GPU, no network, no API keys | `make test`, `make smoke` | `MOCK` |
 | Optional real-model / Colab workflow | Notebook-per-model, gated-model auth, Drive mirroring, export and ingest of real runs | `scripts/build_real_model_notebooks.py`, `platform-ingest-runs` | `LOCAL_REAL_MODEL` |
 | Study and human-review workflow | Preregistration templates, study aggregation, review export/ingest, agreement | `platform-export-review`, `platform-ingest-review`, `platform-study-analyze` | declared per study |
+| **Decision stability** | Applies one declared selection policy across evaluated configurations; does the chosen option change? Ties, constraint failures and unmeasured objectives reported separately | `decision-stability` | derived diagnostic |
+| **Ranking stability** | Ordering agreement: reversal rate, top-1, top-k set stability, Kendall tau, pairwise inversion. Deliberately **no composite score** | `ranking-stability` | derived diagnostic |
+| **Evaluation sensitivity (ESI)** | Per-factor absolute/relative delta, Cohen's h, bootstrap CI, and ESI against a *declared* uncertainty scale | `sensitivity` | derived diagnostic |
+| **Factorial interaction** | Main effects and interaction with ω², F, raw and corrected p, design labelled `ofat` / `factorial`; OFAT data yields no interaction estimate at all | `interactions` | derived diagnostic |
+| **Agent reliability** | Scenario coverage (declared/executed/succeeded kept apart), baseline-vs-candidate comparison, and a declared regression policy gate | `agent-regression`, `scenario-coverage` | policy gate result |
+| **LLM-judge reliability** | Judge provenance, self-consistency, position bias via swap pairs, rubric sensitivity. Never treated as ground truth | `judge.py` (library) | instrument diagnostic |
+| **Metamorphic relations** | Declared expected relation vs observed relation per transformation, with per-model/family/language breakdowns | `metamorphic.relation_report` (library) | derived diagnostic |
+
+> Every row marked *derived diagnostic* or *policy gate result* is a statement about **how measurements behave**, not about how good a model is. See [`docs/DECISION_STABILITY.md`](docs/DECISION_STABILITY.md), [`docs/RANKING_STABILITY.md`](docs/RANKING_STABILITY.md), [`docs/FACTORIAL_EXPERIMENTS.md`](docs/FACTORIAL_EXPERIMENTS.md), [`docs/AGENT_EVALUATION.md`](docs/AGENT_EVALUATION.md) and [`docs/EXTENDING_THE_PLATFORM.md`](docs/EXTENDING_THE_PLATFORM.md).
 
 ## Architecture
 
