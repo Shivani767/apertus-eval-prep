@@ -599,6 +599,52 @@ def cmd_ranking_stability(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_interactions(args: argparse.Namespace) -> int:
+    """Factorial interaction analysis, or an explicit refusal to produce one.
+
+    The command is deliberately able to return ``insufficient_design`` with no
+    estimates. Running a main-effects analysis over OFAT data and reporting "no
+    interaction found" is a null claim the design cannot support, so the
+    artifact states the design kind at the top level instead.
+    """
+    import json as _json
+
+    from apertus_eval_prep.factorial import analyse_interactions
+    from apertus_eval_prep.utils.serialization import read_json, write_json
+
+    payload = read_json(args.rows)
+    rows = payload.get("rows") if isinstance(payload, dict) else payload
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("expected a non-empty list of scored rows")
+
+    pairs: list[tuple[str, str]] = []
+    for chunk in str(args.pairs).split(";"):
+        names = [name.strip() for name in chunk.split(",") if name.strip()]
+        if len(names) != 2:
+            raise ValueError(
+                f"pair {chunk!r} must name exactly two factors, e.g. 'prompt,backend'"
+            )
+        pairs.append((names[0], names[1]))
+
+    report = analyse_interactions(
+        rows,
+        pairs,
+        correction=args.correction,
+        n_boot=args.n_boot,
+        seed=args.seed,
+        evidence={"mode": args.evidence_mode},
+    )
+    if args.out:
+        write_json(args.out, report)
+    print(_json.dumps({"summary": {
+        key: report.get(key) for key in (
+            "status", "design_kind", "n_pairs_measured", "n_pairs_requested",
+            "n_effects_tested", "multiple_comparison_correction", "unavailable_pairs",
+        )
+    }, "interpretation": report["interpretation"], "out": args.out}, indent=2, default=str))
+    return 0
+
+
 def cmd_pareto(args: argparse.Namespace) -> int:
     """Pareto frontier (quality vs cost) across scored run files.
 
@@ -1136,6 +1182,33 @@ def build_parser() -> argparse.ArgumentParser:
         help="Evidence tier for the input. Declared explicitly; never inferred upward.",
     )
     p_rank_stability.set_defaults(func=cmd_ranking_stability)
+
+    p_interactions = sub.add_parser(
+        "interactions",
+        help="Factorial interaction analysis: main effects, interaction, corrected p.",
+    )
+    p_interactions.add_argument(
+        "--rows", required=True,
+        help="JSON file: list of scored rows {<factor>: <level>, ..., 'score': float}.",
+    )
+    p_interactions.add_argument(
+        "--pairs", required=True,
+        help="Semicolon-separated factor pairs, e.g. 'prompt,backend;backend,quantization'.",
+    )
+    p_interactions.add_argument(
+        "--correction", default="holm_bonferroni",
+        choices=["holm_bonferroni", "benjamini_hochberg", "none"],
+    )
+    p_interactions.add_argument("--n-boot", dest="n_boot", type=int, default=0)
+    p_interactions.add_argument("--seed", type=int, default=0)
+    p_interactions.add_argument(
+        "--out", default="reports/interactions/interactions.json"
+    )
+    p_interactions.add_argument(
+        "--evidence-mode", dest="evidence_mode", default="UNKNOWN", choices=EVIDENCE_MODES,
+        help="Evidence tier for the input. Declared explicitly; never inferred upward.",
+    )
+    p_interactions.set_defaults(func=cmd_interactions)
 
     p_pareto = sub.add_parser(
         "pareto",
