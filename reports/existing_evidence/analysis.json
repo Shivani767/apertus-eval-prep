@@ -1,0 +1,493 @@
+{
+  "generated_utc": "2026-09-28T13:36:11.939573+00:00",
+  "registry": "/Users/shivanibhandari/Downloads/projects/ETH : EPFL Apertus /apertus-eval-prep/results/registry_paper.jsonl",
+  "seed": 0,
+  "n_boot": 300,
+  "provenance": "DERIVED from committed artifacts; no model was executed",
+  "analyses": {
+    "template_discordance": {
+      "provenance": "DERIVED from committed per-item records; no new measurement",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "one_knob_changed": "chat_template (tokenizer vs none)",
+      "n_shared_items": 28,
+      "n_unmatched_items": 0,
+      "unmatched_ids": [],
+      "discordant": {
+        "templated_only_correct": 6,
+        "none_only_correct": 1
+      },
+      "exact_sign_test_p": 0.125,
+      "discordant_fraction_ci95": [
+        0.1267649491929356,
+        0.4335567031899844
+      ],
+      "per_task": {
+        "arc_easy": {
+          "n": 8,
+          "templated_only": 3,
+          "none_only": 0,
+          "both_right": 5,
+          "both_wrong": 0
+        },
+        "template_canary": {
+          "n": 4,
+          "templated_only": 1,
+          "none_only": 1,
+          "both_right": 2,
+          "both_wrong": 0
+        },
+        "gsm8k": {
+          "n": 8,
+          "templated_only": 0,
+          "none_only": 0,
+          "both_right": 2,
+          "both_wrong": 6
+        },
+        "multilingual": {
+          "n": 8,
+          "templated_only": 2,
+          "none_only": 0,
+          "both_right": 5,
+          "both_wrong": 1
+        }
+      },
+      "flipped_items": [
+        {
+          "id": "arc_easy_003",
+          "task": "arc_easy",
+          "flipped_to": "wrong_without_template",
+          "gold": "A",
+          "templated_prediction": "A",
+          "none_prediction": "C"
+        },
+        {
+          "id": "arc_easy_006",
+          "task": "arc_easy",
+          "flipped_to": "wrong_without_template",
+          "gold": "A",
+          "templated_prediction": "A",
+          "none_prediction": "D"
+        },
+        {
+          "id": "arc_easy_007",
+          "task": "arc_easy",
+          "flipped_to": "wrong_without_template",
+          "gold": "C",
+          "templated_prediction": "C",
+          "none_prediction": "A"
+        },
+        {
+          "id": "canary_003",
+          "task": "template_canary",
+          "flipped_to": "right_without_template",
+          "gold": "C",
+          "templated_prediction": null,
+          "none_prediction": "C"
+        },
+        {
+          "id": "canary_004",
+          "task": "template_canary",
+          "flipped_to": "wrong_without_template",
+          "gold": "D",
+          "templated_prediction": "D",
+          "none_prediction": "A"
+        },
+        {
+          "id": "ml_en_002",
+          "task": "multilingual",
+          "flipped_to": "wrong_without_template",
+          "gold": "8",
+          "templated_prediction": "8",
+          "none_prediction": "12"
+        },
+        {
+          "id": "ml_hi_001",
+          "task": "multilingual",
+          "flipped_to": "wrong_without_template",
+          "gold": "12",
+          "templated_prediction": "12",
+          "none_prediction": "7"
+        }
+      ],
+      "reading": "An exact sign test on the discordant pairs. A large p means the item-level difference is consistent with per-item chance on this 28-item slice, which is why the effect is directional evidence rather than a precise magnitude."
+    },
+    "factorial": {
+      "n_scored_rows": 31,
+      "one_way": {
+        "by_factor": [
+          {
+            "factor": "backend",
+            "eta_squared": null,
+            "n": 31,
+            "n_levels": 1,
+            "empty_levels": [],
+            "reason": "need >=2 levels with scores"
+          },
+          {
+            "factor": "control",
+            "eta_squared": null,
+            "n": 31,
+            "n_levels": 1,
+            "empty_levels": [],
+            "reason": "need >=2 levels with scores"
+          },
+          {
+            "factor": "prompt_id",
+            "eta_squared": null,
+            "n": 31,
+            "n_levels": 1,
+            "empty_levels": [],
+            "reason": "need >=2 levels with scores"
+          },
+          {
+            "factor": "quantization",
+            "eta_squared": null,
+            "n": 31,
+            "n_levels": 1,
+            "empty_levels": [],
+            "reason": "need >=2 levels with scores"
+          },
+          {
+            "factor": "sampled",
+            "eta_squared": null,
+            "n": 31,
+            "n_levels": 1,
+            "empty_levels": [],
+            "reason": "need >=2 levels with scores"
+          },
+          {
+            "factor": "seed",
+            "eta_squared": null,
+            "n": 31,
+            "n_levels": 1,
+            "empty_levels": [],
+            "reason": "need >=2 levels with scores"
+          }
+        ],
+        "unattributed_by_best_single_factor": null,
+        "n": 31,
+        "assumptions": "descriptive eta-squared; OFAT cells confound factors; shares need not sum to 1; no F/p (assumptions fail at n=31)"
+      },
+      "two_way": {
+        "model_id\u00d7factor": {
+          "diagnostics": {
+            "factor_a": "model_id",
+            "factor_b": "factor",
+            "a_levels": [
+              "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+              "Qwen/Qwen2.5-3B-Instruct",
+              "Qwen/Qwen2.5-7B-Instruct",
+              "microsoft/Phi-3.5-mini-instruct"
+            ],
+            "b_levels": [
+              "backend",
+              "control",
+              "prompt_id",
+              "quantization",
+              "sampled",
+              "seed"
+            ],
+            "cell_n": {
+              "HuggingFaceTB/SmolLM2-1.7B-Instruct|control": 1,
+              "Qwen/Qwen2.5-3B-Instruct|control": 1,
+              "microsoft/Phi-3.5-mini-instruct|control": 1,
+              "HuggingFaceTB/SmolLM2-1.7B-Instruct|prompt_id": 2,
+              "Qwen/Qwen2.5-7B-Instruct|quantization": 1,
+              "Qwen/Qwen2.5-3B-Instruct|prompt_id": 2,
+              "microsoft/Phi-3.5-mini-instruct|prompt_id": 2,
+              "HuggingFaceTB/SmolLM2-1.7B-Instruct|quantization": 2,
+              "HuggingFaceTB/SmolLM2-1.7B-Instruct|backend": 1,
+              "Qwen/Qwen2.5-3B-Instruct|backend": 1,
+              "HuggingFaceTB/SmolLM2-1.7B-Instruct|seed": 2,
+              "microsoft/Phi-3.5-mini-instruct|backend": 1,
+              "Qwen/Qwen2.5-3B-Instruct|seed": 2,
+              "Qwen/Qwen2.5-3B-Instruct|quantization": 2,
+              "microsoft/Phi-3.5-mini-instruct|seed": 2,
+              "microsoft/Phi-3.5-mini-instruct|quantization": 2,
+              "HuggingFaceTB/SmolLM2-1.7B-Instruct|sampled": 3,
+              "Qwen/Qwen2.5-3B-Instruct|sampled": 3
+            },
+            "complete": false,
+            "balanced": false,
+            "n_missing_cells": 6,
+            "missing_cells": [
+              "Qwen/Qwen2.5-7B-Instruct|backend",
+              "Qwen/Qwen2.5-7B-Instruct|control",
+              "Qwen/Qwen2.5-7B-Instruct|prompt_id",
+              "Qwen/Qwen2.5-7B-Instruct|sampled",
+              "Qwen/Qwen2.5-7B-Instruct|seed",
+              "microsoft/Phi-3.5-mini-instruct|sampled"
+            ],
+            "min_reps": 1,
+            "max_reps": 3
+          },
+          "decomposition": {
+            "factor_a": "model_id",
+            "factor_b": "factor",
+            "status": "UNAVAILABLE",
+            "reason": "ANOVA requires a complete, balanced design; rerun as a balanced factorial (see interaction.interaction_design)",
+            "diagnostics": {
+              "factor_a": "model_id",
+              "factor_b": "factor",
+              "a_levels": [
+                "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+                "Qwen/Qwen2.5-3B-Instruct",
+                "Qwen/Qwen2.5-7B-Instruct",
+                "microsoft/Phi-3.5-mini-instruct"
+              ],
+              "b_levels": [
+                "backend",
+                "control",
+                "prompt_id",
+                "quantization",
+                "sampled",
+                "seed"
+              ],
+              "cell_n": {
+                "HuggingFaceTB/SmolLM2-1.7B-Instruct|control": 1,
+                "Qwen/Qwen2.5-3B-Instruct|control": 1,
+                "microsoft/Phi-3.5-mini-instruct|control": 1,
+                "HuggingFaceTB/SmolLM2-1.7B-Instruct|prompt_id": 2,
+                "Qwen/Qwen2.5-7B-Instruct|quantization": 1,
+                "Qwen/Qwen2.5-3B-Instruct|prompt_id": 2,
+                "microsoft/Phi-3.5-mini-instruct|prompt_id": 2,
+                "HuggingFaceTB/SmolLM2-1.7B-Instruct|quantization": 2,
+                "HuggingFaceTB/SmolLM2-1.7B-Instruct|backend": 1,
+                "Qwen/Qwen2.5-3B-Instruct|backend": 1,
+                "HuggingFaceTB/SmolLM2-1.7B-Instruct|seed": 2,
+                "microsoft/Phi-3.5-mini-instruct|backend": 1,
+                "Qwen/Qwen2.5-3B-Instruct|seed": 2,
+                "Qwen/Qwen2.5-3B-Instruct|quantization": 2,
+                "microsoft/Phi-3.5-mini-instruct|seed": 2,
+                "microsoft/Phi-3.5-mini-instruct|quantization": 2,
+                "HuggingFaceTB/SmolLM2-1.7B-Instruct|sampled": 3,
+                "Qwen/Qwen2.5-3B-Instruct|sampled": 3
+              },
+              "complete": false,
+              "balanced": false,
+              "n_missing_cells": 6,
+              "missing_cells": [
+                "Qwen/Qwen2.5-7B-Instruct|backend",
+                "Qwen/Qwen2.5-7B-Instruct|control",
+                "Qwen/Qwen2.5-7B-Instruct|prompt_id",
+                "Qwen/Qwen2.5-7B-Instruct|sampled",
+                "Qwen/Qwen2.5-7B-Instruct|seed",
+                "microsoft/Phi-3.5-mini-instruct|sampled"
+              ],
+              "min_reps": 1,
+              "max_reps": 3
+            }
+          }
+        }
+      },
+      "two_way_candidates": [
+        {
+          "pair": "model_id\u00d7factor",
+          "status": "ATTEMPTED",
+          "reason": "no two factors are varied together in an OFAT design, so the (a,b) cells cannot form a complete balanced design"
+        },
+        {
+          "pair": "model_id\u00d7prompt_id",
+          "status": "SKIPPED",
+          "reason": "'prompt_id' is not a column in the registry rows"
+        }
+      ]
+    },
+    "leave_one_model_out": {
+      "provenance": "DERIVED; hidden model excluded from all fitting",
+      "n_models": 3,
+      "n_configs": 11,
+      "models": [
+        "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+        "Qwen/Qwen2.5-3B-Instruct",
+        "microsoft/Phi-3.5-mini-instruct"
+      ],
+      "budgets_requested": [
+        2,
+        4,
+        6,
+        8
+      ],
+      "budgets_dropped": [],
+      "sweep": {
+        "budgets": {
+          "2": {
+            "experiment_type": "leave_one_model_out",
+            "budget": 2,
+            "seed": 14,
+            "hidden_model_index": 0,
+            "n_visible_models": 2,
+            "split": {
+              "n_total": 11,
+              "n_train": 2,
+              "n_heldout": 9,
+              "method": "deterministic seeded shuffle; partition stored, not recomputed"
+            },
+            "in_distribution_visible": {
+              "pairwise_decision_accuracy": 1.0,
+              "reliability_estimation_error_mae": 0.166667,
+              "n_decidable_pairs": 2
+            },
+            "out_of_distribution_hidden": {
+              "stability": {
+                "std_all_configs": 0.049743,
+                "std_holdout_configs": 0.051752,
+                "spread_all_configs": 0.1875,
+                "n_holdout_configs": 9
+              },
+              "pair_flip_rates": [
+                {
+                  "visible_model_index": 1,
+                  "hidden_wins_fraction": 0.0,
+                  "tie_fraction": 0.0,
+                  "n_configs": 9
+                },
+                {
+                  "visible_model_index": 2,
+                  "hidden_wins_fraction": 0.0,
+                  "tie_fraction": 0.0,
+                  "n_configs": 6
+                }
+              ],
+              "label": "OOD targets reported, not predicted (no cross-model estimator fitted)"
+            },
+            "power_note": "low-power probe with few models; descriptive only",
+            "provenance": "hidden model excluded from all fitting"
+          },
+          "4": {
+            "experiment_type": "leave_one_model_out",
+            "budget": 4,
+            "seed": 28,
+            "hidden_model_index": 0,
+            "n_visible_models": 2,
+            "split": {
+              "n_total": 11,
+              "n_train": 4,
+              "n_heldout": 7,
+              "method": "deterministic seeded shuffle; partition stored, not recomputed"
+            },
+            "in_distribution_visible": {
+              "pairwise_decision_accuracy": 1.0,
+              "reliability_estimation_error_mae": 0.2,
+              "n_decidable_pairs": 2
+            },
+            "out_of_distribution_hidden": {
+              "stability": {
+                "std_all_configs": 0.049743,
+                "std_holdout_configs": 0.055662,
+                "spread_all_configs": 0.1875,
+                "n_holdout_configs": 7
+              },
+              "pair_flip_rates": [
+                {
+                  "visible_model_index": 1,
+                  "hidden_wins_fraction": 0.0,
+                  "tie_fraction": 0.0,
+                  "n_configs": 7
+                },
+                {
+                  "visible_model_index": 2,
+                  "hidden_wins_fraction": 0.0,
+                  "tie_fraction": 0.0,
+                  "n_configs": 5
+                }
+              ],
+              "label": "OOD targets reported, not predicted (no cross-model estimator fitted)"
+            },
+            "power_note": "low-power probe with few models; descriptive only",
+            "provenance": "hidden model excluded from all fitting"
+          },
+          "6": {
+            "experiment_type": "leave_one_model_out",
+            "budget": 6,
+            "seed": 42,
+            "hidden_model_index": 2,
+            "n_visible_models": 2,
+            "split": {
+              "n_total": 11,
+              "n_train": 6,
+              "n_heldout": 5,
+              "method": "deterministic seeded shuffle; partition stored, not recomputed"
+            },
+            "in_distribution_visible": {
+              "pairwise_decision_accuracy": 1.0,
+              "reliability_estimation_error_mae": 0.0,
+              "n_decidable_pairs": 2
+            },
+            "out_of_distribution_hidden": {
+              "stability": {
+                "std_all_configs": 0.044348,
+                "std_holdout_configs": 0.011361,
+                "spread_all_configs": 0.135,
+                "n_holdout_configs": 5
+              },
+              "pair_flip_rates": [
+                {
+                  "visible_model_index": 0,
+                  "hidden_wins_fraction": 1.0,
+                  "tie_fraction": 0.0,
+                  "n_configs": 5
+                },
+                {
+                  "visible_model_index": 1,
+                  "hidden_wins_fraction": 1.0,
+                  "tie_fraction": 0.0,
+                  "n_configs": 5
+                }
+              ],
+              "label": "OOD targets reported, not predicted (no cross-model estimator fitted)"
+            },
+            "power_note": "low-power probe with few models; descriptive only",
+            "provenance": "hidden model excluded from all fitting"
+          },
+          "8": {
+            "experiment_type": "leave_one_model_out",
+            "budget": 8,
+            "seed": 56,
+            "hidden_model_index": 2,
+            "n_visible_models": 2,
+            "split": {
+              "n_total": 11,
+              "n_train": 8,
+              "n_heldout": 3,
+              "method": "deterministic seeded shuffle; partition stored, not recomputed"
+            },
+            "in_distribution_visible": {
+              "pairwise_decision_accuracy": 1.0,
+              "reliability_estimation_error_mae": 0.0,
+              "n_decidable_pairs": 2
+            },
+            "out_of_distribution_hidden": {
+              "stability": {
+                "std_all_configs": 0.044348,
+                "std_holdout_configs": null,
+                "spread_all_configs": 0.135,
+                "n_holdout_configs": 1
+              },
+              "pair_flip_rates": [
+                {
+                  "visible_model_index": 0,
+                  "hidden_wins_fraction": 1.0,
+                  "tie_fraction": 0.0,
+                  "n_configs": 1
+                },
+                {
+                  "visible_model_index": 1,
+                  "hidden_wins_fraction": 1.0,
+                  "tie_fraction": 0.0,
+                  "n_configs": 1
+                }
+              ],
+              "label": "OOD targets reported, not predicted (no cross-model estimator fitted)"
+            },
+            "power_note": "low-power probe with few models; descriptive only",
+            "provenance": "hidden model excluded from all fitting"
+          }
+        },
+        "base_seed": 0,
+        "note": "each budget uses a deterministic derived seed"
+      },
+      "power": "low-power probe; three models meet the minimum of three"
+    }
+  }
+}

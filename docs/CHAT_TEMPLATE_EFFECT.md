@@ -1,7 +1,9 @@
 # The chat template: what it costs, already measured
 
-**Status:** DERIVED from committed artifacts. **No new measurement** — every number below is
-transcribed from two JSON files already in this repository, with the source cited.
+**Status:** DERIVED from committed artifacts. **No new measurement** — the aggregate table
+is transcribed from two JSON files already in this repository, and the item-level table is
+produced by [`scripts/analyse_existing_evidence.py`](../scripts/analyse_existing_evidence.py)
+from those same files' per-item records. Sources are cited throughout.
 
 **Why this document exists.** Four of the seven curated models score exactly `0.0000` on the
 38-item core suite. The cause is a prompt-protocol defect: the `local_transformers` adapter
@@ -45,17 +47,37 @@ Removing the chat template costs **5 of 28 items, −17.9 percentage points** ov
 reproduces the `71.4% → 53.6%` pair already quoted in the abstract, read straight out of the
 committed files.
 
-**The effect is not uniform, and that is the interesting part.** The template changes nothing
-on `template_canary` (3/4 both) and nothing on `gsm8k` (2/8 both). The entire loss is on
-`arc_easy` (−3) and `multilingual` (−2) — short-instruction, single-token-answer tasks. So the
-defensible claim is not "apply the chat template" but:
+## Item-level evidence
 
-> The benefit of a chat template is task-dependent. It is concentrated on short
-> single-token-answer tasks and is **not** measurable on multi-step reasoning, where both
-> protocols scored 2/8.
+The aggregate table hides the most informative part. Joining the per-item `correct` flags
+of both runs (`scripts/analyse_existing_evidence.py`, output committed under
+`reports/existing_evidence/`) gives 28 shared items, 0 unmatched, and **7 discordant items**:
 
-That is a narrower and more testable claim than a blanket recommendation, and it is the kind
-of statement a reviewer will probe rather than accept.
+| task | n | templated only | none only | both right | both wrong | net |
+|---|---:|---:|---:|---:|---:|---:|
+| `arc_easy` | 8 | **3** | 0 | 5 | 0 | +3 |
+| `gsm8k` | 8 | **0** | 0 | 2 | 6 | 0 |
+| `multilingual` | 8 | **2** | 0 | 5 | 1 | +2 |
+| `template_canary` | 4 | 1 | **1** | 2 | 0 | 0 |
+| **total** | **28** | **6** | **1** | 14 | 7 | **+5** |
+
+**Exact sign test on the discordant pairs: p = 0.125** (6 versus 1 of 7 discordant items).
+
+Three things follow, and the third is the reason this is not a bigger result than it looks:
+
+1. **`gsm8k` has zero discordant items.** Not "the template did not help enough" — it changed
+   *nothing* on multi-step reasoning. Both protocols scored 2/8.
+2. **`template_canary` churned in both directions**, one item each way, netting zero. The
+   template was not silently *correct* there; it was not silently *worse* either. That is
+   noise on four items, and it should not be read as evidence in either direction.
+3. **p = 0.125 is not significant at 0.05.** With seven discordant items on a 28-item canary,
+   the 5-item advantage is **directional evidence, not a precise magnitude**. The honest
+   statement is that the effect is concentrated in short single-token-answer tasks and is
+   absent on multi-step reasoning — not that the template is worth 17.9 points.
+
+The whole net effect is `arc_easy` (+3) and `multilingual` (+2). Neither is a reasoning
+result: both are short-prompt, single-token-answer tasks where the failure mode is the model
+continuing the passage instead of replying.
 
 ## What this does and does not license
 
@@ -75,23 +97,24 @@ carry both halves of that sentence.
 this is not a story about reasoning ability. It is a story about output format, which is
 exactly the artefact documented in the curated results.
 
-## Pending analyses
+## The other two analyses
 
-Three follow-ups are **not** in this document because they have not been run. They are
-implemented in [`scripts/analyse_existing_evidence.py`](../scripts/analyse_existing_evidence.py),
-which is **written but not executed**; nothing it produces may be quoted until it has run and
-its output has been read.
+Both ran; both results are in `reports/existing_evidence/analysis.md`.
 
-1. **Paired item-level discordance** — which five items flipped, and whether the flips
-   concentrate in `arc_easy` and `multilingual` as the aggregate table suggests. The per-item
-   `correct` flags exist in both files; the script joins them by item id and applies an exact
-   sign test to the discordant pairs.
-2. **Factorial interaction decomposition** — the design is OFAT, so most factor pairs are
-   expected to return `UNAVAILABLE` rather than a number. That is the honest result and
-   would convert an admitted limitation into a measured one.
-3. **Leave-one-model-out generalization** — hides one model and asks whether reliability
-   estimated from the visible models describes the hidden one. Three models meet the minimum;
-   the result is a low-power probe and must be labelled as such.
+**Factorial interaction decomposition: UNAVAILABLE, and that is the result.** The only
+crossed design the registry can express is `model_id × factor`, and it is neither complete
+nor balanced, because an OFAT design never varies two factors together within a model. The
+decomposition returns `UNAVAILABLE` with that reason rather than forcing an ANOVA. The
+`paper/case_limits.tex` limitation — *"OFAT design cannot detect factor interactions"* — is
+now a **measured** limitation rather than an admitted one. Detecting it would require a
+balanced factorial run, which does not exist in this repository.
+
+**Leave-one-model-out: reported, low power.** With three models each fold leaves one visible
+pair, and in-distribution pairwise decision accuracy is 1.000 at every budget tested. The
+hidden model's configuration sensitivity is 0.044–0.050 (std of its accuracy across the 11
+configurations). With one pair per fold this is **one comparison per fold**: it is a probe
+that the pairwise ordering survives hiding a model, not evidence of generalization, and it is
+labelled as such in the output.
 
 ## Reproducing the numbers in this document
 

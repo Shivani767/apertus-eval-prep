@@ -175,10 +175,26 @@ def factorial_screen(rows: list[dict[str, Any]], *, n_boot: int, seed: int) -> d
         "n_scored_rows": len(rows),
         "one_way": decompose_variance(rows, factors),
         "two_way": {},
+        "two_way_candidates": [],
     }
-    for a, b in (("model_id", "factor"), ("model_id", "prompt_id"), ("factor", "factor_level")):
+    # Only crossed designs are candidates. (model_id, factor) is the only pair
+    # the registry can express: a model is measured at each factor level it
+    # supports, but no two factors are ever varied together within a model, so
+    # this is incomplete and the decomposition is expected to be UNAVAILABLE.
+    # "prompt_id" is a *value* of `factor`, not a column, so that candidate is
+    # skipped rather than silently producing something meaningless.
+    for a, b in (("model_id", "factor"), ("model_id", "prompt_id")):
         if a not in keys or b not in keys:
+            out["two_way_candidates"].append(
+                {"pair": f"{a}×{b}", "status": "SKIPPED",
+                 "reason": f"{b!r} is not a column in the registry rows"}
+            )
             continue
+        out["two_way_candidates"].append(
+            {"pair": f"{a}×{b}", "status": "ATTEMPTED",
+             "reason": "no two factors are varied together in an OFAT design, so "
+                       "the (a,b) cells cannot form a complete balanced design"}
+        )
         out["two_way"][f"{a}×{b}"] = {
             "diagnostics": factorial_diagnostics(rows, a, b),
             "decomposition": factorial_variance_decomposition(rows, a, b, n_boot=n_boot, seed=seed),
