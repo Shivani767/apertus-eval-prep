@@ -24,7 +24,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable, Sequence
+from typing import Any, Iterable, Mapping, Sequence
 
 PERTURBATION_FAMILIES = (
     "paraphrase",
@@ -226,6 +226,141 @@ def to_jsonl(rows: Sequence[Perturbation], path: str | Path) -> int:
         for row in out:
             fh.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
     return len(out)
+METAMORPHIC_DISCLAIMER = (
+    "Metamorphic relations describe agreement between an original item and a "
+    "transformed one. A satisfied relation is NOT evidence that the two inputs "
+    "are semantically equivalent: that would need a separate equivalence check. "
+    "These are engineering diagnostics and are not production approval."
+)
+
+#: Declared expected relation per perturbation family. These are DESIGNED
+#: assumptions recorded before any run, never outcomes read back afterwards.
+EXPECTED_RELATION_BY_FAMILY: dict[str, str] = {
+    "formatting": "invariant",
+    "instruction_prefix": "invariant",
+    "suffix_answer_request": "invariant",
+    "paraphrase": "invariant",
+}
+
+#: Why a pair did not hold. Kept apart from "the model failed", because a
+#: missing observation is not a violation and must never be counted as one.
+FAILURE_CATEGORIES: tuple[str, ...] = (
+    "relation_held",
+    "relation_violated",
+    "insufficient_observation",
+)
+
+
+def _classify_pair(pair: Mapping[str, Any]) -> dict[str, Any]:
+    """Classify one original/transformed observation against its declared relation."""
+    family = str(pair.get("family") or "")
+    expected = str(
+        pair.get("expected_relation") or EXPECTED_RELATION_BY_FAMILY.get(family) or "invariant"
+    )
+    original = pair.get("original_correct")
+    transformed = pair.get("transformed_correct")
+    if original is None or transformed is None:
+        observed, holds, category = "missing", None, "insufficient_observation"
+    else:
+        observed = "invariant" if bool(original) == bool(transformed) else "variant"
+        holds = observed == expected
+        category = "relation_held" if holds else "relation_violated"
+    return {
+        "perturbation_id": pair.get("perturbation_id"),
+        "source_item_id": pair.get("source_item_id"),
+        "family": family,
+        "model": pair.get("model"),
+        "language": pair.get("language"),
+        "expected_relation": expected,
+        "observed_relation": observed,
+        "relation_holds": holds,
+        "failure_category": category,
+    }
+
+
+def relation_report(
+    pairs: Sequence[Mapping[str, Any]],
+    *,
+    evidence: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Compare declared expected relations against observed ones.
+
+    Each pair is a joined observation of the *same* item before and after a
+    declared transformation::
+
+        {"perturbation_id": "...", "source_item_id": "...",
+         "family": "paraphrase", "model": "...", "language": "en",
+         "original_correct": true, "transformed_correct": false}
+
+    A pair missing either observation is ``insufficient_observation``, never a
+    violation: an unmeasured input cannot violate a relation. Model-specific and
+    language-specific breakdowns are reported separately so one weak model is
+    not hidden inside an aggregate.
+    """
+    from collections import Counter, defaultdict
+
+    from apertus_eval_prep.core.evidence import normalize_evidence
+
+    rows = [_classify_pair(pair) for pair in pairs]
+    measured = [r for r in rows if r["observed_relation"] != "missing"]
+    by_category = Counter(r["failure_category"] for r in rows)
+
+    def _table(key_fn):
+        table: dict[str, dict[str, int]] = defaultdict(
+            lambda: {"n_measured": 0, "n_violated": 0})
+        for row in measured:
+            bucket = table[str(key_fn(row) or "unknown")]
+            bucket["n_measured"] += 1
+            if row["failure_category"] == "relation_violated":
+                bucket["n_violated"] += 1
+        return {
+            key: {
+                "n_measured": value["n_measured"],
+                "n_violated": value["n_violated"],
+                "consistency": (
+                    round((value["n_measured"] - value["n_violated"]) / value["n_measured"], 6)
+                    if value["n_measured"] else None
+                ),
+            }
+            for key, value in sorted(table.items())
+        }
+
+    return {
+        "metric": "metamorphic_relation_report",
+        "schema_version": "1.0",
+        "status": "ok" if measured else "insufficient_design",
+        "n_pairs": len(rows),
+        "n_measured": len(measured),
+        "n_missing": by_category.get("insufficient_observation", 0),
+        "metamorphic_consistency": (
+            round(by_category.get("relation_held", 0) / len(measured), 6) if measured else None
+        ),
+        "failure_categories": {
+            category: by_category.get(category, 0) for category in FAILURE_CATEGORIES
+        },
+        "by_model": _table(lambda r: r["model"]),
+        "by_family": _table(lambda r: r["family"]),
+        "by_language": _table(lambda r: r["language"]),
+        "expected_relations": dict(EXPECTED_RELATION_BY_FAMILY),
+        "definitions": {
+            "expected_relation": "declared before the run, from the perturbation family",
+            "observed_relation": "invariant when original and transformed agree, variant otherwise",
+            "metamorphic_consistency": "relation_held / measured pairs",
+        },
+        "limits": [
+            "A held relation is not evidence of semantic equivalence; the "
+            "transformations are designed inert, which is an assumption.",
+            "A pair missing either observation is insufficient_observation, "
+            "never a violation.",
+            "Per-model and per-language rates need enough pairs per cell before "
+            "they mean anything; no minimum sample is enforced here.",
+        ],
+        "disclaimer": METAMORPHIC_DISCLAIMER,
+        "evidence": normalize_evidence(evidence),
+        "pairs": rows,
+    }
+
+
 def observed_summary(rows: Sequence[dict[str, Any]]) -> dict[str, Any]:
     """Summarize EvalFrag rows that HAVE observed correctness from real runs.
 
@@ -251,3 +386,16 @@ def observed_summary(rows: Sequence[dict[str, Any]]) -> dict[str, Any]:
             "n_evidence": len(evidence),
             "invariant_rate": round(correct / len(evidence), 4),
             "by_family": by_family}
+
+__all__ = [
+    "EXPECTED_RELATION_BY_FAMILY",
+    "FAILURE_CATEGORIES",
+    "METAMORPHIC_DISCLAIMER",
+    "PERTURBATION_FAMILIES",
+    "Perturbation",
+    "observed_summary",
+    "relation_report",
+    "to_jsonl",
+    "transform_family",
+    "validate_preservation",
+]

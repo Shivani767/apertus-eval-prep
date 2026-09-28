@@ -19,6 +19,7 @@ from apertus_eval_prep.judge import (
     judge_reliability_analysis,
     validate_judge_records,
 )
+from apertus_eval_prep.metamorphic import EXPECTED_RELATION_BY_FAMILY, relation_report
 
 
 def _rec(item, candidate="a", verdict="correct", *, position=None,
@@ -164,6 +165,78 @@ class TestArtifact:
         records = [_rec(1, position="A"), _rec(1, position="B", verdict="incorrect")]
         first = judge_reliability_analysis(records)
         second = judge_reliability_analysis(records)
+        assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
+        assert json.loads(json.dumps(first)) == first
+
+
+class TestMetamorphicRelations:
+    def _pair(self, pid, *, original, transformed, family="paraphrase",
+              model="m1", language="en"):
+        return {
+            "perturbation_id": pid, "source_item_id": f"s{pid}", "family": family,
+            "model": model, "language": language,
+            "original_correct": original, "transformed_correct": transformed,
+        }
+
+    def test_held_and_violated_relations_are_separated(self):
+        report = relation_report([
+            self._pair("p1", original=True, transformed=True),
+            self._pair("p2", original=True, transformed=False),
+        ])
+        assert report["failure_categories"]["relation_held"] == 1
+        assert report["failure_categories"]["relation_violated"] == 1
+        assert report["metamorphic_consistency"] == 0.5
+
+    def test_missing_observation_is_never_a_violation(self):
+        # An unmeasured input cannot violate a relation; counting it as one
+        # would turn missing data into a model failure.
+        report = relation_report([
+            self._pair("p1", original=True, transformed=True),
+            self._pair("p2", original=True, transformed=None),
+        ])
+        assert report["failure_categories"]["insufficient_observation"] == 1
+        assert report["failure_categories"]["relation_violated"] == 0
+        assert report["n_measured"] == 1
+        assert report["metamorphic_consistency"] == 1.0
+
+    def test_expected_relation_is_declared_not_inferred(self):
+        assert all(rel == "invariant" for rel in EXPECTED_RELATION_BY_FAMILY.values())
+        report = relation_report([self._pair("p1", original=True, transformed=True)])
+        assert report["pairs"][0]["expected_relation"] == "invariant"
+        assert report["expected_relations"]["paraphrase"] == "invariant"
+
+    def test_explicit_expected_relation_is_respected(self):
+        pair = self._pair("p1", original=True, transformed=False) | {
+            "expected_relation": "variant"}
+        report = relation_report([pair])
+        assert report["pairs"][0]["relation_holds"] is True
+        assert report["failure_categories"]["relation_held"] == 1
+
+    def test_model_and_language_breakdowns_are_separate(self):
+        report = relation_report([
+            self._pair("p1", original=True, transformed=True, model="m1", language="en"),
+            self._pair("p2", original=True, transformed=False, model="m1", language="en"),
+            self._pair("p3", original=True, transformed=False, model="m2", language="hi"),
+        ])
+        assert report["by_model"]["m1"]["consistency"] == 0.5
+        assert report["by_model"]["m2"]["consistency"] == 0.0
+        assert report["by_language"]["en"]["consistency"] == 0.5
+        assert report["by_language"]["hi"]["consistency"] == 0.0
+
+    def test_no_measured_pairs_reports_insufficient_design(self):
+        report = relation_report([self._pair("p1", original=None, transformed=None)])
+        assert report["status"] == "insufficient_design"
+        assert report["metamorphic_consistency"] is None
+
+    def test_semantic_equivalence_is_not_claimed(self):
+        report = relation_report([self._pair("p1", original=True, transformed=True)])
+        assert any("not evidence of semantic equivalence" in lim for lim in report["limits"])
+        assert "semantically equivalent" in report["disclaimer"]
+        assert "NOT evidence" in report["disclaimer"]
+
+    def test_report_is_deterministic_and_json_safe(self):
+        pairs = [self._pair("p1", original=True, transformed=False)]
+        first, second = relation_report(pairs), relation_report(pairs)
         assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
         assert json.loads(json.dumps(first)) == first
 
