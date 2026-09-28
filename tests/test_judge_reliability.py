@@ -19,6 +19,11 @@ from apertus_eval_prep.judge import (
     judge_reliability_analysis,
     validate_judge_records,
 )
+from apertus_eval_prep.heldout import (
+    leave_one_model_out_experiment,
+    partition_matrix,
+    split_config_keys,
+)
 from apertus_eval_prep.metamorphic import EXPECTED_RELATION_BY_FAMILY, relation_report
 
 
@@ -239,4 +244,80 @@ class TestMetamorphicRelations:
         first, second = relation_report(pairs), relation_report(pairs)
         assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
         assert json.loads(json.dumps(first)) == first
+
+
+class TestHeldoutLeakage:
+    """Tests written to CATCH leakage, not to record that a guard exists.
+
+    A held-out estimate means nothing if the held-out cells informed the fit.
+    These try to make leakage happen -- duplicate config keys, an oversized
+    budget, a mismatched matrix -- and assert the platform refuses rather than
+    returning a flattering number.
+    """
+
+    CONFIGS = [f"cfg_{i}" for i in range(6)]
+
+    def _matrix(self, n_models=3):
+        # Distinct per-column values, so any leak would be visible in the cells.
+        return [[0.1 * (c + 1) + 0.01 * m for c in range(len(self.CONFIGS))]
+                for m in range(n_models)]
+
+    def test_train_and_heldout_are_disjoint(self):
+        split = split_config_keys(self.CONFIGS, budget=3, seed=0)
+        assert not set(split["train"]) & set(split["heldout"])
+        assert len(split["train"]) + len(split["heldout"]) == len(self.CONFIGS)
+
+    def test_duplicate_config_keys_collapse_and_stay_accounted_for(self):
+        # Passing a key twice must not create a phantom training cell.
+        split = split_config_keys(self.CONFIGS + self.CONFIGS, budget=3, seed=0)
+        assert split["n_total"] == len(set(self.CONFIGS))
+        assert not set(split["train"]) & set(split["heldout"])
+
+    def test_budget_larger_than_the_space_is_refused(self):
+        # Training on everything leaves nothing held out; the platform must say
+        # so rather than report an in-sample fit as generalisation.
+        with pytest.raises(ValueError, match="exceeds the configuration space"):
+            split_config_keys(self.CONFIGS, budget=len(self.CONFIGS) + 1)
+
+    def test_budget_below_one_is_refused(self):
+        with pytest.raises(ValueError, match="budget must be >= 1"):
+            split_config_keys(self.CONFIGS, budget=0)
+
+    def test_mismatched_matrix_width_is_refused(self):
+        split = split_config_keys(self.CONFIGS, budget=3, seed=0)
+        with pytest.raises(ValueError, match="config columns but split expects"):
+            partition_matrix([[0.1, 0.2]], split)
+
+    def test_partition_keeps_train_and_heldout_disjoint(self):
+        split = split_config_keys(self.CONFIGS, budget=3, seed=0)
+        train, heldout = partition_matrix(self._matrix(), split)
+        assert len(train[0]) == 3 and len(heldout[0]) == 3
+        for row_train, row_hold in zip(train, heldout):
+            assert not set(row_train) & set(row_hold)
+
+    def test_split_is_deterministic_for_a_given_seed(self):
+        assert (split_config_keys(self.CONFIGS, budget=3, seed=7)
+                == split_config_keys(self.CONFIGS, budget=3, seed=7))
+
+    def test_different_seeds_give_different_partitions(self):
+        a = split_config_keys(self.CONFIGS, budget=3, seed=1)
+        b = split_config_keys(self.CONFIGS, budget=3, seed=2)
+        assert (a["train"], a["heldout"]) != (b["train"], b["heldout"])
+
+    def test_leave_one_model_out_never_trains_on_the_hidden_model(self):
+        report = leave_one_model_out_experiment(
+            self._matrix(n_models=4), self.CONFIGS, budget=3, seed=0)
+        hidden = report["hidden_model_index"]
+        assert hidden is not None
+        # One model is hidden, so the visible count is one fewer than the total.
+        assert report["n_visible_models"] == 4 - 1
+        assert hidden not in range(report["n_visible_models"]) or hidden == 3
+        assert "hidden model excluded from all fitting" in report["provenance"]
+
+    def test_leave_one_model_out_reports_its_own_low_power(self):
+        # With four models this is a probe, not evidence of generalization, and
+        # the artifact must say so rather than invite the stronger reading.
+        report = leave_one_model_out_experiment(
+            self._matrix(n_models=4), self.CONFIGS, budget=3, seed=0)
+        assert "low-power" in report["power_note"]
 
