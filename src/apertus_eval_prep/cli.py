@@ -701,7 +701,14 @@ def cmd_agent_regression(args: argparse.Namespace) -> int:
     from apertus_eval_prep.agent_reliability import compare_agent_runs, evaluate_regression_policy
     from apertus_eval_prep.utils.serialization import read_json, write_json
 
-    def _system(path: str) -> dict:
+    def _system(path: str) -> tuple[dict, str | None]:
+        """Return the run's system metrics and its dataset signature, if recorded.
+
+        The signature combines the dataset file hash AND the example count. The
+        hash alone is insufficient: two runs reading the same file but different
+        subsets (``task.limit``) share a hash and would pass a hash-only check
+        while being measured on different episodes.
+        """
         candidate_path = Path(path) / "metrics.json"
         target = candidate_path if candidate_path.exists() else Path(path)
         if not target.exists():
@@ -709,11 +716,23 @@ def cmd_agent_regression(args: argparse.Namespace) -> int:
         payload = read_json(target)
         if not isinstance(payload, dict):
             raise ValueError(f"{target}: expected a metrics object")
-        return dict(payload.get("system") or {})
+        lock = target.parent / "dataset.lock.json"
+        signature = None
+        if lock.exists():
+            lock_payload = read_json(lock)
+            if isinstance(lock_payload, dict):
+                dataset_id = lock_payload.get("id") or lock_payload.get("hash")
+                n_examples = lock_payload.get("n_examples")
+                if dataset_id:
+                    signature = f"{dataset_id}:{n_examples}"
+        return dict(payload.get("system") or {}), signature
 
+    base_system, base_dataset = _system(args.baseline)
+    cand_system, cand_dataset = _system(args.candidate)
     comparison = compare_agent_runs(
-        _system(args.baseline), _system(args.candidate),
+        base_system, cand_system,
         baseline_id=str(args.baseline), candidate_id=str(args.candidate),
+        baseline_dataset_id=base_dataset, candidate_dataset_id=cand_dataset,
     )
     result: dict = {"comparison": comparison, "gate": None}
     if args.policy:
@@ -729,6 +748,8 @@ def cmd_agent_regression(args: argparse.Namespace) -> int:
         write_json(args.out, result)
     gate = result.get("gate") or {}
     print(_json.dumps({
+        "comparable": comparison.get("comparable"),
+        "comparability_reason": comparison.get("comparability_reason"),
         "regressions": comparison["regressions"],
         "improvements": comparison["improvements"],
         "not_comparable": comparison["not_comparable"],

@@ -266,6 +266,8 @@ def compare_agent_runs(
     *,
     baseline_id: str = "baseline",
     candidate_id: str = "candidate",
+    baseline_dataset_id: str | None = None,
+    candidate_dataset_id: str | None = None,
 ) -> dict[str, Any]:
     """Compare a candidate agent run against a baseline, per named metric.
 
@@ -273,7 +275,25 @@ def compare_agent_runs(
     decrease is an improvement, so ``improved``/``regressed`` are decided
     against the metric's own direction rather than the sign of the raw delta. A
     metric missing from either side is ``not_comparable``, never a delta of zero.
+
+    **Scenario-set comparability.** When both runs report a dataset id, the two
+    must agree. Two runs over different episode sets are not a regression test:
+    a candidate evaluated on a smaller or different suite can look better purely
+    because of what it was measured on. A mismatch sets ``comparable: false`` and
+    every metric to ``not_comparable``, so a confident delta can never be
+    reported across suites that were never the same suite.
     """
+    comparable, mismatch_reason = True, None
+    if baseline_dataset_id and candidate_dataset_id:
+        if str(baseline_dataset_id) != str(candidate_dataset_id):
+            comparable = False
+            mismatch_reason = (
+                f"the two runs were evaluated on different episode sets "
+                f"(baseline {baseline_dataset_id!r} vs candidate "
+                f"{candidate_dataset_id!r}); a delta between them is not a "
+                f"regression measurement"
+            )
+
     base = agent_metrics(baseline)
     cand = agent_metrics(candidate)
     metrics: dict[str, Any] = {}
@@ -284,6 +304,17 @@ def compare_agent_runs(
     for name in AGENT_METRICS:
         base_value, cand_value = _number(base.get(name)), _number(cand.get(name))
         direction = "lower_is_better" if name in LOWER_IS_BETTER else "higher_is_better"
+        if not comparable:
+            metrics[name] = {
+                "baseline": base_value,
+                "candidate": cand_value,
+                "delta": None,
+                "direction": direction,
+                "status": "not_comparable",
+                "reason": mismatch_reason,
+            }
+            not_comparable.append(name)
+            continue
         if base_value is None or cand_value is None:
             metrics[name] = {
                 "baseline": base_value,
@@ -316,6 +347,10 @@ def compare_agent_runs(
         "schema_version": AGENT_SCHEMA_VERSION,
         "baseline": baseline_id,
         "candidate": candidate_id,
+        "comparable": comparable,
+        "comparability_reason": mismatch_reason,
+        "baseline_dataset_id": baseline_dataset_id,
+        "candidate_dataset_id": candidate_dataset_id,
         "metrics": metrics,
         "regressions": regressions,
         "improvements": improvements,

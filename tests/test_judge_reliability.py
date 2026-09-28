@@ -19,6 +19,7 @@ from apertus_eval_prep.judge import (
     judge_reliability_analysis,
     validate_judge_records,
 )
+from apertus_eval_prep.agent_reliability import compare_agent_runs
 from apertus_eval_prep.deployment_decision import (
     DECISION_OBJECTIVES,
     DeploymentPolicyError,
@@ -493,4 +494,62 @@ class TestDeploymentDecision:
         first = analyse_deployment_decision(self.POINTS, constraints=self.CONSTRAINTS)
         second = analyse_deployment_decision(self.POINTS, constraints=self.CONSTRAINTS)
         assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
+
+
+class TestScenarioSetComparability:
+    """A delta between different episode sets is not a regression measurement.
+
+    The candidate in the mismatch fixture scores 1.00 against the baseline's
+    0.90 -- a real-looking ten-point "improvement" that would be reported with
+    total confidence if the two runs had been measured on different episodes.
+    The comparison must refuse instead.
+    """
+
+    BASE = {"episode_count": 5, "task_completion_rate": 0.90, "tool_sequence_validity": 1.0}
+    CAND = {"episode_count": 3, "task_completion_rate": 1.00, "tool_sequence_validity": 1.0}
+
+    def test_mismatched_episode_sets_emit_no_delta(self):
+        result = compare_agent_runs(
+            self.BASE, self.CAND,
+            baseline_dataset_id="9a45ea:5", candidate_dataset_id="9a45ea:3")
+        assert result["comparable"] is False
+        assert result["metrics"]["task_success"]["delta"] is None
+        assert result["metrics"]["task_success"]["status"] == "not_comparable"
+        assert result["regressions"] == []
+        assert result["improvements"] == []
+        assert result["n_metrics_compared"] == 0
+
+    def test_the_mismatch_is_explained_with_both_signatures(self):
+        result = compare_agent_runs(
+            self.BASE, self.CAND,
+            baseline_dataset_id="9a45ea:5", candidate_dataset_id="9a45ea:3")
+        reason = result["comparability_reason"]
+        assert "different episode sets" in reason
+        assert "9a45ea:5" in reason and "9a45ea:3" in reason
+        assert "not a regression measurement" in reason
+
+    def test_same_episode_set_compares_normally(self):
+        result = compare_agent_runs(
+            self.BASE, self.CAND,
+            baseline_dataset_id="9a45ea:5", candidate_dataset_id="9a45ea:5")
+        assert result["comparable"] is True
+        assert result["metrics"]["task_success"]["delta"] == pytest.approx(0.10)
+        assert result["metrics"]["task_success"]["status"] == "improved"
+
+    def test_absent_signatures_do_not_block_a_comparison(self):
+        # A run predating dataset locks must still be comparable; the guard
+        # fires on a known mismatch, not on missing provenance.
+        result = compare_agent_runs(self.BASE, self.CAND)
+        assert result["comparable"] is True
+        assert result["metrics"]["task_success"]["delta"] == pytest.approx(0.10)
+
+    def test_subset_of_the_same_file_is_detected(self):
+        # The hash is identical; only n_examples differs. A hash-only guard
+        # would wrongly pass this.
+        result = compare_agent_runs(
+            self.BASE, self.CAND,
+            baseline_dataset_id="9a45ea:5", candidate_dataset_id="9a45ea:3")
+        assert result["baseline_dataset_id"].endswith(":5")
+        assert result["candidate_dataset_id"].endswith(":3")
+        assert result["comparable"] is False
 
