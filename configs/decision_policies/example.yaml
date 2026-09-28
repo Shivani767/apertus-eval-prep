@@ -1,0 +1,26 @@
+# Decision policy: an explicit, auditable selection rule.
+#
+# The policy is DATA, not code. Nothing here is inferred from a model name, and
+# nothing defaults silently: every objective declares a direction, every
+# constraint declares whether it is a floor or a ceiling.
+#
+# Constraint language (shared with `platform-select` / `metrics.pareto`):
+#   quality: 0.65          -> minimum
+#   max_latency_ms: 500    -> maximum
+#   {field: cost, op: max, value: 0.01} -> explicit form, same meaning
+#
+# An objective that was never measured yields `insufficient_evidence` and the
+# configuration is EXCLUDED from the stability denominator. It is never read as
+# a zero, and never silently treated as a constraint failure.
+decision_policy:
+  name: balanced_quality_cost
+  objectives:
+    quality: max
+    cost: min
+  constraints:
+    quality: 0.65
+    max_cost: 0.02
+  notes:
+    - Objectives are ordered; the first is the declared tie-break.
+    - A Pareto tie is reported as a tie, never broken arbitrarily.
+    - This policy describes an engineering preference, not a safety property.

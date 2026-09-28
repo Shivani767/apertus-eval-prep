@@ -24,3 +24,17 @@ Use `normalize_failure_record` for new failure producers. Keep raw observations 
 Study configuration changes belong in `study/schema.py` and should preserve evidence-mode, identity, and placeholder validation. Review dimensions and labels belong in `review/schema.py`; never accept raw reviewer identifiers or unmarked human-review claims. Add deterministic sampling/ingestion/agreement tests, sanitized fixtures, and a report assertion. See `docs/PHASE8_STUDY_PROTOCOL.md`, `docs/HUMAN_REVIEW_PROTOCOL.md`, and `docs/ANNOTATION_GUIDELINES.md`.
 
 Put thresholds and category weights in YAML. Test status precedence and missing-evidence behavior. A gate should be auditable, versioned, and safe to run offline in CI.
+
+## Add a stability or selection analysis
+
+Stability analyses in this platform are **derived** from already-committed measurements. They must never run a model, invent a cell, or fill a missing score. Read `docs/DECISION_STABILITY.md` and `docs/RANKING_STABILITY.md` first; they fix the conventions that matter:
+
+- Reuse `stats.rank_high_is_better`, `stats.pairwise_reversals`, `stats.kendall_tau_b`, `stats.holm_bonferroni` and `metrics.pareto.select_configurations` rather than re-deriving them. One definition of a rank, one definition of a constraint.
+- Report the denominator rule in the artifact. A rate whose denominator is implicit cannot be audited, and the denominator choice decides the number.
+- A missing measurement is `insufficient_evidence`, never `0`. Exclude the configuration and list it with a reason.
+- Refuse to emit a number when the design cannot support it: return `status: insufficient_design` with an explanation rather than a misleading value.
+- Do not collapse disagreeing metrics into a composite score. Kendall tau and top-1 agreement can disagree in exactly the cases worth reading.
+- Attribution to a factor is an **association** plus a design-quality label (`single_factor`, `multi_factor_confounded`, ...). Never emit a causal claim.
+- Keep the policy in data, not code, and attach an evidence record with `normalize_evidence` so the tier is never inferred upward.
+
+A new analysis should ship with: a module, a CLI subcommand following the `heldout` / `ers` naming, deterministic fixtures, tests covering the same-decision, reversal, invalid-input, missing-metric, evidence-tier and artifact-determinism cases, and a doc section stating what it does not claim.

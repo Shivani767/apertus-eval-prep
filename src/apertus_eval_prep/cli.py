@@ -7,6 +7,7 @@ from pathlib import Path
 
 from apertus_eval_prep.compare import compare_runs, to_markdown
 from apertus_eval_prep.config import load_config
+from apertus_eval_prep.core.evidence import EVIDENCE_MODES
 
 
 def repo_root() -> Path:
@@ -496,6 +497,105 @@ def cmd_ers(args: argparse.Namespace) -> int:
         md.append("")
     (out_dir / "ers.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print(f"Wrote {out_path} and ers.md ({len(reports)} task groups)")
+    return 0
+
+
+def _read_structured(path: str) -> dict:
+    """Read a JSON or YAML spec without letting the caller guess the format."""
+    from apertus_eval_prep.utils.serialization import read_json, read_yaml
+
+    if str(path).endswith((".yaml", ".yml")):
+        return read_yaml(path)
+    payload = read_json(path)
+    if isinstance(payload, list):
+        return {"configurations": payload}
+    if not isinstance(payload, dict):
+        raise ValueError(f"{path}: expected a mapping or a list of configurations")
+    return payload
+
+
+def cmd_decision_stability(args: argparse.Namespace) -> int:
+    """Does one declared policy select the same option everywhere?
+
+    Nothing is measured here: the input is already-evaluated configurations, and
+    the output is a derived diagnostic about how a *declared* policy behaves
+    under them. The evidence tier is supplied by the caller and is never
+    inferred upward, so a MOCK sweep cannot be reported as a real-model result.
+    """
+    import json as _json
+
+    from apertus_eval_prep.decision import DecisionPolicy, decision_stability
+    from apertus_eval_prep.utils.serialization import write_json
+
+    payload = _read_structured(args.configurations)
+    policy_spec = _read_structured(args.policy)
+    # Config files in this repo wrap their block (`decision_policy:`); accept
+    # both the wrapped and bare forms so the policy file stays a valid config.
+    if "decision_policy" in policy_spec:
+        policy_spec = policy_spec["decision_policy"]
+    policy = DecisionPolicy.from_mapping(policy_spec)
+    result = decision_stability(
+        payload.get("configurations") or [],
+        policy,
+        baseline_config=args.baseline,
+        evidence={"mode": args.evidence_mode},
+    )
+    if args.out:
+        write_json(args.out, result)
+    summary = {
+        key: result.get(key)
+        for key in (
+            "status", "baseline_config", "baseline_decision", "valid_configurations",
+            "same_decision", "stability", "stability_allowing_ties",
+            "decision_reversals", "invalid_configurations", "reversal_cause_design",
+        )
+    }
+    print(_json.dumps({"summary": summary, "out": args.out}, indent=2, default=str))
+    return 0
+
+
+def cmd_ranking_stability(args: argparse.Namespace) -> int:
+    """Report every ordering-agreement metric separately, with no composite.
+
+    The input is a score matrix already committed by earlier runs (one row per
+    model, one column per configuration). A column with an unmeasured cell is
+    reported as incomparable rather than being scored as zero.
+    """
+    import json as _json
+
+    from apertus_eval_prep.ranking import ranking_stability_report
+    from apertus_eval_prep.utils.serialization import write_json
+
+    payload = _read_structured(args.matrix)
+    models = payload.get("models")
+    matrix = payload.get("matrix")
+    if not isinstance(models, list) or not isinstance(matrix, list):
+        raise ValueError("expected {models: [...], matrix: [[...], ...]}")
+    if not matrix:
+        raise ValueError("matrix is empty; there is nothing to compare")
+    baseline_index = args.baseline_config
+    if not 0 <= baseline_index < len(matrix[0]):
+        raise ValueError(
+            f"--baseline-config {baseline_index} is outside the {len(matrix[0])} available columns"
+        )
+    columns = list(zip(*matrix))
+    report = ranking_stability_report(
+        [str(m) for m in models],
+        list(columns[baseline_index]),
+        [list(column) for index, column in enumerate(columns) if index != baseline_index],
+        k=args.k,
+        evidence={"mode": args.evidence_mode},
+    )
+    report["baseline_column_index"] = baseline_index
+    if args.out:
+        write_json(args.out, report)
+    print(_json.dumps({"summary": {
+        key: report.get(key) for key in (
+            "rank_reversal_rate", "top_1_stability", "top_k_stability",
+            "mean_kendall_tau", "mean_pairwise_inversion_rate",
+            "valid_perturbations", "incomparable_perturbations",
+        )
+    }, "out": args.out}, indent=2, default=str))
     return 0
 
 
@@ -993,6 +1093,49 @@ def build_parser() -> argparse.ArgumentParser:
     p_ers.add_argument("--n-boot", dest="n_boot", type=int, default=300)
     p_ers.add_argument("--seed", type=int, default=0)
     p_ers.set_defaults(func=cmd_ers)
+
+    p_decision = sub.add_parser(
+        "decision-stability",
+        help="Does a declared selection policy pick the same option under every configuration?",
+    )
+    p_decision.add_argument(
+        "--configurations", required=True,
+        help="JSON file: list of {configuration_id, factors, points} or {configurations: [...]}.",
+    )
+    p_decision.add_argument(
+        "--policy", required=True, help="YAML/JSON policy file with objectives and constraints."
+    )
+    p_decision.add_argument(
+        "--baseline", help="configuration_id to treat as baseline (default: the first entry)."
+    )
+    p_decision.add_argument("--out", default="reports/decision_stability/decision_stability.json")
+    p_decision.add_argument(
+        "--evidence-mode", dest="evidence_mode", default="UNKNOWN", choices=EVIDENCE_MODES,
+        help="Evidence tier for the input. Declared explicitly; never inferred upward.",
+    )
+    p_decision.set_defaults(func=cmd_decision_stability)
+
+    p_rank_stability = sub.add_parser(
+        "ranking-stability",
+        help="Ordering agreement across configurations: reversal rate, top-k, Kendall tau.",
+    )
+    p_rank_stability.add_argument(
+        "--matrix", required=True,
+        help="JSON file: {models: [...], matrix: [[score per config], ...]} with one row per model.",
+    )
+    p_rank_stability.add_argument(
+        "--baseline-config", type=int, default=0,
+        help="Column index of the baseline configuration (default: 0).",
+    )
+    p_rank_stability.add_argument("--k", type=int, default=1, help="Top-k for set stability (default: 1).")
+    p_rank_stability.add_argument(
+        "--out", default="reports/ranking_stability/ranking_stability.json"
+    )
+    p_rank_stability.add_argument(
+        "--evidence-mode", dest="evidence_mode", default="UNKNOWN", choices=EVIDENCE_MODES,
+        help="Evidence tier for the input. Declared explicitly; never inferred upward.",
+    )
+    p_rank_stability.set_defaults(func=cmd_ranking_stability)
 
     p_pareto = sub.add_parser(
         "pareto",
