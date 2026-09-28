@@ -19,7 +19,7 @@ import random
 from statistics import mean, pvariance
 from typing import Any, Sequence
 
-from apertus_eval_prep.stats import wilson_interval
+from apertus_eval_prep.stats import f_sf, wilson_interval
 
 
 def _vals(rows: list[dict[str, Any]], key: str = "score") -> list[float]:
@@ -269,11 +269,89 @@ def factorial_variance_decomposition(
             "omega^2 = SS_effect/SS_total; no F/p (assumptions design-checked)"
         ),
     }
+    out["f_tests"] = _f_tests(sums, diag)
+    out["assumptions"] = (
+        "balanced complete two-way fixed-effects model with independent cells; "
+        "omega^2 = SS_effect/SS_total; F tests assume normally distributed cell "
+        "residuals and equal error variance, which a balanced complete design "
+        "supports but cannot verify from observed aggregates alone"
+    )
     if n_boot > 0 and out["sums_of_squares"]["ss_total"] > 0:
         out["bootstrap_ci95"] = _bootstrap_variance_ci(
             rows, factor_a, factor_b, n_boot=n_boot, seed=seed
         )
     return out
+
+
+def _f_tests(sums: dict[str, Any], diag: dict[str, Any]) -> dict[str, Any]:
+    """F tests for both main effects and the interaction in a 2x2-or-larger ANOVA.
+
+    Reported alongside omega-squared, never instead of it: the p-value says
+    whether an effect is distinguishable from noise at this sample size, and
+    says nothing about whether the effect is large enough to matter. A design
+    with no residual degrees of freedom has no error variance to test against,
+    so those rows are emitted as UNAVAILABLE rather than as F = inf.
+    """
+    n_cells = len(sums["cell_means"])
+    total_n = sum(n for n in diag["cell_n"].values())
+    n_a, n_b = len(diag["a_levels"]), len(diag["b_levels"])
+    df_error = total_n - n_cells
+    df_total = total_n - 1
+    df_a, df_b, df_ab = n_a - 1, n_b - 1, (n_a - 1) * (n_b - 1)
+
+    def _unavailable(df_num: int, df_den: int, reason: str) -> dict[str, Any]:
+        return {
+            "f": None,
+            "p_value": None,
+            "df_numerator": df_num,
+            "df_denominator": df_den,
+            "status": "UNAVAILABLE",
+            "reason": reason,
+        }
+
+    def _row(ss: float, df: int) -> dict[str, Any]:
+        # Three distinct ways an F test is not identified, each with its own
+        # reason. Reporting F=inf / p=0 when the within-cell variance happens to
+        # be exactly zero would claim infinite evidence from a small sample; the
+        # true residual variance is unknown, so the test is UNAVAILABLE.
+        if df <= 0:
+            return _unavailable(df, df_error, "this effect has no degrees of freedom")
+        if df_error <= 0:
+            return _unavailable(
+                df, df_error,
+                "no residual degrees of freedom; a replicated design is "
+                "required to estimate error variance",
+            )
+        if ss <= 0:
+            return _unavailable(df, df_error, "no variation in this effect; nothing to test")
+        if sums["ss_e"] <= 0:
+            return _unavailable(
+                df, df_error,
+                "zero within-cell variance; F is not identified from observed "
+                "replicates and a p-value would overstate the evidence",
+            )
+        f = (ss / df) / (sums["ss_e"] / df_error)
+        return {
+            "f": round(f, 6),
+            "p_value": round(f_sf(f, df, df_error), 8),
+            "df_numerator": df,
+            "df_denominator": df_error,
+            "status": "MEASURED",
+        }
+
+    return {
+        "factor_a": _row(sums["ss_a"], df_a),
+        "factor_b": _row(sums["ss_b"], df_b),
+        "interaction": _row(sums["ss_ab"], df_ab),
+        "df_total": df_total,
+        "df_error": df_error,
+        "note": (
+            "F and p describe statistical detectability at this sample size. "
+            "Read them with effect_sizes_omega2_pct: significance is not "
+            "practical importance."
+        ),
+    }
+
 def _bootstrap_variance_ci(
     rows: list[dict[str, Any]],
     factor_a: str,

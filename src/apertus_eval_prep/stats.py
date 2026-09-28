@@ -45,6 +45,80 @@ def chi2_sf_1df(x: float) -> float:
     return math.erfc(math.sqrt(x / 2.0))
 
 
+def _betacf(a: float, b: float, x: float) -> float:
+    """Continued fraction for the incomplete beta function (modified Lentz).
+
+    Standard Numerical Recipes formulation; converges in a few dozen
+    iterations for the (a, b) magnitudes produced by an F test.
+    """
+    tiny = 1e-30
+    qab, qap, qam = a + b, a + 1.0, a - 1.0
+    c = 1.0
+    d = 1.0 - qab * x / qap
+    if abs(d) < tiny:
+        d = tiny
+    d = 1.0 / d
+    h = d
+    for m in range(1, 300):
+        m2 = 2 * m
+        aa = m * (b - m) * x / ((qam + m2) * (a + m2))
+        d = 1.0 + aa * d
+        if abs(d) < tiny:
+            d = tiny
+        c = 1.0 + aa / c
+        if abs(c) < tiny:
+            c = tiny
+        d = 1.0 / d
+        h *= d * c
+        aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2))
+        d = 1.0 + aa * d
+        if abs(d) < tiny:
+            d = tiny
+        c = 1.0 + aa / c
+        if abs(c) < tiny:
+            c = tiny
+        d = 1.0 / d
+        delta = d * c
+        h *= delta
+        if abs(delta - 1.0) < 3e-16:
+            break
+    return h
+
+
+def betainc_reg(a: float, b: float, x: float) -> float:
+    """Regularized incomplete beta function I_x(a, b)."""
+    if x <= 0.0:
+        return 0.0
+    if x >= 1.0:
+        return 1.0
+    log_front = (
+        math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b)
+        + a * math.log(x) + b * math.log1p(-x)
+    )
+    front = math.exp(log_front)
+    if x < (a + 1.0) / (a + b + 2.0):
+        return front * _betacf(a, b, x) / a
+    return 1.0 - front * _betacf(b, a, 1.0 - x) / b
+
+
+def f_sf(f: float, df1: int, df2: int) -> float:
+    """Survival function P(F_{df1,df2} > f) for the F distribution.
+
+    Uses the identity ``P(F > f) = I_{df2/(df2 + df1*f)}(df2/2, df1/2)`` so no
+    special-function dependency (scipy) is required. Guarded: a zero or negative
+    numerator degree of freedom has no F distribution, and a non-positive
+    statistic lies in the upper tail with probability 1.
+    """
+    if df1 <= 0 or df2 <= 0:
+        raise ValueError("F degrees of freedom must both be positive")
+    if f <= 0:
+        return 1.0
+    if math.isinf(f):
+        return 0.0
+    return betainc_reg(df2 / 2.0, df1 / 2.0, df2 / (df2 + df1 * f))
+
+
+
 def mcnemar(correct_a: Sequence[bool], correct_b: Sequence[bool]) -> dict[str, Any]:
     """McNemar test on paired item correctness (A = control, B = variant)."""
     if len(correct_a) != len(correct_b):
