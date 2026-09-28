@@ -645,6 +645,49 @@ def cmd_interactions(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_sensitivity(args: argparse.Namespace) -> int:
+    """Evaluation sensitivity per factor, with ESI only against a declared scale.
+
+    ESI is dimensionless, so it is only computed when the caller declares the
+    unit it is measured in -- an explicit value or a Wilson half-width. Without
+    one the artifact still reports absolute/relative deltas, the effect size and
+    an interval, and leaves ``esi`` null with a reason.
+    """
+    import json as _json
+
+    from apertus_eval_prep.sensitivity import factor_sensitivity_index, wilson_uncertainty_scale
+    from apertus_eval_prep.utils.serialization import write_json
+
+    rows = _read_records(args.rows, "rows")
+    factors = [name.strip() for name in str(args.factors).split(",") if name.strip()]
+    if not factors:
+        raise ValueError("--factors must name at least one factor")
+    scale = args.uncertainty_scale
+    if args.wilson_scale:
+        scale = wilson_uncertainty_scale(args.wilson_scale[0], int(args.wilson_scale[1]))
+
+    report = factor_sensitivity_index(
+        rows, factors, score_key=args.score_key, baseline_level=args.baseline_level,
+        uncertainty_scale=scale, n_boot=args.n_boot, seed=args.seed,
+        evidence={"mode": args.evidence_mode},
+    )
+    if args.out:
+        write_json(args.out, report)
+    print(_json.dumps({
+        "status": report["status"],
+        "most_sensitive_factor": report["most_sensitive_factor"],
+        "uncertainty_scale": report["uncertainty_scale"],
+        "factors": [
+            {"factor": f["factor"], "status": f["status"],
+             "absolute_delta": f.get("absolute_delta"),
+             "relative_delta": f.get("relative_delta"), "esi": f.get("esi")}
+            for f in report["factors"]
+        ],
+        "out": args.out,
+    }, indent=2, default=str))
+    return 0
+
+
 def cmd_agent_regression(args: argparse.Namespace) -> int:
     """Compare two finished agent runs and apply a declared regression policy.
 
@@ -1301,6 +1344,39 @@ def build_parser() -> argparse.ArgumentParser:
         help="Evidence tier for the input. Declared explicitly; never inferred upward.",
     )
     p_interactions.set_defaults(func=cmd_interactions)
+
+    p_sensitivity = sub.add_parser(
+        "sensitivity",
+        help="Evaluation Sensitivity Index per factor, against a declared scale.",
+    )
+    p_sensitivity.add_argument(
+        "--rows", required=True,
+        help="JSON file: list of scored rows {<factor>: <level>, ..., 'score': float}.",
+    )
+    p_sensitivity.add_argument("--factors", required=True, help="Comma-separated factor names.")
+    p_sensitivity.add_argument("--score-key", dest="score_key", default="score")
+    p_sensitivity.add_argument(
+        "--baseline-level", dest="baseline_level",
+        help="Level used as the relative-delta denominator (default: the lowest level).",
+    )
+    p_sensitivity.add_argument(
+        "--uncertainty-scale", dest="uncertainty_scale", type=float,
+        help="Declared ESI unit. Without it ESI is null rather than assumed.",
+    )
+    p_sensitivity.add_argument(
+        "--wilson-scale", dest="wilson_scale", nargs=2, type=float, metavar=("ACC", "N"),
+        help="Declare the scale as the Wilson 95%% half-width at accuracy ACC over N items.",
+    )
+    p_sensitivity.add_argument("--n-boot", dest="n_boot", type=int, default=500)
+    p_sensitivity.add_argument("--seed", type=int, default=0)
+    p_sensitivity.add_argument(
+        "--out", default="reports/evaluation_sensitivity/sensitivity.json"
+    )
+    p_sensitivity.add_argument(
+        "--evidence-mode", dest="evidence_mode", default="UNKNOWN", choices=EVIDENCE_MODES,
+        help="Evidence tier for the input. Declared explicitly; never inferred upward.",
+    )
+    p_sensitivity.set_defaults(func=cmd_sensitivity)
 
     p_agent_regression = sub.add_parser(
         "agent-regression",

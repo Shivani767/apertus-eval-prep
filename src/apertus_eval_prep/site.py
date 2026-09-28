@@ -26,6 +26,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
+from apertus_eval_prep.dashboard_sections import build_analysis_sections
 from apertus_eval_prep.failures import failure_taxonomy
 from apertus_eval_prep.pareto import pareto_front
 from apertus_eval_prep.registry import load_registry
@@ -408,6 +409,7 @@ def build_site(
         "failures": build_failures(cells, blobs),
         "pareto": build_pareto(cells, blobs),
         "reproducibility": build_reproducibility(rows, repo_root),
+        "analysis_sections": build_analysis_sections(repo_root),
         "provenance_legend": {
             "MEASURED": "read directly from a committed run artifact",
             "SAMPLED": "measured with temperature sampling (labels preserved)",
