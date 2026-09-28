@@ -1,6 +1,11 @@
 .PHONY: test smoke eval-hf eval-none eval-mismatch dump compare-template sweep-dry report catalog paper figures ci-width benchmark-report
 
-PYTHON ?= python
+# Resolve an interpreter instead of assuming a bare `python` exists. A bare
+# `python` is only on PATH once a virtualenv is *activated*, so every target
+# below silently failed when run as `make test` in a fresh shell. Prefer an
+# explicit `make PYTHON=...` override, then the repository's own .venv, then
+# python3.
+PYTHON ?= $(shell test -x .venv/bin/python && echo .venv/bin/python || command -v python3 2>/dev/null || command -v python 2>/dev/null)
 
 test:
 	$(PYTHON) -m pytest -q
