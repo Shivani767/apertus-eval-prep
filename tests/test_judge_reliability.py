@@ -25,6 +25,11 @@ from apertus_eval_prep.heldout import (
     split_config_keys,
 )
 from apertus_eval_prep.metamorphic import EXPECTED_RELATION_BY_FAMILY, relation_report
+from apertus_eval_prep.multilingual import (
+    EXPECTED_RELATION_BY_CONDITION,
+    LANGUAGE_CONDITIONS,
+    language_sensitivity_report,
+)
 
 
 def _rec(item, candidate="a", verdict="correct", *, position=None,
@@ -320,4 +325,88 @@ class TestHeldoutLeakage:
         report = leave_one_model_out_experiment(
             self._matrix(n_models=4), self.CONFIGS, budget=3, seed=0)
         assert "low-power" in report["power_note"]
+
+
+class TestMultilingualTrack:
+    """Code-switching is expected to move the score; that is the finding.
+
+    The dangerous mistake here is treating a language effect as a metamorphic
+    violation. ``hinglish`` declares ``not_invariant`` precisely so a real
+    performance change is reported as a measurement, and the tracker must never
+    quietly promote it to a failure.
+    """
+
+    def _rows(self, n=4, include_unknown=False):
+        rows = []
+        for index in range(n):
+            rows.append({"item_id": f"i{index}", "condition": "en",
+                         "score": 0.8, "model": "m1"})
+            rows.append({"item_id": f"i{index}", "condition": "hi",
+                         "score": 0.6, "model": "m1"})
+            rows.append({"item_id": f"i{index}", "condition": "hinglish",
+                         "score": 0.5, "model": "m1"})
+        if include_unknown:
+            rows.append({"item_id": "iX", "condition": "klingon", "score": 0.9})
+        return rows
+
+    def test_declared_conditions_are_exactly_three(self):
+        assert LANGUAGE_CONDITIONS == ("en", "hi", "hinglish")
+        assert set(EXPECTED_RELATION_BY_CONDITION) == set(LANGUAGE_CONDITIONS)
+
+    def test_code_switched_condition_is_not_declared_invariant(self):
+        # This is the whole point: a real code-switching effect is expected.
+        assert EXPECTED_RELATION_BY_CONDITION["hinglish"] == "not_invariant"
+        assert EXPECTED_RELATION_BY_CONDITION["en"] == "invariant"
+
+    def test_paired_deltas_are_measured_against_the_reference(self):
+        report = language_sensitivity_report(self._rows())
+        by_condition = {c["condition"]: c for c in report["comparison"]}
+        assert by_condition["hi"]["mean_delta_vs_reference"] == pytest.approx(-0.2)
+        assert by_condition["hinglish"]["mean_delta_vs_reference"] == pytest.approx(-0.3)
+        assert by_condition["hi"]["n_paired_items"] == 4
+        assert report["status"] == "ok"
+
+    def test_only_items_shared_with_the_reference_are_paired(self):
+        rows = self._rows(n=2) + [
+            {"item_id": "extra", "condition": "hi", "score": 0.1, "model": "m1"},
+        ]
+        report = language_sensitivity_report(rows)
+        by_condition = {c["condition"]: c for c in report["comparison"]}
+        # The unpaired item is excluded rather than diluting the comparison.
+        assert by_condition["hi"]["n_paired_items"] == 2
+
+    def test_unpaired_condition_is_unavailable_not_zero(self):
+        rows = [{"item_id": "i0", "condition": "en", "score": 0.8},
+                {"item_id": "other", "condition": "hi", "score": 0.1}]
+        report = language_sensitivity_report(rows)
+        by_condition = {c["condition"]: c for c in report["comparison"]}
+        assert by_condition["hi"]["status"] == "UNAVAILABLE"
+        assert by_condition["hi"]["mean_delta_vs_reference"] is None
+        assert "not a zero delta" in by_condition["hi"]["reason"]
+
+    def test_missing_conditions_are_named(self):
+        rows = [{"item_id": "i0", "condition": "en", "score": 0.8},
+                {"item_id": "i0", "condition": "hi", "score": 0.7}]
+        report = language_sensitivity_report(rows)
+        assert report["conditions_missing"] == ["hinglish"]
+
+    def test_unknown_conditions_are_ignored_and_listed(self):
+        report = language_sensitivity_report(self._rows(include_unknown=True))
+        assert report["unknown_conditions_ignored"] == ["klingon"]
+        assert "klingon" not in report["conditions_observed"]
+
+    def test_undeclared_reference_is_rejected(self):
+        with pytest.raises(ValueError, match="not a declared condition"):
+            language_sensitivity_report(self._rows(), reference_condition="fr")
+
+    def test_no_language_ranking_is_asserted(self):
+        report = language_sensitivity_report(self._rows())
+        assert "not a language ranking" in " ".join(report["limits"])
+        assert "no language ranking is asserted" in report["disclaimer"]
+
+    def test_evidence_and_determinism(self):
+        first = language_sensitivity_report(self._rows(), evidence={"mode": "MOCK"})
+        second = language_sensitivity_report(self._rows(), evidence={"mode": "MOCK"})
+        assert first["evidence"]["mode"] == "MOCK"
+        assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
 
